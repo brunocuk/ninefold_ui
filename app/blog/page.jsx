@@ -2,7 +2,7 @@
 
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -10,8 +10,10 @@ import { useState } from 'react'
 import { blogPosts, getAllCategories } from '@/content/blog'
 
 export default function BlogPage() {
+  const prefersReducedMotion = useReducedMotion()
+  
   const [heroRef, heroInView] = useInView({
-    threshold: 0.2,
+    threshold: 0.15,
     triggerOnce: true,
   })
 
@@ -21,12 +23,12 @@ export default function BlogPage() {
   })
 
   const [featuredRef, featuredInView] = useInView({
-    threshold: 0.2,
+    threshold: 0.15,
     triggerOnce: true,
   })
 
   const [gridRef, gridInView] = useInView({
-    threshold: 0.2,
+    threshold: 0.15,
     triggerOnce: true,
   })
 
@@ -49,7 +51,7 @@ export default function BlogPage() {
 
   // Map blog posts to match the component's expected format
   const posts = blogPosts.map(post => ({
-    id: post.slug, // Use slug as id for the link
+    id: post.slug,
     title: post.title,
     excerpt: post.excerpt,
     category: post.category,
@@ -86,17 +88,17 @@ export default function BlogPage() {
         />
 
         {/* Gradient glow in background */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gradient-to-b from-[#00CC78]/20 via-[#00FF94]/10 to-transparent rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gradient-to-b from-[#00CC78]/20 via-[#00FF94]/10 to-transparent rounded-full blur-[120px] pointer-events-none will-change-transform" />
 
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 py-20">
           
           <div className="max-w-5xl">
             {/* Label */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
               animate={heroInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="mb-8"
+              transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="mb-8 will-change-transform"
             >
               <span className="inline-block px-4 py-2 bg-[#00FF94]/10 border border-[#00FF94]/30 rounded-full text-[#00FF94] text-sm font-mono uppercase tracking-wider">
                 Our Blog
@@ -105,10 +107,10 @@ export default function BlogPage() {
 
             {/* Main headline */}
             <motion.h1
-              initial={{ opacity: 0, y: 30 }}
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
               animate={heroInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="text-[clamp(3rem,8vw,6rem)] font-bold leading-[1.05] tracking-tight mb-8"
+              transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="text-[clamp(3rem,8vw,6rem)] font-bold leading-[1.05] tracking-tight mb-8 will-change-transform"
             >
               <span className="block text-white">
                 Insights &
@@ -120,10 +122,10 @@ export default function BlogPage() {
 
             {/* Description */}
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
               animate={heroInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className="text-xl md:text-2xl text-[#88939D] leading-relaxed max-w-3xl"
+              transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="text-xl md:text-2xl text-[#88939D] leading-relaxed max-w-3xl will-change-transform"
             >
               Thoughts on design, development, and building better digital experiences. 
               Stay updated with the latest trends and best practices.
@@ -142,10 +144,10 @@ export default function BlogPage() {
             
             {/* Search */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
               animate={filterInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="w-full lg:w-96"
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="w-full lg:w-96 will-change-transform"
             >
               <div className="relative">
                 <input
@@ -153,7 +155,7 @@ export default function BlogPage() {
                   placeholder="Search articles..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full px-4 py-4 pl-12 bg-transparent border-2 border-[#88939D]/20 rounded-xl text-white placeholder-[#88939D] focus:border-[#00FF94] focus:outline-none transition-all"
+                  className="w-full px-4 py-4 pl-12 bg-transparent border-2 border-[#88939D]/20 rounded-xl text-white placeholder-[#88939D] focus:border-[#00FF94] focus:outline-none transition-all duration-300"
                 />
                 <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#88939D]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -163,23 +165,37 @@ export default function BlogPage() {
 
             {/* Categories */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
               animate={filterInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
               className="flex flex-wrap gap-3 justify-center lg:justify-end"
             >
               {categories.map((category, index) => (
                 <motion.button
                   key={category}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={filterInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.6, delay: 0.15 + index * 0.05, ease: [0.22, 1, 0.36, 1] }}
+                  initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, scale: 0.9 }}
+                  animate={filterInView ? { opacity: 1, scale: 1 } : {}}
+                  transition={{ 
+                    duration: 0.5, 
+                    delay: 0.15 + index * 0.04, 
+                    ease: [0.16, 1, 0.3, 1]
+                  }}
                   onClick={() => setSelectedCategory(category)}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className={`px-4 py-2 rounded-xl font-medium text-sm transition-all ${
+                  whileHover={{ 
+                    scale: 1.05,
+                    transition: {
+                      type: "spring",
+                      stiffness: 400,
+                      damping: 30
+                    }
+                  }}
+                  whileTap={{ 
+                    scale: 0.95,
+                    transition: { duration: 0.1 }
+                  }}
+                  className={`px-4 py-2 rounded-xl font-medium text-sm transition-all duration-300 will-change-transform ${
                     selectedCategory === category
-                      ? 'bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black'
+                      ? 'bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black shadow-lg shadow-[#00FF94]/20'
                       : 'bg-transparent border-2 border-[#88939D]/20 text-[#88939D] hover:border-[#00FF94] hover:text-white'
                   }`}
                 >
@@ -196,7 +212,7 @@ export default function BlogPage() {
         <section ref={featuredRef} className="relative py-24 lg:py-32 bg-[#0F0F0F] overflow-hidden">
           
           {/* Subtle gradient glow */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none will-change-transform" />
 
           {/* Noise texture */}
           <div 
@@ -210,16 +226,16 @@ export default function BlogPage() {
             
             {/* Section Header */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
               animate={featuredInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="mb-20"
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+              className="mb-20 will-change-transform"
             >
               <motion.h2
-                initial={{ opacity: 0, y: 20 }}
+                initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
                 animate={featuredInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6"
+                transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 will-change-transform"
               >
                 Featured Articles
               </motion.h2>
@@ -230,34 +246,50 @@ export default function BlogPage() {
               {featuredPosts.map((post, index) => (
                 <motion.article
                   key={post.id}
-                  initial={{ opacity: 0, y: 40 }}
+                  initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 40 }}
                   animate={featuredInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ 
-                    duration: 0.8, 
-                    delay: 0.4 + index * 0.15,
-                    ease: [0.22, 1, 0.36, 1]
+                    duration: 1, 
+                    delay: 0.3 + index * 0.12,
+                    ease: [0.16, 1, 0.3, 1]
                   }}
-                  className="group cursor-pointer"
+                  className="group cursor-pointer will-change-transform"
                 >
                   <Link href={`/blog/${post.id}`}>
-                    <div className="relative h-full rounded-2xl bg-transparent border-2 border-[#88939D]/20 transition-all duration-300 hover:border-[#00FF94] overflow-hidden">
+                    <motion.div 
+                      className="relative h-full rounded-2xl bg-transparent border-2 border-[#88939D]/20 transition-all duration-500 hover:border-[#00FF94] overflow-hidden will-change-transform"
+                      whileHover={{ 
+                        y: -8,
+                        transition: {
+                          type: "spring",
+                          stiffness: 300,
+                          damping: 25
+                        }
+                      }}
+                    >
                       
                       {/* Hover gradient background */}
                       <motion.div
-                        className="absolute inset-0 bg-gradient-to-br from-[#00FF94]/5 via-[#00CC78]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                        className="absolute inset-0 bg-gradient-to-br from-[#00FF94]/5 via-[#00CC78]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                         initial={false}
                       />
 
                       {/* Image */}
                       <div className="relative aspect-video bg-gradient-to-br from-[#1a1a1a] to-[#0F0F0F] overflow-hidden">
                         {post.image ? (
-                          <Image
-                            src={post.image}
-                            alt={post.title}
-                            fill
-                            className="object-cover"
-                            sizes="(max-width: 1024px) 100vw, 50vw"
-                          />
+                          <motion.div
+                            className="relative w-full h-full"
+                            whileHover={{ scale: 1.05 }}
+                            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                          >
+                            <Image
+                              src={post.image}
+                              alt={post.title}
+                              fill
+                              className="object-cover will-change-transform"
+                              sizes="(max-width: 1024px) 100vw, 50vw"
+                            />
+                          </motion.div>
                         ) : (
                           <div className="absolute inset-0 flex items-center justify-center text-[#88939D]">
                             <svg className="w-16 h-16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
@@ -265,11 +297,16 @@ export default function BlogPage() {
                             </svg>
                           </div>
                         )}
-                        <div className="absolute top-4 left-4 z-10">
-                          <span className="px-3 py-1 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black text-xs font-bold rounded-full uppercase">
+                        <motion.div 
+                          className="absolute top-4 left-4 z-10"
+                          initial={{ scale: 0.9, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          transition={{ duration: 0.5, delay: 0.5 + index * 0.12 }}
+                        >
+                          <span className="px-3 py-1 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black text-xs font-bold rounded-full uppercase shadow-lg shadow-[#00FF94]/30">
                             Featured
                           </span>
-                        </div>
+                        </motion.div>
                       </div>
 
                       {/* Content */}
@@ -277,7 +314,7 @@ export default function BlogPage() {
                         <div className="space-y-3">
                           
                           {/* Meta */}
-                          <div className="flex items-center gap-3 text-sm text-[#88939D]">
+                          <div className="flex items-center gap-3 text-sm text-[#88939D] group-hover:text-[#00FF94] transition-colors duration-300">
                             <span className="px-2 py-1 bg-[#00FF94]/10 rounded text-[#00FF94] font-mono">{post.category}</span>
                             <span>{post.date}</span>
                             <span>•</span>
@@ -285,28 +322,39 @@ export default function BlogPage() {
                           </div>
                           
                           {/* Title */}
-                          <h3 className="text-2xl md:text-3xl font-bold text-white group-hover:text-[#00FF94] transition-colors">
+                          <h3 className="text-2xl md:text-3xl font-bold text-white group-hover:text-[#00FF94] transition-colors duration-300">
                             {post.title}
                           </h3>
                           
                           {/* Excerpt */}
-                          <p className="text-[#88939D] leading-relaxed">
+                          <p className="text-[#88939D] leading-relaxed group-hover:text-white/70 transition-colors duration-300">
                             {post.excerpt}
                           </p>
 
                           {/* Author */}
                           <div className="flex items-center gap-3 pt-4 border-t border-[#88939D]/10">
-                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#00FF94] to-[#00CC78] flex items-center justify-center text-black font-bold text-sm">
+                            <motion.div 
+                              className="w-10 h-10 rounded-full bg-gradient-to-br from-[#00FF94] to-[#00CC78] flex items-center justify-center text-black font-bold text-sm"
+                              whileHover={{ 
+                                scale: 1.1,
+                                rotate: 5,
+                                transition: {
+                                  type: "spring",
+                                  stiffness: 400,
+                                  damping: 30
+                                }
+                              }}
+                            >
                               {post.author.split(' ').map(n => n[0]).join('')}
-                            </div>
+                            </motion.div>
                             <span className="text-sm text-white">{post.author}</span>
                           </div>
                         </div>
                       </div>
 
                       {/* Bottom gradient line accent */}
-                      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00FF94]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    </div>
+                      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00FF94]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    </motion.div>
                   </Link>
                 </motion.article>
               ))}
@@ -319,7 +367,7 @@ export default function BlogPage() {
       <section ref={gridRef} className="relative py-24 lg:py-32 bg-[#0F0F0F] overflow-hidden">
         
         {/* Subtle gradient glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none will-change-transform" />
 
         {/* Noise texture */}
         <div 
@@ -333,16 +381,16 @@ export default function BlogPage() {
           
           {/* Section Header */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
             animate={gridInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="mb-20"
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="mb-20 will-change-transform"
           >
             <motion.h2
-              initial={{ opacity: 0, y: 20 }}
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
               animate={gridInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6"
+              transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+              className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 will-change-transform"
             >
               {selectedCategory === 'All' ? 'Latest Articles' : `${selectedCategory} Articles`}
             </motion.h2>
@@ -354,34 +402,50 @@ export default function BlogPage() {
               {regularPosts.map((post, index) => (
                 <motion.article
                   key={post.id}
-                  initial={{ opacity: 0, y: 40 }}
+                  initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 40 }}
                   animate={gridInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ 
-                    duration: 0.8, 
-                    delay: 0.2 + index * 0.1,
-                    ease: [0.22, 1, 0.36, 1]
+                    duration: 1, 
+                    delay: 0.2 + index * 0.08,
+                    ease: [0.16, 1, 0.3, 1]
                   }}
-                  className="group cursor-pointer"
+                  className="group cursor-pointer will-change-transform"
                 >
                   <Link href={`/blog/${post.id}`}>
-                    <div className="relative h-full rounded-2xl bg-transparent border-2 border-[#88939D]/20 transition-all duration-300 hover:border-[#00FF94] overflow-hidden">
+                    <motion.div 
+                      className="relative h-full rounded-2xl bg-transparent border-2 border-[#88939D]/20 transition-all duration-500 hover:border-[#00FF94] overflow-hidden will-change-transform"
+                      whileHover={{ 
+                        y: -8,
+                        transition: {
+                          type: "spring",
+                          stiffness: 300,
+                          damping: 25
+                        }
+                      }}
+                    >
                       
                       {/* Hover gradient background */}
                       <motion.div
-                        className="absolute inset-0 bg-gradient-to-br from-[#00FF94]/5 via-[#00CC78]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                        className="absolute inset-0 bg-gradient-to-br from-[#00FF94]/5 via-[#00CC78]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                         initial={false}
                       />
 
                       {/* Image */}
                       <div className="relative aspect-video bg-gradient-to-br from-[#1a1a1a] to-[#0F0F0F] overflow-hidden">
                         {post.image ? (
-                          <Image
-                            src={post.image}
-                            alt={post.title}
-                            fill
-                            className="object-cover"
-                            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                          />
+                          <motion.div
+                            className="relative w-full h-full"
+                            whileHover={{ scale: 1.05 }}
+                            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                          >
+                            <Image
+                              src={post.image}
+                              alt={post.title}
+                              fill
+                              className="object-cover will-change-transform"
+                              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                            />
+                          </motion.div>
                         ) : (
                           <div className="absolute inset-0 flex items-center justify-center text-[#88939D]">
                             <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
@@ -396,18 +460,18 @@ export default function BlogPage() {
                         <div className="space-y-3">
                           
                           {/* Meta */}
-                          <div className="flex items-center gap-2 text-xs text-[#88939D]">
+                          <div className="flex items-center gap-2 text-xs text-[#88939D] group-hover:text-[#00FF94] transition-colors duration-300">
                             <span className="px-2 py-1 bg-[#00FF94]/10 rounded text-[#00FF94] font-mono">{post.category}</span>
                             <span>{post.readTime}</span>
                           </div>
                           
                           {/* Title */}
-                          <h3 className="text-xl font-bold text-white group-hover:text-[#00FF94] transition-colors line-clamp-2">
+                          <h3 className="text-xl font-bold text-white group-hover:text-[#00FF94] transition-colors duration-300 line-clamp-2">
                             {post.title}
                           </h3>
                           
                           {/* Excerpt */}
-                          <p className="text-[#88939D] text-sm leading-relaxed line-clamp-2">
+                          <p className="text-[#88939D] text-sm leading-relaxed line-clamp-2 group-hover:text-white/70 transition-colors duration-300">
                             {post.excerpt}
                           </p>
 
@@ -416,7 +480,7 @@ export default function BlogPage() {
                             <span className="text-xs text-[#88939D]">{post.date}</span>
                             <span className="text-xs text-[#00FF94] font-medium group-hover:gap-1 flex items-center transition-all">
                               Read more
-                              <svg className="w-4 h-4 ml-0 group-hover:ml-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                              <svg className="w-4 h-4 ml-0 group-hover:ml-1 transition-all duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                               </svg>
                             </span>
@@ -425,19 +489,24 @@ export default function BlogPage() {
                       </div>
 
                       {/* Bottom gradient line accent */}
-                      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00FF94]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    </div>
+                      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00FF94]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    </motion.div>
                   </Link>
                 </motion.article>
               ))}
             </div>
           ) : (
-            <div className="text-center py-20">
+            <motion.div 
+              className="text-center py-20"
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            >
               <svg className="w-16 h-16 mx-auto mb-4 text-[#88939D]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <p className="text-[#88939D] text-lg">No articles found matching your criteria.</p>
-            </div>
+            </motion.div>
           )}
         </div>
       </section>
@@ -446,7 +515,7 @@ export default function BlogPage() {
       <section className="relative py-24 lg:py-32 bg-[#0F0F0F] overflow-hidden">
         
         {/* Subtle gradient glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none will-change-transform" />
 
         {/* Noise texture */}
         <div 
@@ -458,10 +527,10 @@ export default function BlogPage() {
 
         <div className="relative z-10 max-w-4xl mx-auto px-6 lg:px-12 text-center">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
               Never miss an
@@ -476,13 +545,23 @@ export default function BlogPage() {
               <input
                 type="email"
                 placeholder="your@email.com"
-                className="flex-1 px-4 py-4 bg-transparent border-2 border-[#88939D]/20 rounded-xl text-white placeholder-[#88939D] focus:border-[#00FF94] focus:outline-none transition-all"
+                className="flex-1 px-4 py-4 bg-transparent border-2 border-[#88939D]/20 rounded-xl text-white placeholder-[#88939D] focus:border-[#00FF94] focus:outline-none transition-all duration-300"
               />
               <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ 
+                  scale: 1.05,
+                  transition: {
+                    type: "spring",
+                    stiffness: 400,
+                    damping: 30
+                  }
+                }}
+                whileTap={{ 
+                  scale: 0.95,
+                  transition: { duration: 0.1 }
+                }}
                 type="submit"
-                className="px-8 py-4 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl hover:shadow-lg hover:shadow-[#00FF94]/20 transition-all"
+                className="px-8 py-4 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl hover:shadow-lg hover:shadow-[#00FF94]/20 transition-all will-change-transform"
               >
                 Subscribe
               </motion.button>

@@ -2,12 +2,14 @@
 
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 
 export default function FeaturesSection() {
+  const prefersReducedMotion = useReducedMotion()
+  
   const [ref, inView] = useInView({
-    threshold: 0.2,
+    threshold: 0.15,
     triggerOnce: true,
   })
 
@@ -33,7 +35,7 @@ export default function FeaturesSection() {
     <section ref={ref} className="relative py-24 lg:py-32 bg-[#0F0F0F] overflow-hidden">
       
       {/* Subtle gradient glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none will-change-transform" />
 
       {/* Noise texture */}
       <div 
@@ -47,25 +49,25 @@ export default function FeaturesSection() {
         
         {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-20"
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-20 will-change-transform"
         >
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 max-w-3xl"
+            transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 max-w-3xl will-change-transform"
           >
             Why work with us?
           </motion.h2>
           
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="text-xl md:text-2xl text-[#88939D] max-w-3xl"
+            transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="text-xl md:text-2xl text-[#88939D] max-w-3xl will-change-transform"
           >
             We build websites that perform. No bloat, no shortcuts, just clean code and purposeful design.
           </motion.p>
@@ -76,21 +78,31 @@ export default function FeaturesSection() {
           {features.map((feature, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 40 }}
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 40 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ 
-                duration: 0.8, 
-                delay: 0.6 + index * 0.15,
-                ease: [0.22, 1, 0.36, 1]
+                duration: 1, 
+                delay: 0.45 + index * 0.12,
+                ease: [0.16, 1, 0.3, 1]
               }}
-              className="group relative"
+              className="group relative will-change-transform"
             >
               {/* Card */}
-              <div className="relative h-full p-8 lg:p-10 rounded-2xl bg-transparent border-2 border-[#88939D]/20 transition-all duration-300 hover:border-[#00FF94] overflow-hidden">
+              <motion.div 
+                className="relative h-full p-8 lg:p-10 rounded-2xl bg-transparent border-2 border-[#88939D]/20 transition-all duration-500 hover:border-[#00FF94] overflow-hidden will-change-transform"
+                whileHover={{ 
+                  y: -5,
+                  transition: {
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 25
+                  }
+                }}
+              >
                 
                 {/* Hover gradient background */}
                 <motion.div
-                  className="absolute inset-0 bg-gradient-to-br from-[#00FF94]/5 via-[#00CC78]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  className="absolute inset-0 bg-gradient-to-br from-[#00FF94]/5 via-[#00CC78]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                   initial={false}
                 />
 
@@ -98,39 +110,47 @@ export default function FeaturesSection() {
                 <div className="relative z-10">
                   
                   {/* Metric badge */}
-                  <div className="inline-flex items-center gap-3 mb-6">
+                  <motion.div 
+                    className="inline-flex items-center gap-3 mb-6"
+                    whileHover={{ scale: 1.05 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 400,
+                      damping: 30
+                    }}
+                  >
                     <div className="text-3xl font-bold text-[#00FF94]">
                       {feature.metrics[0]}
                     </div>
                     <div className="text-sm text-[#88939D] uppercase tracking-wider">
                       {feature.metrics[1]}
                     </div>
-                  </div>
+                  </motion.div>
 
                   {/* Title */}
-                  <h3 className="text-2xl lg:text-3xl font-bold text-white mb-4">
+                  <h3 className="text-2xl lg:text-3xl font-bold text-white mb-4 transition-colors duration-300 group-hover:text-[#00FF94]">
                     {feature.title}
                   </h3>
 
                   {/* Description */}
-                  <p className="text-[#88939D] leading-relaxed">
+                  <p className="text-[#88939D] leading-relaxed transition-colors duration-300 group-hover:text-white/80">
                     {feature.description}
                   </p>
                 </div>
 
                 {/* Bottom gradient line accent */}
-                <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00FF94]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </div>
+                <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00FF94]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              </motion.div>
             </motion.div>
           ))}
         </div>
 
         {/* Bottom section with CTA */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 1.2, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-20 pt-20 border-t border-[#88939D]/20"
+          transition={{ duration: 1, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-20 pt-20 border-t border-[#88939D]/20 will-change-transform"
         >
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
             <div className="max-w-2xl">
@@ -143,9 +163,19 @@ export default function FeaturesSection() {
             </div>
             
             <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg transition-all whitespace-nowrap"
+              whileHover={{ 
+                scale: 1.02,
+                transition: {
+                  type: "spring",
+                  stiffness: 400,
+                  damping: 30
+                }
+              }}
+              whileTap={{ 
+                scale: 0.98,
+                transition: { duration: 0.1 }
+              }}
+              className="px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg transition-all whitespace-nowrap will-change-transform shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30"
             >
               Schedule a call
             </motion.button>

@@ -2,13 +2,15 @@
 
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import Link from 'next/link'
 import Image from 'next/image'
 import { blogPosts } from '@/content/blog'
 
 export default function BlogSection() {
+  const prefersReducedMotion = useReducedMotion()
+  
   const [ref, inView] = useInView({
     threshold: 0.1,
     triggerOnce: true,
@@ -31,7 +33,7 @@ export default function BlogSection() {
     <section ref={ref} className="relative py-24 lg:py-32 bg-[#0F0F0F] overflow-hidden">
       
       {/* Subtle gradient glow */}
-      <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none will-change-transform" />
 
       {/* Noise texture */}
       <div 
@@ -45,46 +47,57 @@ export default function BlogSection() {
         
         {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-20"
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-20 will-change-transform"
         >
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
             <div className="max-w-3xl">
               <motion.h2
-                initial={{ opacity: 0, y: 20 }}
+                initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6"
+                transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 will-change-transform"
               >
                 Latest insights
               </motion.h2>
               
               <motion.p
-                initial={{ opacity: 0, y: 20 }}
+                initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                className="text-xl md:text-2xl text-[#88939D]"
+                transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                className="text-xl md:text-2xl text-[#88939D] will-change-transform"
               >
                 Thoughts on design, development, and building better digital experiences.
               </motion.p>
             </div>
 
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="flex-shrink-0"
+              transition={{ duration: 1, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
+              className="flex-shrink-0 will-change-transform"
             >
               <Link href="/blog">
                 <motion.button
-                  whileHover={{ scale: 1.02, borderColor: '#00FF94' }}
-                  whileTap={{ scale: 0.98 }}
-                  className="px-6 py-3 border-2 border-[#88939D]/30 text-white font-semibold rounded-xl text-base hover:text-[#00FF94] transition-all duration-300 flex items-center gap-2"
+                  whileHover={{ 
+                    scale: 1.02, 
+                    borderColor: '#00FF94',
+                    transition: {
+                      type: "spring",
+                      stiffness: 400,
+                      damping: 30
+                    }
+                  }}
+                  whileTap={{ 
+                    scale: 0.98,
+                    transition: { duration: 0.1 }
+                  }}
+                  className="px-6 py-3 border-2 border-[#88939D]/30 text-white font-semibold rounded-xl text-base hover:text-[#00FF94] transition-colors duration-300 flex items-center gap-2 will-change-transform group"
                 >
                   View all articles
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
                 </motion.button>
@@ -98,35 +111,60 @@ export default function BlogSection() {
           {latestPosts.map((post, index) => (
             <motion.div
               key={post.id}
-              initial={{ opacity: 0, y: 40 }}
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 40 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ 
-                duration: 0.8, 
-                delay: 0.6 + index * 0.1,
-                ease: [0.22, 1, 0.36, 1]
+                duration: 1, 
+                delay: 0.5 + index * 0.1,
+                ease: [0.16, 1, 0.3, 1]
               }}
+              className="will-change-transform"
             >
               <Link href={`/blog/${post.slug}`}>
-                <div className="group relative cursor-pointer h-full">
+                <motion.div 
+                  className="group relative cursor-pointer h-full"
+                  whileHover={{ 
+                    y: -8,
+                    transition: {
+                      type: "spring",
+                      stiffness: 300,
+                      damping: 25
+                    }
+                  }}
+                >
                   
                   {/* Post Image Container */}
-                  <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-6 bg-[#1A1A1A] border-2 border-[#88939D]/20 group-hover:border-[#00FF94] transition-all duration-300">
+                  <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-6 bg-[#1A1A1A] border-2 border-[#88939D]/20 group-hover:border-[#00FF94] transition-all duration-500 will-change-transform">
                     
                     {/* Image or Placeholder */}
                     {post.thumbnail ? (
-                      <Image
-                        src={post.thumbnail}
-                        alt={post.title}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      />
+                      <motion.div
+                        className="relative w-full h-full"
+                        whileHover={{ scale: 1.05 }}
+                        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                      >
+                        <Image
+                          src={post.thumbnail}
+                          alt={post.title}
+                          fill
+                          className="object-cover will-change-transform"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        />
+                      </motion.div>
                     ) : (
                       /* Placeholder with gradient */
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <svg className="w-16 h-16 text-white/5 group-hover:text-[#00FF94]/10 transition-colors duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
+                        <motion.svg 
+                          className="w-16 h-16 text-white/5 group-hover:text-[#00FF94]/10 transition-colors duration-500"
+                          whileHover={{ scale: 1.2, rotate: 5 }}
+                          transition={{ duration: 0.3 }}
+                          fill="none" 
+                          viewBox="0 0 24 24" 
+                          stroke="currentColor" 
+                          strokeWidth={1}
+                        >
                           <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
+                        </motion.svg>
                       </div>
                     )}
                     
@@ -136,15 +174,37 @@ export default function BlogSection() {
                     />
 
                     {/* Category badge */}
-                    <div className="absolute top-4 right-4 px-3 py-1.5 bg-black/60 backdrop-blur-sm border border-[#88939D]/30 rounded-lg text-white/80 text-xs font-medium z-10">
+                    <motion.div 
+                      className="absolute top-4 right-4 px-3 py-1.5 bg-black/60 backdrop-blur-sm border border-[#88939D]/30 rounded-lg text-white/80 text-xs font-medium z-10"
+                      whileHover={{ 
+                        scale: 1.05,
+                        backgroundColor: 'rgba(0, 255, 148, 0.1)',
+                        borderColor: '#00FF94',
+                        transition: { duration: 0.3 }
+                      }}
+                    >
                       {post.category}
-                    </div>
+                    </motion.div>
 
                     {/* Read Article indicator on hover */}
                     <motion.div
-                      className="absolute bottom-6 left-6 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
+                      initial={{ opacity: 0, x: -10 }}
+                      whileHover={{ opacity: 1, x: 0 }}
+                      className="absolute bottom-6 left-6 flex items-center gap-2 z-10 opacity-0 group-hover:opacity-100"
+                      transition={{ 
+                        duration: 0.4,
+                        ease: [0.16, 1, 0.3, 1]
+                      }}
                     >
-                      <div className="w-2 h-2 rounded-full bg-[#00FF94]" />
+                      <motion.div 
+                        className="w-2 h-2 rounded-full bg-[#00FF94]"
+                        animate={{ scale: [1, 1.2, 1] }}
+                        transition={{ 
+                          repeat: Infinity, 
+                          duration: 2,
+                          ease: "easeInOut"
+                        }}
+                      />
                       <span className="text-white text-sm font-semibold">Read article</span>
                     </motion.div>
                   </div>
@@ -152,13 +212,17 @@ export default function BlogSection() {
                   {/* Post Info */}
                   <div className="space-y-3">
                     {/* Meta Info */}
-                    <div className="flex items-center gap-3 text-sm text-[#88939D]">
+                    <motion.div 
+                      className="flex items-center gap-3 text-sm text-[#88939D] group-hover:text-[#00FF94] transition-colors duration-300"
+                      whileHover={{ x: 5 }}
+                      transition={{ duration: 0.2 }}
+                    >
                       <time dateTime={post.publishedAt}>
                         {formatDate(post.publishedAt)}
                       </time>
                       <span>•</span>
                       <span>{post.readTime}</span>
-                    </div>
+                    </motion.div>
 
                     {/* Title */}
                     <h3 className="text-xl md:text-2xl font-bold text-white group-hover:text-[#00FF94] transition-colors duration-300 line-clamp-2">
@@ -166,23 +230,29 @@ export default function BlogSection() {
                     </h3>
 
                     {/* Excerpt */}
-                    <p className="text-[#88939D] leading-relaxed line-clamp-2">
+                    <p className="text-[#88939D] leading-relaxed line-clamp-2 group-hover:text-white/70 transition-colors duration-300">
                       {post.excerpt}
                     </p>
 
                     {/* Tags */}
                     <div className="flex flex-wrap gap-2 pt-2">
                       {post.tags.slice(0, 2).map((tag, i) => (
-                        <span
+                        <motion.span
                           key={i}
-                          className="px-3 py-1.5 bg-transparent border border-[#88939D]/30 rounded-lg text-xs text-[#88939D] font-medium"
+                          whileHover={{ 
+                            scale: 1.05,
+                            borderColor: '#00FF94',
+                            color: '#00FF94',
+                            transition: { duration: 0.2 }
+                          }}
+                          className="px-3 py-1.5 bg-transparent border border-[#88939D]/30 rounded-lg text-xs text-[#88939D] font-medium transition-all duration-300 will-change-transform"
                         >
                           {tag}
-                        </span>
+                        </motion.span>
                       ))}
                     </div>
                   </div>
-                </div>
+                </motion.div>
               </Link>
             </motion.div>
           ))}
@@ -190,10 +260,10 @@ export default function BlogSection() {
 
         {/* Bottom CTA */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 1.2, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-20 pt-20 border-t border-[#88939D]/20"
+          transition={{ duration: 1, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-20 pt-20 border-t border-[#88939D]/20 will-change-transform"
         >
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
             <div className="max-w-2xl">
@@ -207,9 +277,19 @@ export default function BlogSection() {
             
             <Link href="/blog">
               <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg transition-all whitespace-nowrap"
+                whileHover={{ 
+                  scale: 1.02,
+                  transition: {
+                    type: "spring",
+                    stiffness: 400,
+                    damping: 30
+                  }
+                }}
+                whileTap={{ 
+                  scale: 0.98,
+                  transition: { duration: 0.1 }
+                }}
+                className="px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg transition-all whitespace-nowrap will-change-transform shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30"
               >
                 Explore all articles
               </motion.button>

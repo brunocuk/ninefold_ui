@@ -6,6 +6,7 @@ import Footer from '@/components/Footer'
 import SmoothScroll from '@/components/SmoothScroll'
 import GradualBlur from '@/components/GradualBlur'
 import ScrollToTop from '@/components/ScrollToTop'
+import Script from 'next/script'
 
 export const metadata = {
   title: 'Ninefold - Premium Web Development',
@@ -15,8 +16,16 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className="dark">
+      <head>
+        {/* CookieYes Banner */}
+        <Script
+          id="cookieyes"
+          src="https://cdn-cookieyes.com/client_data/2be5e4cbd1c23f337d9871196dfe9816/script.js"
+          strategy="afterInteractive"
+        />
+      </head>
       <body>
-        <ScrollToTop /> {/* Try OUTSIDE and BEFORE SmoothScroll */}
+        <ScrollToTop />
         <SmoothScroll>
           <Header />
           {children}

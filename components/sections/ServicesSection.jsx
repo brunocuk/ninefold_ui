@@ -2,11 +2,13 @@
 
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import Link from 'next/link'
 
 export default function ServicesSection() {
+  const prefersReducedMotion = useReducedMotion()
+  
   const [ref, inView] = useInView({
     threshold: 0.1,
     triggerOnce: true,
@@ -79,7 +81,7 @@ export default function ServicesSection() {
     <section ref={ref} className="relative py-24 lg:py-32 bg-[#0F0F0F] overflow-hidden">
       
       {/* Subtle gradient glow */}
-      <div className="absolute top-1/2 left-1/4 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/4 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none will-change-transform" />
 
       {/* Noise texture */}
       <div 
@@ -93,25 +95,25 @@ export default function ServicesSection() {
         
         {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-20"
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-20 will-change-transform"
         >
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 max-w-3xl"
+            transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 max-w-3xl will-change-transform"
           >
             What we do
           </motion.h2>
           
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="text-xl md:text-2xl text-[#88939D] max-w-3xl"
+            transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="text-xl md:text-2xl text-[#88939D] max-w-3xl will-change-transform"
           >
             End-to-end digital solutions tailored to your business needs.
           </motion.p>
@@ -122,21 +124,31 @@ export default function ServicesSection() {
           {services.map((service, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 40 }}
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 40 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ 
-                duration: 0.8, 
-                delay: 0.6 + index * 0.1,
-                ease: [0.22, 1, 0.36, 1]
+                duration: 1, 
+                delay: 0.45 + index * 0.08,
+                ease: [0.16, 1, 0.3, 1]
               }}
-              className="group relative"
+              className="group relative will-change-transform"
             >
               {/* Card */}
-              <div className="relative h-full p-8 rounded-2xl bg-transparent border-2 border-[#88939D]/20 hover:border-[#00FF94] transition-all duration-300 overflow-hidden">
+              <motion.div 
+                className="relative h-full p-8 rounded-2xl bg-transparent border-2 border-[#88939D]/20 hover:border-[#00FF94] transition-all duration-500 overflow-hidden will-change-transform"
+                whileHover={{ 
+                  y: -5,
+                  transition: {
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 25
+                  }
+                }}
+              >
                 
                 {/* Hover gradient background */}
                 <motion.div
-                  className="absolute inset-0 bg-gradient-to-br from-[#00FF94]/5 via-[#00CC78]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  className="absolute inset-0 bg-gradient-to-br from-[#00FF94]/5 via-[#00CC78]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                   initial={false}
                 />
 
@@ -144,27 +156,34 @@ export default function ServicesSection() {
                 <div className="relative z-10">
                   
                   {/* Title */}
-                  <h3 className="text-2xl font-bold text-white mb-4">
+                  <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-[#00FF94] transition-colors duration-300">
                     {service.title}
                   </h3>
 
                   {/* Description */}
-                  <p className="text-[#88939D] leading-relaxed mb-6">
+                  <p className="text-[#88939D] leading-relaxed mb-6 group-hover:text-white/70 transition-colors duration-300">
                     {service.description}
                   </p>
 
                   {/* Features list */}
                   <ul className="space-y-2.5 mb-6">
                     {service.features.map((feature, i) => (
-                      <li
+                      <motion.li
                         key={i}
-                        className="flex items-center gap-3 text-sm text-[#88939D]"
+                        initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, x: -10 }}
+                        animate={inView ? { opacity: 1, x: 0 } : {}}
+                        transition={{ 
+                          duration: 0.5, 
+                          delay: 0.6 + index * 0.08 + i * 0.03,
+                          ease: [0.16, 1, 0.3, 1]
+                        }}
+                        className="flex items-center gap-3 text-sm text-[#88939D] group-hover:text-white/60 transition-colors duration-300"
                       >
                         <svg className="w-4 h-4 text-[#00FF94] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                         </svg>
                         <span>{feature}</span>
-                      </li>
+                      </motion.li>
                     ))}
                   </ul>
 
@@ -172,29 +191,48 @@ export default function ServicesSection() {
                   <Link href={`/services/${service.title.toLowerCase().replace(/\s+/g, '-')}`}>
                     <motion.div
                       className="inline-flex items-center gap-2 text-sm font-semibold text-[#88939D] group-hover:text-[#00FF94] transition-colors duration-300"
-                      whileHover={{ x: 5 }}
+                      whileHover={{ 
+                        x: 5,
+                        transition: {
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 30
+                        }
+                      }}
                     >
                       Learn more
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                      <motion.svg 
+                        className="w-4 h-4"
+                        animate={{ x: [0, 3, 0] }}
+                        transition={{ 
+                          repeat: Infinity, 
+                          duration: 1.5,
+                          ease: "easeInOut"
+                        }}
+                        fill="none" 
+                        stroke="currentColor" 
+                        viewBox="0 0 24 24" 
+                        strokeWidth={2}
+                      >
                         <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                      </svg>
+                      </motion.svg>
                     </motion.div>
                   </Link>
                 </div>
 
                 {/* Bottom gradient line accent */}
-                <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00FF94]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </div>
+                <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00FF94]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              </motion.div>
             </motion.div>
           ))}
         </div>
 
         {/* Bottom CTA */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 1.2, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-20 pt-20 border-t border-[#88939D]/20"
+          transition={{ duration: 1, delay: 0.95, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-20 pt-20 border-t border-[#88939D]/20 will-change-transform"
         >
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
             <div className="max-w-2xl">
@@ -209,9 +247,19 @@ export default function ServicesSection() {
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/contact">
                 <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg transition-all whitespace-nowrap"
+                  whileHover={{ 
+                    scale: 1.02,
+                    transition: {
+                      type: "spring",
+                      stiffness: 400,
+                      damping: 30
+                    }
+                  }}
+                  whileTap={{ 
+                    scale: 0.98,
+                    transition: { duration: 0.1 }
+                  }}
+                  className="px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg transition-all whitespace-nowrap will-change-transform shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30"
                 >
                   Get in touch
                 </motion.button>
@@ -219,9 +267,20 @@ export default function ServicesSection() {
               
               <Link href="/services">
                 <motion.button
-                  whileHover={{ scale: 1.02, borderColor: '#00FF94' }}
-                  whileTap={{ scale: 0.98 }}
-                  className="px-8 py-5 bg-transparent border-2 border-[#88939D]/30 text-white font-bold rounded-xl text-lg transition-all whitespace-nowrap"
+                  whileHover={{ 
+                    scale: 1.02, 
+                    borderColor: '#00FF94',
+                    transition: {
+                      type: "spring",
+                      stiffness: 400,
+                      damping: 30
+                    }
+                  }}
+                  whileTap={{ 
+                    scale: 0.98,
+                    transition: { duration: 0.1 }
+                  }}
+                  className="px-8 py-5 bg-transparent border-2 border-[#88939D]/30 text-white font-bold rounded-xl text-lg transition-colors duration-300 whitespace-nowrap hover:text-[#00FF94] will-change-transform"
                 >
                   All services
                 </motion.button>

@@ -89,7 +89,7 @@ export const projects = [
       image: "/testimonials/mirko-koren.jpg"
     },
     
-    relatedProjects: [2, 3],
+    relatedProjects: [2, 3, 4],
   },
   
   {
@@ -185,7 +185,7 @@ export const projects = [
       image: "/testimonials/leonardo-zovko.jpg"
     },
     
-    relatedProjects: [1, 3],
+    relatedProjects: [1, 3, 4],
   },
   
   {
@@ -281,7 +281,7 @@ export const projects = [
       image: "/testimonials/bozidar-jurisic.jpg"
     },
     
-    relatedProjects: [1, 2],
+    relatedProjects: [1, 2, 3],
   },
 
   {
@@ -382,7 +382,7 @@ export const projects = [
       image: "/testimonials/sasa-perko.jpg"
     },
     
-    relatedProjects: [3, 1],
+    relatedProjects: [3, 1, 2],
   },
 
   {
@@ -478,7 +478,7 @@ export const projects = [
       image: "/testimonials/ljupka-gojic-mikic.jpg"
     },
     
-    relatedProjects: [1, 3],
+    relatedProjects: [1, 3, 4],
   },
 
   {
@@ -574,7 +574,7 @@ export const projects = [
       image: "/testimonials/tomislav-majic.jpg"
     },
     
-    relatedProjects: [5, 1],
+    relatedProjects: [5, 1, 3],
   },
 
   {
@@ -670,7 +670,7 @@ export const projects = [
       image: "/testimonials/ivan-markovic.jpg"
     },
     
-    relatedProjects: [3, 5],
+    relatedProjects: [3, 5, 6],
   },
 
   {
@@ -766,7 +766,7 @@ export const projects = [
       image: "/testimonials/matej-zirdum.jpg"
     },
     
-    relatedProjects: [5, 6],
+    relatedProjects: [5, 6, 1],
   },
 
   // {

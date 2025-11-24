@@ -92,7 +92,7 @@ export default function CookiePolicyContent() {
               <div className="text-[#88939D] space-y-2">
                 <p><strong className="text-white">Legal Name:</strong> Progmatiq v.l. Bruno Čukić</p>
                 <p><strong className="text-white">Trading Name:</strong> NineFold</p>
-                <p><strong className="text-white">Address:</strong> Poljačka ul. 56, 10000 Zagreb, Croatia</p>
+                <p><strong className="text-white">Address:</strong> Glavna ul. 12, 10360 Zagreb, Croatia</p>
                 <p><strong className="text-white">Email:</strong> hello@ninefold.eu</p>
               </div>
             </div>
@@ -335,7 +335,7 @@ export default function CookiePolicyContent() {
                 <p className="text-[#88939D] mb-2">
                   <strong className="text-white">Progmatiq v.l. Bruno Čukić (NineFold)</strong>
                 </p>
-                <p className="text-[#88939D] mb-2">Poljačka ul. 56, 10000 Zagreb, Croatia</p>
+                <p className="text-[#88939D] mb-2">Glavna ul. 12, 10360 Zagreb, Croatia</p>
                 <p className="text-[#88939D]">Email: hello@ninefold.eu</p>
               </div>
             </div>

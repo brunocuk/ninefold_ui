@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
@@ -8,6 +8,7 @@ import { useState } from 'react'
 export default function MobileMenu({ isOpen, onClose }) {
   const pathname = usePathname()
   const [hoveredItem, setHoveredItem] = useState(null)
+  const prefersReducedMotion = useReducedMotion()
 
   const navItems = [
     { label: 'Home', href: '/' },
@@ -39,7 +40,7 @@ export default function MobileMenu({ isOpen, onClose }) {
       opacity: 0,
       borderRadius: '100%',
       transition: { 
-        duration: 0.5,
+        duration: 0.6,
         ease: [0.76, 0, 0.24, 1]
       }
     },
@@ -48,7 +49,7 @@ export default function MobileMenu({ isOpen, onClose }) {
       opacity: 1,
       borderRadius: '0%',
       transition: { 
-        duration: 0.7,
+        duration: 0.8,
         ease: [0.76, 0, 0.24, 1]
       }
     }
@@ -64,8 +65,9 @@ export default function MobileMenu({ isOpen, onClose }) {
     open: { 
       opacity: 1,
       transition: { 
-        delay: 0.3,
-        duration: 0.4
+        delay: 0.35,
+        duration: 0.5,
+        ease: [0.16, 1, 0.3, 1]
       }
     }
   }
@@ -73,17 +75,17 @@ export default function MobileMenu({ isOpen, onClose }) {
   const itemVariants = {
     closed: { 
       opacity: 0, 
-      y: 50,
-      rotateX: -15
+      y: 40,
+      rotateX: -10
     },
     open: (i) => ({
       opacity: 1,
       y: 0,
       rotateX: 0,
       transition: { 
-        delay: 0.4 + i * 0.08,
-        duration: 0.7,
-        ease: [0.22, 1, 0.36, 1]
+        delay: 0.45 + i * 0.07,
+        duration: 0.8,
+        ease: [0.16, 1, 0.3, 1]
       }
     })
   }
@@ -91,18 +93,18 @@ export default function MobileMenu({ isOpen, onClose }) {
   const submenuVariants = {
     closed: { 
       opacity: 0,
-      x: 50,
+      x: 30,
       transition: { 
-        duration: 0.3,
-        ease: [0.22, 1, 0.36, 1]
+        duration: 0.4,
+        ease: [0.16, 1, 0.3, 1]
       }
     },
     open: { 
       opacity: 1,
       x: 0,
       transition: { 
-        duration: 0.5,
-        ease: [0.22, 1, 0.36, 1]
+        duration: 0.6,
+        ease: [0.16, 1, 0.3, 1]
       }
     }
   }
@@ -110,60 +112,60 @@ export default function MobileMenu({ isOpen, onClose }) {
   const submenuItemVariants = {
     closed: { 
       opacity: 0, 
-      x: 20
+      x: 15
     },
     open: (i) => ({
       opacity: 1,
       x: 0,
       transition: { 
-        delay: 0.1 + i * 0.06,
-        duration: 0.4,
-        ease: [0.22, 1, 0.36, 1]
+        delay: 0.1 + i * 0.05,
+        duration: 0.5,
+        ease: [0.16, 1, 0.3, 1]
       }
     })
   }
 
   const headerVariants = {
-    closed: { opacity: 0, y: -20 },
+    closed: { opacity: 0, y: -15 },
     open: { 
       opacity: 1, 
       y: 0,
       transition: { 
-        delay: 0.45,
-        duration: 0.5,
-        ease: [0.22, 1, 0.36, 1]
+        delay: 0.5,
+        duration: 0.6,
+        ease: [0.16, 1, 0.3, 1]
       }
     }
   }
 
   const footerVariants = {
-    closed: { opacity: 0, y: 30 },
+    closed: { opacity: 0, y: 20 },
     open: { 
       opacity: 1, 
       y: 0,
       transition: { 
-        delay: 1.0,
-        duration: 0.6,
-        ease: [0.22, 1, 0.36, 1]
+        delay: 1.1,
+        duration: 0.7,
+        ease: [0.16, 1, 0.3, 1]
       }
     }
   }
 
   const socialVariants = {
-    closed: { opacity: 0, x: -20 },
+    closed: { opacity: 0, x: -15 },
     open: (i) => ({
       opacity: 1,
       x: 0,
       transition: { 
-        delay: 1.2 + i * 0.05,
-        duration: 0.4,
-        ease: [0.22, 1, 0.36, 1]
+        delay: 1.25 + i * 0.04,
+        duration: 0.5,
+        ease: [0.16, 1, 0.3, 1]
       }
     })
   }
 
   return (
-    <AnimatePresence>
+    <AnimatePresence mode="wait">
       {isOpen && (
         <>
           {/* Backdrop blur */}
@@ -171,7 +173,7 @@ export default function MobileMenu({ isOpen, onClose }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
             className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm"
             onClick={onClose}
           />
@@ -182,31 +184,35 @@ export default function MobileMenu({ isOpen, onClose }) {
             initial="closed"
             animate="open"
             exit="closed"
-            className="fixed inset-0 z-40 overflow-hidden"
+            className="fixed inset-0 z-40 overflow-hidden will-change-transform"
             style={{
               background: 'linear-gradient(135deg, #0F0F0F 0%, #0a0a0a 100%)',
+              transformOrigin: 'top right',
             }}
           >
             {/* Animated gradient overlay */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 0.4 }}
-              transition={{ delay: 0.5, duration: 1 }}
-              className="absolute inset-0 bg-gradient-to-br from-[#00FF94]/15 via-transparent to-[#00FF94]/10"
+              exit={{ opacity: 0 }}
+              transition={{ delay: 0.6, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute inset-0 bg-gradient-to-br from-[#00FF94]/15 via-transparent to-[#00FF94]/10 will-change-transform"
             />
 
             {/* Floating orbs */}
             <motion.div
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 0.2 }}
-              transition={{ delay: 0.6, duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute top-1/4 right-1/4 w-96 h-96 bg-[#00FF94] rounded-full blur-[120px]"
+              exit={{ scale: 0, opacity: 0 }}
+              transition={{ delay: 0.7, duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute top-1/4 right-1/4 w-96 h-96 bg-[#00FF94] rounded-full blur-[120px] will-change-transform"
             />
             <motion.div
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 0.15 }}
-              transition={{ delay: 0.8, duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-[#00CC78] rounded-full blur-[140px]"
+              exit={{ scale: 0, opacity: 0 }}
+              transition={{ delay: 0.9, duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-[#00CC78] rounded-full blur-[140px] will-change-transform"
             />
 
             {/* Content */}
@@ -226,7 +232,7 @@ export default function MobileMenu({ isOpen, onClose }) {
                   <nav className="mb-16 md:mb-24 lg:mb-0">
                     <motion.h3
                       variants={headerVariants}
-                      className="text-[#00FF94] text-xs uppercase tracking-wider mb-6 font-mono font-bold"
+                      className="text-[#00FF94] text-xs uppercase tracking-wider mb-6 font-mono font-bold will-change-transform"
                     >
                       Navigation
                     </motion.h3>
@@ -240,6 +246,7 @@ export default function MobileMenu({ isOpen, onClose }) {
                             custom={index}
                             variants={itemVariants}
                             onMouseEnter={() => item.hasSubmenu && setHoveredItem(item.label)}
+                            className="will-change-transform"
                           >
                             <Link 
                               href={item.href} 
@@ -250,12 +257,16 @@ export default function MobileMenu({ isOpen, onClose }) {
                                 whileHover={{ 
                                   x: 20,
                                   transition: { 
-                                    duration: 0.3,
-                                    ease: [0.22, 1, 0.36, 1]
+                                    type: "spring",
+                                    stiffness: 300,
+                                    damping: 25
                                   }
                                 }}
-                                whileTap={{ scale: 0.98 }}
-                                className={`text-4xl md:text-6xl lg:text-7xl font-bold transition-colors duration-300 ${
+                                whileTap={{ 
+                                  scale: 0.98,
+                                  transition: { duration: 0.1 }
+                                }}
+                                className={`text-4xl md:text-6xl lg:text-7xl font-bold transition-colors duration-300 will-change-transform ${
                                   isActive ? 'text-[#00FF94]' : 'text-white group-hover:text-[#00FF94]'
                                 }`}
                               >
@@ -277,12 +288,12 @@ export default function MobileMenu({ isOpen, onClose }) {
                           initial="closed"
                           animate="open"
                           exit="closed"
-                          className="sticky top-32"
+                          className="sticky top-32 will-change-transform"
                         >
                           <motion.h3
                             initial={{ opacity: 0, y: -10 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.1, duration: 0.4 }}
+                            transition={{ delay: 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                             className="text-[#00FF94] text-xs uppercase tracking-wider mb-8 font-mono font-bold"
                           >
                             Our Services
@@ -294,6 +305,7 @@ export default function MobileMenu({ isOpen, onClose }) {
                                 key={service.href}
                                 custom={i}
                                 variants={submenuItemVariants}
+                                className="will-change-transform"
                               >
                                 <Link
                                   href={service.href}
@@ -301,8 +313,15 @@ export default function MobileMenu({ isOpen, onClose }) {
                                   className="group/sub block p-5 rounded-xl bg-white/5 border border-white/10 hover:border-[#00FF94]/50 hover:bg-white/10 transition-all duration-300"
                                 >
                                   <motion.div
-                                    whileHover={{ x: 5 }}
-                                    transition={{ duration: 0.2 }}
+                                    whileHover={{ 
+                                      x: 5,
+                                      transition: {
+                                        type: "spring",
+                                        stiffness: 400,
+                                        damping: 30
+                                      }
+                                    }}
+                                    className="will-change-transform"
                                   >
                                     <h4 className="text-lg md:text-xl font-bold text-white group-hover/sub:text-[#00FF94] transition-colors mb-1">
                                       {service.title}
@@ -327,13 +346,13 @@ export default function MobileMenu({ isOpen, onClose }) {
                       const isServicesHovered = hoveredItem === 'Services'
                       
                       return (
-                        <AnimatePresence key={item.label}>
+                        <AnimatePresence key={item.label} mode="wait">
                           {isServicesHovered && (
                             <motion.div
                               initial={{ opacity: 0, height: 0 }}
                               animate={{ opacity: 1, height: 'auto' }}
                               exit={{ opacity: 0, height: 0 }}
-                              transition={{ duration: 0.4 }}
+                              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                               className="overflow-hidden ml-8 mt-4 mb-8 space-y-2"
                             >
                               {services.map((service, i) => (
@@ -341,7 +360,12 @@ export default function MobileMenu({ isOpen, onClose }) {
                                   key={service.href}
                                   initial={{ opacity: 0, x: -20 }}
                                   animate={{ opacity: 1, x: 0 }}
-                                  transition={{ delay: i * 0.05, duration: 0.3 }}
+                                  transition={{ 
+                                    delay: i * 0.04, 
+                                    duration: 0.4,
+                                    ease: [0.16, 1, 0.3, 1]
+                                  }}
+                                  className="will-change-transform"
                                 >
                                   <Link
                                     href={service.href}
@@ -349,9 +373,15 @@ export default function MobileMenu({ isOpen, onClose }) {
                                     className="group/sub block"
                                   >
                                     <motion.div
-                                      whileHover={{ x: 10 }}
-                                      transition={{ duration: 0.2 }}
-                                      className="flex items-center gap-3"
+                                      whileHover={{ 
+                                        x: 10,
+                                        transition: {
+                                          type: "spring",
+                                          stiffness: 400,
+                                          damping: 30
+                                        }
+                                      }}
+                                      className="flex items-center gap-3 will-change-transform"
                                     >
                                       <span className="w-2 h-2 rounded-full bg-[#00FF94]/50 group-hover/sub:bg-[#00FF94] transition-colors" />
                                       <span className="text-lg md:text-2xl text-white/70 group-hover/sub:text-[#00FF94] transition-colors font-medium">
@@ -372,13 +402,14 @@ export default function MobileMenu({ isOpen, onClose }) {
                 {/* Footer */}
                 <motion.div 
                   variants={footerVariants}
-                  className="border-t border-white/10 pt-8 mt-16 space-y-6"
+                  className="border-t border-white/10 pt-8 mt-16 space-y-6 will-change-transform"
                 >
                   {/* Contact */}
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 1.1, duration: 0.5 }}
+                    transition={{ delay: 1.15, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                    className="will-change-transform"
                   >
                     <p className="text-[#88939D] text-xs uppercase tracking-wider mb-3 font-mono">
                       Get in touch
@@ -386,8 +417,14 @@ export default function MobileMenu({ isOpen, onClose }) {
                     <motion.a 
                       href="mailto:hello@ninefold.eu"
                       className="text-white hover:text-[#00FF94] transition-colors text-lg font-medium block"
-                      whileHover={{ x: 5 }}
-                      transition={{ duration: 0.2 }}
+                      whileHover={{ 
+                        x: 5,
+                        transition: {
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 30
+                        }
+                      }}
                     >
                       hello@ninefold.eu
                     </motion.a>
@@ -395,7 +432,7 @@ export default function MobileMenu({ isOpen, onClose }) {
                       className="text-[#88939D] text-sm mt-1"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
-                      transition={{ delay: 1.2, duration: 0.4 }}
+                      transition={{ delay: 1.25, duration: 0.5 }}
                     >
                       Zagreb, Croatia
                     </motion.p>
@@ -407,7 +444,7 @@ export default function MobileMenu({ isOpen, onClose }) {
                       className="text-[#88939D] text-xs uppercase tracking-wider mb-3 font-mono"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
-                      transition={{ delay: 1.15, duration: 0.4 }}
+                      transition={{ delay: 1.2, duration: 0.5 }}
                     >
                       Follow us
                     </motion.p>
@@ -422,10 +459,14 @@ export default function MobileMenu({ isOpen, onClose }) {
                           variants={socialVariants}
                           whileHover={{ 
                             y: -3,
-                            transition: { duration: 0.2 }
+                            transition: {
+                              type: "spring",
+                              stiffness: 400,
+                              damping: 30
+                            }
                           }}
                           whileTap={{ scale: 0.95 }}
-                          className="text-white hover:text-[#00FF94] transition-colors text-sm font-bold font-mono"
+                          className="text-white hover:text-[#00FF94] transition-colors text-sm font-bold font-mono will-change-transform"
                         >
                           {social.label}
                         </motion.a>

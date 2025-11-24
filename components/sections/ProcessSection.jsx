@@ -2,11 +2,13 @@
 
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import Link from 'next/link'
 
 export default function ProcessSection() {
+  const prefersReducedMotion = useReducedMotion()
+  
   const [ref, inView] = useInView({
     threshold: 0.1,
     triggerOnce: true,
@@ -83,7 +85,7 @@ export default function ProcessSection() {
     <section ref={ref} className="relative py-24 lg:py-32 bg-[#0F0F0F] overflow-hidden">
       
       {/* Subtle gradient glow */}
-      <div className="absolute top-1/3 left-1/3 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/3 left-1/3 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none will-change-transform" />
 
       {/* Noise texture */}
       <div 
@@ -97,16 +99,16 @@ export default function ProcessSection() {
         
         {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-20 text-center"
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-20 text-center will-change-transform"
         >
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, scale: 0.9 }}
             animate={inView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="inline-block mb-6"
+            transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="inline-block mb-6 will-change-transform"
           >
             <span className="px-4 py-2 bg-[#00FF94]/10 border border-[#00FF94]/30 rounded-full text-[#00FF94] text-sm font-mono uppercase tracking-wider">
               Our Process
@@ -114,19 +116,19 @@ export default function ProcessSection() {
           </motion.div>
 
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6"
+            transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 will-change-transform"
           >
             From idea to launch
           </motion.h2>
           
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="text-xl md:text-2xl text-[#88939D] max-w-3xl mx-auto"
+            transition={{ duration: 1, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            className="text-xl md:text-2xl text-[#88939D] max-w-3xl mx-auto will-change-transform"
           >
             A proven, transparent process designed to deliver exceptional results
           </motion.p>
@@ -136,20 +138,25 @@ export default function ProcessSection() {
         <div className="relative">
           
           {/* Vertical Timeline Line (Desktop) */}
-          <div className="hidden lg:block absolute left-[60px] top-0 bottom-0 w-px bg-gradient-to-b from-[#00FF94]/50 via-[#00CC78]/30 to-[#00FF94]/50" />
+          <motion.div 
+            initial={{ scaleY: 0 }}
+            animate={inView ? { scaleY: 1 } : {}}
+            transition={{ duration: 1.5, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="hidden lg:block absolute left-[60px] top-0 bottom-0 w-px bg-gradient-to-b from-[#00FF94]/50 via-[#00CC78]/30 to-[#00FF94]/50 origin-top will-change-transform"
+          />
 
           <div className="space-y-8 lg:space-y-12">
             {steps.map((step, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, x: -40 }}
+                initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, x: -40 }}
                 animate={inView ? { opacity: 1, x: 0 } : {}}
                 transition={{ 
-                  duration: 0.8, 
-                  delay: 0.6 + index * 0.15,
-                  ease: [0.22, 1, 0.36, 1]
+                  duration: 1, 
+                  delay: 0.5 + index * 0.12,
+                  ease: [0.16, 1, 0.3, 1]
                 }}
-                className="group relative"
+                className="group relative will-change-transform"
               >
                 {/* Timeline dot (Desktop) */}
                 <div className="hidden lg:flex absolute left-[44px] top-8 w-8 h-8 items-center justify-center">
@@ -157,16 +164,39 @@ export default function ProcessSection() {
                     initial={{ scale: 0 }}
                     animate={inView ? { scale: 1 } : {}}
                     transition={{ 
-                      duration: 0.5, 
-                      delay: 0.8 + index * 0.15,
-                      ease: [0.22, 1, 0.36, 1]
+                      duration: 0.6, 
+                      delay: 0.7 + index * 0.12,
+                      ease: [0.16, 1, 0.3, 1]
                     }}
-                    className="w-4 h-4 rounded-full bg-gradient-to-br from-[#00FF94] to-[#00CC78] shadow-lg shadow-[#00FF94]/50 group-hover:scale-150 transition-transform duration-300"
+                    className="w-4 h-4 rounded-full bg-gradient-to-br from-[#00FF94] to-[#00CC78] shadow-lg shadow-[#00FF94]/50 will-change-transform"
+                  />
+                  <motion.div
+                    animate={{ 
+                      scale: [1, 1.5, 1],
+                      opacity: [0.5, 0, 0.5]
+                    }}
+                    transition={{ 
+                      repeat: Infinity, 
+                      duration: 2,
+                      delay: 0.7 + index * 0.12,
+                      ease: "easeInOut"
+                    }}
+                    className="absolute w-4 h-4 rounded-full bg-[#00FF94] will-change-transform"
                   />
                 </div>
 
                 {/* Card */}
-                <div className="lg:ml-24 relative rounded-2xl bg-[#0F0F0F] border-2 border-[#88939D]/20 hover:border-[#00FF94]/50 transition-all duration-300 overflow-hidden">
+                <motion.div 
+                  className="lg:ml-24 relative rounded-2xl bg-[#0F0F0F] border-2 border-[#88939D]/20 hover:border-[#00FF94]/50 transition-all duration-500 overflow-hidden will-change-transform"
+                  whileHover={{ 
+                    y: -5,
+                    transition: {
+                      type: "spring",
+                      stiffness: 300,
+                      damping: 25
+                    }
+                  }}
+                >
                   
                   {/* Hover gradient background */}
                   <motion.div
@@ -175,7 +205,7 @@ export default function ProcessSection() {
                   />
 
                   {/* Top gradient line */}
-                  <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00FF94]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00FF94]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                   {/* Content */}
                   <div className="relative z-10 p-8 lg:p-10">
@@ -186,16 +216,38 @@ export default function ProcessSection() {
                       <div className="flex gap-3">
                         
                         {/* Number Badge */}
-                        <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-[#00FF94]/10 to-[#00CC78]/10 border border-[#00FF94]/30 group-hover:border-[#00FF94] transition-colors duration-300">
+                        <motion.div 
+                          className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-[#00FF94]/10 to-[#00CC78]/10 border border-[#00FF94]/30 group-hover:border-[#00FF94] transition-colors duration-500 will-change-transform"
+                          whileHover={{ 
+                            scale: 1.05,
+                            rotate: 5,
+                            transition: {
+                              type: "spring",
+                              stiffness: 400,
+                              damping: 30
+                            }
+                          }}
+                        >
                           <span className="text-3xl font-black text-[#00FF94]">
                             {step.number}
                           </span>
-                        </div>
+                        </motion.div>
 
                         {/* Icon */}
-                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-white/5 text-[#00FF94] group-hover:bg-[#00FF94]/10 transition-colors duration-300">
+                        <motion.div 
+                          className="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-white/5 text-[#00FF94] group-hover:bg-[#00FF94]/10 transition-colors duration-500 will-change-transform"
+                          whileHover={{ 
+                            scale: 1.1,
+                            rotate: -5,
+                            transition: {
+                              type: "spring",
+                              stiffness: 400,
+                              damping: 30
+                            }
+                          }}
+                        >
                           {step.icon}
-                        </div>
+                        </motion.div>
 
                         {/* Mobile/Tablet Number Display */}
                         <div className="lg:hidden text-7xl font-black text-white/5">
@@ -207,12 +259,12 @@ export default function ProcessSection() {
                       <div className="space-y-6">
                         
                         {/* Title */}
-                        <h3 className="text-3xl md:text-4xl font-bold text-white group-hover:text-[#00FF94] transition-colors duration-300">
+                        <h3 className="text-3xl md:text-4xl font-bold text-white group-hover:text-[#00FF94] transition-colors duration-500">
                           {step.title}
                         </h3>
 
                         {/* Description */}
-                        <p className="text-lg md:text-xl text-[#88939D] leading-relaxed">
+                        <p className="text-lg md:text-xl text-[#88939D] leading-relaxed transition-colors duration-500 group-hover:text-white/80">
                           {step.description}
                         </p>
 
@@ -221,14 +273,14 @@ export default function ProcessSection() {
                           {step.details.map((detail, i) => (
                             <motion.li
                               key={i}
-                              initial={{ opacity: 0, x: -20 }}
+                              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, x: -20 }}
                               animate={inView ? { opacity: 1, x: 0 } : {}}
                               transition={{ 
-                                duration: 0.5, 
-                                delay: 0.8 + index * 0.15 + i * 0.05,
-                                ease: [0.22, 1, 0.36, 1]
+                                duration: 0.6, 
+                                delay: 0.7 + index * 0.12 + i * 0.04,
+                                ease: [0.16, 1, 0.3, 1]
                               }}
-                              className="flex items-start gap-3 text-[#88939D]"
+                              className="flex items-start gap-3 text-[#88939D] group-hover:text-white/70 transition-colors duration-300 will-change-transform"
                             >
                               <svg className="w-5 h-5 text-[#00FF94] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
@@ -242,8 +294,8 @@ export default function ProcessSection() {
                   </div>
 
                   {/* Bottom gradient line */}
-                  <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00FF94]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </div>
+                  <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00FF94]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                </motion.div>
               </motion.div>
             ))}
           </div>
@@ -251,10 +303,10 @@ export default function ProcessSection() {
 
         {/* Bottom CTA */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 1.4, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-24 pt-20 border-t border-[#88939D]/20"
+          transition={{ duration: 1, delay: 1.1, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-24 pt-20 border-t border-[#88939D]/20 will-change-transform"
         >
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
             <div className="max-w-2xl">
@@ -269,12 +321,22 @@ export default function ProcessSection() {
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/contact">
                 <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="group px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg transition-all whitespace-nowrap flex items-center gap-2"
+                  whileHover={{ 
+                    scale: 1.02,
+                    transition: {
+                      type: "spring",
+                      stiffness: 400,
+                      damping: 30
+                    }
+                  }}
+                  whileTap={{ 
+                    scale: 0.98,
+                    transition: { duration: 0.1 }
+                  }}
+                  className="group px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg transition-all whitespace-nowrap flex items-center gap-2 will-change-transform shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30"
                 >
                   Start your project
-                  <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
                 </motion.button>
@@ -282,9 +344,20 @@ export default function ProcessSection() {
               
               <Link href="/contact">
                 <motion.button
-                  whileHover={{ scale: 1.02, borderColor: '#00FF94' }}
-                  whileTap={{ scale: 0.98 }}
-                  className="px-8 py-5 bg-transparent border-2 border-[#88939D]/30 text-white font-bold rounded-xl text-lg transition-all whitespace-nowrap hover:text-[#00FF94]"
+                  whileHover={{ 
+                    scale: 1.02, 
+                    borderColor: '#00FF94',
+                    transition: {
+                      type: "spring",
+                      stiffness: 400,
+                      damping: 30
+                    }
+                  }}
+                  whileTap={{ 
+                    scale: 0.98,
+                    transition: { duration: 0.1 }
+                  }}
+                  className="px-8 py-5 bg-transparent border-2 border-[#88939D]/30 text-white font-bold rounded-xl text-lg transition-colors duration-300 whitespace-nowrap hover:text-[#00FF94] will-change-transform"
                 >
                   Schedule a call
                 </motion.button>

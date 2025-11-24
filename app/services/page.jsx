@@ -2,13 +2,15 @@
 
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import Link from 'next/link'
 
 export default function ServicesPage() {
+  const prefersReducedMotion = useReducedMotion()
+  
   const [heroRef, heroInView] = useInView({
-    threshold: 0.2,
+    threshold: 0.15,
     triggerOnce: true,
   })
 
@@ -97,7 +99,7 @@ export default function ServicesPage() {
   return (
     <div className="min-h-screen bg-[#0F0F0F]">
       
-      {/* Hero Section - Same style as service detail page */}
+      {/* Hero Section */}
       <section ref={heroRef} className="relative min-h-screen flex items-center bg-[#0F0F0F] overflow-hidden">
         
         {/* Subtle noise texture */}
@@ -109,17 +111,17 @@ export default function ServicesPage() {
         />
 
         {/* Gradient glow in background */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gradient-to-b from-[#00CC78]/20 via-[#00FF94]/10 to-transparent rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gradient-to-b from-[#00CC78]/20 via-[#00FF94]/10 to-transparent rounded-full blur-[120px] pointer-events-none will-change-transform" />
 
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 py-20">
           
           <div className="max-w-5xl">
             {/* Label */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
               animate={heroInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="mb-8"
+              transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="mb-8 will-change-transform"
             >
               <span className="inline-block px-4 py-2 bg-[#00FF94]/10 border border-[#00FF94]/30 rounded-full text-[#00FF94] text-sm font-mono uppercase tracking-wider">
                 What We Do
@@ -128,10 +130,10 @@ export default function ServicesPage() {
 
             {/* Main headline */}
             <motion.h1
-              initial={{ opacity: 0, y: 30 }}
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
               animate={heroInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="text-[clamp(3rem,8vw,6rem)] font-bold leading-[1.05] tracking-tight mb-6"
+              transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="text-[clamp(3rem,8vw,6rem)] font-bold leading-[1.05] tracking-tight mb-6 will-change-transform"
             >
               <span className="block text-white">
                 Services
@@ -140,20 +142,20 @@ export default function ServicesPage() {
 
             {/* Tagline */}
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
               animate={heroInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className="text-xl md:text-2xl text-[#00FF94] mb-8"
+              transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="text-xl md:text-2xl text-[#00FF94] mb-8 will-change-transform"
             >
               Everything you need to succeed online
             </motion.p>
 
             {/* Description */}
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
               animate={heroInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="text-lg md:text-xl text-[#88939D] leading-relaxed max-w-3xl"
+              transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              className="text-lg md:text-xl text-[#88939D] leading-relaxed max-w-3xl will-change-transform"
             >
               From design and development to content creation and optimization—complete digital solutions that actually work.
             </motion.p>
@@ -182,8 +184,8 @@ export default function ServicesPage() {
                 animate={{
                   opacity: inView ? 0.2 : 0,
                 }}
-                transition={{ duration: 1 }}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-br from-[#00FF94]/30 via-[#00CC78]/10 to-transparent rounded-full blur-[150px]"
+                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-br from-[#00FF94]/30 via-[#00CC78]/10 to-transparent rounded-full blur-[150px] will-change-transform"
               />
 
               {/* Noise texture */}
@@ -199,16 +201,26 @@ export default function ServicesPage() {
                   
                   {/* Left - Content */}
                   <motion.div
-                    initial={{ opacity: 0, x: -50 }}
+                    initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, x: -50 }}
                     animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
-                    transition={{ duration: 0.8 }}
+                    transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                    className="will-change-transform"
                   >
                     {/* Icon */}
                     <motion.div
-                      initial={{ opacity: 0, scale: 0.8 }}
+                      initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, scale: 0.8 }}
                       animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
-                      transition={{ duration: 0.6, delay: 0.2 }}
-                      className="w-16 h-16 text-[#00FF94] mb-8"
+                      transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                      whileHover={{
+                        scale: 1.1,
+                        rotate: 5,
+                        transition: {
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 30
+                        }
+                      }}
+                      className="w-16 h-16 text-[#00FF94] mb-8 will-change-transform"
                     >
                       {service.icon}
                     </motion.div>
@@ -236,14 +248,21 @@ export default function ServicesPage() {
                     {/* CTA */}
                     <Link href={"/services/" + service.slug}>
                       <motion.button
-                        whileHover={{ scale: 1.05 }}
+                        whileHover={{ 
+                          scale: 1.05,
+                          transition: {
+                            type: "spring",
+                            stiffness: 400,
+                            damping: 30
+                          }
+                        }}
                         whileTap={{ scale: 0.95 }}
-                        className="group px-8 py-4 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg"
+                        className="group px-8 py-4 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30 transition-shadow duration-300 will-change-transform"
                       >
                         <span className="flex items-center gap-2">
                           Learn More
                           <svg 
-                            className="w-5 h-5 group-hover:translate-x-1 transition-transform" 
+                            className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" 
                             fill="none" 
                             viewBox="0 0 24 24" 
                             stroke="currentColor" 
@@ -258,11 +277,22 @@ export default function ServicesPage() {
 
                   {/* Right - Features Card */}
                   <motion.div
-                    initial={{ opacity: 0, x: 50 }}
+                    initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, x: 50 }}
                     animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
+                    transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                    className="will-change-transform"
                   >
-                    <div className="relative p-10 lg:p-12 rounded-3xl border-2 border-[#88939D]/20 bg-[#0A0A0A] overflow-hidden">
+                    <motion.div 
+                      className="relative p-10 lg:p-12 rounded-3xl border-2 border-[#88939D]/20 bg-[#0A0A0A] overflow-hidden transition-all duration-500 hover:border-[#00FF94] will-change-transform"
+                      whileHover={{
+                        y: -5,
+                        transition: {
+                          type: "spring",
+                          stiffness: 300,
+                          damping: 25
+                        }
+                      }}
+                    >
                       
                       {/* Card glow effect */}
                       <div className="absolute inset-0 bg-gradient-to-br from-[#00FF94]/5 via-transparent to-transparent" />
@@ -276,20 +306,37 @@ export default function ServicesPage() {
                           {service.features.map((feature, i) => (
                             <motion.div
                               key={i}
-                              initial={{ opacity: 0, y: 10 }}
+                              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
                               animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-                              transition={{ duration: 0.4, delay: 0.4 + i * 0.1 }}
-                              className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10 hover:border-[#00FF94]/30 transition-colors"
+                              transition={{ duration: 0.5, delay: 0.4 + i * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                              whileHover={{
+                                x: 5,
+                                borderColor: 'rgba(0, 255, 148, 0.5)',
+                                transition: {
+                                  type: "spring",
+                                  stiffness: 400,
+                                  damping: 30
+                                }
+                              }}
+                              className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10 transition-all duration-300 will-change-transform"
                             >
-                              <svg 
+                              <motion.svg 
                                 className="w-5 h-5 text-[#00FF94] flex-shrink-0" 
                                 fill="none" 
                                 viewBox="0 0 24 24" 
                                 stroke="currentColor" 
                                 strokeWidth={2}
+                                whileHover={{
+                                  scale: 1.2,
+                                  transition: {
+                                    type: "spring",
+                                    stiffness: 400,
+                                    damping: 30
+                                  }
+                                }}
                               >
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                              </svg>
+                              </motion.svg>
                               <span className="text-white text-lg">{feature}</span>
                             </motion.div>
                           ))}
@@ -298,7 +345,7 @@ export default function ServicesPage() {
 
                       {/* Bottom gradient line */}
                       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00FF94]/50 to-transparent" />
-                    </div>
+                    </motion.div>
                   </motion.div>
                 </div>
               </div>
@@ -316,7 +363,7 @@ export default function ServicesPage() {
         
         {/* Background */}
         <div className="absolute inset-0">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-gradient-to-br from-[#00FF94]/20 via-[#00CC78]/10 to-transparent rounded-full blur-[200px]" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-gradient-to-br from-[#00FF94]/20 via-[#00CC78]/10 to-transparent rounded-full blur-[200px] will-change-transform" />
         </div>
 
         {/* Noise */}
@@ -329,10 +376,11 @@ export default function ServicesPage() {
 
         <div className="relative z-10 max-w-5xl mx-auto px-6 lg:px-12 text-center">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="will-change-transform"
           >
             <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8">
               Let's build something
@@ -345,18 +393,33 @@ export default function ServicesPage() {
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Link href="/contact">
                 <motion.button
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={{ 
+                    scale: 1.05,
+                    transition: {
+                      type: "spring",
+                      stiffness: 400,
+                      damping: 30
+                    }
+                  }}
                   whileTap={{ scale: 0.95 }}
-                  className="px-12 py-6 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-xl shadow-lg shadow-[#00FF94]/20"
+                  className="px-12 py-6 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-xl shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30 transition-shadow duration-300 will-change-transform"
                 >
                   Start your project
                 </motion.button>
               </Link>
               <Link href="/work">
                 <motion.button
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={{ 
+                    scale: 1.05,
+                    borderColor: 'rgba(0, 255, 148, 0.5)',
+                    transition: {
+                      type: "spring",
+                      stiffness: 400,
+                      damping: 30
+                    }
+                  }}
                   whileTap={{ scale: 0.95 }}
-                  className="px-12 py-6 bg-white/5 border-2 border-white/10 text-white font-bold rounded-xl text-xl hover:border-[#00FF94]/50 transition-all"
+                  className="px-12 py-6 bg-white/5 border-2 border-white/10 text-white font-bold rounded-xl text-xl transition-all duration-300 will-change-transform"
                 >
                   View our work
                 </motion.button>

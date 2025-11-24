@@ -2,7 +2,7 @@
 
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { useState } from 'react'
 
@@ -56,13 +56,15 @@ const budgetOptions = [
 ]
 
 export default function ContactContent() {
+  const prefersReducedMotion = useReducedMotion()
+  
   const [heroRef, heroInView] = useInView({
-    threshold: 0.2,
+    threshold: 0.15,
     triggerOnce: true,
   })
 
   const [formRef, formInView] = useInView({
-    threshold: 0.2,
+    threshold: 0.15,
     triggerOnce: true,
   })
 
@@ -112,7 +114,6 @@ export default function ContactContent() {
 
       if (data.success) {
         setSubmitStatus('success')
-        // Reset form after successful submission
         setTimeout(() => {
           setFormData({
             name: '',
@@ -150,17 +151,17 @@ export default function ContactContent() {
         />
 
         {/* Gradient glow in background */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gradient-to-b from-[#00CC78]/20 via-[#00FF94]/10 to-transparent rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gradient-to-b from-[#00CC78]/20 via-[#00FF94]/10 to-transparent rounded-full blur-[120px] pointer-events-none will-change-transform" />
 
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 py-20">
           
           <div className="max-w-5xl">
             {/* Label */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
               animate={heroInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="mb-8"
+              transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="mb-8 will-change-transform"
             >
               <span className="inline-block px-4 py-2 bg-[#00FF94]/10 border border-[#00FF94]/30 rounded-full text-[#00FF94] text-sm font-mono uppercase tracking-wider">
                 Get in Touch
@@ -169,10 +170,10 @@ export default function ContactContent() {
 
             {/* Main headline */}
             <motion.h1
-              initial={{ opacity: 0, y: 30 }}
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
               animate={heroInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="text-[clamp(3rem,8vw,6rem)] font-bold leading-[1.05] tracking-tight mb-8"
+              transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="text-[clamp(3rem,8vw,6rem)] font-bold leading-[1.05] tracking-tight mb-8 will-change-transform"
             >
               <span className="block text-white">
                 Let's build
@@ -185,10 +186,10 @@ export default function ContactContent() {
 
             {/* Description */}
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
               animate={heroInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className="text-xl md:text-2xl text-[#88939D] leading-relaxed max-w-3xl"
+              transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="text-xl md:text-2xl text-[#88939D] leading-relaxed max-w-3xl will-change-transform"
             >
               Have a project in mind? We'd love to hear about it. Fill out the form below 
               and we'll get back to you within 24 hours.
@@ -204,7 +205,7 @@ export default function ContactContent() {
       <section ref={formRef} className="relative py-24 lg:py-32 bg-[#0F0F0F] overflow-hidden">
         
         {/* Subtle gradient glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none will-change-transform" />
 
         {/* Noise texture */}
         <div 
@@ -226,27 +227,48 @@ export default function ContactContent() {
                 {contactInfo.map((info, index) => (
                   <motion.div
                     key={info.label}
-                    initial={{ opacity: 0, y: 40 }}
+                    initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 40 }}
                     animate={formInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ 
-                      duration: 0.8, 
+                      duration: 1, 
                       delay: 0.2 + index * 0.1,
-                      ease: [0.22, 1, 0.36, 1]
+                      ease: [0.16, 1, 0.3, 1]
                     }}
-                    className="group relative"
+                    className="group relative will-change-transform"
                   >
-                    <div className="relative p-6 lg:p-8 rounded-2xl bg-transparent border-2 border-[#88939D]/20 transition-all duration-300 hover:border-[#00FF94] overflow-hidden">
+                    <motion.div 
+                      className="relative p-6 lg:p-8 rounded-2xl bg-transparent border-2 border-[#88939D]/20 transition-all duration-500 hover:border-[#00FF94] overflow-hidden will-change-transform"
+                      whileHover={{ 
+                        y: -3,
+                        transition: {
+                          type: "spring",
+                          stiffness: 300,
+                          damping: 25
+                        }
+                      }}
+                    >
                       
                       {/* Hover gradient background */}
                       <motion.div
-                        className="absolute inset-0 bg-gradient-to-br from-[#00FF94]/5 via-[#00CC78]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                        className="absolute inset-0 bg-gradient-to-br from-[#00FF94]/5 via-[#00CC78]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                         initial={false}
                       />
 
                       <div className="relative z-10 flex items-start gap-4">
-                        <div className="text-[#00FF94] mt-1">
+                        <motion.div 
+                          className="text-[#00FF94] mt-1"
+                          whileHover={{ 
+                            scale: 1.2,
+                            rotate: 10,
+                            transition: {
+                              type: "spring",
+                              stiffness: 400,
+                              damping: 30
+                            }
+                          }}
+                        >
                           {info.icon}
-                        </div>
+                        </motion.div>
                         <div>
                           <p className="text-[#88939D] text-sm mb-2 uppercase tracking-wider font-mono">
                             {info.label}
@@ -254,7 +276,7 @@ export default function ContactContent() {
                           {info.link ? (
                             <a
                               href={info.link}
-                              className="text-white hover:text-[#00FF94] transition-colors text-lg font-medium"
+                              className="text-white hover:text-[#00FF94] transition-colors duration-300 text-lg font-medium"
                             >
                               {info.value}
                             </a>
@@ -267,24 +289,35 @@ export default function ContactContent() {
                       </div>
 
                       {/* Bottom gradient line accent */}
-                      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00FF94]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    </div>
+                      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00FF94]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    </motion.div>
                   </motion.div>
                 ))}
               </div>
 
               {/* Office Hours */}
               <motion.div
-                initial={{ opacity: 0, y: 40 }}
+                initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 40 }}
                 animate={formInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ 
-                  duration: 0.8, 
+                  duration: 1, 
                   delay: 0.5,
-                  ease: [0.22, 1, 0.36, 1]
+                  ease: [0.16, 1, 0.3, 1]
                 }}
-                className="group relative"
+                className="group relative will-change-transform"
               >
-                <div className="relative p-6 lg:p-8 rounded-2xl bg-transparent border-2 border-[#00FF94]/30 overflow-hidden">
+                <motion.div 
+                  className="relative p-6 lg:p-8 rounded-2xl bg-transparent border-2 border-[#00FF94]/30 overflow-hidden will-change-transform"
+                  whileHover={{ 
+                    y: -3,
+                    borderColor: '#00FF94',
+                    transition: {
+                      type: "spring",
+                      stiffness: 300,
+                      damping: 25
+                    }
+                  }}
+                >
                   
                   {/* Background gradient */}
                   <div className="absolute inset-0 bg-gradient-to-br from-[#00FF94]/5 via-[#00CC78]/5 to-transparent" />
@@ -304,17 +337,17 @@ export default function ContactContent() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               </motion.div>
 
               {/* Social Links */}
               <motion.div
-                initial={{ opacity: 0, y: 40 }}
+                initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 40 }}
                 animate={formInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ 
-                  duration: 0.8, 
+                  duration: 1, 
                   delay: 0.6,
-                  ease: [0.22, 1, 0.36, 1]
+                  ease: [0.16, 1, 0.3, 1]
                 }}
               >
                 <p className="text-[#88939D] text-sm uppercase tracking-wider font-mono mb-4">
@@ -327,16 +360,24 @@ export default function ContactContent() {
                       href={social.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={formInView ? { opacity: 1, y: 0 } : {}}
+                      initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, scale: 0.9 }}
+                      animate={formInView ? { opacity: 1, scale: 1 } : {}}
                       transition={{ 
                         duration: 0.6, 
                         delay: 0.7 + index * 0.05,
-                        ease: [0.22, 1, 0.36, 1]
+                        ease: [0.16, 1, 0.3, 1]
                       }}
-                      whileHover={{ scale: 1.05, y: -3 }}
+                      whileHover={{ 
+                        scale: 1.1, 
+                        y: -3,
+                        transition: {
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 30
+                        }
+                      }}
                       whileTap={{ scale: 0.95 }}
-                      className="w-12 h-12 flex items-center justify-center rounded-xl bg-transparent border-2 border-[#88939D]/20 text-[#88939D] hover:border-[#00FF94] hover:text-[#00FF94] hover:bg-[#00FF94]/10 transition-all text-xs font-bold"
+                      className="w-12 h-12 flex items-center justify-center rounded-xl bg-transparent border-2 border-[#88939D]/20 text-[#88939D] hover:border-[#00FF94] hover:text-[#00FF94] hover:bg-[#00FF94]/10 transition-all duration-300 text-xs font-bold will-change-transform"
                     >
                       {social.icon}
                     </motion.a>
@@ -347,14 +388,14 @@ export default function ContactContent() {
 
             {/* Right Side - Contact Form */}
             <motion.div
-              initial={{ opacity: 0, y: 40 }}
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 40 }}
               animate={formInView ? { opacity: 1, y: 0 } : {}}
               transition={{ 
-                duration: 0.8, 
+                duration: 1, 
                 delay: 0.4,
-                ease: [0.22, 1, 0.36, 1]
+                ease: [0.16, 1, 0.3, 1]
               }}
-              className="lg:col-span-3"
+              className="lg:col-span-3 will-change-transform"
             >
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Name */}
@@ -369,7 +410,7 @@ export default function ContactContent() {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-4 bg-transparent border-2 border-[#88939D]/20 rounded-xl text-white placeholder-[#88939D] focus:border-[#00FF94] focus:outline-none transition-all"
+                    className="w-full px-4 py-4 bg-transparent border-2 border-[#88939D]/20 rounded-xl text-white placeholder-[#88939D] focus:border-[#00FF94] focus:outline-none transition-all duration-300"
                     placeholder="John Doe"
                   />
                 </div>
@@ -386,7 +427,7 @@ export default function ContactContent() {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-4 bg-transparent border-2 border-[#88939D]/20 rounded-xl text-white placeholder-[#88939D] focus:border-[#00FF94] focus:outline-none transition-all"
+                    className="w-full px-4 py-4 bg-transparent border-2 border-[#88939D]/20 rounded-xl text-white placeholder-[#88939D] focus:border-[#00FF94] focus:outline-none transition-all duration-300"
                     placeholder="john@example.com"
                   />
                 </div>
@@ -402,7 +443,7 @@ export default function ContactContent() {
                     name="company"
                     value={formData.company}
                     onChange={handleChange}
-                    className="w-full px-4 py-4 bg-transparent border-2 border-[#88939D]/20 rounded-xl text-white placeholder-[#88939D] focus:border-[#00FF94] focus:outline-none transition-all"
+                    className="w-full px-4 py-4 bg-transparent border-2 border-[#88939D]/20 rounded-xl text-white placeholder-[#88939D] focus:border-[#00FF94] focus:outline-none transition-all duration-300"
                     placeholder="Your Company"
                   />
                 </div>
@@ -417,7 +458,7 @@ export default function ContactContent() {
                     name="budget"
                     value={formData.budget}
                     onChange={handleChange}
-                    className="w-full px-4 py-4 bg-transparent border-2 border-[#88939D]/20 rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-all appearance-none cursor-pointer"
+                    className="w-full px-4 py-4 bg-transparent border-2 border-[#88939D]/20 rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-all duration-300 appearance-none cursor-pointer"
                     style={{
                       backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%2388939D' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")`,
                       backgroundRepeat: 'no-repeat',
@@ -445,7 +486,7 @@ export default function ContactContent() {
                     onChange={handleChange}
                     required
                     rows={6}
-                    className="w-full px-4 py-4 bg-transparent border-2 border-[#88939D]/20 rounded-xl text-white placeholder-[#88939D] focus:border-[#00FF94] focus:outline-none transition-all resize-none"
+                    className="w-full px-4 py-4 bg-transparent border-2 border-[#88939D]/20 rounded-xl text-white placeholder-[#88939D] focus:border-[#00FF94] focus:outline-none transition-all duration-300 resize-none"
                     placeholder="Tell us about your project, goals, and timeline..."
                   />
                 </div>
@@ -454,16 +495,26 @@ export default function ContactContent() {
                 <motion.button
                   type="submit"
                   disabled={isSubmitting}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className={`group relative w-full px-8 py-5 rounded-xl font-bold text-lg overflow-hidden transition-all ${
+                  whileHover={!isSubmitting ? { 
+                    scale: 1.02,
+                    transition: {
+                      type: "spring",
+                      stiffness: 400,
+                      damping: 30
+                    }
+                  } : {}}
+                  whileTap={!isSubmitting ? { 
+                    scale: 0.98,
+                    transition: { duration: 0.1 }
+                  } : {}}
+                  className={`group relative w-full px-8 py-5 rounded-xl font-bold text-lg overflow-hidden transition-all duration-300 will-change-transform ${
                     isSubmitting
                       ? 'bg-[#88939D] cursor-not-allowed'
                       : submitStatus === 'success'
-                      ? 'bg-gradient-to-r from-green-500 to-green-600'
+                      ? 'bg-gradient-to-r from-green-500 to-green-600 shadow-lg shadow-green-500/20'
                       : submitStatus === 'error'
-                      ? 'bg-gradient-to-r from-red-500 to-red-600'
-                      : 'bg-gradient-to-r from-[#00FF94] to-[#00CC78]'
+                      ? 'bg-gradient-to-r from-red-500 to-red-600 shadow-lg shadow-red-500/20'
+                      : 'bg-gradient-to-r from-[#00FF94] to-[#00CC78] shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30'
                   } text-black`}
                 >
                   <span className="relative z-10 flex items-center justify-center gap-2">
@@ -492,7 +543,7 @@ export default function ContactContent() {
                     ) : (
                       <>
                         Send Message
-                        <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                         </svg>
                       </>
@@ -505,6 +556,7 @@ export default function ContactContent() {
                   <motion.p
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                     className="text-center text-green-500 text-sm"
                   >
                     Thanks for reaching out! We'll get back to you within 24 hours.
@@ -514,6 +566,7 @@ export default function ContactContent() {
                   <motion.p
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                     className="text-center text-red-500 text-sm"
                   >
                     Something went wrong. Please try again or email us directly at hello@ninefold.eu
@@ -533,7 +586,7 @@ export default function ContactContent() {
       <section className="relative py-24 lg:py-32 bg-[#0F0F0F] overflow-hidden">
         
         {/* Subtle gradient glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none will-change-transform" />
 
         {/* Noise texture */}
         <div 
@@ -545,11 +598,19 @@ export default function ContactContent() {
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="relative h-[400px] md:h-[500px] rounded-2xl overflow-hidden border-2 border-[#88939D]/20"
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            whileHover={{ 
+              y: -5,
+              transition: {
+                type: "spring",
+                stiffness: 300,
+                damping: 25
+              }
+            }}
+            className="relative h-[400px] md:h-[500px] rounded-2xl overflow-hidden border-2 border-[#88939D]/20 hover:border-[#00FF94]/50 transition-colors duration-500 will-change-transform"
           >
             {/* Google Maps Embed */}
             <iframe

@@ -2,7 +2,7 @@
 
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import Link from 'next/link'
 import { useState } from 'react'
@@ -219,28 +219,30 @@ const relatedServices = [
 ]
 
 export default function EcommerceContent() {
+  const prefersReducedMotion = useReducedMotion()
+  
   const [heroRef, heroInView] = useInView({
-    threshold: 0.2,
+    threshold: 0.15,
     triggerOnce: true,
   })
 
   const [featuresRef, featuresInView] = useInView({
-    threshold: 0.2,
+    threshold: 0.15,
     triggerOnce: true,
   })
 
   const [processRef, processInView] = useInView({
-    threshold: 0.2,
+    threshold: 0.15,
     triggerOnce: true,
   })
 
   const [pricingRef, pricingInView] = useInView({
-    threshold: 0.2,
+    threshold: 0.15,
     triggerOnce: true,
   })
 
   const [faqRef, faqInView] = useInView({
-    threshold: 0.2,
+    threshold: 0.15,
     triggerOnce: true,
   })
 
@@ -261,19 +263,19 @@ export default function EcommerceContent() {
         />
 
         {/* Gradient glow in background */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gradient-to-b from-[#00CC78]/20 via-[#00FF94]/10 to-transparent rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gradient-to-b from-[#00CC78]/20 via-[#00FF94]/10 to-transparent rounded-full blur-[120px] pointer-events-none will-change-transform" />
 
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 py-20">
           
           <div className="max-w-5xl">
             {/* Breadcrumb */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
               animate={heroInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="flex items-center gap-2 text-sm text-[#88939D] mb-8"
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="flex items-center gap-2 text-sm text-[#88939D] mb-8 will-change-transform"
             >
-              <Link href="/services" className="hover:text-[#00FF94] transition-colors">
+              <Link href="/services" className="hover:text-[#00FF94] transition-colors duration-300">
                 Services
               </Link>
               <span>/</span>
@@ -282,20 +284,29 @@ export default function EcommerceContent() {
 
             {/* Icon */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, scale: 0.8 }}
               animate={heroInView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="w-20 h-20 text-[#00FF94] mb-8"
+              transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{
+                scale: 1.1,
+                rotate: 5,
+                transition: {
+                  type: "spring",
+                  stiffness: 400,
+                  damping: 30
+                }
+              }}
+              className="w-20 h-20 text-[#00FF94] mb-8 will-change-transform"
             >
               {service.icon}
             </motion.div>
 
             {/* Main headline */}
             <motion.h1
-              initial={{ opacity: 0, y: 30 }}
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
               animate={heroInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="text-[clamp(3rem,8vw,6rem)] font-bold leading-[1.05] tracking-tight mb-6"
+              transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="text-[clamp(3rem,8vw,6rem)] font-bold leading-[1.05] tracking-tight mb-6 will-change-transform"
             >
               <span className="block text-white">
                 {service.title}
@@ -304,40 +315,47 @@ export default function EcommerceContent() {
 
             {/* Tagline */}
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
               animate={heroInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className="text-xl md:text-2xl text-[#00FF94] mb-8"
+              transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="text-xl md:text-2xl text-[#00FF94] mb-8 will-change-transform"
             >
               {service.tagline}
             </motion.p>
 
             {/* Description */}
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
               animate={heroInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="text-lg md:text-xl text-[#88939D] leading-relaxed max-w-3xl mb-12"
+              transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              className="text-lg md:text-xl text-[#88939D] leading-relaxed max-w-3xl mb-12 will-change-transform"
             >
               {service.description}
             </motion.p>
 
             {/* CTA */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
               animate={heroInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="flex flex-col sm:flex-row gap-4"
+              transition={{ duration: 1, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-col sm:flex-row gap-4 will-change-transform"
             >
               <Link href="/contact">
                 <motion.button
-                  whileHover={{ scale: 1.02 }}
+                  whileHover={{ 
+                    scale: 1.02,
+                    transition: {
+                      type: "spring",
+                      stiffness: 400,
+                      damping: 30
+                    }
+                  }}
                   whileTap={{ scale: 0.98 }}
-                  className="group relative px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg overflow-hidden transition-all"
+                  className="group relative px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg overflow-hidden transition-all shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30 will-change-transform"
                 >
                   <span className="relative z-10 flex items-center gap-2">
                     Start a project
-                    <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
                   </span>
@@ -346,9 +364,17 @@ export default function EcommerceContent() {
 
               <Link href="/work">
                 <motion.button
-                  whileHover={{ scale: 1.02, borderColor: '#00FF94' }}
+                  whileHover={{ 
+                    scale: 1.02, 
+                    borderColor: '#00FF94',
+                    transition: {
+                      type: "spring",
+                      stiffness: 400,
+                      damping: 30
+                    }
+                  }}
                   whileTap={{ scale: 0.98 }}
-                  className="px-8 py-5 bg-transparent border-2 border-[#88939D]/30 text-white font-bold rounded-xl text-lg transition-all"
+                  className="px-8 py-5 bg-transparent border-2 border-[#88939D]/30 text-white font-bold rounded-xl text-lg transition-all duration-300 will-change-transform"
                 >
                   View examples
                 </motion.button>
@@ -361,11 +387,11 @@ export default function EcommerceContent() {
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00FF94] to-transparent opacity-30" />
       </section>
 
-      {/* Features Section */}
-      <section ref={featuresRef} className="relative py-24 lg:py-32 bg-[#0F0F0F] overflow-hidden">
+{/* Features Section */}
+<section ref={featuresRef} className="relative py-24 lg:py-32 bg-[#0F0F0F] overflow-hidden">
         
         {/* Subtle gradient glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none will-change-transform" />
 
         {/* Noise texture */}
         <div 
@@ -379,25 +405,25 @@ export default function EcommerceContent() {
           
           {/* Section Header */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
             animate={featuresInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="mb-20"
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="mb-20 will-change-transform"
           >
             <motion.h2
-              initial={{ opacity: 0, y: 20 }}
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
               animate={featuresInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6"
+              transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+              className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 will-change-transform"
             >
               What's included
             </motion.h2>
             
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
               animate={featuresInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className="text-xl md:text-2xl text-[#88939D] max-w-3xl"
+              transition={{ duration: 1, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              className="text-xl md:text-2xl text-[#88939D] max-w-3xl will-change-transform"
             >
               Everything you need to launch a professional Shopify store.
             </motion.p>
@@ -408,39 +434,60 @@ export default function EcommerceContent() {
             {service.features.map((feature, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 40 }}
+                initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 40 }}
                 animate={featuresInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ 
-                  duration: 0.8, 
-                  delay: 0.6 + index * 0.1,
-                  ease: [0.22, 1, 0.36, 1]
+                  duration: 1, 
+                  delay: 0.4 + index * 0.08,
+                  ease: [0.16, 1, 0.3, 1]
                 }}
-                className="group relative"
+                className="group relative will-change-transform"
               >
-                <div className="relative h-full p-8 lg:p-10 rounded-2xl bg-transparent border-2 border-[#88939D]/20 transition-all duration-300 hover:border-[#00FF94] overflow-hidden">
+                <motion.div 
+                  className="relative h-full p-8 lg:p-10 rounded-2xl bg-transparent border-2 border-[#88939D]/20 transition-all duration-500 hover:border-[#00FF94] overflow-hidden will-change-transform"
+                  whileHover={{
+                    y: -5,
+                    transition: {
+                      type: "spring",
+                      stiffness: 300,
+                      damping: 25
+                    }
+                  }}
+                >
                   
                   {/* Hover gradient background */}
                   <motion.div
-                    className="absolute inset-0 bg-gradient-to-br from-[#00FF94]/5 via-[#00CC78]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    className="absolute inset-0 bg-gradient-to-br from-[#00FF94]/5 via-[#00CC78]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                     initial={false}
                   />
 
                   {/* Content */}
                   <div className="relative z-10">
-                    <div className="w-12 h-12 text-[#00FF94] mb-6">
+                    <motion.div 
+                      className="w-12 h-12 text-[#00FF94] mb-6"
+                      whileHover={{
+                        scale: 1.2,
+                        rotate: 10,
+                        transition: {
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 30
+                        }
+                      }}
+                    >
                       {feature.icon}
-                    </div>
-                    <h3 className="text-2xl font-bold text-white mb-4">
+                    </motion.div>
+                    <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-[#00FF94] transition-colors duration-300">
                       {feature.title}
                     </h3>
-                    <p className="text-[#88939D] leading-relaxed">
+                    <p className="text-[#88939D] leading-relaxed group-hover:text-white/70 transition-colors duration-300">
                       {feature.description}
                     </p>
                   </div>
 
                   {/* Bottom gradient line accent */}
-                  <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00FF94]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </div>
+                  <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00FF94]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                </motion.div>
               </motion.div>
             ))}
           </div>
@@ -451,7 +498,7 @@ export default function EcommerceContent() {
       <section className="relative py-24 lg:py-32 bg-[#0F0F0F] overflow-hidden">
         
         {/* Subtle gradient glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none will-change-transform" />
 
         {/* Noise texture */}
         <div 
@@ -465,11 +512,11 @@ export default function EcommerceContent() {
           
           {/* Section Header */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="mb-16 text-center"
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="mb-16 text-center will-change-transform"
           >
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
               Shopify ecosystem
@@ -484,16 +531,25 @@ export default function EcommerceContent() {
             {service.shopifyTools.map((tool, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, scale: 0.8 }}
+                initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ 
                   duration: 0.6, 
-                  delay: index * 0.05,
-                  ease: [0.22, 1, 0.36, 1]
+                  delay: index * 0.04,
+                  ease: [0.16, 1, 0.3, 1]
                 }}
-                whileHover={{ scale: 1.05, y: -3 }}
-                className="px-6 py-3 bg-transparent border-2 border-[#88939D]/20 rounded-xl hover:border-[#00FF94] transition-all"
+                whileHover={{ 
+                  scale: 1.05, 
+                  y: -3,
+                  borderColor: '#00FF94',
+                  transition: {
+                    type: "spring",
+                    stiffness: 400,
+                    damping: 30
+                  }
+                }}
+                className="px-6 py-3 bg-transparent border-2 border-[#88939D]/20 rounded-xl transition-all duration-300 will-change-transform"
               >
                 <span className="font-medium text-white">{tool.name}</span>
                 <span className="text-xs text-[#88939D] ml-2">({tool.category})</span>
@@ -507,7 +563,7 @@ export default function EcommerceContent() {
       <section className="relative py-24 lg:py-32 bg-[#0F0F0F] overflow-hidden">
         
         {/* Subtle gradient glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none will-change-transform" />
 
         {/* Noise texture */}
         <div 
@@ -522,10 +578,11 @@ export default function EcommerceContent() {
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Left - Title */}
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+              className="will-change-transform"
             >
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
                 Why build on
@@ -539,26 +596,45 @@ export default function EcommerceContent() {
 
             {/* Right - Benefits */}
             <motion.div
-              initial={{ opacity: 0, x: 30 }}
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="space-y-6"
+              transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="space-y-6 will-change-transform"
             >
               {service.benefits.map((benefit, index) => (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: 0.3 + index * 0.1 }}
-                  className="flex gap-4 p-6 bg-transparent border-2 border-[#88939D]/20 rounded-xl hover:border-[#00FF94]/30 transition-colors"
+                  transition={{ duration: 0.7, delay: 0.3 + index * 0.08 }}
+                  whileHover={{
+                    x: 5,
+                    borderColor: '#00FF94',
+                    transition: {
+                      type: "spring",
+                      stiffness: 300,
+                      damping: 25
+                    }
+                  }}
+                  className="flex gap-4 p-6 bg-transparent border-2 border-[#88939D]/20 rounded-xl transition-all duration-300 will-change-transform"
                 >
-                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[#00FF94]/10 border border-[#00FF94]/30 flex items-center justify-center mt-1">
+                  <motion.div 
+                    className="flex-shrink-0 w-6 h-6 rounded-full bg-[#00FF94]/10 border border-[#00FF94]/30 flex items-center justify-center mt-1"
+                    whileHover={{
+                      scale: 1.2,
+                      transition: {
+                        type: "spring",
+                        stiffness: 400,
+                        damping: 30
+                      }
+                    }}
+                  >
                     <svg className="w-4 h-4 text-[#00FF94]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
-                  </div>
+                  </motion.div>
                   <div>
                     <h4 className="text-xl font-bold text-white mb-2">{benefit.title}</h4>
                     <p className="text-[#88939D]">{benefit.description}</p>
@@ -574,7 +650,7 @@ export default function EcommerceContent() {
       <section ref={processRef} className="relative py-24 lg:py-32 bg-[#0F0F0F] overflow-hidden">
         
         {/* Subtle gradient glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none will-change-transform" />
 
         {/* Noise texture */}
         <div 
@@ -588,10 +664,10 @@ export default function EcommerceContent() {
           
           {/* Section Header */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
             animate={processInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="mb-20 text-center"
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="mb-20 text-center will-change-transform"
           >
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
               Our process
@@ -606,36 +682,57 @@ export default function EcommerceContent() {
             {service.process.map((step, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, x: -30 }}
+                initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, x: -30 }}
                 animate={processInView ? { opacity: 1, x: 0 } : {}}
                 transition={{ 
-                  duration: 0.8, 
-                  delay: 0.2 + index * 0.1,
-                  ease: [0.22, 1, 0.36, 1]
+                  duration: 1, 
+                  delay: 0.2 + index * 0.08,
+                  ease: [0.16, 1, 0.3, 1]
                 }}
-                className="group"
+                className="group will-change-transform"
               >
-                <div className="relative flex gap-6 p-8 bg-transparent border-2 border-[#88939D]/20 rounded-2xl hover:border-[#00FF94] transition-all duration-300 overflow-hidden">
+                <motion.div 
+                  className="relative flex gap-6 p-8 bg-transparent border-2 border-[#88939D]/20 rounded-2xl hover:border-[#00FF94] transition-all duration-500 overflow-hidden will-change-transform"
+                  whileHover={{
+                    x: 5,
+                    transition: {
+                      type: "spring",
+                      stiffness: 300,
+                      damping: 25
+                    }
+                  }}
+                >
                   
                   {/* Hover gradient background */}
                   <motion.div
-                    className="absolute inset-0 bg-gradient-to-br from-[#00FF94]/5 via-[#00CC78]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    className="absolute inset-0 bg-gradient-to-br from-[#00FF94]/5 via-[#00CC78]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                     initial={false}
                   />
 
-                  <div className="relative z-10 flex-shrink-0 w-16 h-16 rounded-full bg-[#00FF94]/10 border-2 border-[#00FF94]/30 flex items-center justify-center text-[#00FF94] font-bold text-xl font-mono">
+                  <motion.div 
+                    className="relative z-10 flex-shrink-0 w-16 h-16 rounded-full bg-[#00FF94]/10 border-2 border-[#00FF94]/30 flex items-center justify-center text-[#00FF94] font-bold text-xl font-mono"
+                    whileHover={{
+                      scale: 1.1,
+                      rotate: 10,
+                      transition: {
+                        type: "spring",
+                        stiffness: 400,
+                        damping: 30
+                      }
+                    }}
+                  >
                     {step.number}
-                  </div>
+                  </motion.div>
                   <div className="relative z-10 flex-1">
                     <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
-                      <h3 className="text-2xl font-bold text-white group-hover:text-[#00FF94] transition-colors">
+                      <h3 className="text-2xl font-bold text-white group-hover:text-[#00FF94] transition-colors duration-300">
                         {step.title}
                       </h3>
                       <span className="text-sm text-[#88939D] font-mono">{step.duration}</span>
                     </div>
-                    <p className="text-[#88939D] leading-relaxed">{step.description}</p>
+                    <p className="text-[#88939D] leading-relaxed group-hover:text-white/70 transition-colors duration-300">{step.description}</p>
                   </div>
-                </div>
+                </motion.div>
               </motion.div>
             ))}
           </div>
@@ -646,7 +743,7 @@ export default function EcommerceContent() {
       <section ref={pricingRef} className="relative py-24 lg:py-32 bg-[#0F0F0F] overflow-hidden">
         
         {/* Subtle gradient glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none will-change-transform" />
 
         {/* Noise texture */}
         <div 
@@ -660,10 +757,10 @@ export default function EcommerceContent() {
           
           {/* Section Header */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
             animate={pricingInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="mb-20 text-center"
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="mb-20 text-center will-change-transform"
           >
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
               Investment ranges
@@ -678,52 +775,81 @@ export default function EcommerceContent() {
             {service.pricing.ranges.map((range, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 40 }}
+                initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 40 }}
                 animate={pricingInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ 
-                  duration: 0.8, 
+                  duration: 1, 
                   delay: 0.2 + index * 0.1,
-                  ease: [0.22, 1, 0.36, 1]
+                  ease: [0.16, 1, 0.3, 1]
                 }}
-                className="group relative"
+                className="group relative will-change-transform"
               >
-                <div className="relative h-full p-8 lg:p-10 rounded-2xl bg-transparent border-2 border-[#88939D]/20 transition-all duration-300 hover:border-[#00FF94] overflow-hidden text-center">
+                <motion.div 
+                  className="relative h-full p-8 lg:p-10 rounded-2xl bg-transparent border-2 border-[#88939D]/20 transition-all duration-500 hover:border-[#00FF94] overflow-hidden text-center will-change-transform"
+                  whileHover={{
+                    y: -8,
+                    scale: 1.02,
+                    transition: {
+                      type: "spring",
+                      stiffness: 300,
+                      damping: 25
+                    }
+                  }}
+                >
                   
                   {/* Hover gradient background */}
                   <motion.div
-                    className="absolute inset-0 bg-gradient-to-br from-[#00FF94]/5 via-[#00CC78]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    className="absolute inset-0 bg-gradient-to-br from-[#00FF94]/5 via-[#00CC78]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                     initial={false}
                   />
 
                   {/* Content */}
                   <div className="relative z-10">
-                    <h3 className="text-2xl font-bold text-white mb-3">{range.size}</h3>
-                    <div className="text-4xl md:text-5xl font-bold text-[#00FF94] mb-6">{range.price}</div>
-                    <p className="text-[#88939D] mb-6">{range.description}</p>
+                    <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-[#00FF94] transition-colors duration-300">{range.size}</h3>
+                    <motion.div 
+                      className="text-4xl md:text-5xl font-bold text-[#00FF94] mb-6"
+                      whileHover={{
+                        scale: 1.1,
+                        transition: {
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 30
+                        }
+                      }}
+                    >
+                      {range.price}
+                    </motion.div>
+                    <p className="text-[#88939D] mb-6 group-hover:text-white/70 transition-colors duration-300">{range.description}</p>
                     
                     {/* Features List */}
                     <div className="space-y-3 mb-6 text-left">
                       {range.features.map((feature, i) => (
-                        <div key={i} className="flex items-center gap-2 text-sm text-[#88939D]">
+                        <motion.div 
+                          key={i} 
+                          className="flex items-center gap-2 text-sm text-[#88939D]"
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={pricingInView ? { opacity: 1, x: 0 } : {}}
+                          transition={{ duration: 0.5, delay: 0.4 + index * 0.1 + i * 0.05 }}
+                        >
                           <svg className="w-5 h-5 text-[#00FF94] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                           </svg>
                           <span>{feature}</span>
-                        </div>
+                        </motion.div>
                       ))}
                     </div>
                   </div>
 
                   {/* Bottom gradient line accent */}
-                  <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00FF94]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </div>
+                  <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00FF94]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                </motion.div>
               </motion.div>
             ))}
           </div>
 
           {/* Pricing Note */}
           <motion.p
-            initial={{ opacity: 0 }}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
             animate={pricingInView ? { opacity: 1 } : {}}
             transition={{ duration: 0.8, delay: 0.6 }}
             className="text-center text-[#88939D] max-w-2xl mx-auto"
@@ -737,7 +863,7 @@ export default function EcommerceContent() {
       <section ref={faqRef} className="relative py-24 lg:py-32 bg-[#0F0F0F] overflow-hidden">
         
         {/* Subtle gradient glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none will-change-transform" />
 
         {/* Noise texture */}
         <div 
@@ -751,10 +877,10 @@ export default function EcommerceContent() {
           
           {/* Section Header */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
             animate={faqInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="mb-16 text-center"
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="mb-16 text-center will-change-transform"
           >
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
               Common questions
@@ -769,38 +895,42 @@ export default function EcommerceContent() {
             {service.faqs.map((faq, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
+                initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
                 animate={faqInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ 
-                  duration: 0.6, 
+                  duration: 0.7, 
                   delay: 0.2 + index * 0.05,
-                  ease: [0.22, 1, 0.36, 1]
+                  ease: [0.16, 1, 0.3, 1]
                 }}
-                className="border-2 border-[#88939D]/20 rounded-2xl overflow-hidden hover:border-[#00FF94]/30 transition-colors"
+                className="border-2 border-[#88939D]/20 rounded-2xl overflow-hidden hover:border-[#00FF94]/30 transition-colors duration-300 will-change-transform"
               >
-                <button
+                <motion.button
                   onClick={() => setOpenFaq(openFaq === index ? null : index)}
-                  className="w-full p-6 lg:p-8 flex items-center justify-between text-left bg-transparent hover:bg-[#00FF94]/5 transition-colors"
+                  whileHover={{
+                    backgroundColor: 'rgba(0, 255, 148, 0.05)',
+                    transition: { duration: 0.2 }
+                  }}
+                  className="w-full p-6 lg:p-8 flex items-center justify-between text-left bg-transparent transition-colors"
                 >
                   <span className="font-bold text-lg lg:text-xl pr-4 text-white">{faq.question}</span>
-                  <svg
-                    className={`w-6 h-6 text-[#00FF94] flex-shrink-0 transition-transform ${
-                      openFaq === index ? 'rotate-180' : ''
-                    }`}
+                  <motion.svg
+                    animate={{ rotate: openFaq === index ? 180 : 0 }}
+                    transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                    className="w-6 h-6 text-[#00FF94] flex-shrink-0"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
                     strokeWidth={2}
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
+                  </motion.svg>
+                </motion.button>
                 {openFaq === index && (
                   <motion.div
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 'auto' }}
                     exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.3 }}
+                    transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                     className="px-6 lg:px-8 pb-6 lg:pb-8 text-[#88939D] leading-relaxed"
                   >
                     {faq.answer}
@@ -816,7 +946,7 @@ export default function EcommerceContent() {
       <section className="relative py-24 lg:py-32 bg-[#0F0F0F] overflow-hidden">
         
         {/* Subtle gradient glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none will-change-transform" />
 
         {/* Noise texture */}
         <div 
@@ -830,11 +960,11 @@ export default function EcommerceContent() {
           
           {/* Section Header */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="mb-16 text-center"
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="mb-16 text-center will-change-transform"
           >
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
               Related services
@@ -849,43 +979,55 @@ export default function EcommerceContent() {
             {relatedServices.map((related, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 30 }}
+                initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ 
-                  duration: 0.8, 
+                  duration: 1, 
                   delay: index * 0.1,
-                  ease: [0.22, 1, 0.36, 1]
+                  ease: [0.16, 1, 0.3, 1]
                 }}
-                className="group"
+                className="group will-change-transform"
               >
                 <Link
                   href={`/services/${related.slug}`}
-                  className="block relative h-full p-8 lg:p-10 bg-transparent border-2 border-[#88939D]/20 rounded-2xl hover:border-[#00FF94] transition-all duration-300 overflow-hidden"
+                  className="block relative h-full p-8 lg:p-10 bg-transparent border-2 border-[#88939D]/20 rounded-2xl hover:border-[#00FF94] transition-all duration-500 overflow-hidden will-change-transform"
                 >
-                  {/* Hover gradient background */}
                   <motion.div
-                    className="absolute inset-0 bg-gradient-to-br from-[#00FF94]/5 via-[#00CC78]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    initial={false}
-                  />
+                    whileHover={{
+                      y: -5,
+                      transition: {
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 25
+                      }
+                    }}
+                    className="relative h-full"
+                  >
+                    {/* Hover gradient background */}
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-br from-[#00FF94]/5 via-[#00CC78]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                      initial={false}
+                    />
 
-                  <div className="relative z-10 text-center">
-                    <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-[#00FF94] transition-colors">
-                      {related.title}
-                    </h3>
-                    <p className="text-[#88939D]">
-                      {related.description}
-                    </p>
-                    <div className="flex items-center justify-center gap-2 text-[#00FF94] font-medium mt-6 group-hover:gap-3 transition-all">
-                      Learn more
-                      <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                      </svg>
+                    <div className="relative z-10 text-center">
+                      <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-[#00FF94] transition-colors duration-300">
+                        {related.title}
+                      </h3>
+                      <p className="text-[#88939D] group-hover:text-white/70 transition-colors duration-300">
+                        {related.description}
+                      </p>
+                      <div className="flex items-center justify-center gap-2 text-[#00FF94] font-medium mt-6 group-hover:gap-3 transition-all duration-300">
+                        Learn more
+                        <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                        </svg>
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Bottom gradient line accent */}
-                  <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00FF94]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    {/* Bottom gradient line accent */}
+                    <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00FF94]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  </motion.div>
                 </Link>
               </motion.div>
             ))}
@@ -897,7 +1039,7 @@ export default function EcommerceContent() {
       <section className="relative py-24 lg:py-32 bg-[#0F0F0F] overflow-hidden">
         
         {/* Subtle gradient glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none will-change-transform" />
 
         {/* Noise texture */}
         <div 
@@ -909,10 +1051,10 @@ export default function EcommerceContent() {
 
         <div className="relative z-10 max-w-4xl mx-auto px-6 lg:px-12 text-center">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           >
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
               Ready to launch your
@@ -924,13 +1066,20 @@ export default function EcommerceContent() {
             </p>
             <Link href="/contact">
               <motion.button
-                whileHover={{ scale: 1.02 }}
+                whileHover={{ 
+                  scale: 1.02,
+                  transition: {
+                    type: "spring",
+                    stiffness: 400,
+                    damping: 30
+                  }
+                }}
                 whileTap={{ scale: 0.98 }}
-                className="group relative px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg overflow-hidden transition-all"
+                className="group relative px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg overflow-hidden transition-all shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30 will-change-transform"
               >
                 <span className="relative z-10 flex items-center gap-2">
                   Get in touch
-                  <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
                 </span>
