@@ -2,87 +2,123 @@
 
 export const blogPosts = [
   {
-    id: 1,
-    slug: 'web-design-trends-shaping-2026',
-    title: 'Web Design Trends Shaping 2026',
-    excerpt: 'The design trends currently transforming the digital landscape, from AI-powered workflows to performance-first experiences.',
-    category: 'Design',
+    id: 11,
+    slug: "web-design-trends-2026",
+    title: "Web Design Trends 2026",
+    excerpt: "The design trends redefining the digital landscape in 2026 — from AI-powered workflows to sensory interfaces, immersive experiences, and performance-driven design.",
+    category: "Design",
     author: {
-      name: 'Bruno',
-      role: 'Lead Developer & Designer',
-      avatar: '/images/team/bruno.png',
+      name: "Bruno",
+      role: "Lead Developer & Designer",
+      avatar: "/images/team/bruno.png"
     },
-    publishedAt: '2025-11-18',
-    readTime: '8 min read',
+    publishedAt: "2025-11-18",
+    readTime: "8 min read",
     featured: true,
-    thumbnail: '/images/blog/the-future-of-web-design.jpg',
-    heroImage: '/images/blog/the-future-of-web-design.jpg',
-    tags: ['UI/UX', 'Trends', 'Web Design'],
-    
-    metaDescription: 'Explore the web design trends defining late 2025 and heading into 2026, from AI-powered design tools to immersive experiences and performance optimization.',
-    
+    thumbnail: "/images/blog/the-future-of-web-design.jpg",
+    heroImage: "/images/blog/the-future-of-web-design.jpg",
+    tags: ["UI/UX", "Trends", "Web Design"],
+  
+    metaDescription: "Explore the web design trends shaping 2026 — including AI-driven design tools, immersive 3D experiences, fluid layouts, micro-interactions, sustainability, and the rise of authentic, human-centered digital aesthetics.",
+  
     content: [
       {
-        type: 'text',
-        content: 'As we close out 2025, the web design landscape has evolved dramatically. AI integration, performance optimization, and user-centric experiences have moved from experimental to essential. Here are the trends defining where we\'re headed.'
+        type: "text",
+        content: "As we enter 2026, web design is shifting faster than ever. AI is no longer an optional enhancement but a creative partner. Layouts are becoming more organic, interactions more meaningful, and performance more essential. The modern website is no longer a static brochure — it's a dynamic, engaging, human-centered experience. Here are the trends shaping the next chapter of web design."
       },
+  
       {
-        type: 'heading',
+        type: "heading",
         level: 2,
-        content: '1. AI as a Design Partner, Not Replacement'
+        content: "1. AI as a Creative Co-Designer"
       },
       {
-        type: 'text',
-        content: 'AI tools have matured beyond simple automation. Figma AI, v0 by Vercel, and advanced design assistants now serve as collaborative partners, helping designers iterate faster while maintaining creative control. The best results come from designers who use AI for rapid exploration while applying human judgment for final decisions.'
+        type: "text",
+        content: "AI has transitioned from a productivity hack to an integrated part of the design workflow. Instead of replacing designers, AI acts as a collaborative partner — generating layout variations, suggesting typography systems, optimizing color palettes, and even producing illustrations or 3D assets. The key shift in 2026 is intentionality: designers use AI to accelerate exploration while applying their expertise to shape the final, meaningful output."
       },
       {
-        type: 'callout',
-        style: 'tip',
-        content: 'AI should accelerate your design process, not replace your strategic thinking. Use it to explore options quickly, then refine with human insight.'
+        type: "callout",
+        style: "tip",
+        content: "Use AI to expand your creative options — not define them. Let it generate possibilities, then guide the final design using your brand strategy and eye for detail."
       },
+  
       {
-        type: 'heading',
+        type: "heading",
         level: 2,
-        content: '2. Performance-First Design'
+        content: "2. Fluid Layouts and Organic Visual Structures"
       },
       {
-        type: 'text',
-        content: 'With Core Web Vitals directly impacting search rankings and conversion rates, performance has become a design requirement. Designers now collaborate closely with developers from day one to ensure beautiful experiences that load instantly.'
+        type: "text",
+        content: "The era of rigid, grid-locked layouts is giving way to softer, more human aesthetics. Designers are embracing fluid shapes, irregular section dividers, expressive gradients, and layered compositions. These elements make websites feel less templated and more handcrafted — a welcome shift in a world increasingly influenced by automation. The result is a web that feels alive, natural, and uniquely branded."
       },
+  
       {
-        type: 'heading',
+        type: "heading",
         level: 2,
-        content: '3. Mature 3D and Interactive Elements'
+        content: "3. Performance-First Experiences"
       },
       {
-        type: 'text',
-        content: 'WebGL and frameworks like Three.js are now production-ready. 3D product showcases, spatial interfaces, and immersive hero sections have moved from novelty to mainstream, especially in e-commerce and high-end brand sites.'
+        type: "text",
+        content: "Speed and performance continue to dominate design priorities. With search engines placing greater emphasis on Core Web Vitals, performance is now inseparable from aesthetics. Designers and developers collaborate early to ensure that motion, media, and interactive features enhance — not hinder — loading times. Lightweight frameworks, compression, and optimized assets are becoming the default."
       },
+  
       {
-        type: 'heading',
+        type: "heading",
         level: 2,
-        content: '4. Sustainable Web Design'
+        content: "4. Mature 3D, Motion, and Interactive Elements"
       },
       {
-        type: 'text',
-        content: 'Environmental impact is now a consideration in every design decision. Optimized images, efficient code, and mindful feature implementation reduce digital carbon footprints while improving performance.'
+        type: "text",
+        content: "3D design has moved beyond experimental showcases. Thanks to improved browsers and GPU acceleration, WebGL and tools like Three.js are mainstream. Brands now use interactive product viewers, spatial hero sections, motion-reactive visuals, and subtle 3D storytelling. When combined with micro-interactions, these elements create emotional and memorable user experiences — when used thoughtfully and responsibly."
       },
+  
       {
-        type: 'heading',
+        type: "heading",
         level: 2,
-        content: '5. Micro-interactions That Matter'
+        content: "5. The Rise of Authentic \"Imperfect\" Design"
       },
       {
-        type: 'text',
-        content: 'Subtle animations and interactions create emotional connections. Well-designed micro-interactions improve perceived performance and increase engagement significantly.'
+        type: "text",
+        content: "In response to overly polished, AI-generated visuals, many designers are intentionally incorporating imperfection: visible grids, asymmetry, textured backgrounds, bold typography, and even retro or brutalist influences. These choices bring personality and authenticity back to the web, helping brands differentiate themselves in a saturated digital landscape."
+      },
+  
+      {
+        type: "heading",
+        level: 2,
+        content: "6. Sustainable and Ethical Web Design"
       },
       {
-        type: 'text',
-        content: 'The future of web design balances technology with human needs. Tools evolve, but great design always serves users first with clarity, usability, and purpose.'
+        type: "text",
+        content: "Sustainability has become a defining pillar of modern design. From reducing data-heavy scripts and oversized media to choosing greener hosting and writing cleaner code, designers are more aware of their digital footprint. Ethical design also includes transparency, accessibility, and prioritizing user wellbeing over engagement-at-all-costs strategies."
+      },
+  
+      {
+        type: "heading",
+        level: 2,
+        content: "7. Micro-Interactions With Purpose"
+      },
+      {
+        type: "text",
+        content: "Micro-interactions — subtle hovers, tactile button feedback, animated transitions, scroll-based reveals — continue to elevate experiences. In 2026, the trend is moving toward meaningful motion: animations that explain, guide, reassure, and delight users without overwhelming them. These micro-moments improve perceived speed and create a sense of craftsmanship in every interaction."
+      },
+  
+      {
+        type: "heading",
+        level: 2,
+        content: "8. Websites as Dynamic Business Hubs"
+      },
+      {
+        type: "text",
+        content: "Websites are evolving from static destinations into integrated hubs connected to automation, analytics, content systems, CRM platforms, and personalization engines. Design systems and semantic tokens ensure consistency and scalability across growing ecosystems. This modular approach allows brands to evolve quickly without constant redesigns."
+      },
+  
+      {
+        type: "text",
+        content: "In 2026, the future of web design is not defined by technology alone but by how that technology serves human needs. The strongest digital experiences combine speed, emotion, accessibility, creativity, and purpose — resulting in websites that not only look beautiful but feel alive and meaningful."
       }
     ],
-    
-    relatedPosts: [2, 6, 10],
+  
+    relatedPosts: [2, 6, 10]
   },
 
   {
@@ -1170,6 +1206,7 @@ export async function POST(request) {
     
     relatedPosts: [2, 5, 9],
   },
+  
 ];
 
 // Helper functions

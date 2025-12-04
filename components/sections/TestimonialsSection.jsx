@@ -36,7 +36,7 @@ export default function TestimonialsSection() {
       avatar: "MK",
     },
     {
-      quote: "NineFold took our decade of industry expertise and created a digital presence that truly represents who we are. The time and effort they invested was remarkable.",
+      quote: "NineFold took our decade of industry experience and created a digital presence that truly represents who we are. All of our wishes when creating our digital platforms, after analysis, NineFold transformed into meaningful communication and offered the right solution and the right representation of our values. Their presence during the project realization gave us insight into every step of the creation of our websites.",
       author: "Leonardo Zovko",
       role: "Owner",
       company: "The Office Company",

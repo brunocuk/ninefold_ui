@@ -178,7 +178,7 @@ export const projects = [
     ],
     
     testimonial: {
-      quote: "NineFold took our decade of industry expertise and created a digital presence that truly represents who we are and where we're going. The time and effort they invested in understanding our business was remarkable, and the final result exceeded our expectations. They delivered a professional platform that supports our ambitious growth plans across the region.",
+      quote: "NineFold took our decade of industry experience and created a digital presence that truly represents who we are. All of our wishes when creating our digital platforms, after analysis, NineFold transformed into meaningful communication and offered the right solution and the right representation of our values. Their presence during the project realization gave us insight into every step of the creation of our websites.",
       author: "Leonardo Zovko",
       role: "CEO",
       company: "The Office Company",
@@ -472,8 +472,8 @@ export const projects = [
     
     testimonial: {
       quote: "NineFold brought our vision to life in just four weeks. They captured everything we wanted to communicate - our love for authentic, handmade pizza and the warm, welcoming atmosphere we\'re creating. The website beautifully showcases our menu, the table booking works perfectly, and the photography and video really represent what we\'re about. It was the perfect digital launch for our pizzeria.",
-      author: "Ljupka Gojić Mikić",
-      role: "Owner",
+      author: "Sandra Attias",
+      role: "Co-Owner",
       company: "Pizzeria 14",
       image: "/testimonials/ljupka-gojic-mikic.jpg"
     },
