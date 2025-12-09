@@ -11,12 +11,14 @@ import Script from 'next/script'
 export const metadata = {
   title: 'Ninefold - Premium Web Development',
   description: 'We build exceptional digital products for ambitious companies.',
+  charset: 'utf-8',
 }
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className="dark">
       <head>
+        <meta charSet="utf-8" />
         {/* CookieYes Banner */}
         <Script
           id="cookieyes"
