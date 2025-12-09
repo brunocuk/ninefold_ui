@@ -156,7 +156,7 @@ export default function LoginPage() {
 
           {error && (
             <div className="error">
-              ❌ {error}
+              Error: {error}
             </div>
           )}
 
