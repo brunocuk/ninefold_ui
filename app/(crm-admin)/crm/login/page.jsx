@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { signIn } from '@/lib/auth';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -10,23 +9,54 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [debug, setDebug] = useState('');
+
+  const testRawFetch = async () => {
+    setDebug('Testing raw fetch...');
+    try {
+      const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+      const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+      
+      setDebug(`URL: ${url ? 'SET' : 'MISSING'}, Key: ${key ? 'SET' : 'MISSING'}`);
+      
+      const response = await fetch(
+        `${url}/auth/v1/token?grant_type=password`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': key,
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+          }),
+        }
+      );
+
+      const data = await response.json();
+      setDebug(`Success! Response: ${JSON.stringify(data).substring(0, 100)}`);
+      
+      if (response.ok) {
+        setError('');
+        router.push('/crm');
+      } else {
+        setError(data.error_description || data.msg || 'Login failed');
+      }
+    } catch (err) {
+      setDebug(`Error: ${err.message}`);
+      setError(err.message);
+    }
+    setLoading(false);
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
+    setDebug('');
 
-    const { data, error: signInError } = await signIn(email, password);
-
-    if (signInError) {
-      setError(signInError.message);
-      setLoading(false);
-      return;
-    }
-
-    // Redirect to dashboard
-    router.push('/crm');
-    router.refresh();
+    await testRawFetch();
   };
 
   return (
@@ -131,6 +161,19 @@ export default function LoginPage() {
           font-size: 0.9rem;
         }
 
+        .debug {
+          background: #1a1a1a;
+          border: 1px solid #333;
+          color: #0f0;
+          padding: 12px;
+          border-radius: 8px;
+          margin-bottom: 20px;
+          font-size: 0.8rem;
+          font-family: monospace;
+          white-space: pre-wrap;
+          word-break: break-all;
+        }
+
         .back-link {
           text-align: center;
           margin-top: 20px;
@@ -151,8 +194,14 @@ export default function LoginPage() {
         <div className="login-card">
           <div className="logo">
             <div className="logo-text">NineFold</div>
-            <div className="subtitle">CRM Login</div>
+            <div className="subtitle">CRM Login (Debug Mode)</div>
           </div>
+
+          {debug && (
+            <div className="debug">
+              {debug}
+            </div>
+          )}
 
           {error && (
             <div className="error">
@@ -178,18 +227,18 @@ export default function LoginPage() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
+                placeholder="password"
                 required
               />
             </div>
 
             <button type="submit" className="btn" disabled={loading}>
-              {loading ? 'Logging in...' : 'Login'}
+              {loading ? 'Testing...' : 'Login (Debug)'}
             </button>
           </form>
 
           <div className="back-link">
-            <a href="/">← Back to website</a>
+            <a href="/">Back to website</a>
           </div>
         </div>
       </div>
