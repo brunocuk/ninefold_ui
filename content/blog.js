@@ -2,7 +2,7 @@
 
 export const blogPosts = [
   {
-    id: 11,
+    id: 1,
     slug: "web-design-trends-2026",
     title: "Web Design Trends 2026",
     excerpt: "The design trends redefining the digital landscape in 2026 — from AI-powered workflows to sensory interfaces, immersive experiences, and performance-driven design.",
