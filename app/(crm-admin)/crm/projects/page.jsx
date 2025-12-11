@@ -1,11 +1,25 @@
-// app/crm/projects/page.jsx
-// Projects List - View all projects
+// app/(crm-admin)/crm/projects/page.jsx
+// Projects List with Tailwind CSS
 
 'use client';
 
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
+import { 
+  FolderKanban, 
+  Building2, 
+  DollarSign, 
+  Calendar,
+  Plus,
+  Clipboard,
+  Palette,
+  Code,
+  TestTube,
+  Rocket,
+  CheckCircle,
+  Package
+} from 'lucide-react';
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState([]);
@@ -35,7 +49,6 @@ export default function ProjectsPage() {
       }
 
       const { data, error } = await query;
-
       if (error) throw error;
       setProjects(data || []);
     } catch (error) {
@@ -45,28 +58,23 @@ export default function ProjectsPage() {
     }
   };
 
+  const statusConfig = {
+    planning: { bg: 'bg-blue-500', text: 'Planning', icon: Clipboard },
+    design: { bg: 'bg-purple-500', text: 'Design', icon: Palette },
+    development: { bg: 'bg-amber-500', text: 'Development', icon: Code },
+    testing: { bg: 'bg-cyan-500', text: 'Testing', icon: TestTube },
+    deployed: { bg: 'bg-[#00FF94] text-black', text: 'Deployed', icon: Rocket },
+    completed: { bg: 'bg-green-500', text: 'Completed', icon: CheckCircle }
+  };
+
   const getStatusBadge = (status) => {
-    const styles = {
-      planning: { bg: '#3b82f6', text: 'Planning' },
-      design: { bg: '#8b5cf6', text: 'Design' },
-      development: { bg: '#f59e0b', text: 'Development' },
-      testing: { bg: '#06b6d4', text: 'Testing' },
-      deployed: { bg: '#00FF94', text: 'Deployed' },
-      completed: { bg: '#10b981', text: 'Completed' }
-    };
-
-    const style = styles[status] || styles.planning;
-
+    const config = statusConfig[status] || statusConfig.planning;
+    const Icon = config.icon;
+    
     return (
-      <span style={{
-        background: style.bg,
-        color: ['deployed'].includes(status) ? '#000' : '#fff',
-        padding: '4px 12px',
-        borderRadius: '12px',
-        fontSize: '0.8rem',
-        fontWeight: '700'
-      }}>
-        {style.text}
+      <span className={`inline-flex items-center gap-1.5 ${config.bg} text-white px-3 py-1.5 rounded-full text-xs font-bold`}>
+        <Icon size={12} />
+        {config.text}
       </span>
     );
   };
@@ -77,366 +85,187 @@ export default function ProjectsPage() {
     return '#3b82f6';
   };
 
-  return (
-    <>
-      <style jsx>{`
-        .projects-page {
-          animation: fadeIn 0.5s ease-out;
-        }
+  const filterButtons = [
+    { value: 'all', label: 'All', count: projects.length },
+    { value: 'planning', label: 'Planning', icon: Clipboard },
+    { value: 'design', label: 'Design', icon: Palette },
+    { value: 'development', label: 'Development', icon: Code },
+    { value: 'testing', label: 'Testing', icon: TestTube },
+    { value: 'deployed', label: 'Deployed', icon: Rocket }
+  ];
 
+  return (
+    <div className="animate-fadeIn">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+        <div>
+          <h1 className="text-4xl font-black bg-gradient-to-r from-[#00FF94] to-[#00CC76] bg-clip-text text-transparent mb-2">
+            Projects
+          </h1>
+          <p className="text-gray-400">Track active work and deliverables</p>
+        </div>
+        <Link 
+          href="/crm/projects/new" 
+          className="inline-flex items-center gap-2 px-6 py-3 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 hover:-translate-y-0.5 transition-all"
+        >
+          <Plus size={20} />
+          New Project
+        </Link>
+      </div>
+
+      {/* Filters */}
+      <div className="flex flex-wrap gap-3 mb-8">
+        {filterButtons.map((btn) => {
+          const Icon = btn.icon;
+          return (
+            <button
+              key={btn.value}
+              onClick={() => setFilter(btn.value)}
+              className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border-2 font-semibold transition-all ${
+                filter === btn.value
+                  ? 'bg-[#00FF94] text-black border-[#00FF94]'
+                  : 'bg-[#1a1a1a] text-gray-400 border-[#2A2A2A] hover:border-[#00FF94] hover:text-[#00FF94]'
+              }`}
+            >
+              {Icon && <Icon size={16} />}
+              {btn.label}
+              {btn.value === 'all' && ` (${btn.count})`}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Content */}
+      {loading ? (
+        <div className="flex items-center justify-center py-20">
+          <div className="text-2xl text-[#00FF94]">Loading projects...</div>
+        </div>
+      ) : projects.length === 0 ? (
+        <div className="bg-[#1a1a1a] border-2 border-dashed border-[#2A2A2A] rounded-2xl p-20 text-center">
+          <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-[#00FF94]/10 flex items-center justify-center">
+            <FolderKanban size={40} className="text-[#00FF94]" />
+          </div>
+          <h2 className="text-2xl font-bold mb-3">No projects yet</h2>
+          <p className="text-gray-400 text-lg mb-8">
+            {filter === 'all'
+              ? 'Start tracking your first project.'
+              : `No projects in "${filter}" status.`}
+          </p>
+          {filter === 'all' && (
+            <Link
+              href="/crm/projects/new"
+              className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 hover:-translate-y-0.5 transition-all"
+            >
+              <Plus size={20} />
+              Create First Project
+            </Link>
+          )}
+        </div>
+      ) : (
+        <div className="grid gap-5">
+          {projects.map((project) => (
+            <Link
+              key={project.id}
+              href={`/crm/projects/${project.id}`}
+              className="block group bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 hover:border-[#00FF94] hover:shadow-xl hover:shadow-[#00FF94]/10 hover:translate-x-1 transition-all duration-300"
+            >
+              {/* Header */}
+              <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-5">
+                <div className="flex-1">
+                  <h3 className="text-xl font-bold text-white mb-2">{project.name}</h3>
+                  {project.clients && (
+                    <div className="flex items-center gap-2 text-[#00FF94] font-semibold mb-3">
+                      <Building2 size={16} />
+                      {project.clients.company || project.clients.name}
+                    </div>
+                  )}
+                  <div className="flex flex-wrap gap-3 text-sm text-gray-400">
+                    {project.project_type && (
+                      <span className="inline-flex items-center gap-1.5">
+                        <Package size={14} className="text-[#00FF94]" />
+                        {project.project_type}
+                      </span>
+                    )}
+                    {project.deadline && (
+                      <span className="inline-flex items-center gap-1.5">
+                        <Calendar size={14} className="text-[#00FF94]" />
+                        Due {new Date(project.deadline).toLocaleDateString()}
+                      </span>
+                    )}
+                  </div>
+                </div>
+                {getStatusBadge(project.status)}
+              </div>
+
+              {/* Details */}
+              <div className="grid grid-cols-3 gap-4 mb-5">
+                <div className="bg-[#0a0a0a] rounded-lg p-4">
+                  <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">
+                    Total Value
+                  </div>
+                  <div className="text-lg font-black text-[#00FF94] flex items-center gap-1">
+                    <DollarSign size={16} />
+                    €{project.total_value.toLocaleString()}
+                  </div>
+                </div>
+                <div className="bg-[#0a0a0a] rounded-lg p-4">
+                  <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">
+                    Paid
+                  </div>
+                  <div className="text-lg font-black text-[#00FF94] flex items-center gap-1">
+                    <DollarSign size={16} />
+                    €{(project.paid_amount || 0).toLocaleString()}
+                  </div>
+                </div>
+                <div className="bg-[#0a0a0a] rounded-lg p-4">
+                  <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">
+                    Remaining
+                  </div>
+                  <div className="text-lg font-black text-[#00FF94] flex items-center gap-1">
+                    <DollarSign size={16} />
+                    €{(project.total_value - (project.paid_amount || 0)).toLocaleString()}
+                  </div>
+                </div>
+              </div>
+
+              {/* Progress Bar */}
+              <div className="mb-4">
+                <div className="bg-[#0a0a0a] rounded-lg h-2.5 overflow-hidden">
+                  <div 
+                    className="h-full transition-all duration-300 rounded-lg"
+                    style={{
+                      width: `${project.progress}%`,
+                      backgroundColor: getProgressColor(project.progress)
+                    }}
+                  />
+                </div>
+                <div className="text-xs text-gray-500 text-right mt-2">
+                  {project.progress}% complete
+                </div>
+              </div>
+
+              {/* Description */}
+              {project.description && (
+                <p className="text-gray-400 text-sm leading-relaxed">
+                  {project.description.length > 120
+                    ? project.description.substring(0, 120) + '...'
+                    : project.description}
+                </p>
+              )}
+            </Link>
+          ))}
+        </div>
+      )}
+
+      <style jsx>{`
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(20px); }
           to { opacity: 1; transform: translateY(0); }
         }
-
-        .header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 30px;
-        }
-
-        h1 {
-          font-size: 2.5rem;
-          font-weight: 900;
-          background: linear-gradient(135deg, #00FF94 0%, #00CC76 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-        }
-
-        .btn-primary {
-          background: #00FF94;
-          color: #000;
-          padding: 12px 24px;
-          border-radius: 8px;
-          text-decoration: none;
-          font-weight: 700;
-          transition: all 0.3s;
-          display: inline-block;
-        }
-
-        .btn-primary:hover {
-          box-shadow: 0 0 20px rgba(0, 255, 148, 0.4);
-          transform: translateY(-2px);
-        }
-
-        .filters {
-          display: flex;
-          gap: 10px;
-          margin-bottom: 30px;
-          flex-wrap: wrap;
-        }
-
-        .filter-btn {
-          padding: 10px 20px;
-          border: 2px solid #333;
-          background: #1a1a1a;
-          color: #888;
-          border-radius: 8px;
-          cursor: pointer;
-          transition: all 0.3s;
-          font-weight: 600;
-          font-size: 0.9rem;
-        }
-
-        .filter-btn:hover {
-          border-color: #00FF94;
-          color: #00FF94;
-        }
-
-        .filter-btn.active {
-          background: #00FF94;
-          color: #000;
-          border-color: #00FF94;
-        }
-
-        .projects-grid {
-          display: grid;
-          gap: 20px;
-        }
-
-        .project-card {
-          background: #1a1a1a;
-          border: 1px solid #333;
-          border-radius: 12px;
-          padding: 25px;
-          transition: all 0.3s;
-          cursor: pointer;
-        }
-
-        .project-card:hover {
-          border-color: #00FF94;
-          box-shadow: 0 0 20px rgba(0, 255, 148, 0.1);
-          transform: translateX(5px);
-        }
-
-        .project-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: start;
-          margin-bottom: 15px;
-        }
-
-        .project-info h3 {
-          font-size: 1.3rem;
-          margin-bottom: 8px;
-          color: white;
-        }
-
-        .client-name {
-          font-size: 0.95rem;
-          color: #00FF94;
-          font-weight: 600;
-        }
-
-        .project-meta {
-          font-size: 0.9rem;
-          color: #888;
-          display: flex;
-          gap: 15px;
-          flex-wrap: wrap;
-          margin-top: 8px;
-        }
-
-        .project-details {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-          gap: 15px;
-          margin: 20px 0;
-        }
-
-        .detail-item {
-          background: #0a0a0a;
-          padding: 12px;
-          border-radius: 8px;
-        }
-
-        .detail-label {
-          font-size: 0.75rem;
-          color: #666;
-          margin-bottom: 5px;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-        }
-
-        .detail-value {
-          font-size: 1rem;
-          font-weight: 700;
-          color: #00FF94;
-        }
-
-        .progress-bar {
-          background: #0a0a0a;
-          border-radius: 8px;
-          height: 8px;
-          overflow: hidden;
-          margin-top: 15px;
-        }
-
-        .progress-fill {
-          height: 100%;
-          transition: width 0.3s, background 0.3s;
-          border-radius: 8px;
-        }
-
-        .progress-text {
-          font-size: 0.85rem;
-          color: #888;
-          margin-top: 5px;
-          text-align: right;
-        }
-
-        .empty-state {
-          text-align: center;
-          padding: 80px 20px;
-          background: #1a1a1a;
-          border: 2px dashed #333;
-          border-radius: 12px;
-        }
-
-        .empty-state h2 {
-          font-size: 1.8rem;
-          margin-bottom: 15px;
-          color: white;
-        }
-
-        .empty-state p {
-          color: #888;
-          margin-bottom: 25px;
-          font-size: 1.1rem;
-        }
-
-        .loading {
-          text-align: center;
-          padding: 60px;
-          font-size: 1.2rem;
-          color: #00FF94;
-        }
-
-        @media (max-width: 768px) {
-          h1 {
-            font-size: 2rem;
-          }
-
-          .header {
-            flex-direction: column;
-            gap: 20px;
-            align-items: flex-start;
-          }
+        .animate-fadeIn {
+          animation: fadeIn 0.5s ease-out;
         }
       `}</style>
-
-      <div className="projects-page">
-        <div className="header">
-          <div>
-            <h1>Projects</h1>
-            <p style={{color: '#888', marginTop: '5px'}}>
-              Track active work and deliverables
-            </p>
-          </div>
-          <Link href="/crm/projects/new" className="btn-primary">
-            + New Project
-          </Link>
-        </div>
-
-        <div className="filters">
-          <button
-            className={`filter-btn ${filter === 'all' ? 'active' : ''}`}
-            onClick={() => setFilter('all')}
-          >
-            All ({projects.length})
-          </button>
-          <button
-            className={`filter-btn ${filter === 'planning' ? 'active' : ''}`}
-            onClick={() => setFilter('planning')}
-          >
-            📋 Planning
-          </button>
-          <button
-            className={`filter-btn ${filter === 'design' ? 'active' : ''}`}
-            onClick={() => setFilter('design')}
-          >
-            🎨 Design
-          </button>
-          <button
-            className={`filter-btn ${filter === 'development' ? 'active' : ''}`}
-            onClick={() => setFilter('development')}
-          >
-            💻 Development
-          </button>
-          <button
-            className={`filter-btn ${filter === 'testing' ? 'active' : ''}`}
-            onClick={() => setFilter('testing')}
-          >
-            🧪 Testing
-          </button>
-          <button
-            className={`filter-btn ${filter === 'deployed' ? 'active' : ''}`}
-            onClick={() => setFilter('deployed')}
-          >
-            🚀 Deployed
-          </button>
-        </div>
-
-        {loading ? (
-          <div className="loading">Loading projects...</div>
-        ) : projects.length === 0 ? (
-          <div className="empty-state">
-            <div style={{fontSize: '4rem', marginBottom: '20px'}}>🚀</div>
-            <h2>No projects yet</h2>
-            <p>
-              {filter === 'all'
-                ? "Start tracking your first project."
-                : `No projects in "${filter}" status.`
-              }
-            </p>
-            {filter === 'all' && (
-              <Link href="/crm/projects/new" className="btn-primary">
-                Create First Project
-              </Link>
-            )}
-          </div>
-        ) : (
-          <div className="projects-grid">
-            {projects.map((project) => (
-              <Link
-                key={project.id}
-                href={`/crm/projects/${project.id}`}
-                style={{textDecoration: 'none'}}
-              >
-                <div className="project-card">
-                  <div className="project-header">
-                    <div className="project-info">
-                      <h3>{project.name}</h3>
-                      {project.clients && (
-                        <div className="client-name">
-                          🏢 {project.clients.company || project.clients.name}
-                        </div>
-                      )}
-                      <div className="project-meta">
-                        {project.project_type && <span>📦 {project.project_type}</span>}
-                        {project.deadline && (
-                          <span>📅 Due {new Date(project.deadline).toLocaleDateString()}</span>
-                        )}
-                      </div>
-                    </div>
-                    {getStatusBadge(project.status)}
-                  </div>
-
-                  <div className="project-details">
-                    <div className="detail-item">
-                      <div className="detail-label">Total Value</div>
-                      <div className="detail-value">
-                        €{project.total_value.toLocaleString()}
-                      </div>
-                    </div>
-                    <div className="detail-item">
-                      <div className="detail-label">Paid</div>
-                      <div className="detail-value">
-                        €{(project.paid_amount || 0).toLocaleString()}
-                      </div>
-                    </div>
-                    <div className="detail-item">
-                      <div className="detail-label">Remaining</div>
-                      <div className="detail-value">
-                        €{(project.total_value - (project.paid_amount || 0)).toLocaleString()}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="progress-bar">
-                    <div 
-                      className="progress-fill"
-                      style={{
-                        width: `${project.progress}%`,
-                        background: getProgressColor(project.progress)
-                      }}
-                    />
-                  </div>
-                  <div className="progress-text">
-                    {project.progress}% complete
-                  </div>
-
-                  {project.description && (
-                    <div style={{
-                      color: '#aaa',
-                      fontSize: '0.9rem',
-                      marginTop: '15px',
-                      lineHeight: '1.5'
-                    }}>
-                      {project.description.length > 120
-                        ? project.description.substring(0, 120) + '...'
-                        : project.description
-                      }
-                    </div>
-                  )}
-                </div>
-              </Link>
-            ))}
-          </div>
-        )}
-      </div>
-    </>
+    </div>
   );
 }

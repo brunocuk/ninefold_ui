@@ -5,16 +5,38 @@ import { useRouter, usePathname } from "next/navigation";
 import { getUser, onAuthStateChange } from "@/lib/auth";
 import { signOut } from "@/lib/auth";
 import Link from "next/link";
+import { 
+  LayoutDashboard, 
+  Users, 
+  UserPlus, 
+  FolderKanban, 
+  FileText, 
+  TrendingUp,
+  BarChart3,
+  Calendar,
+  Edit,
+  ArrowLeft,
+  LogOut,
+  ChevronLeft,
+  ChevronRight
+} from 'lucide-react';
 
 export default function CRMLayout({ children }) {
   const router = useRouter();
   const pathname = usePathname();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   useEffect(() => {
     // Check if user is logged in
     checkUser();
+
+    // Load collapsed state from localStorage
+    const savedState = localStorage.getItem('sidebar-collapsed');
+    if (savedState === 'true') {
+      setIsCollapsed(true);
+    }
 
     // Listen for auth changes
     const {
@@ -37,7 +59,6 @@ export default function CRMLayout({ children }) {
     const currentUser = await getUser();
 
     if (!currentUser && pathname !== "/crm/login") {
-      // Not logged in, redirect to login
       router.push("/crm/login");
       return;
     }
@@ -45,6 +66,12 @@ export default function CRMLayout({ children }) {
     setUser(currentUser);
     setLoading(false);
   }
+
+  const toggleSidebar = () => {
+    const newState = !isCollapsed;
+    setIsCollapsed(newState);
+    localStorage.setItem('sidebar-collapsed', String(newState));
+  };
 
   // Show loading while checking auth
   if (loading && pathname !== "/crm/login") {
@@ -81,9 +108,8 @@ export default function CRMLayout({ children }) {
 
   return (
     <>
-      {/* FORCE HIDE EVERYTHING */}
       <style jsx global>{`
-        /* Nuclear option - hide ALL headers/footers/navs */
+        /* Hide website header/footer */
         body > header,
         body > footer,
         body > nav,
@@ -129,18 +155,23 @@ export default function CRMLayout({ children }) {
         }
 
         .sidebar {
-          width: 260px;
+          width: ${isCollapsed ? '80px' : '260px'};
           background: #000000;
           border-right: 1px solid #1a1a1a;
           padding: 30px 0;
           position: fixed;
           height: 100vh;
           overflow-y: auto;
+          overflow-x: hidden;
           z-index: 1000;
+          transition: width 0.3s ease;
         }
 
-        .logo {
-          padding: 0 25px;
+        .sidebar-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 ${isCollapsed ? '20px' : '25px'};
           margin-bottom: 40px;
         }
 
@@ -151,6 +182,28 @@ export default function CRMLayout({ children }) {
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
+          white-space: nowrap;
+          opacity: ${isCollapsed ? '0' : '1'};
+          transition: opacity 0.2s;
+        }
+
+        .collapse-btn {
+          background: none;
+          border: none;
+          color: #666;
+          cursor: pointer;
+          padding: 8px;
+          border-radius: 6px;
+          transition: all 0.2s;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+        }
+
+        .collapse-btn:hover {
+          background: #1a1a1a;
+          color: #00ff94;
         }
 
         .nav-section {
@@ -165,6 +218,9 @@ export default function CRMLayout({ children }) {
           letter-spacing: 1px;
           color: #666;
           font-weight: 600;
+          opacity: ${isCollapsed ? '0' : '1'};
+          transition: opacity 0.2s;
+          white-space: nowrap;
         }
 
         .nav-link {
@@ -177,6 +233,7 @@ export default function CRMLayout({ children }) {
           transition: all 0.2s;
           font-size: 0.95rem;
           font-weight: 500;
+          white-space: nowrap;
         }
 
         .nav-link:hover {
@@ -191,36 +248,38 @@ export default function CRMLayout({ children }) {
         }
 
         .nav-icon {
-          font-size: 1.2rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          min-width: 20px;
+          width: 20px;
+          height: 20px;
+          flex-shrink: 0;
+        }
+
+        .nav-text {
+          opacity: ${isCollapsed ? '0' : '1'};
+          transition: opacity 0.2s;
         }
 
         .main-content {
-          margin-left: 260px;
+          margin-left: ${isCollapsed ? '80px' : '260px'};
           flex: 1;
           padding: 40px;
           max-width: 1400px;
           min-height: 100vh;
+          transition: margin-left 0.3s ease;
         }
 
         @media (max-width: 768px) {
           .sidebar {
-            width: 70px;
-          }
-
-          .logo-text,
-          .nav-label,
-          .nav-link span {
-            display: none;
+            width: ${isCollapsed ? '0' : '260px'};
+            transform: translateX(${isCollapsed ? '-100%' : '0'});
           }
 
           .main-content {
-            margin-left: 70px;
+            margin-left: 0;
             padding: 20px;
-          }
-
-          .nav-link {
-            justify-content: center;
-            padding: 12px;
           }
         }
 
@@ -244,96 +303,121 @@ export default function CRMLayout({ children }) {
 
       <div className="crm-container">
         <aside className="sidebar">
-          <div className="logo">
-            <div className="logo-text">NineFold</div>
+          <div className="sidebar-header">
+            {!isCollapsed && <div className="logo-text">NineFold</div>}
+            <button 
+              className="collapse-btn" 
+              onClick={toggleSidebar}
+              title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+            >
+              {isCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
+            </button>
           </div>
 
           <nav className="crm-nav">
             <div className="nav-section">
-              <div className="nav-label">Overview</div>
+              {!isCollapsed && <div className="nav-label">Overview</div>}
               <Link
                 href="/crm"
                 className={`nav-link ${
                   isActive("/crm") && pathname === "/crm" ? "active" : ""
                 }`}
+                title={isCollapsed ? "Dashboard" : ""}
               >
-                <span className="nav-icon">📊</span>
-                <span>Dashboard</span>
+                <span className="nav-icon"><LayoutDashboard size={20} /></span>
+                <span className="nav-text">Dashboard</span>
+              </Link>
+              <Link
+                href="/crm/analytics"
+                className={`nav-link ${isActive("/crm/analytics") ? "active" : ""}`}
+                title={isCollapsed ? "Analytics" : ""}
+              >
+                <span className="nav-icon"><BarChart3 size={20} /></span>
+                <span className="nav-text">Analytics</span>
+              </Link>
+              <Link
+                href="/crm/calendar"
+                className={`nav-link ${isActive("/crm/calendar") ? "active" : ""}`}
+                title={isCollapsed ? "Calendar" : ""}
+              >
+                <span className="nav-icon"><Calendar size={20} /></span>
+                <span className="nav-text">Calendar</span>
               </Link>
             </div>
 
             <div className="nav-section">
-              <div className="nav-label">Sales</div>
+              {!isCollapsed && <div className="nav-label">Sales</div>}
               <Link
                 href="/crm/leads"
                 className={`nav-link ${isActive("/crm/leads") ? "active" : ""}`}
+                title={isCollapsed ? "Leads" : ""}
               >
-                <span className="nav-icon">👥</span>
-                <span>Leads</span>
+                <span className="nav-icon"><UserPlus size={20} /></span>
+                <span className="nav-text">Leads</span>
               </Link>
               <Link
                 href="/crm/clients"
-                className={`nav-link ${
-                  isActive("/crm/clients") ? "active" : ""
-                }`}
+                className={`nav-link ${isActive("/crm/clients") ? "active" : ""}`}
+                title={isCollapsed ? "Clients" : ""}
               >
-                <span className="nav-icon">🏢</span>
-                <span>Clients</span>
+                <span className="nav-icon"><Users size={20} /></span>
+                <span className="nav-text">Clients</span>
               </Link>
               <Link
                 href="/crm/quotes"
-                className={`nav-link ${
-                  isActive("/crm/quotes") ? "active" : ""
-                }`}
+                className={`nav-link ${isActive("/crm/quotes") ? "active" : ""}`}
+                title={isCollapsed ? "Quotes" : ""}
               >
-                <span className="nav-icon">📄</span>
-                <span>Quotes</span>
+                <span className="nav-icon"><FileText size={20} /></span>
+                <span className="nav-text">Quotes</span>
               </Link>
             </div>
 
             <div className="nav-section">
-              <div className="nav-label">Projects</div>
+              {!isCollapsed && <div className="nav-label">Projects</div>}
               <Link
                 href="/crm/projects"
-                className={`nav-link ${
-                  isActive("/crm/projects") ? "active" : ""
-                }`}
+                className={`nav-link ${isActive("/crm/projects") ? "active" : ""}`}
+                title={isCollapsed ? "Projects" : ""}
               >
-                <span className="nav-icon">🚀</span>
-                <span>Projects</span>
+                <span className="nav-icon"><FolderKanban size={20} /></span>
+                <span className="nav-text">Projects</span>
               </Link>
             </div>
 
             <div className="nav-section">
-              <div className="nav-label">Recurring revenue</div>
+              {!isCollapsed && <div className="nav-label">Recurring</div>}
               <Link
                 href="/crm/recurring"
-                className={`nav-link ${
-                  isActive("/crm/recurring") ? "active" : ""
-                }`}
+                className={`nav-link ${isActive("/crm/recurring") ? "active" : ""}`}
+                title={isCollapsed ? "Revenue" : ""}
               >
-                <span className="nav-icon">🚀</span>
-                <span>Maintenence</span>
+                <span className="nav-icon"><TrendingUp size={20} /></span>
+                <span className="nav-text">Revenue</span>
               </Link>
             </div>
 
             <div className="nav-section">
-              <div className="nav-label">Tools</div>
+              {!isCollapsed && <div className="nav-label">Tools</div>}
               <Link
-                href="/crm/quotes/new" // NEW
-                className={`nav-link ${
-                  isActive("/crm/new-quote") ? "active" : ""
-                }`}
+                href="/crm/quotes/new"
+                className={`nav-link ${isActive("/crm/new-quote") ? "active" : ""}`}
+                title={isCollapsed ? "Create Quote" : ""}
               >
-                <span className="nav-icon">✏️</span>
-                <span>Create Quote</span>
+                <span className="nav-icon"><Edit size={20} /></span>
+                <span className="nav-text">Create Quote</span>
               </Link>
             </div>
 
             <div className="nav-section" style={{ marginTop: "40px" }}>
-              <Link href="/" className="nav-link" style={{ color: "#666" }}>
-                <span className="nav-icon">←</span>
-                <span>Back to Site</span>
+              <Link 
+                href="/" 
+                className="nav-link" 
+                style={{ color: "#666" }}
+                title={isCollapsed ? "Back to Site" : ""}
+              >
+                <span className="nav-icon"><ArrowLeft size={20} /></span>
+                <span className="nav-text">Back to Site</span>
               </Link>
             </div>
 
@@ -348,9 +432,10 @@ export default function CRMLayout({ children }) {
                   width: "100%",
                   cursor: "pointer",
                 }}
+                title={isCollapsed ? "Logout" : ""}
               >
-                <span className="nav-icon">🚪</span>
-                <span>Logout</span>
+                <span className="nav-icon"><LogOut size={20} /></span>
+                <span className="nav-text">Logout</span>
               </button>
             </div>
           </nav>

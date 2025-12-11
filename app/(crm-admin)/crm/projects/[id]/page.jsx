@@ -1,5 +1,5 @@
-// app/crm/projects/[id]/page.jsx
-// Project Detail Page - View and manage project
+// app/(crm-admin)/crm/projects/[id]/page.jsx
+// Project Detail Page with Tailwind CSS
 
 'use client';
 
@@ -7,6 +7,22 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { 
+  ArrowLeft,
+  Edit,
+  Trash2,
+  Save,
+  X,
+  Building2,
+  DollarSign,
+  Calendar,
+  ExternalLink,
+  Github,
+  Globe,
+  Rocket,
+  Package,
+  TrendingUp
+} from 'lucide-react';
 
 export default function ProjectDetailPage() {
   const params = useParams();
@@ -63,7 +79,7 @@ export default function ProjectDetailPage() {
 
       setProject(updateData);
       setEditing(false);
-      await loadProject(); // Reload to get updated data
+      await loadProject();
     } catch (error) {
       console.error('Error updating project:', error);
       alert('Error updating project. Please try again.');
@@ -84,7 +100,6 @@ export default function ProjectDetailPage() {
         .eq('id', params.id);
 
       if (error) throw error;
-
       router.push('/crm/projects');
     } catch (error) {
       console.error('Error deleting project:', error);
@@ -100,17 +115,19 @@ export default function ProjectDetailPage() {
 
   if (loading) {
     return (
-      <div style={{textAlign: 'center', padding: '100px 0'}}>
-        <div style={{fontSize: '1.5rem', color: '#00FF94'}}>Loading project...</div>
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-2xl text-[#00FF94]">Loading project...</div>
       </div>
     );
   }
 
   if (!project) {
     return (
-      <div style={{textAlign: 'center', padding: '100px 0'}}>
-        <h2 style={{color: 'white'}}>Project not found</h2>
-        <Link href="/crm/projects" style={{color: '#00FF94'}}>← Back to Projects</Link>
+      <div className="text-center py-20">
+        <h2 className="text-2xl font-bold mb-4">Project not found</h2>
+        <Link href="/crm/projects" className="text-[#00FF94] hover:underline">
+          ← Back to Projects
+        </Link>
       </div>
     );
   }
@@ -118,585 +135,455 @@ export default function ProjectDetailPage() {
   const remainingAmount = project.total_value - (project.paid_amount || 0);
   const paymentProgress = ((project.paid_amount || 0) / project.total_value) * 100;
 
-  return (
-    <>
-      <style jsx>{`
-        .project-detail {
-          max-width: 1200px;
-          animation: fadeIn 0.5s ease-out;
-        }
+  const statusColors = {
+    planning: 'bg-blue-500',
+    design: 'bg-purple-500',
+    development: 'bg-amber-500',
+    testing: 'bg-cyan-500',
+    deployed: 'bg-[#00FF94] text-black',
+    completed: 'bg-green-500'
+  };
 
+  return (
+    <div className="max-w-6xl animate-fadeIn">
+      {/* Breadcrumb */}
+      <Link 
+        href="/crm/projects" 
+        className="inline-flex items-center gap-2 text-gray-400 hover:text-[#00FF94] mb-6 transition-colors"
+      >
+        <ArrowLeft size={16} />
+        Back to Projects
+      </Link>
+
+      {/* Header */}
+      <div className="flex flex-col lg:flex-row justify-between items-start gap-6 mb-8">
+        <div className="flex-1">
+          <h1 className="text-4xl font-black text-white mb-4">{project.name}</h1>
+          {client && (
+            <Link 
+              href={`/crm/clients/${client.id}`}
+              className="inline-flex items-center gap-2 text-[#00FF94] font-bold text-lg hover:underline"
+            >
+              <Building2 size={20} />
+              {client.company || client.name}
+            </Link>
+          )}
+        </div>
+        <span className={`${statusColors[project.status] || 'bg-blue-500'} text-white px-4 py-2 rounded-full text-sm font-bold`}>
+          {project.status}
+        </span>
+      </div>
+
+      {/* Actions */}
+      <div className="flex flex-wrap gap-3 mb-8">
+        {!editing && (
+          <>
+            <button
+              onClick={() => setEditing(true)}
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 hover:-translate-y-0.5 transition-all"
+            >
+              <Edit size={18} />
+              Edit
+            </button>
+            {project.staging_url && (
+              <a
+                href={project.staging_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#2A2A2A] text-white rounded-xl font-bold hover:bg-[#3A3A3A] transition-all"
+              >
+                <Globe size={18} />
+                View Staging
+              </a>
+            )}
+            {project.production_url && (
+              <a
+                href={project.production_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#2A2A2A] text-white rounded-xl font-bold hover:bg-[#3A3A3A] transition-all"
+              >
+                <Rocket size={18} />
+                View Live
+              </a>
+            )}
+            <button
+              onClick={handleDelete}
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-red-500 text-white rounded-xl font-bold hover:bg-red-600 transition-all"
+            >
+              <Trash2 size={18} />
+              Delete
+            </button>
+          </>
+        )}
+      </div>
+
+      {/* Stats */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 text-center">
+          <div className="text-xs text-gray-500 uppercase tracking-wider mb-3">Total Value</div>
+          <div className="text-3xl font-black text-[#00FF94]">
+            €{project.total_value.toLocaleString()}
+          </div>
+        </div>
+        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 text-center">
+          <div className="text-xs text-gray-500 uppercase tracking-wider mb-3">Paid</div>
+          <div className="text-3xl font-black text-[#00FF94]">
+            €{(project.paid_amount || 0).toLocaleString()}
+          </div>
+          <div className="text-xs text-gray-500 mt-2">{paymentProgress.toFixed(0)}% received</div>
+        </div>
+        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 text-center">
+          <div className="text-xs text-gray-500 uppercase tracking-wider mb-3">Remaining</div>
+          <div className="text-3xl font-black text-[#00FF94]">
+            €{remainingAmount.toLocaleString()}
+          </div>
+        </div>
+        {project.deadline && (
+          <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 text-center">
+            <div className="text-xs text-gray-500 uppercase tracking-wider mb-3">Deadline</div>
+            <div className="text-lg font-black text-[#00FF94]">
+              {new Date(project.deadline).toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Progress */}
+      <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 mb-8">
+        <div className="flex justify-between items-center mb-4">
+          <div className="flex items-center gap-2 font-bold text-white">
+            <TrendingUp size={20} className="text-[#00FF94]" />
+            Project Progress
+          </div>
+          <div className="text-2xl font-black text-[#00FF94]">{project.progress}%</div>
+        </div>
+        <div className="bg-[#0a0a0a] rounded-xl h-3 overflow-hidden">
+          <div 
+            className="h-full transition-all duration-300 rounded-xl"
+            style={{
+              width: `${project.progress}%`,
+              backgroundColor: getProgressColor(project.progress)
+            }}
+          />
+        </div>
+      </div>
+
+      {/* Content */}
+      {editing ? (
+        <form onSubmit={handleUpdate}>
+          <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-8">
+            <h3 className="text-2xl font-bold mb-6 pb-4 border-b border-[#2A2A2A]">
+              Edit Project
+            </h3>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <div>
+                <label className="block text-sm font-semibold text-gray-400 mb-2">Project Name *</label>
+                <input
+                  type="text"
+                  value={formData.name || ''}
+                  onChange={(e) => setFormData({...formData, name: e.target.value})}
+                  required
+                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-400 mb-2">Project Type</label>
+                <select
+                  value={formData.project_type || ''}
+                  onChange={(e) => setFormData({...formData, project_type: e.target.value})}
+                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                >
+                  <option value="">Select...</option>
+                  <option value="website">Website</option>
+                  <option value="web-app">Web Application</option>
+                  <option value="e-commerce">E-commerce</option>
+                  <option value="redesign">Redesign</option>
+                  <option value="maintenance">Maintenance</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-400 mb-2">Status</label>
+                <select
+                  value={formData.status || 'planning'}
+                  onChange={(e) => setFormData({...formData, status: e.target.value})}
+                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                >
+                  <option value="planning">Planning</option>
+                  <option value="design">Design</option>
+                  <option value="development">Development</option>
+                  <option value="testing">Testing</option>
+                  <option value="deployed">Deployed</option>
+                  <option value="completed">Completed</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-400 mb-2">Progress (%)</label>
+                <input
+                  type="number"
+                  value={formData.progress || 0}
+                  onChange={(e) => setFormData({...formData, progress: e.target.value})}
+                  min="0"
+                  max="100"
+                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-400 mb-2">Total Value (€) *</label>
+                <input
+                  type="number"
+                  value={formData.total_value || ''}
+                  onChange={(e) => setFormData({...formData, total_value: e.target.value})}
+                  step="0.01"
+                  required
+                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-400 mb-2">Paid Amount (€)</label>
+                <input
+                  type="number"
+                  value={formData.paid_amount || 0}
+                  onChange={(e) => setFormData({...formData, paid_amount: e.target.value})}
+                  step="0.01"
+                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-400 mb-2">Start Date</label>
+                <input
+                  type="date"
+                  value={formData.start_date || ''}
+                  onChange={(e) => setFormData({...formData, start_date: e.target.value})}
+                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-400 mb-2">Deadline</label>
+                <input
+                  type="date"
+                  value={formData.deadline || ''}
+                  onChange={(e) => setFormData({...formData, deadline: e.target.value})}
+                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-400 mb-2">Repository URL</label>
+                <input
+                  type="url"
+                  value={formData.repo_url || ''}
+                  onChange={(e) => setFormData({...formData, repo_url: e.target.value})}
+                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-400 mb-2">Staging URL</label>
+                <input
+                  type="url"
+                  value={formData.staging_url || ''}
+                  onChange={(e) => setFormData({...formData, staging_url: e.target.value})}
+                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-400 mb-2">Production URL</label>
+                <input
+                  type="url"
+                  value={formData.production_url || ''}
+                  onChange={(e) => setFormData({...formData, production_url: e.target.value})}
+                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                />
+              </div>
+            </div>
+
+            <div className="mb-6">
+              <label className="block text-sm font-semibold text-gray-400 mb-2">Description</label>
+              <textarea
+                value={formData.description || ''}
+                onChange={(e) => setFormData({...formData, description: e.target.value})}
+                rows={4}
+                className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors resize-none"
+              />
+            </div>
+
+            <div className="mb-6">
+              <label className="block text-sm font-semibold text-gray-400 mb-2">Notes</label>
+              <textarea
+                value={formData.notes || ''}
+                onChange={(e) => setFormData({...formData, notes: e.target.value})}
+                rows={4}
+                className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors resize-none"
+              />
+            </div>
+
+            <div className="flex gap-3 pt-6 border-t border-[#2A2A2A]">
+              <button
+                type="submit"
+                disabled={saving}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <Save size={18} />
+                {saving ? 'Saving...' : 'Save Changes'}
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setEditing(false);
+                  setFormData(project);
+                }}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-[#2A2A2A] text-white rounded-xl font-bold hover:bg-[#3A3A3A] transition-all"
+              >
+                <X size={18} />
+                Cancel
+              </button>
+            </div>
+          </div>
+        </form>
+      ) : (
+        <div className="space-y-6">
+          {/* Project Details */}
+          <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-8">
+            <h3 className="text-2xl font-bold mb-6 pb-4 border-b border-[#2A2A2A]">
+              Project Details
+            </h3>
+            {project.description && (
+              <p className="text-gray-400 leading-relaxed mb-6">
+                {project.description}
+              </p>
+            )}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+              {project.project_type && (
+                <div className="bg-[#0a0a0a] rounded-xl p-5">
+                  <div className="text-xs text-gray-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                    <Package size={12} />
+                    Type
+                  </div>
+                  <div className="text-sm font-bold text-[#00FF94]">{project.project_type}</div>
+                </div>
+              )}
+              {project.start_date && (
+                <div className="bg-[#0a0a0a] rounded-xl p-5">
+                  <div className="text-xs text-gray-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                    <Calendar size={12} />
+                    Start Date
+                  </div>
+                  <div className="text-sm font-bold text-[#00FF94]">
+                    {new Date(project.start_date).toLocaleDateString()}
+                  </div>
+                </div>
+              )}
+              <div className="bg-[#0a0a0a] rounded-xl p-5">
+                <div className="text-xs text-gray-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                  <Calendar size={12} />
+                  Created
+                </div>
+                <div className="text-sm font-bold text-[#00FF94]">
+                  {new Date(project.created_at).toLocaleDateString()}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Technical Links */}
+          {(project.repo_url || project.staging_url || project.production_url) && (
+            <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-8">
+              <h3 className="text-2xl font-bold mb-6 pb-4 border-b border-[#2A2A2A]">
+                Technical Links
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                {project.repo_url && (
+                  <div className="bg-[#0a0a0a] rounded-xl p-5">
+                    <div className="text-xs text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                      <Github size={12} />
+                      Repository
+                    </div>
+                    <a 
+                      href={project.repo_url} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-[#00FF94] hover:underline font-semibold"
+                    >
+                      View on GitHub
+                      <ExternalLink size={14} />
+                    </a>
+                  </div>
+                )}
+                {project.staging_url && (
+                  <div className="bg-[#0a0a0a] rounded-xl p-5">
+                    <div className="text-xs text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                      <Globe size={12} />
+                      Staging
+                    </div>
+                    <a 
+                      href={project.staging_url} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-[#00FF94] hover:underline font-semibold"
+                    >
+                      Open Staging
+                      <ExternalLink size={14} />
+                    </a>
+                  </div>
+                )}
+                {project.production_url && (
+                  <div className="bg-[#0a0a0a] rounded-xl p-5">
+                    <div className="text-xs text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                      <Rocket size={12} />
+                      Production
+                    </div>
+                    <a 
+                      href={project.production_url} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-[#00FF94] hover:underline font-semibold"
+                    >
+                      Open Live Site
+                      <ExternalLink size={14} />
+                    </a>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Notes */}
+          {project.notes && (
+            <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-8">
+              <h3 className="text-2xl font-bold mb-6 pb-4 border-b border-[#2A2A2A]">
+                Internal Notes
+              </h3>
+              <p className="text-gray-400 leading-relaxed whitespace-pre-wrap">
+                {project.notes}
+              </p>
+            </div>
+          )}
+        </div>
+      )}
+
+      <style jsx>{`
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(20px); }
           to { opacity: 1; transform: translateY(0); }
         }
-
-        .breadcrumb {
-          color: #888;
-          font-size: 0.9rem;
-          margin-bottom: 20px;
-        }
-
-        .breadcrumb a {
-          color: #00FF94;
-          text-decoration: none;
-        }
-
-        .header {
-          display: flex;
-          justify-content: space-between;
-          align-items: start;
-          margin-bottom: 30px;
-        }
-
-        h1 {
-          font-size: 2.5rem;
-          font-weight: 900;
-          color: white;
-          margin-bottom: 10px;
-        }
-
-        .client-link {
-          font-size: 1.1rem;
-          color: #00FF94;
-          font-weight: 600;
-          margin-bottom: 10px;
-          text-decoration: none;
-          display: inline-block;
-        }
-
-        .client-link:hover {
-          text-decoration: underline;
-        }
-
-        .status-badge {
-          padding: 8px 16px;
-          border-radius: 12px;
-          font-weight: 700;
-          font-size: 0.9rem;
-        }
-
-        .actions {
-          display: flex;
-          gap: 10px;
-          flex-wrap: wrap;
-        }
-
-        .btn {
-          padding: 10px 20px;
-          border-radius: 8px;
-          font-weight: 600;
-          cursor: pointer;
-          transition: all 0.3s;
-          text-decoration: none;
-          display: inline-block;
-          border: none;
-          font-size: 0.95rem;
-        }
-
-        .btn-primary {
-          background: #00FF94;
-          color: #000;
-        }
-
-        .btn-secondary {
-          background: #333;
-          color: white;
-        }
-
-        .btn-danger {
-          background: #ef4444;
-          color: white;
-        }
-
-        .btn:hover {
-          transform: translateY(-2px);
-        }
-
-        .stats-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-          gap: 15px;
-          margin: 30px 0;
-        }
-
-        .stat-card {
-          background: #1a1a1a;
-          border: 1px solid #333;
-          border-radius: 12px;
-          padding: 20px;
-        }
-
-        .stat-label {
-          font-size: 0.8rem;
-          color: #666;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-          margin-bottom: 8px;
-        }
-
-        .stat-value {
-          font-size: 2rem;
-          font-weight: 900;
-          color: #00FF94;
-        }
-
-        .stat-meta {
-          font-size: 0.85rem;
-          color: #888;
-          margin-top: 5px;
-        }
-
-        .progress-section {
-          background: #1a1a1a;
-          border: 1px solid #333;
-          border-radius: 12px;
-          padding: 25px;
-          margin: 20px 0;
-        }
-
-        .progress-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 15px;
-        }
-
-        .progress-title {
-          font-size: 1rem;
-          font-weight: 700;
-          color: white;
-        }
-
-        .progress-value {
-          font-size: 1.5rem;
-          font-weight: 900;
-          color: #00FF94;
-        }
-
-        .progress-bar {
-          background: #0a0a0a;
-          border-radius: 8px;
-          height: 12px;
-          overflow: hidden;
-        }
-
-        .progress-fill {
-          height: 100%;
-          transition: width 0.3s;
-          border-radius: 8px;
-        }
-
-        .content-grid {
-          display: grid;
-          gap: 20px;
-        }
-
-        .card {
-          background: #1a1a1a;
-          border: 1px solid #333;
-          border-radius: 12px;
-          padding: 25px;
-        }
-
-        .card-title {
-          font-size: 1.2rem;
-          font-weight: 700;
-          color: white;
-          margin-bottom: 20px;
-          padding-bottom: 15px;
-          border-bottom: 2px solid #333;
-        }
-
-        .info-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-          gap: 20px;
-        }
-
-        .info-item {
-          background: #0a0a0a;
-          padding: 15px;
-          border-radius: 8px;
-        }
-
-        .info-label {
-          font-size: 0.8rem;
-          color: #666;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-          margin-bottom: 5px;
-        }
-
-        .info-value {
-          font-size: 1.1rem;
-          font-weight: 600;
-          color: #00FF94;
-          word-break: break-all;
-        }
-
-        .link-value {
-          color: #00FF94;
-          text-decoration: none;
-          font-size: 1rem;
-        }
-
-        .link-value:hover {
-          text-decoration: underline;
-        }
-
-        .form-group {
-          margin-bottom: 20px;
-        }
-
-        label {
-          display: block;
-          margin-bottom: 8px;
-          color: #aaa;
-          font-weight: 600;
-          font-size: 0.9rem;
-        }
-
-        input, select, textarea {
-          width: 100%;
-          padding: 12px 15px;
-          background: #0a0a0a;
-          border: 1px solid #333;
-          border-radius: 8px;
-          color: white;
-          font-size: 1rem;
-          font-family: inherit;
-        }
-
-        input:focus, select:focus, textarea:focus {
-          outline: none;
-          border-color: #00FF94;
-        }
-
-        textarea {
-          min-height: 100px;
-          resize: vertical;
+        .animate-fadeIn {
+          animation: fadeIn 0.5s ease-out;
         }
       `}</style>
-
-      <div className="project-detail">
-        <div className="breadcrumb">
-          <Link href="/crm/projects">← Back to Projects</Link>
-        </div>
-
-        <div className="header">
-          <div>
-            <h1>{project.name}</h1>
-            {client && (
-              <Link href={`/crm/clients/${client.id}`} className="client-link">
-                🏢 {client.company || client.name}
-              </Link>
-            )}
-          </div>
-          <span 
-            className="status-badge"
-            style={{
-              background: project.status === 'deployed' ? '#00FF94' :
-                         project.status === 'completed' ? '#10b981' :
-                         project.status === 'development' ? '#f59e0b' : '#3b82f6',
-              color: ['deployed'].includes(project.status) ? '#000' : '#fff'
-            }}
-          >
-            {project.status}
-          </span>
-        </div>
-
-        <div className="actions">
-          {!editing && (
-            <>
-              <button onClick={() => setEditing(true)} className="btn btn-primary">
-                ✏️ Edit
-              </button>
-              {project.staging_url && (
-                <a href={project.staging_url} target="_blank" className="btn btn-secondary">
-                  🔗 View Staging
-                </a>
-              )}
-              {project.production_url && (
-                <a href={project.production_url} target="_blank" className="btn btn-secondary">
-                  🚀 View Live
-                </a>
-              )}
-              <button onClick={handleDelete} className="btn btn-danger">
-                🗑️ Delete
-              </button>
-            </>
-          )}
-        </div>
-
-        {/* Stats */}
-        <div className="stats-grid">
-          <div className="stat-card">
-            <div className="stat-label">Total Value</div>
-            <div className="stat-value">€{project.total_value.toLocaleString()}</div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-label">Paid</div>
-            <div className="stat-value">€{(project.paid_amount || 0).toLocaleString()}</div>
-            <div className="stat-meta">{paymentProgress.toFixed(0)}% received</div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-label">Remaining</div>
-            <div className="stat-value">€{remainingAmount.toLocaleString()}</div>
-          </div>
-          {project.deadline && (
-            <div className="stat-card">
-              <div className="stat-label">Deadline</div>
-              <div className="stat-value" style={{fontSize: '1.3rem'}}>
-                {new Date(project.deadline).toLocaleDateString('en-US', {
-                  month: 'short',
-                  day: 'numeric',
-                  year: 'numeric'
-                })}
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Progress Bar */}
-        <div className="progress-section">
-          <div className="progress-header">
-            <div className="progress-title">Project Progress</div>
-            <div className="progress-value">{project.progress}%</div>
-          </div>
-          <div className="progress-bar">
-            <div 
-              className="progress-fill"
-              style={{
-                width: `${project.progress}%`,
-                background: getProgressColor(project.progress)
-              }}
-            />
-          </div>
-        </div>
-
-        {editing ? (
-          <form onSubmit={handleUpdate}>
-            <div className="card">
-              <h3 className="card-title">Edit Project</h3>
-              <div className="info-grid">
-                <div className="form-group">
-                  <label>Project Name</label>
-                  <input
-                    type="text"
-                    value={formData.name || ''}
-                    onChange={(e) => setFormData({...formData, name: e.target.value})}
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Project Type</label>
-                  <select
-                    value={formData.project_type || ''}
-                    onChange={(e) => setFormData({...formData, project_type: e.target.value})}
-                  >
-                    <option value="">Select...</option>
-                    <option value="website">Website</option>
-                    <option value="web-app">Web Application</option>
-                    <option value="e-commerce">E-commerce</option>
-                    <option value="redesign">Redesign</option>
-                    <option value="maintenance">Maintenance</option>
-                  </select>
-                </div>
-                <div className="form-group">
-                  <label>Status</label>
-                  <select
-                    value={formData.status || 'planning'}
-                    onChange={(e) => setFormData({...formData, status: e.target.value})}
-                  >
-                    <option value="planning">Planning</option>
-                    <option value="design">Design</option>
-                    <option value="development">Development</option>
-                    <option value="testing">Testing</option>
-                    <option value="deployed">Deployed</option>
-                    <option value="completed">Completed</option>
-                  </select>
-                </div>
-                <div className="form-group">
-                  <label>Progress (%)</label>
-                  <input
-                    type="number"
-                    value={formData.progress || 0}
-                    onChange={(e) => setFormData({...formData, progress: e.target.value})}
-                    min="0"
-                    max="100"
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Total Value (€)</label>
-                  <input
-                    type="number"
-                    value={formData.total_value || ''}
-                    onChange={(e) => setFormData({...formData, total_value: e.target.value})}
-                    step="0.01"
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Paid Amount (€)</label>
-                  <input
-                    type="number"
-                    value={formData.paid_amount || 0}
-                    onChange={(e) => setFormData({...formData, paid_amount: e.target.value})}
-                    step="0.01"
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Start Date</label>
-                  <input
-                    type="date"
-                    value={formData.start_date || ''}
-                    onChange={(e) => setFormData({...formData, start_date: e.target.value})}
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Deadline</label>
-                  <input
-                    type="date"
-                    value={formData.deadline || ''}
-                    onChange={(e) => setFormData({...formData, deadline: e.target.value})}
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Repository URL</label>
-                  <input
-                    type="url"
-                    value={formData.repo_url || ''}
-                    onChange={(e) => setFormData({...formData, repo_url: e.target.value})}
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Staging URL</label>
-                  <input
-                    type="url"
-                    value={formData.staging_url || ''}
-                    onChange={(e) => setFormData({...formData, staging_url: e.target.value})}
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Production URL</label>
-                  <input
-                    type="url"
-                    value={formData.production_url || ''}
-                    onChange={(e) => setFormData({...formData, production_url: e.target.value})}
-                  />
-                </div>
-              </div>
-              <div className="form-group" style={{marginTop: '20px'}}>
-                <label>Description</label>
-                <textarea
-                  value={formData.description || ''}
-                  onChange={(e) => setFormData({...formData, description: e.target.value})}
-                />
-              </div>
-              <div className="form-group">
-                <label>Notes</label>
-                <textarea
-                  value={formData.notes || ''}
-                  onChange={(e) => setFormData({...formData, notes: e.target.value})}
-                />
-              </div>
-              <div style={{display: 'flex', gap: '10px', marginTop: '30px'}}>
-                <button type="submit" className="btn btn-primary" disabled={saving}>
-                  {saving ? 'Saving...' : 'Save Changes'}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setEditing(false);
-                    setFormData(project);
-                  }}
-                  className="btn btn-secondary"
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
-          </form>
-        ) : (
-          <div className="content-grid">
-            {/* Project Details */}
-            <div className="card">
-              <h3 className="card-title">Project Details</h3>
-              {project.description && (
-                <p style={{color: '#aaa', lineHeight: '1.8', marginBottom: '20px'}}>
-                  {project.description}
-                </p>
-              )}
-              <div className="info-grid">
-                {project.project_type && (
-                  <div className="info-item">
-                    <div className="info-label">Type</div>
-                    <div className="info-value">{project.project_type}</div>
-                  </div>
-                )}
-                {project.start_date && (
-                  <div className="info-item">
-                    <div className="info-label">Start Date</div>
-                    <div className="info-value">
-                      {new Date(project.start_date).toLocaleDateString()}
-                    </div>
-                  </div>
-                )}
-                <div className="info-item">
-                  <div className="info-label">Created</div>
-                  <div className="info-value">
-                    {new Date(project.created_at).toLocaleDateString()}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Technical Links */}
-            {(project.repo_url || project.staging_url || project.production_url) && (
-              <div className="card">
-                <h3 className="card-title">Technical Links</h3>
-                <div className="info-grid">
-                  {project.repo_url && (
-                    <div className="info-item">
-                      <div className="info-label">Repository</div>
-                      <a href={project.repo_url} target="_blank" className="link-value">
-                        View on GitHub →
-                      </a>
-                    </div>
-                  )}
-                  {project.staging_url && (
-                    <div className="info-item">
-                      <div className="info-label">Staging</div>
-                      <a href={project.staging_url} target="_blank" className="link-value">
-                        Open Staging →
-                      </a>
-                    </div>
-                  )}
-                  {project.production_url && (
-                    <div className="info-item">
-                      <div className="info-label">Production</div>
-                      <a href={project.production_url} target="_blank" className="link-value">
-                        Open Live Site →
-                      </a>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* Notes */}
-            {project.notes && (
-              <div className="card">
-                <h3 className="card-title">Internal Notes</h3>
-                <p style={{color: '#aaa', lineHeight: '1.8', whiteSpace: 'pre-wrap'}}>
-                  {project.notes}
-                </p>
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-    </>
+    </div>
   );
 }

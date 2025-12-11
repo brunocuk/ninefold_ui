@@ -1,11 +1,26 @@
-// app/crm/page.jsx
-// CRM Dashboard - Overview with Stats
+// app/(crm-admin)/crm/page.jsx
+// CRM Dashboard with Tailwind CSS
 
 'use client';
 
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
+import { 
+  UserPlus, 
+  Users, 
+  FileText, 
+  FolderKanban, 
+  TrendingUp,
+  DollarSign,
+  Edit,
+  Building2,
+  ArrowUpRight,
+  Sparkles,
+  CheckCircle,
+  Clock,
+  Zap
+} from 'lucide-react';
 
 export default function CRMDashboard() {
   const [stats, setStats] = useState({
@@ -16,7 +31,6 @@ export default function CRMDashboard() {
     revenue: { total: 0, thisMonth: 0 }
   });
   const [loading, setLoading] = useState(true);
-  const [recentActivity, setRecentActivity] = useState([]);
 
   useEffect(() => {
     loadStats();
@@ -24,7 +38,6 @@ export default function CRMDashboard() {
 
   const loadStats = async () => {
     try {
-      // Load all data
       const [leadsRes, clientsRes, quotesRes, projectsRes] = await Promise.all([
         supabase.from('leads').select('status'),
         supabase.from('clients').select('status, lifetime_value'),
@@ -37,7 +50,6 @@ export default function CRMDashboard() {
       const quotes = quotesRes.data || [];
       const projects = projectsRes.data || [];
 
-      // Calculate stats
       const leadsNew = leads.filter(l => l.status === 'new').length;
       const leadsQualified = leads.filter(l => l.status === 'qualified').length;
       const clientsActive = clients.filter(c => c.status === 'active').length;
@@ -47,7 +59,6 @@ export default function CRMDashboard() {
         ['planning', 'design', 'development', 'testing'].includes(p.status)
       ).length;
 
-      // Revenue
       const totalRevenue = clients.reduce((sum, c) => 
         sum + (parseFloat(c.lifetime_value) || 0), 0
       );
@@ -75,307 +86,186 @@ export default function CRMDashboard() {
 
   if (loading) {
     return (
-      <div style={{textAlign: 'center', padding: '100px 0'}}>
-        <div style={{fontSize: '1.5rem', color: '#00FF94'}}>Loading dashboard...</div>
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-2xl text-[#00FF94]">Loading dashboard...</div>
       </div>
     );
   }
 
-  return (
-    <>
-      <style jsx>{`
-        .dashboard {
-          animation: fadeIn 0.5s ease-out;
-        }
+  const statCards = [
+    {
+      label: 'Leads',
+      value: stats.leads.total,
+      icon: UserPlus,
+      href: '/crm/leads',
+      meta: [
+        { label: 'New', value: stats.leads.new, icon: Sparkles },
+        { label: 'Qualified', value: stats.leads.qualified, icon: CheckCircle }
+      ]
+    },
+    {
+      label: 'Clients',
+      value: stats.clients.total,
+      icon: Users,
+      href: '/crm/clients',
+      meta: [
+        { label: 'Active', value: stats.clients.active, icon: CheckCircle }
+      ]
+    },
+    {
+      label: 'Quotes',
+      value: stats.quotes.total,
+      icon: FileText,
+      href: '/crm/quotes',
+      meta: [
+        { label: 'Pending', value: stats.quotes.pending, icon: Clock },
+        { label: 'Accepted', value: stats.quotes.accepted, icon: CheckCircle }
+      ]
+    },
+    {
+      label: 'Projects',
+      value: stats.projects.total,
+      icon: FolderKanban,
+      href: '/crm/projects',
+      meta: [
+        { label: 'Active', value: stats.projects.active, icon: Zap }
+      ]
+    },
+    {
+      label: 'Total Revenue',
+      value: `€${stats.revenue.total.toLocaleString()}`,
+      icon: DollarSign,
+      href: '/crm/analytics',
+      meta: [
+        { label: 'This month', value: `€${stats.revenue.thisMonth.toLocaleString()}`, icon: TrendingUp }
+      ]
+    }
+  ];
 
+  const quickActions = [
+    { label: 'Add Lead', icon: UserPlus, href: '/crm/leads/new', color: 'bg-[#00FF94]' },
+    { label: 'Create Quote', icon: Edit, href: '/crm/quotes/new', color: 'bg-blue-500' },
+    { label: 'New Project', icon: FolderKanban, href: '/crm/projects/new', color: 'bg-purple-500' },
+    { label: 'Add Client', icon: Building2, href: '/crm/clients/new', color: 'bg-amber-500' }
+  ];
+
+  return (
+    <div className="animate-fadeIn">
+      {/* Header */}
+      <div className="mb-10">
+        <h1 className="text-4xl font-black mb-2 bg-gradient-to-r from-[#00FF94] to-[#00CC76] bg-clip-text text-transparent">
+          Dashboard
+        </h1>
+        <p className="text-gray-400">Welcome back! Here's your business overview.</p>
+      </div>
+
+      {stats.leads.total === 0 && stats.clients.total === 0 ? (
+        /* Empty State */
+        <div className="bg-[#1a1a1a] border-2 border-dashed border-[#2A2A2A] rounded-2xl p-20 text-center">
+          <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-[#00FF94]/10 flex items-center justify-center">
+            <Sparkles size={40} className="text-[#00FF94]" />
+          </div>
+          <h3 className="text-2xl font-bold mb-3">Welcome to NineFold CRM!</h3>
+          <p className="text-gray-400 text-lg mb-8">Get started by adding your first lead or client.</p>
+          <div className="flex gap-3 justify-center">
+            <Link 
+              href="/crm/leads/new" 
+              className="px-7 py-3.5 bg-[#00FF94] text-[#0F0F0F] rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 hover:-translate-y-0.5 transition-all"
+            >
+              Add First Lead
+            </Link>
+            <Link 
+              href="/crm/clients/new" 
+              className="px-7 py-3.5 bg-[#2A2A2A] text-white rounded-xl font-bold hover:bg-[#3A3A3A] transition-all"
+            >
+              Add Client
+            </Link>
+          </div>
+        </div>
+      ) : (
+        <>
+          {/* Stats Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-12">
+            {statCards.map((card, index) => {
+              const Icon = card.icon;
+              return (
+                <Link 
+                  href={card.href} 
+                  key={index}
+                  className="group relative bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-7 hover:border-[#00FF94] hover:shadow-xl hover:shadow-[#00FF94]/10 hover:-translate-y-1 transition-all duration-300"
+                >
+                  
+                  {/* Header */}
+                  <div className="flex items-center justify-between mb-5">
+                    <div className="w-12 h-12 rounded-xl bg-[#00FF94]/10 flex items-center justify-center text-[#00FF94]">
+                      <Icon size={24} />
+                    </div>
+                    <ArrowUpRight 
+                      size={20} 
+                      className="text-gray-600 group-hover:text-[#00FF94] group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" 
+                    />
+                  </div>
+
+                  {/* Label */}
+                  <div className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">
+                    {card.label}
+                  </div>
+
+                  {/* Value */}
+                  <div className="text-4xl font-black text-white mb-4">
+                    {card.value}
+                  </div>
+
+                  {/* Meta */}
+                  <div className="flex flex-wrap gap-4 text-sm text-gray-500">
+                    {card.meta.map((item, i) => {
+                      const MetaIcon = item.icon;
+                      return (
+                        <div key={i} className="flex items-center gap-1.5">
+                          <MetaIcon size={14} className="text-[#00FF94]" />
+                          <span>{item.value} {item.label}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+
+          {/* Quick Actions */}
+          <div className="mt-12">
+            <h2 className="text-2xl font-bold mb-6">Quick Actions</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
+              {quickActions.map((action, index) => {
+                const Icon = action.icon;
+                return (
+                  <Link 
+                    href={action.href} 
+                    key={index}
+                    className="group bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-8 flex flex-col items-center gap-4 hover:border-[#00FF94] hover:shadow-xl hover:shadow-[#00FF94]/10 hover:-translate-y-1 transition-all duration-300"
+                  >
+                    <div className={`w-16 h-16 rounded-2xl bg-[#00FF94]/10 flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                      <Icon size={28} className="text-[#00FF94]" />
+                    </div>
+                    <div className="font-semibold text-center">{action.label}</div>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </>
+      )}
+
+      <style jsx>{`
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(20px); }
           to { opacity: 1; transform: translateY(0); }
         }
-
-        .header {
-          margin-bottom: 40px;
-        }
-
-        h1 {
-          font-size: 2.5rem;
-          font-weight: 900;
-          margin-bottom: 10px;
-          background: linear-gradient(135deg, #00FF94 0%, #00CC76 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-        }
-
-        .subtitle {
-          color: #888;
-          font-size: 1rem;
-        }
-
-        .stats-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-          gap: 20px;
-          margin-bottom: 40px;
-        }
-
-        .stat-card {
-          background: #1a1a1a;
-          border: 1px solid #333;
-          border-radius: 12px;
-          padding: 25px;
-          transition: all 0.3s;
-          cursor: pointer;
-          text-decoration: none;
-          color: white;
-          display: block;
-        }
-
-        .stat-card:hover {
-          border-color: #00FF94;
-          box-shadow: 0 0 30px rgba(0, 255, 148, 0.15);
-          transform: translateY(-2px);
-        }
-
-        .stat-header {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          margin-bottom: 15px;
-        }
-
-        .stat-icon {
-          font-size: 2rem;
-        }
-
-        .stat-trend {
-          font-size: 0.85rem;
-          color: #00FF94;
-          font-weight: 600;
-        }
-
-        .stat-label {
-          color: #888;
-          font-size: 0.9rem;
-          margin-bottom: 8px;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-          font-weight: 600;
-        }
-
-        .stat-value {
-          font-size: 2.5rem;
-          font-weight: 900;
-          color: #00FF94;
-          margin-bottom: 10px;
-          line-height: 1;
-        }
-
-        .stat-meta {
-          font-size: 0.85rem;
-          color: #666;
-          display: flex;
-          gap: 15px;
-        }
-
-        .stat-meta span {
-          display: flex;
-          align-items: center;
-          gap: 5px;
-        }
-
-        .quick-actions {
-          margin-top: 50px;
-        }
-
-        h2 {
-          font-size: 1.5rem;
-          margin-bottom: 20px;
-          color: white;
-          font-weight: 700;
-        }
-
-        .actions-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-          gap: 15px;
-        }
-
-        .action-card {
-          background: #1a1a1a;
-          border: 1px solid #333;
-          border-radius: 12px;
-          padding: 25px 20px;
-          text-align: center;
-          transition: all 0.3s;
-          cursor: pointer;
-          text-decoration: none;
-          color: white;
-          display: block;
-        }
-
-        .action-card:hover {
-          background: #00FF94;
-          color: #000;
-          border-color: #00FF94;
-          transform: translateY(-2px);
-        }
-
-        .action-icon {
-          font-size: 2.5rem;
-          margin-bottom: 12px;
-        }
-
-        .action-label {
-          font-weight: 600;
-          font-size: 0.95rem;
-        }
-
-        .empty-state {
-          background: #1a1a1a;
-          border: 2px dashed #333;
-          border-radius: 12px;
-          padding: 60px 20px;
-          text-align: center;
-          margin-top: 20px;
-        }
-
-        .empty-state h3 {
-          font-size: 1.3rem;
-          margin-bottom: 10px;
-          color: white;
-        }
-
-        .empty-state p {
-          color: #888;
-          margin-bottom: 20px;
-        }
-
-        .btn {
-          background: #00FF94;
-          color: #000;
-          padding: 12px 24px;
-          border-radius: 8px;
-          text-decoration: none;
-          display: inline-block;
-          font-weight: 700;
-          transition: all 0.3s;
-        }
-
-        .btn:hover {
-          box-shadow: 0 0 20px rgba(0, 255, 148, 0.4);
-          transform: translateY(-2px);
+        .animate-fadeIn {
+          animation: fadeIn 0.5s ease-out;
         }
       `}</style>
-
-      <div className="dashboard">
-        <div className="header">
-          <h1>Dashboard</h1>
-          <p className="subtitle">Welcome back! Here's your business overview.</p>
-        </div>
-
-        {stats.leads.total === 0 && stats.clients.total === 0 ? (
-          <div className="empty-state">
-            <div className="stat-icon" style={{fontSize: '4rem', marginBottom: '20px'}}>🚀</div>
-            <h3>Welcome to NineFold CRM!</h3>
-            <p>Get started by adding your first lead or client.</p>
-            <div style={{display: 'flex', gap: '10px', justifyContent: 'center'}}>
-              <Link href="/crm/leads/new" className="btn">
-                Add First Lead
-              </Link>
-              <Link href="/crm/clients/new" className="btn" style={{background: '#333', color: 'white'}}>
-                Add Client
-              </Link>
-            </div>
-          </div>
-        ) : (
-          <>
-            <div className="stats-grid">
-              <Link href="/crm/leads" className="stat-card">
-                <div className="stat-header">
-                  <div className="stat-icon">👥</div>
-                </div>
-                <div className="stat-label">Leads</div>
-                <div className="stat-value">{stats.leads.total}</div>
-                <div className="stat-meta">
-                  <span>🆕 {stats.leads.new} new</span>
-                  <span>✓ {stats.leads.qualified} qualified</span>
-                </div>
-              </Link>
-
-              <Link href="/crm/clients" className="stat-card">
-                <div className="stat-header">
-                  <div className="stat-icon">🏢</div>
-                </div>
-                <div className="stat-label">Clients</div>
-                <div className="stat-value">{stats.clients.total}</div>
-                <div className="stat-meta">
-                  <span>✅ {stats.clients.active} active</span>
-                </div>
-              </Link>
-
-              <Link href="/crm/quotes" className="stat-card">
-                <div className="stat-header">
-                  <div className="stat-icon">📄</div>
-                </div>
-                <div className="stat-label">Quotes</div>
-                <div className="stat-value">{stats.quotes.total}</div>
-                <div className="stat-meta">
-                  <span>⏳ {stats.quotes.pending} pending</span>
-                  <span>✓ {stats.quotes.accepted} accepted</span>
-                </div>
-              </Link>
-
-              <Link href="/crm/projects" className="stat-card">
-                <div className="stat-header">
-                  <div className="stat-icon">🚀</div>
-                </div>
-                <div className="stat-label">Projects</div>
-                <div className="stat-value">{stats.projects.total}</div>
-                <div className="stat-meta">
-                  <span>🔥 {stats.projects.active} active</span>
-                </div>
-              </Link>
-
-              <div className="stat-card" style={{cursor: 'default'}}>
-                <div className="stat-header">
-                  <div className="stat-icon">💰</div>
-                </div>
-                <div className="stat-label">Total Revenue</div>
-                <div className="stat-value">€{stats.revenue.total.toLocaleString()}</div>
-                <div className="stat-meta">
-                  <span>📊 €{stats.revenue.thisMonth.toLocaleString()} this month</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="quick-actions">
-              <h2>Quick Actions</h2>
-              <div className="actions-grid">
-                <Link href="/crm/leads/new" className="action-card">
-                  <div className="action-icon">➕</div>
-                  <div className="action-label">Add Lead</div>
-                </Link>
-
-                <Link href="/quote-maker" className="action-card">
-                  <div className="action-icon">📝</div>
-                  <div className="action-label">Create Quote</div>
-                </Link>
-
-                <Link href="/crm/projects/new" className="action-card">
-                  <div className="action-icon">🚀</div>
-                  <div className="action-label">New Project</div>
-                </Link>
-
-                <Link href="/crm/clients/new" className="action-card">
-                  <div className="action-icon">🏢</div>
-                  <div className="action-label">Add Client</div>
-                </Link>
-              </div>
-            </div>
-          </>
-        )}
-      </div>
-    </>
+    </div>
   );
 }
