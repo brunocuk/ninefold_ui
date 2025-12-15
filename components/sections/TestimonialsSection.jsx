@@ -22,10 +22,10 @@ export default function TestimonialsSection() {
       avatar: "BJ",
     },
     {
-      quote: "NineFold delivered exactly what we needed, exactly when we needed it. The September 1st deadline was critical for our PR launch, and they met it without compromising quality.",
-      author: "Saša Perko",
-      role: "CEO",
-      company: "DI Plan",
+      quote: "NineFold perfectly captured what makes our studio special. The custom videos for each artist are brilliant - clients love getting to know us before they come in. The website has the right balance of showcasing our professional work while keeping that fun, relaxed vibe that defines us. It\'s exactly what we needed to represent Radijona online.",
+      author: "Tomislav Majić",
+      role: "Owner",
+      company: "Radijona Tattoo",
       avatar: "SP",
     },
     {

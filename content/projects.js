@@ -375,11 +375,11 @@ export const projects = [
     ],
     
     testimonial: {
-      quote: "NineFold delivered exactly what we needed, exactly when we needed it. The September 1st deadline was critical for our PR launch, and they met it without compromising quality. The new website perfectly represents our multidisciplinary approach, and the CMS makes it incredibly easy for our team to manage content, publish blogs, and control our SEO. It's been instrumental in how we present ourselves to the market.",
-      author: "Saša Perko",
-      role: "Owner/CEO",
-      company: "DI Plan",
-      image: "/testimonials/sasa-perko.jpg"
+      quote: "",
+      author: "",
+      role: "",
+      company: "",
+      image: ""
     },
     
     relatedProjects: [3, 1, 2],

@@ -44,8 +44,15 @@ export default function CRMLayout({ children }) {
     } = onAuthStateChange((event, session) => {
       if (event === "SIGNED_IN") {
         setUser(session?.user ?? null);
+        setLoading(false); // ADD THIS - Set loading to false when signed in
+        
+        // If on login page, redirect to dashboard
+        if (pathname === "/crm/login") {
+          router.push("/crm");
+        }
       } else if (event === "SIGNED_OUT") {
         setUser(null);
+        setLoading(false); // ADD THIS - Set loading to false when signed out
         router.push("/crm/login");
       }
     });
@@ -53,13 +60,14 @@ export default function CRMLayout({ children }) {
     return () => {
       subscription?.unsubscribe();
     };
-  }, []);
+  }, [pathname, router]); // ADD pathname and router to dependencies
 
   async function checkUser() {
     const currentUser = await getUser();
 
     if (!currentUser && pathname !== "/crm/login") {
       router.push("/crm/login");
+      setLoading(false); // ADD THIS - Set loading to false even when redirecting
       return;
     }
 

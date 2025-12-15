@@ -67,12 +67,12 @@ export default function AboutPage() {
       bio: 'Writes code that doesn\'t break. Allergic to slow websites. Will argue about React for hours.',
       id: "1"
     },
-    {
-      name: 'Petar',
-      role: 'Content Creator',
-      bio: 'Points camera, magic happens. Your products will never look this good again. Brings the vibes.',
-      id: "2"
-    },
+    // {
+    //   name: 'Petar',
+    //   role: 'Content Creator',
+    //   bio: 'Points camera, magic happens. Your products will never look this good again. Brings the vibes.',
+    //   id: "2"
+    // },
     {
       name: 'Development Team',
       role: 'Specialized Developers',
