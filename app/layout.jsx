@@ -7,6 +7,7 @@ import SmoothScroll from '@/components/SmoothScroll'
 import GradualBlur from '@/components/GradualBlur'
 import ScrollToTop from '@/components/ScrollToTop'
 import Script from 'next/script'
+import { Analytics } from '@vercel/analytics/react'
 
 export const metadata = {
   title: 'Ninefold - Premium Web Development',
@@ -33,7 +34,7 @@ export default function RootLayout({ children }) {
           {children}
           <Footer />
         </SmoothScroll>
-        
+
         <GradualBlur
           target="page"
           position="bottom"
@@ -44,6 +45,7 @@ export default function RootLayout({ children }) {
           exponential={true}
           opacity={1}
         />
+        <Analytics />
       </body>
     </html>
   )
