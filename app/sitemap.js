@@ -61,7 +61,8 @@ export default function sitemap() {
       '/blog/color-psychology-branding',
       '/blog/scaling-saas-practical-lessons',
       '/blog/design-systems-modern-teams',
-      '/blog/serverless-architecture-practical-guide'
+      '/blog/serverless-architecture-practical-guide',
+      '/blog/optimize-website-speed-2026'
     ].map((route) => ({
       url: `${baseUrl}${route}`,
       lastModified: new Date().toISOString(),
