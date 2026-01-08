@@ -1,7 +1,7 @@
 // app/sitemap.js
 
 export default function sitemap() {
-    const baseUrl = 'https://ninefold.eu' // Replace with your actual domain
+    const baseUrl = 'https://www.ninefold.eu' // Replace with your actual domain
   
     // Static pages
     const routes = [

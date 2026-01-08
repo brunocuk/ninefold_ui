@@ -1,5 +1,5 @@
 export default function robots() {
-    const baseUrl = 'https://ninefold.eu' // Replace with your actual domain
+    const baseUrl = 'https://www.ninefold.eu' // Replace with your actual domain
   
     return {
       rules: {
