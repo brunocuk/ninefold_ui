@@ -5,12 +5,12 @@ import { useRouter, usePathname } from "next/navigation";
 import { getUser, onAuthStateChange } from "@/lib/auth";
 import { signOut } from "@/lib/auth";
 import Link from "next/link";
-import { 
-  LayoutDashboard, 
-  Users, 
-  UserPlus, 
-  FolderKanban, 
-  FileText, 
+import {
+  LayoutDashboard,
+  Users,
+  UserPlus,
+  FolderKanban,
+  FileText,
   TrendingUp,
   BarChart3,
   Calendar,
@@ -18,7 +18,8 @@ import {
   ArrowLeft,
   LogOut,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Target
 } from 'lucide-react';
 
 export default function CRMLayout({ children }) {
@@ -355,6 +356,14 @@ export default function CRMLayout({ children }) {
 
             <div className="nav-section">
               {!isCollapsed && <div className="nav-label">Sales</div>}
+              <Link
+                href="/crm/prospects"
+                className={`nav-link ${isActive("/crm/prospects") ? "active" : ""}`}
+                title={isCollapsed ? "Prospects" : ""}
+              >
+                <span className="nav-icon"><Target size={20} /></span>
+                <span className="nav-text">Prospects</span>
+              </Link>
               <Link
                 href="/crm/leads"
                 className={`nav-link ${isActive("/crm/leads") ? "active" : ""}`}
