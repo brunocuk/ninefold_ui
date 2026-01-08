@@ -4,7 +4,7 @@
 'use client';
 
 import { useState } from 'react';
-import { supabase } from '@/lib/supabase';
+import { getAuthenticatedClient } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -31,6 +31,7 @@ export default function NewProspectPage() {
     setSaving(true);
 
     try {
+      const supabase = getAuthenticatedClient();
       const { data, error } = await supabase
         .from('prospects')
         .insert([formData])

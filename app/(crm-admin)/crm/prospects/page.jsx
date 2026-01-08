@@ -4,7 +4,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabase';
+import { getAuthenticatedClient } from '@/lib/supabase';
 import Link from 'next/link';
 import {
   Mail,
@@ -34,6 +34,7 @@ export default function ProspectsPage() {
   const loadProspects = async () => {
     setLoading(true);
     try {
+      const supabase = getAuthenticatedClient();
       let query = supabase
         .from('prospects')
         .select('*')

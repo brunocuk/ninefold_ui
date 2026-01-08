@@ -4,7 +4,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabase';
+import { getAuthenticatedClient } from '@/lib/supabase';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
@@ -41,6 +41,7 @@ export default function ProspectDetailPage() {
 
   const loadProspect = async () => {
     try {
+      const supabase = getAuthenticatedClient();
       const { data, error } = await supabase
         .from('prospects')
         .select('*')
@@ -62,6 +63,7 @@ export default function ProspectDetailPage() {
     setSaving(true);
 
     try {
+      const supabase = getAuthenticatedClient();
       const { error } = await supabase
         .from('prospects')
         .update({ ...formData, updated_at: new Date().toISOString() })
@@ -102,6 +104,7 @@ export default function ProspectDetailPage() {
         updates.status = 'contacted';
       }
 
+      const supabase = getAuthenticatedClient();
       const { error } = await supabase
         .from('prospects')
         .update(updates)
@@ -123,6 +126,7 @@ export default function ProspectDetailPage() {
     }
 
     try {
+      const supabase = getAuthenticatedClient();
       const { error } = await supabase
         .from('prospects')
         .delete()
