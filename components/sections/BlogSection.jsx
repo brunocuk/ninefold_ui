@@ -16,8 +16,10 @@ export default function BlogSection() {
     triggerOnce: true,
   })
 
-  // Get latest blog posts (limited to 3 for homepage)
-  const latestPosts = blogPosts.slice(0, 3)
+  // Get latest blog posts (sorted by date, limited to 3 for homepage)
+  const latestPosts = [...blogPosts]
+    .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt))
+    .slice(0, 3)
 
   // Format date helper
   const formatDate = (dateString) => {

@@ -9,6 +9,8 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@calcom/atoms": "^2.3.2",
+    "@calcom/embed-react": "^1.5.3",
     "@react-email/components": "^0.5.7",
     "@react-email/render": "^1.4.0",
     "@react-three/drei": "^10.7.6",

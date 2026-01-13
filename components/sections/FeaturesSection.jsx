@@ -15,19 +15,19 @@ export default function FeaturesSection() {
 
   const features = [
     {
-      title: 'Lightning Fast Performance',
-      description: 'Optimized code and modern architecture ensure your site loads instantly. Every millisecond matters for conversions and SEO.',
-      metrics: ['< 1s', 'Load time']
+      title: 'Lightning Performance',
+      description: 'Your site loads in under 1 second. Better user experience, better SEO rankings, more conversions. We guarantee it.',
+      metrics: ['95+', 'PageSpeed Guaranteed']
     },
     {
-      title: 'Pixel-Perfect Design',
-      description: 'Custom interfaces crafted with attention to every detail. Beautiful aesthetics that work flawlessly across all devices.',
-      metrics: ['100%', 'Responsive']
+      title: 'Custom Design',
+      description: 'Every pixel is designed for your brand. No generic themes, no cookie-cutter layouts. Just you.',
+      metrics: ['0%', 'Templates Used']
     },
     {
-      title: 'Built to Scale',
-      description: 'Robust, maintainable code that grows with your business. Add features without starting from scratch.',
-      metrics: ['∞', 'Scalable']
+      title: 'Transparent Process',
+      description: 'Fixed pricing. Clear timeline. Weekly updates. You\'ll always know exactly where your project stands.',
+      metrics: ['€0', 'Surprise Fees']
     },
   ]
 
@@ -60,16 +60,16 @@ export default function FeaturesSection() {
             transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 max-w-3xl will-change-transform"
           >
-            Why work with us?
+            Why your site will outperform the competition
           </motion.h2>
-          
+
           <motion.p
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="text-xl md:text-2xl text-[#88939D] max-w-3xl will-change-transform"
           >
-            We build websites that perform. No bloat, no shortcuts, just clean code and purposeful design.
+            While others cut corners, we guarantee these on every project.
           </motion.p>
         </motion.div>
 
@@ -162,23 +162,25 @@ export default function FeaturesSection() {
               </p>
             </div>
             
-            <motion.button
-              whileHover={{ 
-                scale: 1.02,
-                transition: {
-                  type: "spring",
-                  stiffness: 400,
-                  damping: 30
-                }
-              }}
-              whileTap={{ 
-                scale: 0.98,
-                transition: { duration: 0.1 }
-              }}
-              className="px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg transition-all whitespace-nowrap will-change-transform shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30"
-            >
-              Schedule a call
-            </motion.button>
+            <a href="/contact">
+              <motion.button
+                whileHover={{
+                  scale: 1.02,
+                  transition: {
+                    type: "spring",
+                    stiffness: 400,
+                    damping: 30
+                  }
+                }}
+                whileTap={{
+                  scale: 0.98,
+                  transition: { duration: 0.1 }
+                }}
+                className="px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg transition-all whitespace-nowrap will-change-transform shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30"
+              >
+                Book a free call
+              </motion.button>
+            </a>
           </div>
         </motion.div>
       </div>

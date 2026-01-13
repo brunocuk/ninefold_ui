@@ -261,14 +261,14 @@ export default function ServicesSection() {
                   }}
                   className="px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg transition-all whitespace-nowrap will-change-transform shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30"
                 >
-                  Get in touch
+                  Book a free call
                 </motion.button>
               </Link>
-              
-              <Link href="/services">
+
+              <Link href="/work">
                 <motion.button
-                  whileHover={{ 
-                    scale: 1.02, 
+                  whileHover={{
+                    scale: 1.02,
                     borderColor: '#00FF94',
                     transition: {
                       type: "spring",
@@ -282,7 +282,7 @@ export default function ServicesSection() {
                   }}
                   className="px-8 py-5 bg-transparent border-2 border-[#88939D]/30 text-white font-bold rounded-xl text-lg transition-colors duration-300 whitespace-nowrap hover:text-[#00FF94] will-change-transform"
                 >
-                  All services
+                  See our work
                 </motion.button>
               </Link>
             </div>

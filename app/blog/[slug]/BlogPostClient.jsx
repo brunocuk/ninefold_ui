@@ -295,10 +295,9 @@ export default function BlogPostClient({ post }) {
 
         <div className="relative z-10 max-w-3xl mx-auto px-6 lg:px-12">
           <motion.div
-            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
           >
             {post.content.map((section, index) => renderContent(section, index))}
           </motion.div>

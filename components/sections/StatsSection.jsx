@@ -96,7 +96,7 @@ export default function StatsSection() {
             transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 max-w-3xl will-change-transform"
           >
-            Proven track record
+            We don't just promise. We deliver.
           </motion.h2>
 
           <motion.p
@@ -105,7 +105,7 @@ export default function StatsSection() {
             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="text-xl md:text-2xl text-[#88939D] max-w-3xl will-change-transform"
           >
-            The numbers speak for themselves. Here's what we've achieved.
+            These aren't goals. They're guarantees we've kept on every project.
           </motion.p>
         </motion.div>
 
@@ -241,30 +241,32 @@ export default function StatsSection() {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
             <div className="max-w-2xl">
               <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                The website your business deserves
+                Your competitors' websites are slow. Yours won't be.
               </h3>
               <p className="text-lg text-[#88939D]">
-                Lightning-fast performance, beautiful design, and full-service support. Join businesses who've already made the switch.
+                95+ PageSpeed. On-time delivery. No hidden fees. Guaranteed.
               </p>
             </div>
 
-            <motion.button
-              whileHover={{ 
-                scale: 1.02,
-                transition: {
-                  type: "spring",
-                  stiffness: 400,
-                  damping: 30
-                }
-              }}
-              whileTap={{ 
-                scale: 0.98,
-                transition: { duration: 0.1 }
-              }}
-              className="px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg transition-all whitespace-nowrap will-change-transform shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30"
-            >
-              Join them
-            </motion.button>
+            <a href="/contact">
+              <motion.button
+                whileHover={{
+                  scale: 1.02,
+                  transition: {
+                    type: "spring",
+                    stiffness: 400,
+                    damping: 30
+                  }
+                }}
+                whileTap={{
+                  scale: 0.98,
+                  transition: { duration: 0.1 }
+                }}
+                className="px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg transition-all whitespace-nowrap will-change-transform shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30"
+              >
+                Book a free call
+              </motion.button>
+            </a>
           </div>
         </motion.div>
       </div>

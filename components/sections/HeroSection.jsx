@@ -26,65 +26,65 @@ export default function HeroSection() {
         
         <div className="max-w-5xl">
 
-          {/* Main headline */}
+          {/* Main headline - Problem-first (PAS Formula) */}
           <motion.h1
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ 
-              duration: 1.2, 
-              delay: 0.1, 
-              ease: [0.16, 1, 0.3, 1] // Smoother custom easing
+            transition={{
+              duration: 1.2,
+              delay: 0.1,
+              ease: [0.16, 1, 0.3, 1]
             }}
             className="text-[clamp(3rem,8vw,6rem)] font-bold leading-[1.05] tracking-tight mb-8 will-change-transform"
           >
             <span className="block text-white">
-              Custom websites
+              Slow websites
             </span>
             <span className="block text-white">
-              that drive{' '}
-              <span className="text-[#00FF94]">results</span>.
+              lose{' '}
+              <span className="text-[#00FF94]">customers</span>.
             </span>
           </motion.h1>
 
-          {/* Description */}
+          {/* Subheadline - Solution + Specifics + Guarantee */}
           <motion.p
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ 
-              duration: 1, 
-              delay: 0.3, 
+            transition={{
+              duration: 1,
+              delay: 0.3,
               ease: [0.16, 1, 0.3, 1]
             }}
-            className="text-xl md:text-2xl text-[#88939D] leading-relaxed max-w-3xl mb-12 will-change-transform"
+            className="text-xl md:text-2xl text-[#88939D] leading-relaxed max-w-3xl mb-8 will-change-transform"
           >
-            No templates. No page builders. Just clean code and purposeful design 
-            crafted specifically for your business.
+            We build lightning-fast, custom-coded websites that rank higher and convert better.
+            <span className="text-white"> 95+ PageSpeed guaranteed</span>, or we fix it free.
           </motion.p>
 
-          {/* CTAs */}
+          {/* Value-focused CTAs */}
           <motion.div
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ 
-              duration: 1, 
-              delay: 0.5, 
+            transition={{
+              duration: 1,
+              delay: 0.5,
               ease: [0.16, 1, 0.3, 1]
             }}
-            className="flex flex-col sm:flex-row gap-4 mb-20"
+            className="flex flex-col sm:flex-row gap-4 mb-6"
           >
             <Link href="/contact">
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                transition={{ 
-                  type: "spring", 
-                  stiffness: 400, 
-                  damping: 30 
+                transition={{
+                  type: "spring",
+                  stiffness: 400,
+                  damping: 30
                 }}
                 className="group relative px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg overflow-hidden transition-all will-change-transform"
               >
                 <span className="relative z-10 flex items-center gap-2">
-                  Start a project
+                  Book a free call
                   <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300 ease-out" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
@@ -96,18 +96,49 @@ export default function HeroSection() {
               <motion.button
                 whileHover={{ scale: 1.02, borderColor: '#00FF94' }}
                 whileTap={{ scale: 0.98 }}
-                transition={{ 
-                  type: "spring", 
-                  stiffness: 400, 
+                transition={{
+                  type: "spring",
+                  stiffness: 400,
                   damping: 30,
                   borderColor: { duration: 0.3 }
                 }}
                 className="px-8 py-5 bg-transparent border-2 border-[#88939D]/30 text-white font-bold rounded-xl text-lg will-change-transform"
               >
-                View our work
+                See our work
               </motion.button>
             </Link>
           </motion.div>
+
+          {/* Objection handling - Trust line */}
+          <motion.p
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{
+              duration: 1,
+              delay: 0.6,
+              ease: [0.16, 1, 0.3, 1]
+            }}
+            className="text-sm text-[#88939D] mb-20 flex items-center gap-4 flex-wrap"
+          >
+            <span className="flex items-center gap-1.5">
+              <svg className="w-4 h-4 text-[#00FF94]" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+              Free consultation
+            </span>
+            <span className="flex items-center gap-1.5">
+              <svg className="w-4 h-4 text-[#00FF94]" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+              Reply within 24h
+            </span>
+            <span className="flex items-center gap-1.5">
+              <svg className="w-4 h-4 text-[#00FF94]" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+              No commitment
+            </span>
+          </motion.p>
 
           {/* Stats row */}
           <motion.div
@@ -121,10 +152,10 @@ export default function HeroSection() {
             className="grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-[#88939D]/20 pt-12"
           >
             {[
-              { value: '20+', label: 'Projects Delivered' },
-              { value: '99/100', label: 'Performance Score' },
-              { value: '0.5s', label: 'Avg. Page Load' },
+              { value: '95+', label: 'PageSpeed Guaranteed' },
               { value: '100%', label: 'On-Time Delivery' },
+              { value: '20+', label: 'Projects Delivered' },
+              { value: '€0', label: 'Hidden Fees' },
             ].map((stat, i) => (
               <motion.div
                 key={i}

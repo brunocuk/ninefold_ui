@@ -44,9 +44,9 @@ export default function CTASection() {
             transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-tight will-change-transform"
           >
-            Ready to start
+            Let's build
             <br />
-            your project?
+            your website
           </motion.h2>
 
           {/* Subheadline */}
@@ -56,7 +56,7 @@ export default function CTASection() {
             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="text-xl md:text-2xl text-[#88939D] mb-12 max-w-3xl mx-auto leading-relaxed will-change-transform"
           >
-            Let's turn your vision into reality. Schedule a free consultation to discuss your project.
+            Book a free 15-minute call. We'll discuss your project, give you a clear timeline, and if we're not the right fit — we'll tell you.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -83,7 +83,7 @@ export default function CTASection() {
                 }}
                 className="group px-10 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg transition-all will-change-transform shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30 flex items-center gap-2"
               >
-                Get started now
+                Book a free call
                 <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
@@ -93,8 +93,8 @@ export default function CTASection() {
             {/* Secondary CTA */}
             <Link href="/work">
               <motion.button
-                whileHover={{ 
-                  scale: 1.02, 
+                whileHover={{
+                  scale: 1.02,
                   borderColor: '#00FF94',
                   transition: {
                     type: "spring",
@@ -102,13 +102,13 @@ export default function CTASection() {
                     damping: 30
                   }
                 }}
-                whileTap={{ 
+                whileTap={{
                   scale: 0.98,
                   transition: { duration: 0.1 }
                 }}
                 className="px-10 py-5 border-2 border-[#88939D]/30 text-white font-bold rounded-xl text-lg transition-colors duration-300 hover:text-[#00FF94] will-change-transform"
               >
-                View our work
+                See our work
               </motion.button>
             </Link>
           </motion.div>
@@ -121,9 +121,9 @@ export default function CTASection() {
             className="flex flex-col sm:flex-row items-center justify-center gap-8 text-sm text-[#88939D]"
           >
             {[
-              { text: 'Free consultation' },
-              { text: 'No long-term contracts' },
-              { text: 'Quick response time' },
+              { text: 'Free consultation (no sales pitch)' },
+              { text: 'Clear pricing within 24 hours' },
+              { text: '95+ PageSpeed guaranteed' },
             ].map((item, i) => (
               <motion.div
                 key={i}

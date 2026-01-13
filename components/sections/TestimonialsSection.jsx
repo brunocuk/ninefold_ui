@@ -260,27 +260,29 @@ export default function TestimonialsSection() {
                 Ready to join them?
               </h3>
               <p className="text-lg text-[#88939D]">
-                Let's discuss your project and create something amazing together.
+                Book a free call. We'll discuss your project and see if we're a good fit.
               </p>
             </div>
-            
-            <motion.button
-              whileHover={{ 
-                scale: 1.02,
-                transition: {
-                  type: "spring",
-                  stiffness: 400,
-                  damping: 30
-                }
-              }}
-              whileTap={{ 
-                scale: 0.98,
-                transition: { duration: 0.1 }
-              }}
-              className="px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg transition-all whitespace-nowrap will-change-transform shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30"
-            >
-              Start your project
-            </motion.button>
+
+            <a href="/contact">
+              <motion.button
+                whileHover={{
+                  scale: 1.02,
+                  transition: {
+                    type: "spring",
+                    stiffness: 400,
+                    damping: 30
+                  }
+                }}
+                whileTap={{
+                  scale: 0.98,
+                  transition: { duration: 0.1 }
+                }}
+                className="px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg transition-all whitespace-nowrap will-change-transform shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30"
+              >
+                Book a free call
+              </motion.button>
+            </a>
           </div>
         </motion.div>
       </div>

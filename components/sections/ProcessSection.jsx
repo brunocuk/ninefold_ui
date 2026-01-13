@@ -121,16 +121,16 @@ export default function ProcessSection() {
             transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 will-change-transform"
           >
-            From idea to launch
+            How we deliver on time, every time
           </motion.h2>
-          
+
           <motion.p
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 1, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
             className="text-xl md:text-2xl text-[#88939D] max-w-3xl mx-auto will-change-transform"
           >
-            A proven, transparent process designed to deliver exceptional results
+            A clear 4-step process. No surprises. You'll know exactly where your project stands at every stage.
           </motion.p>
         </motion.div>
 
@@ -335,17 +335,17 @@ export default function ProcessSection() {
                   }}
                   className="group px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg transition-all whitespace-nowrap flex items-center gap-2 will-change-transform shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30"
                 >
-                  Start your project
+                  Book a free call
                   <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
                 </motion.button>
               </Link>
-              
-              <Link href="/contact">
+
+              <Link href="/work">
                 <motion.button
-                  whileHover={{ 
-                    scale: 1.02, 
+                  whileHover={{
+                    scale: 1.02,
                     borderColor: '#00FF94',
                     transition: {
                       type: "spring",
@@ -353,13 +353,13 @@ export default function ProcessSection() {
                       damping: 30
                     }
                   }}
-                  whileTap={{ 
+                  whileTap={{
                     scale: 0.98,
                     transition: { duration: 0.1 }
                   }}
                   className="px-8 py-5 bg-transparent border-2 border-[#88939D]/30 text-white font-bold rounded-xl text-lg transition-colors duration-300 whitespace-nowrap hover:text-[#00FF94] will-change-transform"
                 >
-                  Schedule a call
+                  See our work
                 </motion.button>
               </Link>
             </div>

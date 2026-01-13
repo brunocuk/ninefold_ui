@@ -5,6 +5,8 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { useState } from 'react'
+import Cal, { getCalApi } from "@calcom/embed-react"
+import { useEffect } from "react"
 
 const contactInfo = [
   {
@@ -57,9 +59,25 @@ const budgetOptions = [
 
 export default function ContactContent() {
   const prefersReducedMotion = useReducedMotion()
-  
+
+  useEffect(() => {
+    (async function () {
+      const cal = await getCalApi()
+      cal("ui", {
+        theme: "dark",
+        styles: { branding: { brandColor: "#00FF94" } },
+        hideEventTypeDetails: false,
+      })
+    })()
+  }, [])
+
   const [heroRef, heroInView] = useInView({
     threshold: 0.15,
+    triggerOnce: true,
+  })
+
+  const [bookingRef, bookingInView] = useInView({
+    threshold: 0.1,
     triggerOnce: true,
   })
 
@@ -191,8 +209,7 @@ export default function ContactContent() {
               transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
               className="text-xl md:text-2xl text-[#88939D] leading-relaxed max-w-3xl will-change-transform"
             >
-              Have a project in mind? We'd love to hear about it. Fill out the form below 
-              and we'll get back to you within 24 hours.
+              Book a free 15-minute discovery call. We'll discuss your project and see if we're a good fit.
             </motion.p>
           </div>
         </div>
@@ -200,6 +217,63 @@ export default function ContactContent() {
         {/* Bottom gradient line */}
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00FF94] to-transparent opacity-30" />
       </section>
+
+      {/* Cal.com Booking Section */}
+      <section ref={bookingRef} className="relative py-24 lg:py-32 bg-[#0F0F0F] overflow-hidden">
+
+        {/* Subtle gradient glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none will-change-transform" />
+
+        {/* Noise texture */}
+        <div
+          className="absolute inset-0 opacity-[0.02] mix-blend-overlay pointer-events-none"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+          }}
+        />
+
+        <div className="relative z-10 max-w-5xl mx-auto px-6 lg:px-12">
+
+          {/* Section Header */}
+          <motion.div
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
+            animate={bookingInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="text-center mb-12 will-change-transform"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              Pick a time that works for you
+            </h2>
+            <p className="text-lg text-[#88939D]">
+              Free consultation • No commitment • Reply within 24h
+            </p>
+          </motion.div>
+
+          {/* Cal.com Embed */}
+          <motion.div
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 40 }}
+            animate={bookingInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="rounded-2xl overflow-hidden border-2 border-[#88939D]/20 bg-[#0a0a0a] will-change-transform"
+          >
+            <Cal
+              calLink="ninefold/free-discovery-call"
+              calOrigin="https://app.cal.eu"
+              style={{ width: "100%", height: "100%", overflow: "scroll" }}
+              config={{ layout: "month_view", theme: "dark" }}
+            />
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Divider */}
+      <div className="relative py-16 bg-[#0F0F0F]">
+        <div className="max-w-4xl mx-auto px-6 lg:px-12 text-center">
+          <p className="text-[#88939D] text-lg">
+            Prefer email? Fill out the form below and we'll get back to you within 24 hours.
+          </p>
+        </div>
+      </div>
 
       {/* Contact Form Section */}
       <section ref={formRef} className="relative py-24 lg:py-32 bg-[#0F0F0F] overflow-hidden">
