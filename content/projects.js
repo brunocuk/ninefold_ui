@@ -685,8 +685,8 @@ export const projects = [
     
     featured: false,
     linkToSite: "https://tophillzagreb.com",
-    thumbnail: '/images/project/top-hill.png',
-    heroImage: '/images/project/top-hill.png',
+    thumbnail: '/images/project/top-hill.webp',
+    heroImage: '/images/project/top-hill.webp',
     color: '#FF6B6B',
     
     description: 'A clean, visual showcase website for a brand-new 2024 vacation rental house in Zagreb. Featuring panoramic views of Medvednica and Sljeme, the property offers privacy, comfort, and premium amenities including sauna and jacuzzi - perfect for families, couples, or friends seeking a peaceful getaway.',

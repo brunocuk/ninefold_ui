@@ -33,11 +33,11 @@
   }
   
   html {
-    @apply scroll-smooth;
+    @apply scroll-smooth overflow-x-hidden;
   }
-  
+
   body {
-    @apply bg-black text-white antialiased;
+    @apply bg-black text-white antialiased overflow-x-hidden;
     font-family: 'Nohemi', system-ui, sans-serif;
   }
   
