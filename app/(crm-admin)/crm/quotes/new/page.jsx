@@ -6,18 +6,21 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
-import { CreditCard, Loader2, Copy, CheckCircle } from 'lucide-react';
+import { CreditCard, Loader2, Copy, CheckCircle, Plus, Trash2 } from 'lucide-react';
 
 export default function QuoteMaker() {
   const router = useRouter();
   const [clients, setClients] = useState([]);
+  const [leads, setLeads] = useState([]);
   const [saving, setSaving] = useState(false);
   const [generatingLink, setGeneratingLink] = useState(false);
   const [linkGenerated, setLinkGenerated] = useState(false);
+  const [sourceType, setSourceType] = useState('manual'); // 'manual', 'client', or 'lead'
 
-  // Load clients on mount
+  // Load clients and leads on mount
   useEffect(() => {
     loadClients();
+    loadLeads();
   }, []);
 
   const loadClients = async () => {
@@ -35,9 +38,26 @@ export default function QuoteMaker() {
     }
   };
 
+  const loadLeads = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('leads')
+        .select('id, name, company, email, status')
+        .in('status', ['new', 'contacted', 'qualified'])
+        .order('name');
+
+      if (error) throw error;
+      setLeads(data || []);
+    } catch (error) {
+      console.error('Error loading leads:', error);
+    }
+  };
+
   // Form state
   const [formData, setFormData] = useState({
     clientId: '',
+    leadId: '',
+    title: '',
     clientName: '',
     clientEmail: '',
     duration: '8 tjedana',
@@ -52,12 +72,12 @@ export default function QuoteMaker() {
     contentScope: ['Professional copywriting', 'On-page SEO optimization', 'Meta tags and structured data', 'Analytics setup'],
     testingScope: ['Cross-browser testing', 'Performance optimization', 'Security setup', 'Deployment and launch'],
     
-    // Pricing
-    designPrice: 1200,
-    developmentPrice: 2000,
-    contentPrice: 800,
-    seoPrice: 400,
+    // Pricing - Dynamic line items
+    items: [
+      { name: 'Website Design + Development', description: '', price: 3200 }
+    ],
     discountRate: 0.20,
+    depositRate: 0.50, // Default 50% deposit
     
     // Timeline
     timeline: [
@@ -69,7 +89,7 @@ export default function QuoteMaker() {
   });
 
   const calculateSubtotal = () => {
-    return formData.designPrice + formData.developmentPrice + formData.contentPrice + formData.seoPrice;
+    return formData.items.reduce((sum, item) => sum + (item.price || 0), 0);
   };
 
   const calculateTotal = () => {
@@ -77,14 +97,72 @@ export default function QuoteMaker() {
     return subtotal - (subtotal * formData.discountRate);
   };
 
+  const addItem = () => {
+    setFormData({
+      ...formData,
+      items: [...formData.items, { name: '', description: '', price: 0 }]
+    });
+  };
+
+  const removeItem = (index) => {
+    if (formData.items.length > 1) {
+      setFormData({
+        ...formData,
+        items: formData.items.filter((_, i) => i !== index)
+      });
+    }
+  };
+
+  const updateItem = (index, field, value) => {
+    const newItems = [...formData.items];
+    newItems[index] = { ...newItems[index], [field]: field === 'price' ? Number(value) : value };
+    setFormData({ ...formData, items: newItems });
+  };
+
+  // Timeline management
+  const addTimelinePhase = () => {
+    setFormData({
+      ...formData,
+      timeline: [...formData.timeline, { week: '', phase: '', duration: '' }]
+    });
+  };
+
+  const removeTimelinePhase = (index) => {
+    if (formData.timeline.length > 1) {
+      setFormData({
+        ...formData,
+        timeline: formData.timeline.filter((_, i) => i !== index)
+      });
+    }
+  };
+
+  const updateTimelinePhase = (index, field, value) => {
+    const newTimeline = [...formData.timeline];
+    newTimeline[index] = { ...newTimeline[index], [field]: value };
+    setFormData({ ...formData, timeline: newTimeline });
+  };
+
+  const handleSourceTypeChange = (type) => {
+    setSourceType(type);
+    // Reset selection when changing source type
+    setFormData({
+      ...formData,
+      clientId: '',
+      leadId: '',
+      clientName: type === 'manual' ? '' : formData.clientName,
+      clientEmail: type === 'manual' ? '' : formData.clientEmail
+    });
+  };
+
   const handleClientSelect = (e) => {
     const clientId = e.target.value;
     const client = clients.find(c => c.id === clientId);
-    
+
     if (client) {
       setFormData({
         ...formData,
         clientId: clientId,
+        leadId: '',
         clientName: client.company || client.name,
         clientEmail: client.email || ''
       });
@@ -92,6 +170,28 @@ export default function QuoteMaker() {
       setFormData({
         ...formData,
         clientId: '',
+        clientName: '',
+        clientEmail: ''
+      });
+    }
+  };
+
+  const handleLeadSelect = (e) => {
+    const leadId = e.target.value;
+    const lead = leads.find(l => l.id === leadId);
+
+    if (lead) {
+      setFormData({
+        ...formData,
+        leadId: leadId,
+        clientId: '',
+        clientName: lead.company || lead.name,
+        clientEmail: lead.email || ''
+      });
+    } else {
+      setFormData({
+        ...formData,
+        leadId: '',
         clientName: '',
         clientEmail: ''
       });
@@ -121,21 +221,22 @@ export default function QuoteMaker() {
     setLinkGenerated(false);
 
     try {
-      // Calculate 50% deposit (half of total)
-      const depositAmount = total * 0.5;
-      
-      // Create Revolut payment link for DEPOSIT (50%)
+      // Calculate deposit based on depositRate
+      const depositAmount = total * formData.depositRate;
+      const depositPercent = Math.round(formData.depositRate * 100);
+
+      // Create Revolut payment link for deposit
       const response = await fetch('/api/quotes/create-payment-link-preview', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          amount: Math.round(depositAmount * 100), // Convert to cents (50% of total)
+          amount: Math.round(depositAmount * 100), // Convert to cents
           currency: 'EUR',
           clientEmail: formData.clientEmail,
           clientName: formData.clientName,
-          description: `50% Deposit for ${formData.clientName} - ${formData.projectOverview.substring(0, 80)}`,
+          description: `${depositPercent}% Deposit for ${formData.clientName} - ${formData.projectOverview.substring(0, 80)}`,
         }),
       });
 
@@ -173,11 +274,12 @@ export default function QuoteMaker() {
 
       // Prepare quote data
       const quoteData = {
-        // Link to client if selected
+        // Link to client or lead if selected
         client_id: formData.clientId || null,
-        lead_id: null,
+        lead_id: formData.leadId || null,
         
         // REQUIRED fields
+        title: formData.title || null,
         client_name: formData.clientName,
         client_email: formData.clientEmail,
         project_overview: formData.projectOverview,
@@ -214,12 +316,14 @@ export default function QuoteMaker() {
           timeline: formData.timeline,
         },
         
-        // Pricing
+        // Pricing - with line items and deposit rate
         pricing: {
+          items: formData.items.filter(item => item.name.trim() !== '' && item.price > 0),
           subtotal: subtotal,
           discountRate: formData.discountRate,
           discountAmount: discountAmount,
           total: total,
+          depositRate: formData.depositRate,
         },
         
         // Store payment link in revolut_checkout_url if it's a Revolut link
@@ -260,31 +364,110 @@ export default function QuoteMaker() {
           {/* Main Form */}
           <div className="lg:col-span-2 space-y-6">
             
-            {/* Client Selection */}
+            {/* Source Selection */}
             <section className="bg-[#1A1A1A] p-6 rounded-lg border border-[#2A2A2A]">
-              <h2 className="text-xl font-bold text-[#00FF94] mb-4">Select Client</h2>
-              <div className="space-y-4">
+              <h2 className="text-xl font-bold text-[#00FF94] mb-4">Quote For</h2>
+
+              {/* Source Type Tabs */}
+              <div className="flex gap-2 mb-4">
+                <button
+                  type="button"
+                  onClick={() => handleSourceTypeChange('manual')}
+                  className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all ${
+                    sourceType === 'manual'
+                      ? 'bg-[#00FF94] text-black'
+                      : 'bg-[#2A2A2A] text-[#8F8F8F] hover:bg-[#3A3A3A]'
+                  }`}
+                >
+                  Manual Entry
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleSourceTypeChange('client')}
+                  className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all ${
+                    sourceType === 'client'
+                      ? 'bg-[#00FF94] text-black'
+                      : 'bg-[#2A2A2A] text-[#8F8F8F] hover:bg-[#3A3A3A]'
+                  }`}
+                >
+                  Client ({clients.length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleSourceTypeChange('lead')}
+                  className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all ${
+                    sourceType === 'lead'
+                      ? 'bg-[#00FF94] text-black'
+                      : 'bg-[#2A2A2A] text-[#8F8F8F] hover:bg-[#3A3A3A]'
+                  }`}
+                >
+                  Lead ({leads.length})
+                </button>
+              </div>
+
+              {/* Client Dropdown */}
+              {sourceType === 'client' && (
                 <div>
                   <label className="block text-[#8F8F8F] text-sm mb-2">
-                    Existing Client (Optional)
+                    Select Client
                   </label>
                   <select
                     value={formData.clientId}
                     onChange={handleClientSelect}
                     className="w-full bg-[#0F0F0F] text-white p-3 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
                   >
-                    <option value="">-- New Client / Manual Entry --</option>
+                    <option value="">-- Select a client --</option>
                     {clients.map(client => (
                       <option key={client.id} value={client.id}>
-                        {client.company || client.name}
+                        {client.company || client.name} {client.email ? `(${client.email})` : ''}
                       </option>
                     ))}
                   </select>
-                  <p className="text-[#666] text-xs mt-2">
-                    Select an existing client or enter details manually below
-                  </p>
                 </div>
-              </div>
+              )}
+
+              {/* Lead Dropdown */}
+              {sourceType === 'lead' && (
+                <div>
+                  <label className="block text-[#8F8F8F] text-sm mb-2">
+                    Select Lead
+                  </label>
+                  <select
+                    value={formData.leadId}
+                    onChange={handleLeadSelect}
+                    className="w-full bg-[#0F0F0F] text-white p-3 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
+                  >
+                    <option value="">-- Select a lead --</option>
+                    {leads.map(lead => (
+                      <option key={lead.id} value={lead.id}>
+                        {lead.company || lead.name} {lead.email ? `(${lead.email})` : ''} - {lead.status}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
+              {/* Manual Entry Message */}
+              {sourceType === 'manual' && (
+                <p className="text-[#666] text-sm">
+                  Enter client details manually in the form below
+                </p>
+              )}
+            </section>
+
+            {/* Quote Title */}
+            <section className="bg-[#1A1A1A] p-6 rounded-lg border border-[#2A2A2A]">
+              <h2 className="text-xl font-bold text-[#00FF94] mb-4">Naziv Ponude</h2>
+              <input
+                type="text"
+                value={formData.title}
+                onChange={(e) => setFormData({...formData, title: e.target.value})}
+                className="w-full bg-[#0F0F0F] text-white p-3 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
+                placeholder="npr. Web stranica + Mobile aplikacija, Redizajn web shopa..."
+              />
+              <p className="text-[#666] text-xs mt-2">
+                Interni naziv ponude za lakše prepoznavanje (neće se prikazati klijentu)
+              </p>
             </section>
 
             {/* Client Info */}
@@ -297,9 +480,9 @@ export default function QuoteMaker() {
                     type="text"
                     value={formData.clientName}
                     onChange={(e) => setFormData({...formData, clientName: e.target.value})}
-                    className="w-full bg-[#0F0F0F] text-white p-3 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
+                    className={`w-full bg-[#0F0F0F] text-white p-3 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none ${(formData.clientId || formData.leadId) ? 'opacity-60' : ''}`}
                     placeholder="DI plan"
-                    disabled={!!formData.clientId}
+                    disabled={!!(formData.clientId || formData.leadId)}
                   />
                 </div>
                 <div>
@@ -308,9 +491,9 @@ export default function QuoteMaker() {
                     type="email"
                     value={formData.clientEmail}
                     onChange={(e) => setFormData({...formData, clientEmail: e.target.value})}
-                    className="w-full bg-[#0F0F0F] text-white p-3 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
+                    className={`w-full bg-[#0F0F0F] text-white p-3 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none ${(formData.clientId || formData.leadId) ? 'opacity-60' : ''}`}
                     placeholder="client@company.com"
-                    disabled={!!formData.clientId}
+                    disabled={!!(formData.clientId || formData.leadId)}
                   />
                   <p className="text-[#666] text-xs mt-1">Required for payment link generation</p>
                 </div>
@@ -343,12 +526,12 @@ export default function QuoteMaker() {
                     ) : linkGenerated ? (
                       <>
                         <CheckCircle size={18} className="text-[#00FF94]" />
-                        Deposit Link Generated (50%)
+                        Deposit Link Generated ({(formData.depositRate * 100).toFixed(0)}%)
                       </>
                     ) : (
                       <>
                         <CreditCard size={18} />
-                        Generate Deposit Payment Link (50%)
+                        Generate Deposit Payment Link ({(formData.depositRate * 100).toFixed(0)}%)
                       </>
                     )}
                   </button>
@@ -383,12 +566,12 @@ export default function QuoteMaker() {
                   
                   {linkGenerated && (
                     <div className="mt-2 p-2 bg-[#00FF94]/10 border border-[#00FF94]/20 rounded text-xs text-[#00FF94]">
-                      ✓ Deposit payment link generated (50% of total)! This will be included in the quote.
+                      ✓ Deposit payment link generated ({(formData.depositRate * 100).toFixed(0)}% of total)! This will be included in the quote.
                     </div>
                   )}
-                  
+
                   <p className="text-[#666] text-xs mt-2">
-                    Generate a Revolut payment link for 50% deposit or paste one manually
+                    Generate a Revolut payment link for {(formData.depositRate * 100).toFixed(0)}% deposit or paste one manually
                   </p>
                 </div>
               </div>
@@ -426,47 +609,64 @@ export default function QuoteMaker() {
               </div>
             </section>
 
-            {/* Pricing */}
+            {/* Pricing - Line Items */}
             <section className="bg-[#1A1A1A] p-6 rounded-lg border border-[#2A2A2A]">
-              <h2 className="text-xl font-bold text-[#00FF94] mb-4">Pricing</h2>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-bold text-[#00FF94]">Services / Line Items</h2>
+                <button
+                  type="button"
+                  onClick={addItem}
+                  className="flex items-center gap-2 bg-[#00FF94] text-black px-3 py-2 rounded text-sm font-semibold hover:bg-[#00DD7F] transition-colors"
+                >
+                  <Plus size={16} />
+                  Add Item
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                {formData.items.map((item, index) => (
+                  <div key={index} className="bg-[#0F0F0F] p-4 rounded-lg border border-[#2A2A2A]">
+                    <div className="flex gap-3 items-start mb-3">
+                      <div className="flex-1">
+                        <input
+                          type="text"
+                          value={item.name}
+                          onChange={(e) => updateItem(index, 'name', e.target.value)}
+                          className="w-full bg-[#1A1A1A] text-white p-3 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
+                          placeholder="Service name (e.g., Website Development)"
+                        />
+                      </div>
+                      <div className="w-32">
+                        <input
+                          type="number"
+                          value={item.price || ''}
+                          onChange={(e) => updateItem(index, 'price', e.target.value)}
+                          className="w-full bg-[#1A1A1A] text-white p-3 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
+                          placeholder="Price"
+                        />
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => removeItem(index)}
+                        disabled={formData.items.length === 1}
+                        className="p-3 text-[#8F8F8F] hover:text-red-500 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                      >
+                        <Trash2 size={18} />
+                      </button>
+                    </div>
+                    <textarea
+                      value={item.description || ''}
+                      onChange={(e) => updateItem(index, 'description', e.target.value)}
+                      className="w-full bg-[#1A1A1A] text-white p-3 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none text-sm resize-none"
+                      placeholder="Description (optional) - e.g., Custom design, responsive layout, 3 revision rounds..."
+                      rows={2}
+                    />
+                  </div>
+                ))}
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 mt-6 pt-4 border-t border-[#2A2A2A]">
                 <div>
-                  <label className="block text-[#8F8F8F] text-sm mb-2">Design</label>
-                  <input
-                    type="number"
-                    value={formData.designPrice}
-                    onChange={(e) => setFormData({...formData, designPrice: Number(e.target.value)})}
-                    className="w-full bg-[#0F0F0F] text-white p-3 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[#8F8F8F] text-sm mb-2">Development</label>
-                  <input
-                    type="number"
-                    value={formData.developmentPrice}
-                    onChange={(e) => setFormData({...formData, developmentPrice: Number(e.target.value)})}
-                    className="w-full bg-[#0F0F0F] text-white p-3 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[#8F8F8F] text-sm mb-2">Content</label>
-                  <input
-                    type="number"
-                    value={formData.contentPrice}
-                    onChange={(e) => setFormData({...formData, contentPrice: Number(e.target.value)})}
-                    className="w-full bg-[#0F0F0F] text-white p-3 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[#8F8F8F] text-sm mb-2">SEO</label>
-                  <input
-                    type="number"
-                    value={formData.seoPrice}
-                    onChange={(e) => setFormData({...formData, seoPrice: Number(e.target.value)})}
-                    className="w-full bg-[#0F0F0F] text-white p-3 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
-                  />
-                </div>
-                <div className="col-span-2">
                   <label className="block text-[#8F8F8F] text-sm mb-2">Discount (%)</label>
                   <input
                     type="number"
@@ -476,7 +676,81 @@ export default function QuoteMaker() {
                     placeholder="20"
                   />
                 </div>
+                <div>
+                  <label className="block text-[#8F8F8F] text-sm mb-2">Deposit (%)</label>
+                  <input
+                    type="number"
+                    value={formData.depositRate * 100}
+                    onChange={(e) => setFormData({...formData, depositRate: Math.min(100, Math.max(0, Number(e.target.value))) / 100})}
+                    className="w-full bg-[#0F0F0F] text-white p-3 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
+                    placeholder="50"
+                    min="0"
+                    max="100"
+                  />
+                </div>
               </div>
+            </section>
+
+            {/* Timeline */}
+            <section className="bg-[#1A1A1A] p-6 rounded-lg border border-[#2A2A2A]">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-bold text-[#00FF94]">Vremenski Plan</h2>
+                <button
+                  type="button"
+                  onClick={addTimelinePhase}
+                  className="flex items-center gap-2 bg-[#00FF94] text-black px-3 py-2 rounded text-sm font-semibold hover:bg-[#00DD7F] transition-colors"
+                >
+                  <Plus size={16} />
+                  Dodaj fazu
+                </button>
+              </div>
+
+              <div className="space-y-3">
+                {formData.timeline.map((phase, index) => (
+                  <div key={index} className="bg-[#0F0F0F] p-4 rounded-lg border border-[#2A2A2A]">
+                    <div className="flex gap-3 items-start">
+                      <div className="w-10 h-10 bg-[#00FF94] rounded-lg flex items-center justify-center text-black font-bold flex-shrink-0">
+                        {index + 1}
+                      </div>
+                      <div className="flex-1 grid grid-cols-3 gap-3">
+                        <input
+                          type="text"
+                          value={phase.week}
+                          onChange={(e) => updateTimelinePhase(index, 'week', e.target.value)}
+                          className="bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none text-sm"
+                          placeholder="Tjedan 1-2"
+                        />
+                        <input
+                          type="text"
+                          value={phase.phase}
+                          onChange={(e) => updateTimelinePhase(index, 'phase', e.target.value)}
+                          className="bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none text-sm"
+                          placeholder="Naziv faze"
+                        />
+                        <input
+                          type="text"
+                          value={phase.duration}
+                          onChange={(e) => updateTimelinePhase(index, 'duration', e.target.value)}
+                          className="bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none text-sm"
+                          placeholder="Trajanje"
+                        />
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => removeTimelinePhase(index)}
+                        disabled={formData.timeline.length === 1}
+                        className="p-2 text-[#8F8F8F] hover:text-red-500 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                      >
+                        <Trash2 size={18} />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <p className="text-[#666] text-xs mt-3">
+                Definirajte faze projekta koje će se prikazati klijentu u ponudi
+              </p>
             </section>
 
           </div>
@@ -487,23 +761,18 @@ export default function QuoteMaker() {
               <h2 className="text-xl font-bold text-[#00FF94] mb-4">Quote Summary</h2>
               
               <div className="space-y-4 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-[#8F8F8F]">Design</span>
-                  <span className="text-white">€{formData.designPrice.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-[#8F8F8F]">Development</span>
-                  <span className="text-white">€{formData.developmentPrice.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-[#8F8F8F]">Content</span>
-                  <span className="text-white">€{formData.contentPrice.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-[#8F8F8F]">SEO</span>
-                  <span className="text-white">€{formData.seoPrice.toLocaleString()}</span>
-                </div>
-                
+                {/* Line Items */}
+                {formData.items.filter(item => item.name.trim() !== '').map((item, index) => (
+                  <div key={index} className="flex justify-between">
+                    <span className="text-[#8F8F8F] truncate pr-2">{item.name || 'Unnamed'}</span>
+                    <span className="text-white">€{(item.price || 0).toLocaleString()}</span>
+                  </div>
+                ))}
+
+                {formData.items.filter(item => item.name.trim() !== '').length === 0 && (
+                  <div className="text-[#666] text-xs">No items added yet</div>
+                )}
+
                 <div className="border-t border-[#2A2A2A] pt-2 mt-2">
                   <div className="flex justify-between text-xs">
                     <span className="text-[#8F8F8F]">Subtotal</span>
@@ -516,26 +785,26 @@ export default function QuoteMaker() {
                     </div>
                   )}
                 </div>
-                
+
                 <div className="border-t border-[#2A2A2A] pt-4 mt-4">
                   <div className="flex justify-between items-center">
                     <span className="text-white font-bold text-lg">Total</span>
                     <span className="text-[#00FF94] font-bold text-2xl">€{calculateTotal().toLocaleString()}</span>
                   </div>
                 </div>
-                
+
                 <div className="text-xs text-[#8F8F8F] pt-2 border-t border-[#2A2A2A] mt-2">
                   <div className="font-semibold text-white mb-1">Payment Structure:</div>
                   <div className="bg-[#00FF94]/10 border border-[#00FF94]/20 rounded p-2 mb-1">
                     <div className="flex justify-between items-center">
-                      <span className="text-[#00FF94] font-semibold">50% Deposit:</span>
-                      <span className="text-[#00FF94] font-bold">€{(calculateTotal() * 0.5).toLocaleString()}</span>
+                      <span className="text-[#00FF94] font-semibold">{(formData.depositRate * 100).toFixed(0)}% Deposit:</span>
+                      <span className="text-[#00FF94] font-bold">€{(calculateTotal() * formData.depositRate).toLocaleString()}</span>
                     </div>
                     <div className="text-[10px] text-[#00FF94]/70 mt-1">Required to start project</div>
                   </div>
                   <div className="flex justify-between">
-                    <span>50% Final Payment:</span>
-                    <span>€{(calculateTotal() * 0.5).toLocaleString()}</span>
+                    <span>{(100 - formData.depositRate * 100).toFixed(0)}% Final Payment:</span>
+                    <span>€{(calculateTotal() * (1 - formData.depositRate)).toLocaleString()}</span>
                   </div>
                   <div className="text-[10px] text-[#666] mt-1">Due upon project completion</div>
                 </div>

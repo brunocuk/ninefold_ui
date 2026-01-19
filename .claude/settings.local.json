@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find:*)",
+      "Bash(npm i:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push)",
+      "Bash(curl:*)",
+      "Bash(npm install)",
+      "Bash(npx next build)",
+      "Bash(git check-ignore:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm run dev:*)",
+      "Bash(git push:*)",
+      "WebSearch",
+      "Bash(for file in HeroSection FeaturesSection PricingSection CTASection ProcessSection ServicesSection StatsSection)",
+      "Bash(do echo '=== $file ===' grep -E \"\\(button|Button|>Get|>Start|>View|>See|>Schedule|>Contact|>Learn|>Join\\)\" /Users/brunocukic/ninefold/components/sections/$file.jsx)",
+      "Bash(npm install:*)",
+      "WebFetch(domain:www.theedigital.com)",
+      "WebFetch(domain:www.wix.com)",
+      "WebFetch(domain:elementor.com)",
+      "WebFetch(domain:www.superside.com)",
+      "Bash(pkill:*)",
+      "Bash(node -e:*)",
+      "Bash(du -sh:*)",
+      "Bash(ffmpeg:*)",
+      "Bash(brew install:*)",
+      "Bash(ls:*)",
+      "Bash(cat:*)"
+    ]
+  }
+}

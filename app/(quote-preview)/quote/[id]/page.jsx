@@ -64,6 +64,7 @@ export default function QuotePreview() {
           .eq('id', params.id);
 
         const formattedData = {
+          title: data.title,
           clientName: data.client_name,
           reference: data.reference,
           date: new Date(data.created_at).toLocaleDateString('hr-HR'),
@@ -127,7 +128,7 @@ export default function QuotePreview() {
         textAlign: 'center'
       }}>
         <h1 style={{fontSize: '3rem', marginBottom: '20px', fontWeight: '900'}}>404</h1>
-        <p style={{color: '#8F8F8F'}}>Quote not found</p>
+        <p style={{color: '#8F8F8F'}}>Ponuda nije pronađena</p>
       </div>
     );
   }
@@ -479,6 +480,21 @@ export default function QuotePreview() {
           font-size: 0.9rem;
         }
 
+        .timeline-note {
+          margin-top: 32px;
+          padding: 20px 24px;
+          background: rgba(0, 255, 148, 0.05);
+          border: 1px solid rgba(0, 255, 148, 0.15);
+          border-radius: 12px;
+          font-size: 0.9rem;
+          line-height: 1.7;
+          color: #8F8F8F;
+        }
+
+        .timeline-note strong {
+          color: #00FF94;
+        }
+
         /* Sidebar */
         .sidebar {
           position: sticky;
@@ -527,6 +543,25 @@ export default function QuotePreview() {
 
         .pricing-breakdown {
           margin-bottom: 24px;
+        }
+
+        .pricing-item {
+          padding: 16px 0;
+          border-bottom: 1px solid #2A2A2A;
+        }
+
+        .pricing-item-header {
+          display: flex;
+          justify-content: space-between;
+          color: #C4C4C4;
+          font-weight: 500;
+        }
+
+        .pricing-item-desc {
+          margin-top: 8px;
+          font-size: 0.85rem;
+          color: #8F8F8F;
+          line-height: 1.5;
         }
 
         .pricing-row {
@@ -677,16 +712,16 @@ export default function QuotePreview() {
           <div className="nav-container">
             <div className="logo">NineFold</div>
             <div className="nav-actions">
-              <a 
+              <a
                 href={`/api/quotes/${params.id}/pdf`}
                 className="btn btn-secondary"
                 download
               >
-                📄 Download PDF
+                📄 Preuzmi PDF
               </a>
               {quoteData.paymentLink && (
                 <a href={quoteData.paymentLink} className="btn btn-primary">
-                  Accept Quote & Pay Deposit →
+                  Prihvati ponudu i plati akontaciju →
                 </a>
               )}
             </div>
@@ -695,22 +730,22 @@ export default function QuotePreview() {
 
         {/* Hero Section */}
         <section className="hero">
-          <h1 className="hero-title">Project Proposal</h1>
+          <h1 className="hero-title">{quoteData.title || 'Projektna Ponuda'}</h1>
           <p className="hero-subtitle">
-            Prepared for {quoteData.clientName}
+            Pripremljeno za {quoteData.clientName}
           </p>
 
           <div className="meta-cards">
             <div className="meta-card">
-              <div className="meta-label">Reference</div>
+              <div className="meta-label">Referenca</div>
               <div className="meta-value">{quoteData.reference}</div>
             </div>
             <div className="meta-card">
-              <div className="meta-label">Date</div>
+              <div className="meta-label">Datum</div>
               <div className="meta-value">{quoteData.date}</div>
             </div>
             <div className="meta-card">
-              <div className="meta-label">Timeline</div>
+              <div className="meta-label">Trajanje</div>
               <div className="meta-value">{quoteData.duration}</div>
             </div>
           </div>
@@ -721,14 +756,14 @@ export default function QuotePreview() {
           <div className="main-content">
             {/* Overview */}
             <section className="section">
-              <h2 className="section-title">Project Overview</h2>
+              <h2 className="section-title">Pregled Projekta</h2>
               <p className="text-large">{quoteData.projectOverview}</p>
             </section>
 
             {/* Objectives */}
             {quoteData.objectives && quoteData.objectives.length > 0 && (
               <section className="section">
-                <h2 className="section-title">Objectives</h2>
+                <h2 className="section-title">Ciljevi</h2>
                 <div className="objectives-grid">
                   {quoteData.objectives.map((obj, index) => (
                     <div key={index} className="objective-item">
@@ -742,7 +777,7 @@ export default function QuotePreview() {
 
             {/* Scope */}
             <section className="section">
-              <h2 className="section-title">Scope of Work</h2>
+              <h2 className="section-title">Opseg Rada</h2>
               <div className="scope-grid">
                 {quoteData.scope.map((section, index) => (
                   <div key={index} className="scope-card">
@@ -762,7 +797,7 @@ export default function QuotePreview() {
 
             {/* Timeline */}
             <section className="section">
-              <h2 className="section-title">Timeline</h2>
+              <h2 className="section-title">Vremenski Plan</h2>
               <div className="timeline">
                 {quoteData.timeline.map((phase, index) => (
                   <div key={index} className="timeline-item">
@@ -772,6 +807,9 @@ export default function QuotePreview() {
                   </div>
                 ))}
               </div>
+              <div className="timeline-note">
+                <strong>Napomena:</strong> Vremenski planovi su okvirni i mogu varirati ovisno o kompleksnosti specifičnih zahtjeva i brzini povratnih informacija tijekom razvoja. Svi projekti uključuju redovite update sastanke kako biste bili u tijeku sa svakim korakom napretka.
+              </div>
             </section>
           </div>
 
@@ -779,47 +817,63 @@ export default function QuotePreview() {
           <aside className="sidebar">
             <div className="pricing-card">
               <div className="pricing-header">
-                <div className="pricing-label">Total Investment</div>
+                <div className="pricing-label">Ukupna Investicija</div>
                 <div className="pricing-amount">
                   €{quoteData.pricing.total.toLocaleString()}
                 </div>
               </div>
 
               <div className="pricing-breakdown">
+                {/* Line Items */}
+                {quoteData.pricing.items && quoteData.pricing.items.length > 0 && (
+                  <>
+                    {quoteData.pricing.items.map((item, index) => (
+                      <div key={index} className="pricing-item">
+                        <div className="pricing-item-header">
+                          <span>{item.name}</span>
+                          <span>€{item.price.toLocaleString()}</span>
+                        </div>
+                        {item.description && (
+                          <div className="pricing-item-desc">{item.description}</div>
+                        )}
+                      </div>
+                    ))}
+                  </>
+                )}
                 <div className="pricing-row subtotal">
-                  <span>Subtotal</span>
+                  <span>Međuzbroj</span>
                   <span>€{quoteData.pricing.subtotal.toLocaleString()}</span>
                 </div>
                 {quoteData.pricing.discountRate > 0 && (
                   <div className="pricing-row discount">
-                    <span>Discount ({(quoteData.pricing.discountRate * 100).toFixed(0)}%)</span>
+                    <span>Popust ({(quoteData.pricing.discountRate * 100).toFixed(0)}%)</span>
                     <span>-€{quoteData.pricing.discountAmount.toLocaleString()}</span>
                   </div>
                 )}
                 <div className="pricing-row total">
-                  <span>Total</span>
+                  <span>Ukupno</span>
                   <span>€{quoteData.pricing.total.toLocaleString()}</span>
                 </div>
               </div>
 
               <div className="payment-terms">
                 <div className="payment-term">
-                  <span className="payment-term-label">50% Deposit</span>
+                  <span className="payment-term-label">{((quoteData.pricing.depositRate || 0.5) * 100).toFixed(0)}% Akontacija</span>
                   <span className="payment-term-value">
-                    €{(quoteData.pricing.total * 0.5).toLocaleString()}
+                    €{(quoteData.pricing.total * (quoteData.pricing.depositRate || 0.5)).toLocaleString()}
                   </span>
                 </div>
                 <div className="payment-term">
-                  <span className="payment-term-label">50% Completion</span>
+                  <span className="payment-term-label">{(100 - (quoteData.pricing.depositRate || 0.5) * 100).toFixed(0)}% Po završetku</span>
                   <span className="payment-term-value">
-                    €{(quoteData.pricing.total * 0.5).toLocaleString()}
+                    €{(quoteData.pricing.total * (1 - (quoteData.pricing.depositRate || 0.5))).toLocaleString()}
                   </span>
                 </div>
               </div>
 
               {quoteData.paymentLink && (
                 <a href={quoteData.paymentLink} className="cta-button">
-                  Accept Quote & Pay Deposit →
+                  Prihvati ponudu i plati akontaciju →
                 </a>
               )}
             </div>

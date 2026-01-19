@@ -195,6 +195,9 @@ export default function QuoteDetailPage() {
       {/* Header */}
       <div className="flex flex-col lg:flex-row justify-between items-start gap-6 mb-8">
         <div className="flex-1">
+          {quote.title && (
+            <p className="text-[#00FF94] text-sm font-semibold mb-2">{quote.title}</p>
+          )}
           <h1 className="text-4xl font-black text-white mb-4">{quote.client_name}</h1>
           {client && (
             <Link 
@@ -266,7 +269,7 @@ export default function QuoteDetailPage() {
             €{quote.pricing?.total?.toLocaleString() || 0}
           </div>
         </div>
-        
+
         <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 text-center">
           <div className="text-xs text-gray-500 uppercase tracking-wider mb-3">Views</div>
           <div className="text-3xl font-black text-[#00FF94] flex items-center justify-center gap-2">
@@ -274,7 +277,7 @@ export default function QuoteDetailPage() {
             {quote.view_count || 0}
           </div>
         </div>
-        
+
         <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 text-center">
           <div className="text-xs text-gray-500 uppercase tracking-wider mb-3">Created</div>
           <div className="text-xl font-black text-[#00FF94] flex items-center justify-center gap-2">
@@ -284,6 +287,68 @@ export default function QuoteDetailPage() {
               day: 'numeric',
               year: 'numeric'
             })}
+          </div>
+        </div>
+      </div>
+
+      {/* Pricing Breakdown */}
+      <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 mb-8">
+        <h3 className="text-xl font-bold mb-4">Pricing Breakdown</h3>
+
+        {/* Line Items */}
+        {quote.pricing?.items && quote.pricing.items.length > 0 && (
+          <div className="space-y-3 mb-4">
+            {quote.pricing.items.map((item, index) => (
+              <div key={index} className="py-3 border-b border-[#2A2A2A]">
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-300">{item.name}</span>
+                  <span className="text-white font-semibold">€{item.price.toLocaleString()}</span>
+                </div>
+                {item.description && (
+                  <p className="text-sm text-gray-500 mt-1">{item.description}</p>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        <div className="space-y-2 text-sm">
+          <div className="flex justify-between text-gray-400">
+            <span>Subtotal</span>
+            <span>€{quote.pricing?.subtotal?.toLocaleString() || 0}</span>
+          </div>
+          {quote.pricing?.discountRate > 0 && (
+            <div className="flex justify-between text-[#00FF94]">
+              <span>Discount ({(quote.pricing.discountRate * 100).toFixed(0)}%)</span>
+              <span>-€{quote.pricing.discountAmount?.toLocaleString() || 0}</span>
+            </div>
+          )}
+          <div className="flex justify-between text-lg font-bold pt-2 border-t border-[#2A2A2A]">
+            <span>Total</span>
+            <span className="text-[#00FF94]">€{quote.pricing?.total?.toLocaleString() || 0}</span>
+          </div>
+        </div>
+
+        {/* Payment Structure */}
+        <div className="mt-6 pt-4 border-t border-[#2A2A2A]">
+          <h4 className="text-sm font-semibold text-gray-400 mb-3">Payment Structure</h4>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="bg-[#00FF94]/10 border border-[#00FF94]/20 rounded-xl p-4">
+              <div className="text-xs text-[#00FF94]/70 mb-1">
+                {((quote.pricing?.depositRate || 0.5) * 100).toFixed(0)}% Deposit
+              </div>
+              <div className="text-xl font-bold text-[#00FF94]">
+                €{(quote.pricing?.total * (quote.pricing?.depositRate || 0.5))?.toLocaleString() || 0}
+              </div>
+            </div>
+            <div className="bg-[#2A2A2A] rounded-xl p-4">
+              <div className="text-xs text-gray-500 mb-1">
+                {(100 - (quote.pricing?.depositRate || 0.5) * 100).toFixed(0)}% On Completion
+              </div>
+              <div className="text-xl font-bold text-white">
+                €{(quote.pricing?.total * (1 - (quote.pricing?.depositRate || 0.5)))?.toLocaleString() || 0}
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -25,9 +25,11 @@ export async function POST(request, { params }) {
       );
     }
 
-    // Calculate 50% deposit
+    // Calculate deposit based on depositRate (default to 50% for backwards compatibility)
     const total = quote.pricing?.total || 0;
-    const depositAmount = total * 0.5;
+    const depositRate = quote.pricing?.depositRate || 0.5;
+    const depositAmount = total * depositRate;
+    const depositPercent = Math.round(depositRate * 100);
 
     if (depositAmount <= 0) {
       return NextResponse.json(
@@ -45,10 +47,10 @@ export async function POST(request, { params }) {
         'Revolut-API-Version': process.env.REVOLUT_API_VERSION || '2024-09-01',
       },
       body: JSON.stringify({
-        amount: Math.round(depositAmount * 100), // 50% deposit in cents
+        amount: Math.round(depositAmount * 100), // deposit in cents
         currency: 'EUR',
         merchant_order_id: quote.quote_number,
-        description: `50% Deposit - ${quote.quote_number}`,
+        description: `${depositPercent}% Deposit - ${quote.quote_number}`,
         customer_email: quote.client_email,
         customer: {
           name: quote.client_name,

@@ -184,7 +184,7 @@ export default function QuotesPage() {
                 <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-5">
                   <div className="flex-1">
                     <h3 className="text-xl font-bold text-white mb-2">
-                      Quote for {clientName}
+                      {quote.title || `Quote for ${clientName}`}
                     </h3>
                     <div className="flex items-center gap-2 text-[#00FF94] font-semibold mb-3">
                       <Building2 size={16} />
