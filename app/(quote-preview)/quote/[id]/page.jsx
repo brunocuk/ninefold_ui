@@ -4,13 +4,16 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 
 export default function QuotePreview() {
   const params = useParams();
+  const searchParams = useSearchParams();
+  const isPdfMode = searchParams.get('pdf') === 'true';
   const [quoteData, setQuoteData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [downloadingPdf, setDownloadingPdf] = useState(false);
 
   useEffect(() => {
     loadQuote();
@@ -42,7 +45,7 @@ export default function QuotePreview() {
       const styleEl = document.getElementById('hide-header-footer');
       if (styleEl) styleEl.remove();
     };
-  }, [params.id]);
+  }, [params.id, isPdfMode]);
 
   const loadQuote = async () => {
     try {
@@ -55,13 +58,16 @@ export default function QuotePreview() {
       if (error) throw error;
 
       if (data) {
-        await supabase
-          .from('quotes')
-          .update({
-            view_count: (data.view_count || 0) + 1,
-            last_viewed_at: new Date().toISOString()
-          })
-          .eq('id', params.id);
+        // Don't increment view count in PDF mode
+        if (!isPdfMode) {
+          await supabase
+            .from('quotes')
+            .update({
+              view_count: (data.view_count || 0) + 1,
+              last_viewed_at: new Date().toISOString()
+            })
+            .eq('id', params.id);
+        }
 
         const formattedData = {
           title: data.title,
@@ -83,6 +89,32 @@ export default function QuotePreview() {
       console.error('Error loading quote:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const downloadPdf = async () => {
+    setDownloadingPdf(true);
+    try {
+      const response = await fetch(`/api/quotes/${params.id}/pdf`);
+      if (!response.ok) throw new Error('PDF generation failed');
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      // Get filename from Content-Disposition header or use default
+      const contentDisposition = response.headers.get('Content-Disposition');
+      const filenameMatch = contentDisposition?.match(/filename="(.+)"/);
+      a.download = filenameMatch ? filenameMatch[1] : `Ponuda_${quoteData.reference || 'NF'}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error downloading PDF:', error);
+      alert('Greška pri generiranju PDF-a. Pokušajte ponovo.');
+    } finally {
+      setDownloadingPdf(false);
     }
   };
 
@@ -232,6 +264,68 @@ export default function QuotePreview() {
           background: #00DD7F;
           transform: translateY(-2px);
           box-shadow: 0 4px 20px rgba(0, 255, 148, 0.3);
+        }
+
+        .btn-download {
+          background: transparent;
+          color: #fff;
+          border: 1px solid #2A2A2A;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .btn-download:hover {
+          background: #1a1a1a;
+          border-color: #00FF94;
+        }
+
+        .btn-download:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+
+        .spinner-small {
+          width: 16px;
+          height: 16px;
+          border: 2px solid #2A2A2A;
+          border-top-color: #00FF94;
+          border-radius: 50%;
+          animation: spin 0.8s linear infinite;
+        }
+
+        /* PDF Mode Styles */
+        .pdf-mode .top-nav {
+          display: none;
+        }
+
+        .pdf-mode .sidebar {
+          position: static;
+        }
+
+        .pdf-mode .hero {
+          padding: 40px 40px;
+        }
+
+        .pdf-mode .content-wrapper {
+          padding: 40px;
+        }
+
+        .pdf-mode .section {
+          margin-bottom: 40px;
+        }
+
+        .pdf-mode .pricing-card {
+          break-inside: avoid;
+        }
+
+        @media print {
+          .top-nav {
+            display: none !important;
+          }
+          .sidebar {
+            position: static !important;
+          }
         }
 
         /* Hero Section */
@@ -706,19 +800,35 @@ export default function QuotePreview() {
         }
       `}</style>
 
-      <div className="quote-page">
+      <div className={`quote-page ${isPdfMode ? 'pdf-mode' : ''}`}>
         {/* Top Navigation */}
         <nav className="top-nav">
           <div className="nav-container">
             <div className="logo">NineFold</div>
             <div className="nav-actions">
-              <a
-                href={`/api/quotes/${params.id}/pdf`}
-                className="btn btn-secondary"
-                download
-              >
-                📄 Preuzmi PDF
-              </a>
+              {!isPdfMode && (
+                <button
+                  onClick={downloadPdf}
+                  disabled={downloadingPdf}
+                  className="btn btn-download"
+                >
+                  {downloadingPdf ? (
+                    <>
+                      <span className="spinner-small"></span>
+                      Generiranje PDF-a...
+                    </>
+                  ) : (
+                    <>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="7 10 12 15 17 10"/>
+                        <line x1="12" y1="15" x2="12" y2="3"/>
+                      </svg>
+                      Preuzmi PDF
+                    </>
+                  )}
+                </button>
+              )}
               {quoteData.paymentLink && (
                 <a href={quoteData.paymentLink} className="btn btn-primary">
                   Prihvati ponudu i plati akontaciju →
