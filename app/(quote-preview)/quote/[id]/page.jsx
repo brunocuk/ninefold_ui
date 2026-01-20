@@ -783,20 +783,55 @@ export default function QuotePreview() {
             grid-template-columns: 1fr;
           }
 
-          .btn {
-            padding: 10px 20px;
-            font-size: 0.9rem;
+          .nav-container {
+            flex-direction: column;
+            gap: 16px;
+            padding: 16px;
+          }
+
+          .logo {
+            font-size: 1.25rem;
           }
 
           .nav-actions {
             flex-direction: column;
             width: 100%;
+            gap: 10px;
           }
 
-          .btn-secondary,
-          .btn-primary {
+          .btn {
+            padding: 12px 16px;
+            font-size: 0.85rem;
             width: 100%;
+            text-align: center;
+            justify-content: center;
           }
+
+          .btn-download {
+            justify-content: center;
+          }
+
+          .btn-primary {
+            white-space: nowrap;
+          }
+
+          /* Hide long text on mobile, show short version */
+          .mobile-hide {
+            display: none;
+          }
+
+          .mobile-show {
+            display: inline;
+          }
+        }
+
+        /* Desktop: show long text, hide short */
+        .mobile-show {
+          display: none;
+        }
+
+        .mobile-hide {
+          display: inline;
         }
       `}</style>
 
@@ -831,7 +866,9 @@ export default function QuotePreview() {
               )}
               {quoteData.paymentLink && (
                 <a href={quoteData.paymentLink} className="btn btn-primary">
-                  Prihvati ponudu i plati akontaciju →
+                  <span className="mobile-hide">Prihvati ponudu i plati akontaciju</span>
+                  <span className="mobile-show">Prihvati i plati</span>
+                  <span> →</span>
                 </a>
               )}
             </div>
