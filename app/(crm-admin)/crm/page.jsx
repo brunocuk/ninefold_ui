@@ -5,12 +5,13 @@
 
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
+import { getUser } from '@/lib/auth';
 import Link from 'next/link';
-import { 
-  UserPlus, 
-  Users, 
-  FileText, 
-  FolderKanban, 
+import {
+  UserPlus,
+  Users,
+  FileText,
+  FolderKanban,
   TrendingUp,
   DollarSign,
   Edit,
@@ -19,7 +20,11 @@ import {
   Sparkles,
   CheckCircle,
   Clock,
-  Zap
+  Zap,
+  Sun,
+  Moon,
+  Sunrise,
+  Calendar
 } from 'lucide-react';
 
 export default function CRMDashboard() {
@@ -31,10 +36,81 @@ export default function CRMDashboard() {
     revenue: { total: 0, thisMonth: 0 }
   });
   const [loading, setLoading] = useState(true);
+  const [userName, setUserName] = useState('');
+  const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
     loadStats();
+    loadUserName();
+
+    // Update time every minute
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 60000);
+
+    // Listen for settings changes (e.g., name update from settings page)
+    const handleSettingsChanged = (e) => {
+      if (e.detail?.profile?.name) {
+        setUserName(e.detail.profile.name);
+      }
+    };
+
+    window.addEventListener('settings-changed', handleSettingsChanged);
+
+    return () => {
+      clearInterval(timer);
+      window.removeEventListener('settings-changed', handleSettingsChanged);
+    };
   }, []);
+
+  const loadUserName = async () => {
+    // First try to get from settings via API
+    try {
+      const tokenData = localStorage.getItem('supabase.auth.token');
+      const parsed = tokenData ? JSON.parse(tokenData) : null;
+      const accessToken = parsed?.access_token;
+
+      if (accessToken) {
+        const response = await fetch('/api/settings', {
+          headers: { 'Authorization': `Bearer ${accessToken}` }
+        });
+
+        if (response.ok) {
+          const { data: settings } = await response.json();
+          if (settings?.profile?.name) {
+            setUserName(settings.profile.name);
+            return;
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error loading settings:', error);
+    }
+
+    // Fallback to user metadata or email
+    const user = await getUser();
+    if (user) {
+      const name = user.user_metadata?.name || user.email?.split('@')[0] || 'there';
+      setUserName(name);
+    }
+  };
+
+  const getGreeting = () => {
+    const hour = currentTime.getHours();
+    if (hour >= 5 && hour < 12) return { text: 'Good morning', icon: Sunrise };
+    if (hour >= 12 && hour < 17) return { text: 'Good afternoon', icon: Sun };
+    if (hour >= 17 && hour < 21) return { text: 'Good evening', icon: Sun };
+    return { text: 'Good night', icon: Moon };
+  };
+
+  const formatDate = () => {
+    return currentTime.toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
 
   const loadStats = async () => {
     try {
@@ -149,14 +225,29 @@ export default function CRMDashboard() {
     { label: 'Add Client', icon: Building2, href: '/crm/clients/new', color: 'bg-amber-500' }
   ];
 
+  const greeting = getGreeting();
+  const GreetingIcon = greeting.icon;
+
   return (
     <div className="animate-fadeIn">
-      {/* Header */}
+      {/* Personalized Header */}
       <div className="mb-10">
-        <h1 className="text-4xl font-black mb-2 bg-gradient-to-r from-[#00FF94] to-[#00CC76] bg-clip-text text-transparent">
-          Dashboard
+        <div className="flex items-center gap-3 mb-3">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400/20 to-orange-500/20 flex items-center justify-center">
+            <GreetingIcon size={20} className="text-amber-400" />
+          </div>
+          <div className="flex items-center gap-2 text-sm text-gray-500">
+            <Calendar size={14} />
+            <span>{formatDate()}</span>
+          </div>
+        </div>
+        <h1 className="text-4xl font-black mb-2">
+          <span className="text-white">{greeting.text}, </span>
+          <span className="bg-gradient-to-r from-[#00FF94] to-[#00CC76] bg-clip-text text-transparent">
+            {userName || 'there'}
+          </span>
         </h1>
-        <p className="text-gray-400">Welcome back! Here's your business overview.</p>
+        <p className="text-gray-400">Here's your business overview for today.</p>
       </div>
 
       {stats.leads.total === 0 && stats.clients.total === 0 ? (

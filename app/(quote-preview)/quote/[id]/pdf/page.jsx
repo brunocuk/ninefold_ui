@@ -15,7 +15,7 @@ export default function QuotePdfTemplate() {
   useEffect(() => {
     loadQuote();
 
-    // Hide header and footer from root layout
+    // Hide header, footer, and cookie consent from root layout
     const style = document.createElement('style');
     style.id = 'hide-layout-elements';
     style.innerHTML = `
@@ -28,7 +28,14 @@ export default function QuotePdfTemplate() {
       [data-testid="header"],
       [data-testid="footer"],
       header,
-      footer {
+      footer,
+      /* CookieYes banner elements */
+      .cky-consent-container,
+      .cky-consent-bar,
+      .cky-btn-revisit-wrapper,
+      #cky-consent,
+      [data-cky-tag],
+      .cky-overlay {
         display: none !important;
         visibility: hidden !important;
         opacity: 0 !important;
