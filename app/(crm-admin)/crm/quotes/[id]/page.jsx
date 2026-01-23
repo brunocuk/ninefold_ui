@@ -25,10 +25,12 @@ import {
   Clock,
   FileText
 } from 'lucide-react';
+import { useToast } from '@/components/Toast';
 
 export default function QuoteDetailPage() {
   const params = useParams();
   const router = useRouter();
+  const toast = useToast();
   const [quote, setQuote] = useState(null);
   const [client, setClient] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -46,7 +48,11 @@ export default function QuoteDetailPage() {
     items: [],
     discountRate: 0,
     depositRate: 0.5,
-    timeline: []
+    timeline: [],
+    // Maintenance & Support (optional)
+    maintenanceEnabled: false,
+    maintenancePrice: 150,
+    maintenanceDescription: ''
   });
 
   // Email modal state
@@ -91,7 +97,11 @@ export default function QuoteDetailPage() {
         items: data.pricing?.items || [],
         discountRate: (data.pricing?.discountRate || 0) * 100,
         depositRate: (data.pricing?.depositRate || 0.5) * 100,
-        timeline: data.timeline || []
+        timeline: data.timeline || [],
+        // Maintenance & Support
+        maintenanceEnabled: data.pricing?.maintenance?.enabled || false,
+        maintenancePrice: data.pricing?.maintenance?.price || 150,
+        maintenanceDescription: data.pricing?.maintenance?.description || ''
       });
 
       if (data.clients) {
@@ -132,7 +142,13 @@ export default function QuoteDetailPage() {
           discountRate: editForm.discountRate / 100,
           discountAmount: discountAmount,
           total: total,
-          depositRate: editForm.depositRate / 100
+          depositRate: editForm.depositRate / 100,
+          // Maintenance & Support (optional - not included in total)
+          maintenance: editForm.maintenanceEnabled ? {
+            enabled: true,
+            price: editForm.maintenancePrice,
+            description: editForm.maintenanceDescription
+          } : null
         }
       };
 
@@ -145,10 +161,10 @@ export default function QuoteDetailPage() {
 
       await loadQuote();
       setIsEditing(false);
-      alert('Quote updated successfully!');
+      toast.success('Quote updated successfully!');
     } catch (error) {
       console.error('Error saving quote:', error);
-      alert('Error saving quote: ' + error.message);
+      toast.error('Error saving quote: ' + error.message);
     } finally {
       setSaving(false);
     }
@@ -213,13 +229,13 @@ export default function QuoteDetailPage() {
       router.push('/crm/quotes');
     } catch (error) {
       console.error('Error deleting quote:', error);
-      alert('Error deleting quote');
+      toast.error('Error deleting quote');
     }
   };
 
   const sendQuoteEmail = async () => {
     if (!emailForm.email || !emailForm.name) {
-      alert('Please enter both email and name');
+      toast.warning('Please enter both email and name');
       return;
     }
 
@@ -242,12 +258,12 @@ export default function QuoteDetailPage() {
         throw new Error(data.error || 'Failed to send email');
       }
 
-      alert('Quote sent successfully!');
+      toast.success('Quote sent successfully!');
       setShowEmailModal(false);
       await loadQuote();
     } catch (error) {
       console.error('Error sending email:', error);
-      alert(`Error: ${error.message}`);
+      toast.error(error.message);
     } finally {
       setSending(false);
     }
@@ -269,7 +285,7 @@ export default function QuoteDetailPage() {
       setQuote({ ...quote, status: newStatus });
     } catch (error) {
       console.error('Error updating status:', error);
-      alert('Error updating status');
+      toast.error('Error updating status');
     } finally {
       setUpdating(false);
     }
@@ -552,6 +568,61 @@ export default function QuoteDetailPage() {
             </div>
           </div>
 
+          {/* Maintenance & Support (Optional) */}
+          <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6">
+            <div className="flex justify-between items-center mb-4">
+              <div>
+                <h3 className="text-xl font-bold text-[#00FF94]">Maintenance & Support</h3>
+                <p className="text-gray-500 text-xs mt-1">Optional recurring monthly service (not included in project total)</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setEditForm({...editForm, maintenanceEnabled: !editForm.maintenanceEnabled})}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                  editForm.maintenanceEnabled ? 'bg-[#00FF94]' : 'bg-[#2A2A2A]'
+                }`}
+              >
+                <span
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                    editForm.maintenanceEnabled ? 'translate-x-6' : 'translate-x-1'
+                  }`}
+                />
+              </button>
+            </div>
+
+            {editForm.maintenanceEnabled && (
+              <div className="space-y-4 mt-4 pt-4 border-t border-[#2A2A2A]">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="md:col-span-2">
+                    <label className="block text-sm text-gray-400 mb-2">Description</label>
+                    <textarea
+                      value={editForm.maintenanceDescription}
+                      onChange={(e) => setEditForm({...editForm, maintenanceDescription: e.target.value})}
+                      className="w-full bg-[#0F0F0F] text-white p-3 rounded-lg border border-[#2A2A2A] focus:border-[#00FF94] outline-none h-20 text-sm"
+                      placeholder="Describe what's included in the maintenance package..."
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm text-gray-400 mb-2">Monthly Price (€)</label>
+                    <input
+                      type="number"
+                      value={editForm.maintenancePrice}
+                      onChange={(e) => setEditForm({...editForm, maintenancePrice: Number(e.target.value)})}
+                      className="w-full bg-[#0F0F0F] text-white p-3 rounded-lg border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
+                      placeholder="150"
+                      min="0"
+                    />
+                  </div>
+                </div>
+                <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-3">
+                  <p className="text-blue-400 text-xs">
+                    <strong>Note:</strong> This is presented as a recommended monthly service, separate from the one-time project cost.
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+
           {/* Timeline */}
           <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6">
             <div className="flex justify-between items-center mb-4">
@@ -785,6 +856,22 @@ export default function QuoteDetailPage() {
                 </div>
               </div>
             </div>
+
+            {/* Maintenance & Support (if enabled) */}
+            {quote.pricing?.maintenance?.enabled && (
+              <div className="mt-6 pt-4 border-t border-[#2A2A2A]">
+                <h4 className="text-sm font-semibold text-gray-400 mb-3">Maintenance & Support (Optional)</h4>
+                <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-4">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-blue-400 font-semibold">Monthly Service</span>
+                    <span className="text-blue-400 font-bold text-xl">€{quote.pricing.maintenance.price?.toLocaleString()}/mo</span>
+                  </div>
+                  {quote.pricing.maintenance.description && (
+                    <p className="text-blue-400/70 text-sm">{quote.pricing.maintenance.description}</p>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Timeline */}

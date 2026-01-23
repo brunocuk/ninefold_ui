@@ -23,10 +23,12 @@ import {
   Package,
   TrendingUp
 } from 'lucide-react';
+import { useToast } from '@/components/Toast';
 
 export default function ProjectDetailPage() {
   const params = useParams();
   const router = useRouter();
+  const toast = useToast();
   const [project, setProject] = useState(null);
   const [client, setClient] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -82,7 +84,7 @@ export default function ProjectDetailPage() {
       await loadProject();
     } catch (error) {
       console.error('Error updating project:', error);
-      alert('Error updating project. Please try again.');
+      toast.error('Error updating project. Please try again.');
     } finally {
       setSaving(false);
     }
@@ -103,7 +105,7 @@ export default function ProjectDetailPage() {
       router.push('/crm/projects');
     } catch (error) {
       console.error('Error deleting project:', error);
-      alert('Error deleting project. Please try again.');
+      toast.error('Error deleting project. Please try again.');
     }
   };
 

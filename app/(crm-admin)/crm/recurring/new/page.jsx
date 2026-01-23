@@ -7,9 +7,11 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useToast } from '@/components/Toast';
 
 export default function NewContractPage() {
   const router = useRouter();
+  const toast = useToast();
   const [clients, setClients] = useState([]);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -98,11 +100,11 @@ export default function NewContractPage() {
 
       if (error) throw error;
 
-      alert('Contract created successfully!');
+      toast.success('Contract created successfully!');
       router.push('/crm/recurring');
     } catch (error) {
       console.error('Error creating contract:', error);
-      alert('Error creating contract: ' + error.message);
+      toast.error('Error creating contract: ' + error.message);
     } finally {
       setLoading(false);
     }

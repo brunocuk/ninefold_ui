@@ -7,10 +7,12 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useToast } from '@/components/Toast';
 
 export default function ContractDetailPage() {
   const params = useParams();
   const router = useRouter();
+  const toast = useToast();
   const [contract, setContract] = useState(null);
   const [client, setClient] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -57,10 +59,10 @@ export default function ContractDetailPage() {
       if (error) throw error;
       
       setContract({ ...contract, status: newStatus });
-      alert('Status updated successfully!');
+      toast.success('Status updated successfully!');
     } catch (error) {
       console.error('Error updating status:', error);
-      alert('Error updating status');
+      toast.error('Error updating status');
     } finally {
       setUpdating(false);
     }
@@ -82,7 +84,7 @@ export default function ContractDetailPage() {
       router.push('/crm/recurring');
     } catch (error) {
       console.error('Error deleting contract:', error);
-      alert('Error deleting contract');
+      toast.error('Error deleting contract');
     }
   };
 

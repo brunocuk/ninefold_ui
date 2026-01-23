@@ -7,9 +7,11 @@ import { useState } from 'react';
 import { getAuthenticatedClient } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useToast } from '@/components/Toast';
 
 export default function NewProspectPage() {
   const router = useRouter();
+  const toast = useToast();
   const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState({
     contact_name: '',
@@ -43,7 +45,7 @@ export default function NewProspectPage() {
       router.push('/crm/prospects');
     } catch (error) {
       console.error('Error creating prospect:', error);
-      alert('Error creating prospect. Please try again.');
+      toast.error('Error creating prospect. Please try again.');
       setSaving(false);
     }
   };

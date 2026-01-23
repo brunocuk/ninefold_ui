@@ -26,10 +26,12 @@ import {
   ExternalLink,
   Calendar
 } from 'lucide-react';
+import { useToast } from '@/components/Toast';
 
 export default function ClientDetailPage() {
   const params = useParams();
   const router = useRouter();
+  const toast = useToast();
   const [client, setClient] = useState(null);
   const [projects, setProjects] = useState([]);
   const [quotes, setQuotes] = useState([]);
@@ -90,7 +92,7 @@ export default function ClientDetailPage() {
       setEditing(false);
     } catch (error) {
       console.error('Error updating client:', error);
-      alert('Error updating client. Please try again.');
+      toast.error('Error updating client. Please try again.');
     } finally {
       setSaving(false);
     }
@@ -111,7 +113,7 @@ export default function ClientDetailPage() {
       router.push('/crm/clients');
     } catch (error) {
       console.error('Error deleting client:', error);
-      alert('Error deleting client. Please try again.');
+      toast.error('Error deleting client. Please try again.');
     }
   };
 

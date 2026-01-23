@@ -80,7 +80,8 @@ export default function QuotePreview() {
           paymentLink: data.quote_data?.paymentLink || '',
           scope: data.scope,
           timeline: data.timeline,
-          pricing: data.pricing
+          pricing: data.pricing,
+          maintenance: data.pricing?.maintenance || null
         };
 
         setQuoteData(formattedData);
@@ -718,9 +719,78 @@ export default function QuotePreview() {
           font-size: 1.1rem;
         }
 
+        /* Maintenance Section */
+        .maintenance-section {
+          background: rgba(59, 130, 246, 0.08);
+          border: 1px solid rgba(59, 130, 246, 0.25);
+          border-radius: 12px;
+          padding: 24px;
+          margin-top: 24px;
+        }
+
+        .maintenance-header {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          margin-bottom: 12px;
+        }
+
+        .maintenance-badge {
+          background: rgba(59, 130, 246, 0.2);
+          color: #60A5FA;
+          padding: 4px 10px;
+          border-radius: 100px;
+          font-size: 0.7rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+
+        .maintenance-title {
+          font-size: 1rem;
+          font-weight: 700;
+          color: #60A5FA;
+        }
+
+        .maintenance-price {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 12px;
+        }
+
+        .maintenance-price-label {
+          color: #93C5FD;
+          font-size: 0.9rem;
+        }
+
+        .maintenance-price-value {
+          color: #60A5FA;
+          font-weight: 700;
+          font-size: 1.3rem;
+        }
+
+        .maintenance-description {
+          color: #93C5FD;
+          font-size: 0.85rem;
+          line-height: 1.6;
+          padding-top: 12px;
+          border-top: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .maintenance-note {
+          margin-top: 12px;
+          padding: 10px 12px;
+          background: rgba(59, 130, 246, 0.1);
+          border-radius: 8px;
+          font-size: 0.75rem;
+          color: #93C5FD;
+        }
+
         .cta-button {
           width: 100%;
           padding: 18px;
+          margin-top: 24px;
           background: #00FF94;
           color: #0F0F0F;
           border: none;
@@ -1017,6 +1087,28 @@ export default function QuotePreview() {
                   </span>
                 </div>
               </div>
+
+              {/* Maintenance & Support (Optional) */}
+              {quoteData.maintenance?.enabled && (
+                <div className="maintenance-section">
+                  <div className="maintenance-header">
+                    <span className="maintenance-badge">Preporučeno</span>
+                    <span className="maintenance-title">Održavanje i Podrška</span>
+                  </div>
+                  <div className="maintenance-price">
+                    <span className="maintenance-price-label">Mjesečna usluga</span>
+                    <span className="maintenance-price-value">€{quoteData.maintenance.price?.toLocaleString()}/mj</span>
+                  </div>
+                  {quoteData.maintenance.description && (
+                    <div className="maintenance-description">
+                      {quoteData.maintenance.description}
+                    </div>
+                  )}
+                  <div className="maintenance-note">
+                    💡 Ova opcija nije uključena u cijenu projekta. Možete je aktivirati nakon završetka projekta.
+                  </div>
+                </div>
+              )}
 
               {quoteData.paymentLink && (
                 <a href={quoteData.paymentLink} className="cta-button">

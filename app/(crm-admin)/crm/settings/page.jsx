@@ -24,6 +24,7 @@ import {
   Camera,
   X
 } from 'lucide-react';
+import { useToast } from '@/components/Toast';
 
 // 5 fun avatar presets using Robohash (robots, monsters, heads)
 const PRESET_AVATARS = [
@@ -35,6 +36,7 @@ const PRESET_AVATARS = [
 ];
 
 export default function SettingsPage() {
+  const toast = useToast();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -131,13 +133,13 @@ export default function SettingsPage() {
 
     // Validate file type
     if (!file.type.startsWith('image/')) {
-      alert('Please select an image file');
+      toast.warning('Please select an image file');
       return;
     }
 
     // Validate file size (max 2MB)
     if (file.size > 2 * 1024 * 1024) {
-      alert('Image must be less than 2MB');
+      toast.warning('Image must be less than 2MB');
       return;
     }
 
@@ -165,7 +167,7 @@ export default function SettingsPage() {
 
       if (error) {
         console.error('Upload error:', error);
-        alert('Failed to upload avatar. Make sure the "avatars" bucket exists in Supabase and has proper permissions.');
+        toast.error('Failed to upload avatar. Check Supabase bucket permissions.');
         setUploading(false);
         return;
       }
@@ -188,7 +190,7 @@ export default function SettingsPage() {
 
     } catch (error) {
       console.error('Error uploading avatar:', error);
-      alert('Failed to upload avatar');
+      toast.error('Failed to upload avatar');
     } finally {
       setUploading(false);
     }
@@ -258,7 +260,7 @@ export default function SettingsPage() {
 
   const handleSave = async () => {
     if (!user) {
-      alert('No user logged in');
+      toast.error('No user logged in');
       return;
     }
 
@@ -304,7 +306,7 @@ export default function SettingsPage() {
       setTimeout(() => setSaved(false), 3000);
     } catch (error) {
       console.error('Error saving settings:', error);
-      alert(`Failed to save: ${error.message || 'Unknown error'}`);
+      toast.error(`Failed to save: ${error.message || 'Unknown error'}`);
     } finally {
       setSaving(false);
     }

@@ -7,9 +7,11 @@ import { useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useToast } from '@/components/Toast';
 
 export default function NewLeadPage() {
   const router = useRouter();
+  const toast = useToast();
   const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -40,7 +42,7 @@ export default function NewLeadPage() {
       router.push('/crm/leads');
     } catch (error) {
       console.error('Error creating lead:', error);
-      alert('Error creating lead. Please try again.');
+      toast.error('Error creating lead. Please try again.');
       setSaving(false);
     }
   };

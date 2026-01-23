@@ -7,9 +7,11 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import { CreditCard, Loader2, Copy, CheckCircle, Plus, Trash2 } from 'lucide-react';
+import { useToast } from '@/components/Toast';
 
 export default function QuoteMaker() {
   const router = useRouter();
+  const toast = useToast();
   const [clients, setClients] = useState([]);
   const [leads, setLeads] = useState([]);
   const [saving, setSaving] = useState(false);
@@ -78,7 +80,12 @@ export default function QuoteMaker() {
     ],
     discountRate: 0.20,
     depositRate: 0.50, // Default 50% deposit
-    
+
+    // Maintenance & Support (optional)
+    maintenanceEnabled: false,
+    maintenancePrice: 150,
+    maintenanceDescription: 'Monthly website maintenance including security updates, backups, performance monitoring, and up to 2 hours of content updates.',
+
     // Timeline
     timeline: [
       { week: 'Tjedan 1', phase: 'Istraživanje i planiranje', duration: '1 tjedan' },
@@ -202,18 +209,18 @@ export default function QuoteMaker() {
   const handleGeneratePaymentLink = async () => {
     // Validation
     if (!formData.clientName) {
-      alert('Please enter a client name first');
+      toast.warning('Please enter a client name first');
       return;
     }
     
     if (!formData.clientEmail) {
-      alert('Please enter a client email first');
+      toast.warning('Please enter a client email first');
       return;
     }
     
     const total = calculateTotal();
     if (total <= 0) {
-      alert('Quote total must be greater than 0');
+      toast.warning('Quote total must be greater than 0');
       return;
     }
 
@@ -257,7 +264,7 @@ export default function QuoteMaker() {
       }
     } catch (error) {
       console.error('Error generating payment link:', error);
-      alert('Error generating payment link: ' + error.message);
+      toast.error('Error generating payment link: ' + error.message);
     } finally {
       setGeneratingLink(false);
     }
@@ -324,6 +331,12 @@ export default function QuoteMaker() {
           discountAmount: discountAmount,
           total: total,
           depositRate: formData.depositRate,
+          // Maintenance & Support (optional - not included in total)
+          maintenance: formData.maintenanceEnabled ? {
+            enabled: true,
+            price: formData.maintenancePrice,
+            description: formData.maintenanceDescription
+          } : null,
         },
         
         // Store payment link in revolut_checkout_url if it's a Revolut link
@@ -350,7 +363,7 @@ export default function QuoteMaker() {
       
     } catch (error) {
       console.error('Error creating quote:', error);
-      alert('Error creating quote: ' + error.message);
+      toast.error('Error creating quote: ' + error.message);
     } finally {
       setSaving(false);
     }
@@ -554,7 +567,7 @@ export default function QuoteMaker() {
                       <button
                         onClick={() => {
                           navigator.clipboard.writeText(formData.paymentLink);
-                          alert('Payment link copied to clipboard!');
+                          toast.success('Payment link copied to clipboard!');
                         }}
                         className="absolute right-2 top-1/2 -translate-y-1/2 p-2 hover:bg-[#2A2A2A] rounded transition-all"
                         title="Copy to clipboard"
@@ -691,6 +704,61 @@ export default function QuoteMaker() {
               </div>
             </section>
 
+            {/* Maintenance & Support (Optional) */}
+            <section className="bg-[#1A1A1A] p-6 rounded-lg border border-[#2A2A2A]">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h2 className="text-xl font-bold text-[#00FF94]">Maintenance & Support</h2>
+                  <p className="text-[#666] text-xs mt-1">Optional recurring monthly service (not included in project total)</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setFormData({...formData, maintenanceEnabled: !formData.maintenanceEnabled})}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                    formData.maintenanceEnabled ? 'bg-[#00FF94]' : 'bg-[#2A2A2A]'
+                  }`}
+                >
+                  <span
+                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                      formData.maintenanceEnabled ? 'translate-x-6' : 'translate-x-1'
+                    }`}
+                  />
+                </button>
+              </div>
+
+              {formData.maintenanceEnabled && (
+                <div className="space-y-4 mt-4 pt-4 border-t border-[#2A2A2A]">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="md:col-span-2">
+                      <label className="block text-[#8F8F8F] text-sm mb-2">Description</label>
+                      <textarea
+                        value={formData.maintenanceDescription}
+                        onChange={(e) => setFormData({...formData, maintenanceDescription: e.target.value})}
+                        className="w-full bg-[#0F0F0F] text-white p-3 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none h-20 text-sm"
+                        placeholder="Describe what's included in the maintenance package..."
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[#8F8F8F] text-sm mb-2">Monthly Price (€)</label>
+                      <input
+                        type="number"
+                        value={formData.maintenancePrice}
+                        onChange={(e) => setFormData({...formData, maintenancePrice: Number(e.target.value)})}
+                        className="w-full bg-[#0F0F0F] text-white p-3 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
+                        placeholder="150"
+                        min="0"
+                      />
+                    </div>
+                  </div>
+                  <div className="bg-blue-500/10 border border-blue-500/20 rounded p-3">
+                    <p className="text-blue-400 text-xs">
+                      <strong>Note:</strong> This is presented as a recommended monthly service, separate from the one-time project cost. It will NOT be included in the project subtotal or discount calculations.
+                    </p>
+                  </div>
+                </div>
+              )}
+            </section>
+
             {/* Timeline */}
             <section className="bg-[#1A1A1A] p-6 rounded-lg border border-[#2A2A2A]">
               <div className="flex items-center justify-between mb-4">
@@ -808,6 +876,20 @@ export default function QuoteMaker() {
                   </div>
                   <div className="text-[10px] text-[#666] mt-1">Due upon project completion</div>
                 </div>
+
+                {/* Maintenance & Support (if enabled) */}
+                {formData.maintenanceEnabled && formData.maintenancePrice > 0 && (
+                  <div className="text-xs pt-3 mt-3 border-t border-[#2A2A2A]">
+                    <div className="font-semibold text-white mb-2">Maintenance & Support (Optional):</div>
+                    <div className="bg-blue-500/10 border border-blue-500/20 rounded p-2">
+                      <div className="flex justify-between items-center">
+                        <span className="text-blue-400">Monthly Service:</span>
+                        <span className="text-blue-400 font-bold">€{formData.maintenancePrice.toLocaleString()}/mo</span>
+                      </div>
+                      <div className="text-[10px] text-blue-400/70 mt-1">Recommended recurring service (separate from project)</div>
+                    </div>
+                  </div>
+                )}
               </div>
 
               <button

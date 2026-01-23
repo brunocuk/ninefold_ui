@@ -7,9 +7,11 @@ import { useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useToast } from '@/components/Toast';
 
 export default function NewClientPage() {
   const router = useRouter();
+  const toast = useToast();
   const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -42,7 +44,7 @@ export default function NewClientPage() {
       router.push(`/crm/clients/${data[0].id}`);
     } catch (error) {
       console.error('Error creating client:', error);
-      alert('Error creating client. Please try again.');
+      toast.error('Error creating client. Please try again.');
       setSaving(false);
     }
   };

@@ -24,10 +24,12 @@ import {
   ExternalLink,
   CheckCircle
 } from 'lucide-react';
+import { useToast } from '@/components/Toast';
 
 export default function ProspectDetailPage() {
   const params = useParams();
   const router = useRouter();
+  const toast = useToast();
   const [prospect, setProspect] = useState(null);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
@@ -75,7 +77,7 @@ export default function ProspectDetailPage() {
       setEditing(false);
     } catch (error) {
       console.error('Error updating prospect:', error);
-      alert('Error updating prospect. Please try again.');
+      toast.error('Error updating prospect. Please try again.');
     } finally {
       setSaving(false);
     }
@@ -116,7 +118,7 @@ export default function ProspectDetailPage() {
       loadProspect();
     } catch (error) {
       console.error('Error logging outreach:', error);
-      alert('Error logging outreach. Please try again.');
+      toast.error('Error logging outreach. Please try again.');
     }
   };
 
@@ -136,7 +138,7 @@ export default function ProspectDetailPage() {
       router.push('/crm/prospects');
     } catch (error) {
       console.error('Error deleting prospect:', error);
-      alert('Error deleting prospect. Please try again.');
+      toast.error('Error deleting prospect. Please try again.');
     }
   };
 

@@ -22,10 +22,12 @@ import {
   Clock,
   User
 } from 'lucide-react';
+import { useToast } from '@/components/Toast';
 
 export default function LeadDetailPage() {
   const params = useParams();
   const router = useRouter();
+  const toast = useToast();
   const [lead, setLead] = useState(null);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
@@ -70,7 +72,7 @@ export default function LeadDetailPage() {
       setEditing(false);
     } catch (error) {
       console.error('Error updating lead:', error);
-      alert('Error updating lead. Please try again.');
+      toast.error('Error updating lead. Please try again.');
     } finally {
       setSaving(false);
     }
@@ -107,7 +109,7 @@ export default function LeadDetailPage() {
       router.push(`/crm/clients/${client.id}`);
     } catch (error) {
       console.error('Error converting lead:', error);
-      alert('Error converting lead. Please try again.');
+      toast.error('Error converting lead. Please try again.');
     }
   };
 
@@ -126,7 +128,7 @@ export default function LeadDetailPage() {
       router.push('/crm/leads');
     } catch (error) {
       console.error('Error deleting lead:', error);
-      alert('Error deleting lead. Please try again.');
+      toast.error('Error deleting lead. Please try again.');
     }
   };
 

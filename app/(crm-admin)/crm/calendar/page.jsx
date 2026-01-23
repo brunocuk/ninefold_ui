@@ -22,10 +22,12 @@ import {
   Edit,
   Trash2
 } from 'lucide-react';
+import { useToast } from '@/components/Toast';
 
 const localizer = momentLocalizer(moment);
 
 export default function CalendarPage() {
+  const toast = useToast();
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -149,7 +151,7 @@ export default function CalendarPage() {
       setSelectedEvent(null);
     } catch (error) {
       console.error('Error saving event:', error);
-      alert('Error saving event. Please try again.');
+      toast.error('Error saving event. Please try again.');
     }
   };
 
@@ -171,7 +173,7 @@ export default function CalendarPage() {
       setSelectedEvent(null);
     } catch (error) {
       console.error('Error deleting event:', error);
-      alert('Error deleting event. Please try again.');
+      toast.error('Error deleting event. Please try again.');
     }
   };
 

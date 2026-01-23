@@ -24,6 +24,7 @@ import {
   Settings,
   User
 } from 'lucide-react';
+import { ToastProvider } from '@/components/Toast';
 
 export default function CRMLayout({ children }) {
   const router = useRouter();
@@ -223,7 +224,7 @@ export default function CRMLayout({ children }) {
 
   // If on login page, show it without sidebar
   if (pathname === "/crm/login") {
-    return <>{children}</>;
+    return <ToastProvider>{children}</ToastProvider>;
   }
 
   const isActive = (path) => {
@@ -231,7 +232,7 @@ export default function CRMLayout({ children }) {
   };
 
   return (
-    <>
+    <ToastProvider>
       <style jsx global>{`
         /* Hide website header/footer */
         body > header,
@@ -899,6 +900,6 @@ export default function CRMLayout({ children }) {
           {children}
         </main>
       </div>
-    </>
+    </ToastProvider>
   );
 }

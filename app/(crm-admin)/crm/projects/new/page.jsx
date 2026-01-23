@@ -7,9 +7,11 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useToast } from '@/components/Toast';
 
 export default function NewProjectPage() {
   const router = useRouter();
+  const toast = useToast();
   const [saving, setSaving] = useState(false);
   const [clients, setClients] = useState([]);
   const [formData, setFormData] = useState({
@@ -90,7 +92,7 @@ export default function NewProjectPage() {
       router.push(`/crm/projects/${data[0].id}`);
     } catch (error) {
       console.error('Error creating project:', error);
-      alert('Error creating project. Please try again.');
+      toast.error('Error creating project. Please try again.');
       setSaving(false);
     }
   };
