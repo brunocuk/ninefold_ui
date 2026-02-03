@@ -17,6 +17,11 @@ export default function ContractDetailPage() {
   const [client, setClient] = useState(null);
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [paymentAmount, setPaymentAmount] = useState('');
+  const [paymentDate, setPaymentDate] = useState(new Date().toISOString().split('T')[0]);
+  const [advanceBilling, setAdvanceBilling] = useState(true);
+  const [recordingPayment, setRecordingPayment] = useState(false);
 
   useEffect(() => {
     loadContract();
@@ -80,11 +85,77 @@ export default function ContractDetailPage() {
         .eq('id', params.id);
 
       if (error) throw error;
-      
+
       router.push('/crm/recurring');
     } catch (error) {
       console.error('Error deleting contract:', error);
       toast.error('Error deleting contract');
+    }
+  };
+
+  const openPaymentModal = () => {
+    // Pre-fill with the contract amount
+    const amount = contract.billing_cycle === 'yearly'
+      ? contract.monthly_amount
+      : contract.monthly_amount;
+    setPaymentAmount(amount.toString());
+    setPaymentDate(new Date().toISOString().split('T')[0]);
+    setAdvanceBilling(true);
+    setShowPaymentModal(true);
+  };
+
+  const recordPayment = async () => {
+    if (!paymentAmount || parseFloat(paymentAmount) <= 0) {
+      toast.error('Please enter a valid payment amount');
+      return;
+    }
+
+    setRecordingPayment(true);
+    try {
+      const amount = parseFloat(paymentAmount);
+      const newTotalPaid = (contract.total_paid || 0) + amount;
+      const newTotalBilled = (contract.total_billed || 0) + amount;
+
+      // Calculate next billing date if advancing
+      let nextBillingDate = contract.next_billing_date;
+      if (advanceBilling) {
+        const currentBilling = new Date(contract.next_billing_date);
+        if (contract.billing_cycle === 'yearly') {
+          currentBilling.setFullYear(currentBilling.getFullYear() + 1);
+        } else {
+          currentBilling.setMonth(currentBilling.getMonth() + 1);
+        }
+        nextBillingDate = currentBilling.toISOString().split('T')[0];
+      }
+
+      const { error } = await supabase
+        .from('recurring_contracts')
+        .update({
+          total_paid: newTotalPaid,
+          total_billed: newTotalBilled,
+          last_billed_date: paymentDate,
+          next_billing_date: nextBillingDate
+        })
+        .eq('id', params.id);
+
+      if (error) throw error;
+
+      // Update local state
+      setContract({
+        ...contract,
+        total_paid: newTotalPaid,
+        total_billed: newTotalBilled,
+        last_billed_date: paymentDate,
+        next_billing_date: nextBillingDate
+      });
+
+      setShowPaymentModal(false);
+      toast.success(`Payment of ${formatCurrency(amount)} recorded successfully!`);
+    } catch (error) {
+      console.error('Error recording payment:', error);
+      toast.error('Error recording payment');
+    } finally {
+      setRecordingPayment(false);
     }
   };
 
@@ -409,6 +480,176 @@ export default function ContractDetailPage() {
             flex: 1;
           }
         }
+
+        /* Modal */
+        .modal-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.8);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 1000;
+          padding: 20px;
+        }
+
+        .modal {
+          background: #1a1a1a;
+          border: 2px solid #333;
+          border-radius: 20px;
+          padding: 32px;
+          width: 100%;
+          max-width: 450px;
+          animation: modalIn 0.2s ease-out;
+        }
+
+        @keyframes modalIn {
+          from { opacity: 0; transform: scale(0.95); }
+          to { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 24px;
+        }
+
+        .modal-title {
+          font-size: 1.5rem;
+          font-weight: 800;
+          color: white;
+        }
+
+        .modal-close {
+          background: none;
+          border: none;
+          color: #666;
+          font-size: 1.5rem;
+          cursor: pointer;
+          padding: 4px;
+          line-height: 1;
+        }
+
+        .modal-close:hover {
+          color: white;
+        }
+
+        .form-group {
+          margin-bottom: 20px;
+        }
+
+        .form-label {
+          display: block;
+          font-size: 0.9rem;
+          font-weight: 600;
+          color: #888;
+          margin-bottom: 8px;
+        }
+
+        .form-input {
+          width: 100%;
+          padding: 14px 16px;
+          background: #0a0a0a;
+          border: 2px solid #333;
+          border-radius: 10px;
+          color: white;
+          font-size: 1rem;
+          transition: border-color 0.2s;
+        }
+
+        .form-input:focus {
+          outline: none;
+          border-color: #00FF94;
+        }
+
+        .form-checkbox {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          cursor: pointer;
+        }
+
+        .form-checkbox input {
+          width: 20px;
+          height: 20px;
+          accent-color: #00FF94;
+        }
+
+        .form-checkbox span {
+          color: #ccc;
+          font-size: 0.95rem;
+        }
+
+        .modal-actions {
+          display: flex;
+          gap: 12px;
+          margin-top: 28px;
+        }
+
+        .btn-primary {
+          flex: 1;
+          padding: 14px 24px;
+          background: #00FF94;
+          color: #000;
+          border: none;
+          border-radius: 10px;
+          font-weight: 700;
+          font-size: 1rem;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+
+        .btn-primary:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 30px rgba(0, 255, 148, 0.3);
+        }
+
+        .btn-primary:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+          transform: none;
+        }
+
+        .btn-secondary {
+          padding: 14px 24px;
+          background: #2a2a2a;
+          color: white;
+          border: none;
+          border-radius: 10px;
+          font-weight: 600;
+          font-size: 1rem;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+          background: #3a3a3a;
+        }
+
+        .payment-btn {
+          background: #00FF94;
+          color: #000;
+          padding: 12px 24px;
+          border: none;
+          border-radius: 10px;
+          font-weight: 700;
+          font-size: 0.95rem;
+          cursor: pointer;
+          transition: all 0.2s;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          margin-top: 20px;
+        }
+
+        .payment-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 30px rgba(0, 255, 148, 0.3);
+        }
       `}</style>
 
       <div className="contract-detail">
@@ -625,22 +866,88 @@ export default function ContractDetailPage() {
             <div className="info-grid">
               <div className="info-item">
                 <div className="info-label">Total Billed</div>
-                <div className="info-value">{formatCurrency(contract.total_billed)}</div>
+                <div className="info-value">{formatCurrency(contract.total_billed || 0)}</div>
               </div>
               <div className="info-item">
                 <div className="info-label">Total Paid</div>
-                <div className="info-value highlight">{formatCurrency(contract.total_paid)}</div>
+                <div className="info-value highlight">{formatCurrency(contract.total_paid || 0)}</div>
               </div>
               <div className="info-item">
                 <div className="info-label">Outstanding</div>
                 <div className="info-value">
-                  {formatCurrency(contract.total_billed - contract.total_paid)}
+                  {formatCurrency((contract.total_billed || 0) - (contract.total_paid || 0))}
                 </div>
               </div>
             </div>
+            <button onClick={openPaymentModal} className="payment-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="12" y1="1" x2="12" y2="23"/>
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+              </svg>
+              Record Payment
+            </button>
           </div>
         </div>
       </div>
+
+      {/* Payment Modal */}
+      {showPaymentModal && (
+        <div className="modal-overlay" onClick={() => setShowPaymentModal(false)}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2 className="modal-title">Record Payment</h2>
+              <button className="modal-close" onClick={() => setShowPaymentModal(false)}>×</button>
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Payment Amount (EUR)</label>
+              <input
+                type="number"
+                className="form-input"
+                value={paymentAmount}
+                onChange={(e) => setPaymentAmount(e.target.value)}
+                placeholder="0.00"
+                step="0.01"
+                min="0"
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Payment Date</label>
+              <input
+                type="date"
+                className="form-input"
+                value={paymentDate}
+                onChange={(e) => setPaymentDate(e.target.value)}
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="form-checkbox">
+                <input
+                  type="checkbox"
+                  checked={advanceBilling}
+                  onChange={(e) => setAdvanceBilling(e.target.checked)}
+                />
+                <span>Advance next billing date by 1 {contract.billing_cycle === 'yearly' ? 'year' : 'month'}</span>
+              </label>
+            </div>
+
+            <div className="modal-actions">
+              <button className="btn-secondary" onClick={() => setShowPaymentModal(false)}>
+                Cancel
+              </button>
+              <button
+                className="btn-primary"
+                onClick={recordPayment}
+                disabled={recordingPayment}
+              >
+                {recordingPayment ? 'Recording...' : 'Record Payment'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
