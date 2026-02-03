@@ -22,7 +22,7 @@ import {
   Menu,
   X,
   Settings,
-  User
+  FileBarChart
 } from 'lucide-react';
 import { ToastProvider } from '@/components/Toast';
 
@@ -852,6 +852,14 @@ export default function CRMLayout({ children }) {
               >
                 <span className="nav-icon-wrapper"><TrendingUp size={18} /></span>
                 <span className="nav-text">Revenue</span>
+              </Link>
+              <Link
+                href="/crm/reports"
+                className={`nav-link ${isActive("/crm/reports") ? "active" : ""}`}
+                title={isCollapsed ? "Reports" : ""}
+              >
+                <span className="nav-icon-wrapper"><FileBarChart size={18} /></span>
+                <span className="nav-text">Reports</span>
               </Link>
             </div>
 
