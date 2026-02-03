@@ -27,7 +27,12 @@
       "Bash(ffmpeg:*)",
       "Bash(brew install:*)",
       "Bash(ls:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "WebFetch(domain:api.fakturko.hr)",
+      "Bash(npm run lint:*)",
+      "Bash(node --check:*)",
+      "Bash(wc:*)",
+      "Bash(git diff:*)"
     ]
   }
 }

@@ -83,10 +83,14 @@ export default function AnalyticsPage() {
   };
 
   const calculateMetrics = (projects, quotes, leads, contracts) => {
-    // Total revenue from completed projects
+    // Current year filter
+    const currentYear = new Date().getFullYear();
+    const startOfYear = new Date(currentYear, 0, 1);
+
+    // Total revenue from projects created this year
     const totalRevenue = projects
-      .filter(p => p.status === 'completed')
-      .reduce((sum, p) => sum + (p.budget || 0), 0);
+      .filter(p => new Date(p.created_at) >= startOfYear)
+      .reduce((sum, p) => sum + (p.total_value || p.budget || 0), 0);
 
     // MRR and ARR from recurring contracts
     const mrr = contracts
@@ -150,23 +154,24 @@ export default function AnalyticsPage() {
 
   const calculateRevenueByMonth = (projects) => {
     const revenueMap = {};
-    
-    projects
-      .filter(p => p.status === 'completed' && p.end_date)
-      .forEach(p => {
-        const date = new Date(p.end_date);
-        const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-        revenueMap[monthKey] = (revenueMap[monthKey] || 0) + (p.budget || 0);
-      });
 
-    // Get last 6 months
+    // Use created_at and total_value for all projects
+    projects.forEach(p => {
+      if (p.created_at) {
+        const date = new Date(p.created_at);
+        const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+        revenueMap[monthKey] = (revenueMap[monthKey] || 0) + (p.total_value || p.budget || 0);
+      }
+    });
+
+    // Get last 12 months for better trend visibility
     const months = [];
     const now = new Date();
-    for (let i = 5; i >= 0; i--) {
+    for (let i = 11; i >= 0; i--) {
       const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
       const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
       months.push({
-        month: date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
+        month: date.toLocaleDateString('en-US', { month: 'short' }),
         revenue: revenueMap[monthKey] || 0,
       });
     }
@@ -422,9 +427,9 @@ export default function AnalyticsPage() {
         {/* Key Metrics */}
         <div className="metrics-grid">
           <div className="metric-card">
-            <div className="metric-label">Total Revenue</div>
+            <div className="metric-label">Revenue {new Date().getFullYear()}</div>
             <div className="metric-value">{formatCurrency(metrics.totalRevenue)}</div>
-            <div className="metric-sub">From completed projects</div>
+            <div className="metric-sub">From projects this year</div>
           </div>
 
           <div className="metric-card">
@@ -486,7 +491,7 @@ export default function AnalyticsPage() {
         <div className="charts-grid">
           {/* Revenue Trend */}
           <div className="chart-card">
-            <div className="chart-title">Revenue Trend (Last 6 Months)</div>
+            <div className="chart-title">Revenue Trend (Last 12 Months)</div>
             <div className="chart-container">
               <Line data={revenueChartData} options={chartOptions} />
             </div>

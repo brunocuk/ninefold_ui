@@ -65,8 +65,11 @@ export default function ProjectDetailPage() {
     setSaving(true);
 
     try {
+      // Exclude relationship data and only send actual column fields
+      const { clients, created_at, id, ...rest } = formData;
+
       const updateData = {
-        ...formData,
+        ...rest,
         total_value: parseFloat(formData.total_value),
         paid_amount: parseFloat(formData.paid_amount || 0),
         progress: parseInt(formData.progress)
@@ -79,9 +82,9 @@ export default function ProjectDetailPage() {
 
       if (error) throw error;
 
-      setProject(updateData);
       setEditing(false);
       await loadProject();
+      toast.success('Project updated successfully');
     } catch (error) {
       console.error('Error updating project:', error);
       toast.error('Error updating project. Please try again.');

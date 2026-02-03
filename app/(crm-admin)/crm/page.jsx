@@ -131,13 +131,18 @@ export default function CRMDashboard() {
       const clientsActive = clients.filter(c => c.status === 'active').length;
       const quotesPending = quotes.filter(q => ['sent', 'viewed'].includes(q.status)).length;
       const quotesAccepted = quotes.filter(q => q.status === 'accepted').length;
-      const projectsActive = projects.filter(p => 
+      const projectsActive = projects.filter(p =>
         ['planning', 'design', 'development', 'testing'].includes(p.status)
       ).length;
 
-      const totalRevenue = clients.reduce((sum, c) => 
-        sum + (parseFloat(c.lifetime_value) || 0), 0
-      );
+      // Current year filter
+      const currentYear = new Date().getFullYear();
+      const startOfYear = new Date(currentYear, 0, 1);
+
+      // Total revenue from projects created this year
+      const totalRevenue = projects
+        .filter(p => new Date(p.created_at) >= startOfYear)
+        .reduce((sum, p) => sum + parseFloat(p.total_value || 0), 0);
 
       const thisMonth = new Date();
       thisMonth.setDate(1);
@@ -208,7 +213,7 @@ export default function CRMDashboard() {
       ]
     },
     {
-      label: 'Total Revenue',
+      label: `Revenue ${new Date().getFullYear()}`,
       value: `€${stats.revenue.total.toLocaleString()}`,
       icon: DollarSign,
       href: '/crm/analytics',
