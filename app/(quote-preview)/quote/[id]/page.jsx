@@ -1,11 +1,12 @@
-// app/(quote-preview)/ponuda/[id]/page.jsx
-// Quote Preview - Authentic NineFold Branding
+// app/(quote-preview)/quote/[id]/page.jsx
+// Quote Preview - Multi-service support with Project and Monthly quote types
 
 'use client';
 
 import { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
+import { SERVICE_TYPES, getServiceType, getServiceBadgeColor } from '@/lib/serviceTemplates';
 
 export default function QuotePreview() {
   const params = useParams();
@@ -17,7 +18,7 @@ export default function QuotePreview() {
 
   useEffect(() => {
     loadQuote();
-    
+
     // Force hide header/footer
     const style = document.createElement('style');
     style.id = 'hide-header-footer';
@@ -40,7 +41,7 @@ export default function QuotePreview() {
       }
     `;
     document.head.appendChild(style);
-    
+
     return () => {
       const styleEl = document.getElementById('hide-header-footer');
       if (styleEl) styleEl.remove();
@@ -81,7 +82,12 @@ export default function QuotePreview() {
           scope: data.scope,
           timeline: data.timeline,
           pricing: data.pricing,
-          maintenance: data.pricing?.maintenance || null
+          maintenance: data.pricing?.maintenance || null,
+          // New fields for multi-service support
+          serviceType: data.service_type || 'web_development',
+          quoteType: data.quote_type || 'project',
+          services: data.services || null,
+          monthlyPrice: data.monthly_price || data.pricing?.monthlyPrice || 0
         };
 
         setQuoteData(formattedData);
@@ -103,7 +109,6 @@ export default function QuotePreview() {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      // Get filename from Content-Disposition header or use default
       const contentDisposition = response.headers.get('Content-Disposition');
       const filenameMatch = contentDisposition?.match(/filename="(.+)"/);
       a.download = filenameMatch ? filenameMatch[1] : `Ponuda_${quoteData.reference || 'NF'}.pdf`;
@@ -165,6 +170,9 @@ export default function QuotePreview() {
       </div>
     );
   }
+
+  const isMonthly = quoteData.quoteType === 'monthly';
+  const serviceInfo = getServiceType(quoteData.serviceType);
 
   return (
     <>
@@ -267,6 +275,17 @@ export default function QuotePreview() {
           box-shadow: 0 4px 20px rgba(0, 255, 148, 0.3);
         }
 
+        .btn-monthly {
+          background: #A855F7;
+          color: white;
+        }
+
+        .btn-monthly:hover {
+          background: #9333EA;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 20px rgba(168, 85, 247, 0.3);
+        }
+
         .btn-download {
           background: transparent;
           color: #fff;
@@ -348,12 +367,30 @@ export default function QuotePreview() {
           }
         }
 
+        .service-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 8px 16px;
+          border-radius: 100px;
+          font-size: 0.85rem;
+          font-weight: 600;
+          margin-bottom: 16px;
+        }
+
         .hero-title {
           font-size: clamp(3rem, 7vw, 5rem);
           font-weight: 700;
           line-height: 1.1;
           margin-bottom: 24px;
           background: linear-gradient(135deg, #fff 0%, #00FF94 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+
+        .hero-title-monthly {
+          background: linear-gradient(135deg, #fff 0%, #A855F7 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
@@ -385,6 +422,10 @@ export default function QuotePreview() {
           transform: translateY(-4px);
         }
 
+        .meta-card-monthly:hover {
+          border-color: #A855F7;
+        }
+
         .meta-label {
           font-size: 0.85rem;
           color: #8F8F8F;
@@ -396,6 +437,10 @@ export default function QuotePreview() {
           font-size: 1.1rem;
           color: #00FF94;
           font-weight: 700;
+        }
+
+        .meta-value-monthly {
+          color: #A855F7;
         }
 
         /* Main Content */
@@ -466,6 +511,10 @@ export default function QuotePreview() {
           flex-shrink: 0;
         }
 
+        .check-icon-monthly {
+          background: #A855F7;
+        }
+
         .objective-text {
           color: #C4C4C4;
           line-height: 1.6;
@@ -490,6 +539,10 @@ export default function QuotePreview() {
           transform: translateX(8px);
         }
 
+        .scope-card-monthly:hover {
+          border-color: #A855F7;
+        }
+
         .scope-header {
           display: flex;
           align-items: center;
@@ -508,6 +561,10 @@ export default function QuotePreview() {
           font-size: 1.5rem;
           font-weight: 900;
           color: #0F0F0F;
+        }
+
+        .scope-number-monthly {
+          background: #A855F7;
         }
 
         .scope-title {
@@ -535,6 +592,10 @@ export default function QuotePreview() {
           left: 0;
           color: #00FF94;
           font-weight: 700;
+        }
+
+        .scope-list-monthly li::before {
+          color: #A855F7;
         }
 
         /* Timeline */
@@ -618,6 +679,10 @@ export default function QuotePreview() {
           background: linear-gradient(90deg, #00FF94 0%, #00DD7F 100%);
         }
 
+        .pricing-card-monthly::before {
+          background: linear-gradient(90deg, #A855F7 0%, #9333EA 100%);
+        }
+
         .pricing-header {
           margin-bottom: 32px;
         }
@@ -634,6 +699,16 @@ export default function QuotePreview() {
           font-weight: 900;
           color: #00FF94;
           line-height: 1;
+        }
+
+        .pricing-amount-monthly {
+          color: #A855F7;
+        }
+
+        .pricing-period {
+          font-size: 1.2rem;
+          color: #8F8F8F;
+          font-weight: 500;
         }
 
         .pricing-breakdown {
@@ -696,6 +771,11 @@ export default function QuotePreview() {
           margin-bottom: 24px;
         }
 
+        .payment-terms-monthly {
+          background: rgba(168, 85, 247, 0.05);
+          border-color: rgba(168, 85, 247, 0.2);
+        }
+
         .payment-term {
           display: flex;
           justify-content: space-between;
@@ -708,6 +788,10 @@ export default function QuotePreview() {
           margin-bottom: 12px;
         }
 
+        .payment-terms-monthly .payment-term:first-child {
+          border-color: rgba(168, 85, 247, 0.2);
+        }
+
         .payment-term-label {
           color: #8F8F8F;
           font-size: 0.9rem;
@@ -717,6 +801,10 @@ export default function QuotePreview() {
           color: #00FF94;
           font-weight: 700;
           font-size: 1.1rem;
+        }
+
+        .payment-term-value-monthly {
+          color: #A855F7;
         }
 
         /* Maintenance Section */
@@ -811,6 +899,37 @@ export default function QuotePreview() {
           box-shadow: 0 8px 30px rgba(0, 255, 148, 0.4);
         }
 
+        .cta-button-monthly {
+          background: #A855F7;
+        }
+
+        .cta-button-monthly:hover {
+          background: #9333EA;
+          box-shadow: 0 8px 30px rgba(168, 85, 247, 0.4);
+        }
+
+        /* Monthly billing info */
+        .billing-info {
+          margin-top: 16px;
+          padding: 16px;
+          background: rgba(168, 85, 247, 0.1);
+          border: 1px solid rgba(168, 85, 247, 0.2);
+          border-radius: 12px;
+        }
+
+        .billing-info-title {
+          font-size: 0.85rem;
+          font-weight: 700;
+          color: #A855F7;
+          margin-bottom: 8px;
+        }
+
+        .billing-info-text {
+          font-size: 0.8rem;
+          color: #C4B5FD;
+          line-height: 1.5;
+        }
+
         /* Responsive */
         @media (max-width: 1024px) {
           .content-wrapper {
@@ -885,7 +1004,6 @@ export default function QuotePreview() {
             white-space: nowrap;
           }
 
-          /* Hide long text on mobile, show short version */
           .mobile-hide {
             display: none;
           }
@@ -895,7 +1013,6 @@ export default function QuotePreview() {
           }
         }
 
-        /* Desktop: show long text, hide short */
         .mobile-show {
           display: none;
         }
@@ -935,9 +1052,13 @@ export default function QuotePreview() {
                 </button>
               )}
               {quoteData.paymentLink && (
-                <a href={quoteData.paymentLink} className="btn btn-primary">
-                  <span className="mobile-hide">Prihvati ponudu i plati akontaciju</span>
-                  <span className="mobile-show">Prihvati i plati</span>
+                <a href={quoteData.paymentLink} className={`btn ${isMonthly ? 'btn-monthly' : 'btn-primary'}`}>
+                  <span className="mobile-hide">
+                    {isMonthly ? 'Prihvati ponudu i plati prvi mjesec' : 'Prihvati ponudu i plati akontaciju'}
+                  </span>
+                  <span className="mobile-show">
+                    {isMonthly ? 'Prihvati i plati' : 'Prihvati i plati'}
+                  </span>
                   <span> →</span>
                 </a>
               )}
@@ -947,23 +1068,34 @@ export default function QuotePreview() {
 
         {/* Hero Section */}
         <section className="hero">
-          <h1 className="hero-title">{quoteData.title || 'Projektna Ponuda'}</h1>
+          {/* Service Type Badge */}
+          <div className={`service-badge ${isMonthly ? 'bg-purple-500/20 text-purple-400' : 'bg-[#00FF94]/20 text-[#00FF94]'}`}>
+            <span>{serviceInfo.icon}</span>
+            <span>{serviceInfo.nameHr}</span>
+            {isMonthly && <span className="ml-2 px-2 py-0.5 bg-purple-500/30 rounded text-xs">Mjesečni</span>}
+          </div>
+
+          <h1 className={`hero-title ${isMonthly ? 'hero-title-monthly' : ''}`}>
+            {quoteData.title || (isMonthly ? 'Mjesečna Ponuda' : 'Projektna Ponuda')}
+          </h1>
           <p className="hero-subtitle">
             Pripremljeno za {quoteData.clientName}
           </p>
 
           <div className="meta-cards">
-            <div className="meta-card">
+            <div className={`meta-card ${isMonthly ? 'meta-card-monthly' : ''}`}>
               <div className="meta-label">Referenca</div>
-              <div className="meta-value">{quoteData.reference}</div>
+              <div className={`meta-value ${isMonthly ? 'meta-value-monthly' : ''}`}>{quoteData.reference}</div>
             </div>
-            <div className="meta-card">
+            <div className={`meta-card ${isMonthly ? 'meta-card-monthly' : ''}`}>
               <div className="meta-label">Datum</div>
-              <div className="meta-value">{quoteData.date}</div>
+              <div className={`meta-value ${isMonthly ? 'meta-value-monthly' : ''}`}>{quoteData.date}</div>
             </div>
-            <div className="meta-card">
-              <div className="meta-label">Trajanje</div>
-              <div className="meta-value">{quoteData.duration}</div>
+            <div className={`meta-card ${isMonthly ? 'meta-card-monthly' : ''}`}>
+              <div className="meta-label">{isMonthly ? 'Tip' : 'Trajanje'}</div>
+              <div className={`meta-value ${isMonthly ? 'meta-value-monthly' : ''}`}>
+                {isMonthly ? 'Mjesečna usluga' : quoteData.duration}
+              </div>
             </div>
           </div>
         </section>
@@ -973,7 +1105,7 @@ export default function QuotePreview() {
           <div className="main-content">
             {/* Overview */}
             <section className="section">
-              <h2 className="section-title">Pregled Projekta</h2>
+              <h2 className="section-title">Pregled {isMonthly ? 'Usluge' : 'Projekta'}</h2>
               <p className="text-large">{quoteData.projectOverview}</p>
             </section>
 
@@ -984,7 +1116,7 @@ export default function QuotePreview() {
                 <div className="objectives-grid">
                   {quoteData.objectives.map((obj, index) => (
                     <div key={index} className="objective-item">
-                      <div className="check-icon">✓</div>
+                      <div className={`check-icon ${isMonthly ? 'check-icon-monthly' : ''}`}>✓</div>
                       <div className="objective-text">{obj}</div>
                     </div>
                   ))}
@@ -993,126 +1125,157 @@ export default function QuotePreview() {
             )}
 
             {/* Scope */}
-            <section className="section">
-              <h2 className="section-title">Opseg Rada</h2>
-              <div className="scope-grid">
-                {quoteData.scope.map((section, index) => (
-                  <div key={index} className="scope-card">
-                    <div className="scope-header">
-                      <div className="scope-number">{section.number}</div>
-                      <h3 className="scope-title">{section.title}</h3>
+            {quoteData.scope && quoteData.scope.length > 0 && (
+              <section className="section">
+                <h2 className="section-title">{isMonthly ? 'Što je Uključeno' : 'Opseg Rada'}</h2>
+                <div className="scope-grid">
+                  {quoteData.scope.map((section, index) => (
+                    <div key={index} className={`scope-card ${isMonthly ? 'scope-card-monthly' : ''}`}>
+                      <div className="scope-header">
+                        <div className={`scope-number ${isMonthly ? 'scope-number-monthly' : ''}`}>{section.number}</div>
+                        <h3 className="scope-title">{section.title}</h3>
+                      </div>
+                      <ul className={`scope-list ${isMonthly ? 'scope-list-monthly' : ''}`}>
+                        {section.items.map((item, itemIndex) => (
+                          <li key={itemIndex}>{item}</li>
+                        ))}
+                      </ul>
                     </div>
-                    <ul className="scope-list">
-                      {section.items.map((item, itemIndex) => (
-                        <li key={itemIndex}>{item}</li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            </section>
+                  ))}
+                </div>
+              </section>
+            )}
 
-            {/* Timeline */}
-            <section className="section">
-              <h2 className="section-title">Vremenski Plan</h2>
-              <div className="timeline">
-                {quoteData.timeline.map((phase, index) => (
-                  <div key={index} className="timeline-item">
-                    <div className="timeline-week">{phase.week}</div>
-                    <div className="timeline-phase">{phase.phase}</div>
-                    <div className="timeline-duration">{phase.duration}</div>
-                  </div>
-                ))}
-              </div>
-              <div className="timeline-note">
-                <strong>Napomena:</strong> Vremenski planovi su okvirni i mogu varirati ovisno o kompleksnosti specifičnih zahtjeva i brzini povratnih informacija tijekom razvoja. Svi projekti uključuju redovite update sastanke kako biste bili u tijeku sa svakim korakom napretka.
-              </div>
-            </section>
+            {/* Timeline - Only for project quotes */}
+            {!isMonthly && quoteData.timeline && quoteData.timeline.length > 0 && (
+              <section className="section">
+                <h2 className="section-title">Vremenski Plan</h2>
+                <div className="timeline">
+                  {quoteData.timeline.map((phase, index) => (
+                    <div key={index} className="timeline-item">
+                      <div className="timeline-week">{phase.week}</div>
+                      <div className="timeline-phase">{phase.phase}</div>
+                      <div className="timeline-duration">{phase.duration}</div>
+                    </div>
+                  ))}
+                </div>
+                <div className="timeline-note">
+                  <strong>Napomena:</strong> Vremenski planovi su okvirni i mogu varirati ovisno o kompleksnosti specifičnih zahtjeva i brzini povratnih informacija tijekom razvoja. Svi projekti uključuju redovite update sastanke kako biste bili u tijeku sa svakim korakom napretka.
+                </div>
+              </section>
+            )}
           </div>
 
           {/* Sidebar - Pricing */}
           <aside className="sidebar">
-            <div className="pricing-card">
+            <div className={`pricing-card ${isMonthly ? 'pricing-card-monthly' : ''}`}>
               <div className="pricing-header">
-                <div className="pricing-label">Ukupna Investicija</div>
-                <div className="pricing-amount">
-                  €{quoteData.pricing.total.toLocaleString()}
+                <div className="pricing-label">{isMonthly ? 'Mjesečna Cijena' : 'Ukupna Investicija'}</div>
+                <div className={`pricing-amount ${isMonthly ? 'pricing-amount-monthly' : ''}`}>
+                  €{isMonthly ? quoteData.monthlyPrice?.toLocaleString() : quoteData.pricing?.total?.toLocaleString()}
+                  {isMonthly && <span className="pricing-period">/mj</span>}
                 </div>
               </div>
 
-              <div className="pricing-breakdown">
-                {/* Line Items */}
-                {quoteData.pricing.items && quoteData.pricing.items.length > 0 && (
-                  <>
-                    {quoteData.pricing.items.map((item, index) => (
-                      <div key={index} className="pricing-item">
-                        <div className="pricing-item-header">
-                          <span>{item.name}</span>
-                          <span>€{item.price.toLocaleString()}</span>
-                        </div>
-                        {item.description && (
-                          <div className="pricing-item-desc">{item.description}</div>
-                        )}
+              {isMonthly ? (
+                /* Monthly Quote Pricing */
+                <>
+                  <div className={`payment-terms payment-terms-monthly`}>
+                    <div className="payment-term">
+                      <span className="payment-term-label">Prvi mjesec</span>
+                      <span className={`payment-term-value payment-term-value-monthly`}>
+                        €{quoteData.monthlyPrice?.toLocaleString()}
+                      </span>
+                    </div>
+                    <div className="payment-term">
+                      <span className="payment-term-label">Plaćanje unaprijed za početak</span>
+                    </div>
+                  </div>
+
+                  <div className="billing-info">
+                    <div className="billing-info-title">Način naplate</div>
+                    <div className="billing-info-text">
+                      Nakon prvog mjeseca, naplata se vrši automatski svakog mjeseca. Uslugu možete otkazati u bilo kojem trenutku s 30 dana najave.
+                    </div>
+                  </div>
+                </>
+              ) : (
+                /* Project Quote Pricing */
+                <>
+                  <div className="pricing-breakdown">
+                    {quoteData.pricing?.items && quoteData.pricing.items.length > 0 && (
+                      <>
+                        {quoteData.pricing.items.map((item, index) => (
+                          <div key={index} className="pricing-item">
+                            <div className="pricing-item-header">
+                              <span>{item.name}</span>
+                              <span>€{item.price?.toLocaleString()}</span>
+                            </div>
+                            {item.description && (
+                              <div className="pricing-item-desc">{item.description}</div>
+                            )}
+                          </div>
+                        ))}
+                      </>
+                    )}
+                    <div className="pricing-row subtotal">
+                      <span>Međuzbroj</span>
+                      <span>€{quoteData.pricing?.subtotal?.toLocaleString()}</span>
+                    </div>
+                    {quoteData.pricing?.discountRate > 0 && (
+                      <div className="pricing-row discount">
+                        <span>Popust ({(quoteData.pricing.discountRate * 100).toFixed(0)}%)</span>
+                        <span>-€{quoteData.pricing.discountAmount?.toLocaleString()}</span>
                       </div>
-                    ))}
-                  </>
-                )}
-                <div className="pricing-row subtotal">
-                  <span>Međuzbroj</span>
-                  <span>€{quoteData.pricing.subtotal.toLocaleString()}</span>
-                </div>
-                {quoteData.pricing.discountRate > 0 && (
-                  <div className="pricing-row discount">
-                    <span>Popust ({(quoteData.pricing.discountRate * 100).toFixed(0)}%)</span>
-                    <span>-€{quoteData.pricing.discountAmount.toLocaleString()}</span>
+                    )}
+                    <div className="pricing-row total">
+                      <span>Ukupno</span>
+                      <span>€{quoteData.pricing?.total?.toLocaleString()}</span>
+                    </div>
                   </div>
-                )}
-                <div className="pricing-row total">
-                  <span>Ukupno</span>
-                  <span>€{quoteData.pricing.total.toLocaleString()}</span>
-                </div>
-              </div>
 
-              <div className="payment-terms">
-                <div className="payment-term">
-                  <span className="payment-term-label">{((quoteData.pricing.depositRate || 0.5) * 100).toFixed(0)}% Akontacija</span>
-                  <span className="payment-term-value">
-                    €{(quoteData.pricing.total * (quoteData.pricing.depositRate || 0.5)).toLocaleString()}
-                  </span>
-                </div>
-                <div className="payment-term">
-                  <span className="payment-term-label">{(100 - (quoteData.pricing.depositRate || 0.5) * 100).toFixed(0)}% Po završetku</span>
-                  <span className="payment-term-value">
-                    €{(quoteData.pricing.total * (1 - (quoteData.pricing.depositRate || 0.5))).toLocaleString()}
-                  </span>
-                </div>
-              </div>
+                  <div className="payment-terms">
+                    <div className="payment-term">
+                      <span className="payment-term-label">{((quoteData.pricing?.depositRate || 0.5) * 100).toFixed(0)}% Akontacija</span>
+                      <span className="payment-term-value">
+                        €{(quoteData.pricing?.total * (quoteData.pricing?.depositRate || 0.5))?.toLocaleString()}
+                      </span>
+                    </div>
+                    <div className="payment-term">
+                      <span className="payment-term-label">{(100 - (quoteData.pricing?.depositRate || 0.5) * 100).toFixed(0)}% Po završetku</span>
+                      <span className="payment-term-value">
+                        €{(quoteData.pricing?.total * (1 - (quoteData.pricing?.depositRate || 0.5)))?.toLocaleString()}
+                      </span>
+                    </div>
+                  </div>
 
-              {/* Maintenance & Support (Optional) */}
-              {quoteData.maintenance?.enabled && (
-                <div className="maintenance-section">
-                  <div className="maintenance-header">
-                    <span className="maintenance-badge">Preporučeno</span>
-                    <span className="maintenance-title">Održavanje i Podrška</span>
-                  </div>
-                  <div className="maintenance-price">
-                    <span className="maintenance-price-label">Mjesečna usluga</span>
-                    <span className="maintenance-price-value">€{quoteData.maintenance.price?.toLocaleString()}/mj</span>
-                  </div>
-                  {quoteData.maintenance.description && (
-                    <div className="maintenance-description">
-                      {quoteData.maintenance.description}
+                  {/* Maintenance & Support (Optional) */}
+                  {quoteData.maintenance?.enabled && (
+                    <div className="maintenance-section">
+                      <div className="maintenance-header">
+                        <span className="maintenance-badge">Preporučeno</span>
+                        <span className="maintenance-title">Održavanje i Podrška</span>
+                      </div>
+                      <div className="maintenance-price">
+                        <span className="maintenance-price-label">Mjesečna usluga</span>
+                        <span className="maintenance-price-value">€{quoteData.maintenance.price?.toLocaleString()}/mj</span>
+                      </div>
+                      {quoteData.maintenance.description && (
+                        <div className="maintenance-description">
+                          {quoteData.maintenance.description}
+                        </div>
+                      )}
+                      <div className="maintenance-note">
+                        Ova opcija nije uključena u cijenu projekta. Možete je aktivirati nakon završetka projekta.
+                      </div>
                     </div>
                   )}
-                  <div className="maintenance-note">
-                    💡 Ova opcija nije uključena u cijenu projekta. Možete je aktivirati nakon završetka projekta.
-                  </div>
-                </div>
+                </>
               )}
 
               {quoteData.paymentLink && (
-                <a href={quoteData.paymentLink} className="cta-button">
-                  Prihvati ponudu i plati akontaciju →
+                <a href={quoteData.paymentLink} className={`cta-button ${isMonthly ? 'cta-button-monthly' : ''}`}>
+                  {isMonthly ? 'Prihvati ponudu i plati prvi mjesec →' : 'Prihvati ponudu i plati akontaciju →'}
                 </a>
               )}
             </div>

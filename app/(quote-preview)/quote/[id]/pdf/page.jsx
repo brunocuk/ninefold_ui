@@ -1,11 +1,12 @@
 // app/(quote-preview)/quote/[id]/pdf/page.jsx
-// Dedicated PDF Template for Quotes - Professional Invoice Style
+// Dedicated PDF Template for Quotes - Professional Invoice Style with Monthly Support
 
 'use client';
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
+import { getServiceType } from '@/lib/serviceTemplates';
 
 export default function QuotePdfTemplate() {
   const params = useParams();
@@ -100,6 +101,9 @@ export default function QuotePdfTemplate() {
     );
   }
 
+  const isMonthly = quoteData.quote_type === 'monthly';
+  const serviceInfo = getServiceType(quoteData.service_type || 'web_development');
+
   const pricing = quoteData.pricing || {};
   const items = pricing.items || [];
   const subtotal = pricing.subtotal || 0;
@@ -107,6 +111,7 @@ export default function QuotePdfTemplate() {
   const discountAmount = pricing.discountAmount || 0;
   const total = pricing.total || 0;
   const depositRate = pricing.depositRate || 0.5;
+  const monthlyPrice = quoteData.monthly_price || pricing.monthlyPrice || 0;
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -123,6 +128,10 @@ export default function QuotePdfTemplate() {
       maximumFractionDigits: 2
     }).format(amount) + ' €';
   };
+
+  // Colors based on quote type
+  const accentColor = isMonthly ? '#A855F7' : '#00CC76';
+  const accentColorLight = isMonthly ? '#C4B5FD' : '#00FF94';
 
   // Styles
   const styles = {
@@ -162,11 +171,6 @@ export default function QuotePdfTemplate() {
       color: '#1a1a1a',
       marginBottom: '2px'
     },
-    companyOwner: {
-      fontSize: '10px',
-      color: '#666',
-      marginBottom: '8px'
-    },
     companyDetails: {
       fontSize: '10px',
       color: '#666',
@@ -176,8 +180,20 @@ export default function QuotePdfTemplate() {
       fontSize: '28px',
       fontWeight: '700',
       color: '#1a1a1a',
-      marginBottom: '30px',
+      marginBottom: '10px',
       marginTop: '0'
+    },
+    serviceBadge: {
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: '6px',
+      padding: '6px 12px',
+      borderRadius: '100px',
+      fontSize: '10px',
+      fontWeight: '600',
+      marginBottom: '30px',
+      background: isMonthly ? '#F3E8FF' : '#ECFDF5',
+      color: accentColor
     },
     infoSection: {
       display: 'grid',
@@ -272,7 +288,7 @@ export default function QuotePdfTemplate() {
       borderBottom: '1px solid #e5e5e5'
     },
     totalRowDiscount: {
-      color: '#00CC76'
+      color: accentColor
     },
     totalRowGrand: {
       borderTop: '2px solid #1a1a1a',
@@ -291,7 +307,7 @@ export default function QuotePdfTemplate() {
       fontWeight: '600'
     },
     paymentSection: {
-      background: '#f8f8f8',
+      background: isMonthly ? '#FAF5FF' : '#f8f8f8',
       borderRadius: '8px',
       padding: '20px',
       marginBottom: '40px'
@@ -319,7 +335,24 @@ export default function QuotePdfTemplate() {
     },
     paymentValue: {
       fontWeight: '600',
-      color: '#00CC76'
+      color: accentColor
+    },
+    monthlyHighlight: {
+      background: isMonthly ? '#F3E8FF' : '#ECFDF5',
+      borderRadius: '8px',
+      padding: '20px',
+      marginBottom: '30px',
+      textAlign: 'center'
+    },
+    monthlyPrice: {
+      fontSize: '32px',
+      fontWeight: '900',
+      color: accentColor,
+      marginBottom: '5px'
+    },
+    monthlyLabel: {
+      fontSize: '12px',
+      color: '#666'
     },
     notesSection: {
       marginBottom: '40px'
@@ -359,13 +392,56 @@ export default function QuotePdfTemplate() {
       fontSize: '11px',
       fontWeight: '600',
       color: '#1a1a1a'
+    },
+    scopeSection: {
+      marginBottom: '30px'
+    },
+    scopeTitle: {
+      fontSize: '12px',
+      fontWeight: '700',
+      color: '#1a1a1a',
+      marginBottom: '15px'
+    },
+    scopeItem: {
+      marginBottom: '15px'
+    },
+    scopeItemTitle: {
+      fontSize: '11px',
+      fontWeight: '600',
+      color: '#1a1a1a',
+      marginBottom: '8px',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px'
+    },
+    scopeItemNumber: {
+      width: '24px',
+      height: '24px',
+      background: accentColor,
+      borderRadius: '6px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      color: 'white',
+      fontWeight: '700',
+      fontSize: '11px'
+    },
+    scopeItemList: {
+      paddingLeft: '32px',
+      fontSize: '10px',
+      color: '#666'
+    },
+    scopeItemListItem: {
+      marginBottom: '4px',
+      position: 'relative',
+      paddingLeft: '12px'
     }
   };
 
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html, body { background: white; }
         @page { size: A4; margin: 0; }
@@ -388,7 +464,16 @@ export default function QuotePdfTemplate() {
         </div>
 
         {/* Document Title */}
-        <h1 style={styles.documentTitle}>PONUDA {quoteData.reference}</h1>
+        <h1 style={styles.documentTitle}>
+          {isMonthly ? 'MJESEČNA PONUDA' : 'PONUDA'} {quoteData.reference}
+        </h1>
+
+        {/* Service Type Badge */}
+        <div style={styles.serviceBadge}>
+          <span>{serviceInfo.icon}</span>
+          <span>{serviceInfo.nameHr}</span>
+          {isMonthly && <span style={{ marginLeft: '8px', padding: '2px 8px', background: accentColor, color: 'white', borderRadius: '4px' }}>Mjesečno</span>}
+        </div>
 
         {/* Info Section */}
         <div style={styles.infoSection}>
@@ -418,72 +503,138 @@ export default function QuotePdfTemplate() {
               <span style={styles.infoLabel}>VRIJEDI DO</span>
               <span style={styles.infoValue}>{formatDate(new Date(new Date(quoteData.created_at).getTime() + 30 * 24 * 60 * 60 * 1000))}</span>
             </div>
-          </div>
-        </div>
-
-        {/* Items Table */}
-        <div style={styles.itemsSection}>
-          <div style={styles.itemsHeader}>
-            <span>NAZIV I OPIS</span>
-            <span style={styles.itemsHeaderRight}>KOL</span>
-            <span style={styles.itemsHeaderRight}>CIJENA</span>
-            <span style={styles.itemsHeaderRight}>UKUPNO</span>
-          </div>
-          {items.map((item, index) => (
-            <div key={index} style={styles.itemRow}>
-              <div>
-                <div style={styles.itemName}>{index + 1}. {item.name}</div>
-                {item.description && (
-                  <div style={styles.itemDescription}>{item.description}</div>
-                )}
-              </div>
-              <span style={styles.itemValue}>1 kom</span>
-              <span style={styles.itemValue}>{formatCurrency(item.price)}</span>
-              <span style={styles.itemValue}>{formatCurrency(item.price)}</span>
-            </div>
-          ))}
-        </div>
-
-        {/* Totals */}
-        <div style={styles.totalsSection}>
-          <div style={styles.totalsBox}>
-            <div style={{ ...styles.totalRow, ...styles.totalRowSubtotal }}>
-              <span style={styles.totalLabel}>Međuzbroj</span>
-              <span style={styles.totalValue}>{formatCurrency(subtotal)}</span>
-            </div>
-            {discountRate > 0 && (
-              <div style={{ ...styles.totalRow, ...styles.totalRowDiscount }}>
-                <span>Popust ({(discountRate * 100).toFixed(0)}%)</span>
-                <span style={styles.totalValue}>-{formatCurrency(discountAmount)}</span>
+            {isMonthly && (
+              <div style={styles.infoRow}>
+                <span style={styles.infoLabel}>TIP</span>
+                <span style={styles.infoValue}>Mjesečna usluga</span>
               </div>
             )}
-            <div style={{ ...styles.totalRow, ...styles.totalRowGrand }}>
-              <span style={styles.totalLabelGrand}>Ukupno za plaćanje</span>
-              <span style={styles.totalValue}>{formatCurrency(total)}</span>
-            </div>
           </div>
         </div>
+
+        {/* Monthly Quote - Prominent Price Display */}
+        {isMonthly && (
+          <div style={styles.monthlyHighlight}>
+            <div style={styles.monthlyPrice}>{formatCurrency(monthlyPrice)}</div>
+            <div style={styles.monthlyLabel}>mjesečno</div>
+          </div>
+        )}
+
+        {/* Scope Section - for monthly quotes, show "What's Included" */}
+        {quoteData.scope && quoteData.scope.length > 0 && (
+          <div style={styles.scopeSection}>
+            <div style={styles.scopeTitle}>{isMonthly ? 'ŠTO JE UKLJUČENO' : 'OPSEG RADA'}</div>
+            {quoteData.scope.map((section, index) => (
+              <div key={index} style={styles.scopeItem}>
+                <div style={styles.scopeItemTitle}>
+                  <div style={styles.scopeItemNumber}>{section.number}</div>
+                  <span>{section.title}</span>
+                </div>
+                <div style={styles.scopeItemList}>
+                  {section.items.map((item, itemIndex) => (
+                    <div key={itemIndex} style={styles.scopeItemListItem}>
+                      <span style={{ position: 'absolute', left: 0, color: accentColor }}>→</span>
+                      {item}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Items Table - Only for project quotes */}
+        {!isMonthly && items.length > 0 && (
+          <div style={styles.itemsSection}>
+            <div style={styles.itemsHeader}>
+              <span>NAZIV I OPIS</span>
+              <span style={styles.itemsHeaderRight}>KOL</span>
+              <span style={styles.itemsHeaderRight}>CIJENA</span>
+              <span style={styles.itemsHeaderRight}>UKUPNO</span>
+            </div>
+            {items.map((item, index) => (
+              <div key={index} style={styles.itemRow}>
+                <div>
+                  <div style={styles.itemName}>{index + 1}. {item.name}</div>
+                  {item.description && (
+                    <div style={styles.itemDescription}>{item.description}</div>
+                  )}
+                </div>
+                <span style={styles.itemValue}>1 kom</span>
+                <span style={styles.itemValue}>{formatCurrency(item.price)}</span>
+                <span style={styles.itemValue}>{formatCurrency(item.price)}</span>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Totals - Only for project quotes */}
+        {!isMonthly && (
+          <div style={styles.totalsSection}>
+            <div style={styles.totalsBox}>
+              <div style={{ ...styles.totalRow, ...styles.totalRowSubtotal }}>
+                <span style={styles.totalLabel}>Međuzbroj</span>
+                <span style={styles.totalValue}>{formatCurrency(subtotal)}</span>
+              </div>
+              {discountRate > 0 && (
+                <div style={{ ...styles.totalRow, ...styles.totalRowDiscount }}>
+                  <span>Popust ({(discountRate * 100).toFixed(0)}%)</span>
+                  <span style={styles.totalValue}>-{formatCurrency(discountAmount)}</span>
+                </div>
+              )}
+              <div style={{ ...styles.totalRow, ...styles.totalRowGrand }}>
+                <span style={styles.totalLabelGrand}>Ukupno za plaćanje</span>
+                <span style={styles.totalValue}>{formatCurrency(total)}</span>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Payment Terms */}
         <div style={styles.paymentSection}>
-          <div style={styles.paymentTitle}>Uvjeti plaćanja</div>
-          <div style={styles.paymentRow}>
-            <span style={styles.paymentLabel}>{(depositRate * 100).toFixed(0)}% Akontacija (prije početka rada)</span>
-            <span style={styles.paymentValue}>{formatCurrency(total * depositRate)}</span>
-          </div>
-          <div style={{ ...styles.paymentRow, ...styles.paymentRowLast }}>
-            <span style={styles.paymentLabel}>{(100 - depositRate * 100).toFixed(0)}% Po završetku projekta</span>
-            <span style={styles.paymentValue}>{formatCurrency(total * (1 - depositRate))}</span>
-          </div>
+          <div style={styles.paymentTitle}>{isMonthly ? 'Način naplate' : 'Uvjeti plaćanja'}</div>
+          {isMonthly ? (
+            <>
+              <div style={styles.paymentRow}>
+                <span style={styles.paymentLabel}>Prvi mjesec (plaćanje unaprijed)</span>
+                <span style={styles.paymentValue}>{formatCurrency(monthlyPrice)}</span>
+              </div>
+              <div style={{ ...styles.paymentRow, ...styles.paymentRowLast }}>
+                <span style={styles.paymentLabel}>Svaki sljedeći mjesec</span>
+                <span style={styles.paymentValue}>{formatCurrency(monthlyPrice)}</span>
+              </div>
+            </>
+          ) : (
+            <>
+              <div style={styles.paymentRow}>
+                <span style={styles.paymentLabel}>{(depositRate * 100).toFixed(0)}% Akontacija (prije početka rada)</span>
+                <span style={styles.paymentValue}>{formatCurrency(total * depositRate)}</span>
+              </div>
+              <div style={{ ...styles.paymentRow, ...styles.paymentRowLast }}>
+                <span style={styles.paymentLabel}>{(100 - depositRate * 100).toFixed(0)}% Po završetku projekta</span>
+                <span style={styles.paymentValue}>{formatCurrency(total * (1 - depositRate))}</span>
+              </div>
+            </>
+          )}
         </div>
 
         {/* Notes */}
         <div style={styles.notesSection}>
           <div style={styles.notesTitle}>Napomena</div>
           <div style={styles.notesText}>
-            Vremenski planovi su okvirni i mogu varirati ovisno o kompleksnosti specifičnih zahtjeva i brzini povratnih informacija tijekom razvoja.
-            Svi projekti uključuju redovite update sastanke kako biste bili u tijeku sa svakim korakom napretka.
-            Ponuda vrijedi 30 dana od datuma izdavanja.
+            {isMonthly ? (
+              <>
+                Usluga se naplaćuje mjesečno, unaprijed. Za početak suradnje potrebno je platiti prvi mjesec.
+                Uslugu možete otkazati u bilo kojem trenutku s 30 dana najave.
+                Ponuda vrijedi 30 dana od datuma izdavanja.
+              </>
+            ) : (
+              <>
+                Vremenski planovi su okvirni i mogu varirati ovisno o kompleksnosti specifičnih zahtjeva i brzini povratnih informacija tijekom razvoja.
+                Svi projekti uključuju redovite update sastanke kako biste bili u tijeku sa svakim korakom napretka.
+                Ponuda vrijedi 30 dana od datuma izdavanja.
+              </>
+            )}
           </div>
         </div>
 

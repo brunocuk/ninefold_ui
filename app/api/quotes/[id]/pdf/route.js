@@ -3,6 +3,9 @@
 
 import { createClient } from '@supabase/supabase-js';
 
+// Vercel Pro: extend timeout for PDF generation (default is 10s)
+export const maxDuration = 60;
+
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
@@ -96,9 +99,12 @@ export async function GET(request, { params }) {
 
     await browser.close();
 
-    // Generate filename
+    // Generate filename - ASCII only for Content-Disposition header
     const safeName = (quote.title || quote.client_name || 'Ponuda')
-      .replace(/[^a-zA-Z0-9\u00C0-\u017F\s-]/g, '')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '') // Remove diacritics (Č→C, Ž→Z, Š→S)
+      .replace(/[đĐ]/g, 'd') // Handle đ separately
+      .replace(/[^a-zA-Z0-9\s-]/g, '')
       .replace(/\s+/g, '_')
       .substring(0, 50);
     const filename = `Ponuda_${quote.reference || 'NF'}_${safeName}.pdf`;

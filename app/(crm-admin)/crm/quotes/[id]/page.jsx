@@ -1,5 +1,5 @@
 // app/(crm-admin)/crm/quotes/[id]/page.jsx
-// Quote Detail Page with Edit functionality
+// Quote Detail Page with Edit functionality - Multi-service and Monthly support
 
 'use client';
 
@@ -26,6 +26,7 @@ import {
   FileText
 } from 'lucide-react';
 import { useToast } from '@/components/Toast';
+import { getServiceType, getServiceBadgeColor } from '@/lib/serviceTemplates';
 
 export default function QuoteDetailPage() {
   const params = useParams();
@@ -49,10 +50,13 @@ export default function QuoteDetailPage() {
     discountRate: 0,
     depositRate: 0.5,
     timeline: [],
+    scope: [],
     // Maintenance & Support (optional)
     maintenanceEnabled: false,
     maintenancePrice: 150,
-    maintenanceDescription: ''
+    maintenanceDescription: '',
+    // Monthly specific
+    monthlyPrice: 0
   });
 
   // Email modal state
@@ -98,10 +102,13 @@ export default function QuoteDetailPage() {
         discountRate: (data.pricing?.discountRate || 0) * 100,
         depositRate: (data.pricing?.depositRate || 0.5) * 100,
         timeline: data.timeline || [],
+        scope: data.scope || [],
         // Maintenance & Support
         maintenanceEnabled: data.pricing?.maintenance?.enabled || false,
         maintenancePrice: data.pricing?.maintenance?.price || 150,
-        maintenanceDescription: data.pricing?.maintenance?.description || ''
+        maintenanceDescription: data.pricing?.maintenance?.description || '',
+        // Monthly specific
+        monthlyPrice: data.monthly_price || data.pricing?.monthlyPrice || 0
       });
 
       if (data.clients) {
@@ -122,6 +129,9 @@ export default function QuoteDetailPage() {
     }
   };
 
+  const isMonthly = quote?.quote_type === 'monthly';
+  const serviceInfo = quote ? getServiceType(quote.service_type || 'web_development') : null;
+
   const handleSaveEdit = async () => {
     setSaving(true);
     try {
@@ -129,14 +139,26 @@ export default function QuoteDetailPage() {
       const discountAmount = subtotal * (editForm.discountRate / 100);
       const total = subtotal - discountAmount;
 
+      // Clean scope
+      const cleanedScope = editForm.scope.map(section => ({
+        ...section,
+        items: section.items.filter(item => item.trim() !== '')
+      })).filter(section => section.title.trim() !== '' || section.items.length > 0);
+
       const updateData = {
         title: editForm.title || null,
         client_name: editForm.client_name,
         client_email: editForm.client_email,
         project_overview: editForm.project_overview,
         duration: editForm.duration,
-        timeline: editForm.timeline.filter(t => t.phase.trim() !== ''),
-        pricing: {
+        timeline: isMonthly ? [] : editForm.timeline.filter(t => t.phase.trim() !== ''),
+        scope: cleanedScope,
+        monthly_price: isMonthly ? editForm.monthlyPrice : null,
+        pricing: isMonthly ? {
+          monthlyPrice: editForm.monthlyPrice,
+          items: editForm.items.filter(item => item.name.trim() !== ''),
+          total: editForm.monthlyPrice,
+        } : {
           items: editForm.items.filter(item => item.name.trim() !== '' && item.price > 0),
           subtotal: subtotal,
           discountRate: editForm.discountRate / 100,
@@ -190,6 +212,50 @@ export default function QuoteDetailPage() {
     const newItems = [...editForm.items];
     newItems[index] = { ...newItems[index], [field]: field === 'price' ? Number(value) : value };
     setEditForm({ ...editForm, items: newItems });
+  };
+
+  // Scope management
+  const addScopeSection = () => {
+    setEditForm({
+      ...editForm,
+      scope: [...editForm.scope, { number: String(editForm.scope.length + 1), title: '', items: [''] }]
+    });
+  };
+
+  const removeScopeSection = (index) => {
+    if (editForm.scope.length > 1) {
+      const newScope = editForm.scope.filter((_, i) => i !== index).map((section, i) => ({
+        ...section,
+        number: String(i + 1)
+      }));
+      setEditForm({ ...editForm, scope: newScope });
+    }
+  };
+
+  const updateScopeSection = (index, field, value) => {
+    const newScope = [...editForm.scope];
+    newScope[index] = { ...newScope[index], [field]: value };
+    setEditForm({ ...editForm, scope: newScope });
+  };
+
+  const addScopeItem = (sectionIndex) => {
+    const newScope = [...editForm.scope];
+    newScope[sectionIndex].items = [...newScope[sectionIndex].items, ''];
+    setEditForm({ ...editForm, scope: newScope });
+  };
+
+  const removeScopeItem = (sectionIndex, itemIndex) => {
+    const newScope = [...editForm.scope];
+    if (newScope[sectionIndex].items.length > 1) {
+      newScope[sectionIndex].items = newScope[sectionIndex].items.filter((_, i) => i !== itemIndex);
+      setEditForm({ ...editForm, scope: newScope });
+    }
+  };
+
+  const updateScopeItem = (sectionIndex, itemIndex, value) => {
+    const newScope = [...editForm.scope];
+    newScope[sectionIndex].items[itemIndex] = value;
+    setEditForm({ ...editForm, scope: newScope });
   };
 
   const addTimelinePhase = () => {
@@ -347,6 +413,17 @@ export default function QuoteDetailPage() {
       {/* Header */}
       <div className="flex flex-col lg:flex-row justify-between items-start gap-6 mb-8">
         <div className="flex-1">
+          {/* Service Type Badge */}
+          {serviceInfo && (
+            <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold mb-3 ${
+              isMonthly ? 'bg-purple-500/20 text-purple-400' : `${getServiceBadgeColor(quote.service_type)} text-white`
+            }`}>
+              <span>{serviceInfo.icon}</span>
+              <span>{serviceInfo.nameHr}</span>
+              {isMonthly && <span className="ml-1 px-2 py-0.5 bg-purple-500 text-white rounded">Mjesečni</span>}
+            </div>
+          )}
+
           {quote.title && (
             <p className="text-[#00FF94] text-sm font-semibold mb-2">{quote.title}</p>
           )}
@@ -442,7 +519,7 @@ export default function QuoteDetailPage() {
                   value={editForm.duration}
                   onChange={(e) => setEditForm({...editForm, duration: e.target.value})}
                   className="w-full bg-[#0F0F0F] text-white p-3 rounded-lg border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
-                  placeholder="8 tjedana"
+                  placeholder={isMonthly ? 'Mjesečna usluga' : '8 tjedana'}
                 />
               </div>
               <div>
@@ -474,205 +551,288 @@ export default function QuoteDetailPage() {
             </div>
           </div>
 
-          {/* Line Items */}
+          {/* Scope of Work */}
           <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-bold text-[#00FF94]">Stavke / Usluge</h3>
+              <h3 className="text-xl font-bold text-[#00FF94]">{isMonthly ? 'Što je uključeno' : 'Opseg rada'}</h3>
               <button
-                onClick={addItem}
+                onClick={addScopeSection}
                 className="flex items-center gap-2 bg-[#00FF94] text-black px-3 py-2 rounded text-sm font-semibold hover:bg-[#00DD7F] transition-colors"
               >
                 <Plus size={16} />
-                Dodaj stavku
+                Dodaj sekciju
               </button>
             </div>
-            <div className="space-y-3">
-              {editForm.items.map((item, index) => (
-                <div key={index} className="bg-[#0F0F0F] p-4 rounded-lg border border-[#2A2A2A]">
-                  <div className="flex gap-3 items-start mb-2">
+            <div className="space-y-4">
+              {editForm.scope.map((section, sectionIndex) => (
+                <div key={sectionIndex} className="bg-[#0F0F0F] p-4 rounded-lg border border-[#2A2A2A]">
+                  <div className="flex gap-3 items-start mb-3">
+                    <div className="w-8 h-8 bg-[#00FF94] rounded flex items-center justify-center text-black font-bold text-sm flex-shrink-0">
+                      {section.number}
+                    </div>
                     <input
                       type="text"
-                      value={item.name}
-                      onChange={(e) => updateItem(index, 'name', e.target.value)}
-                      className="flex-1 bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
-                      placeholder="Naziv usluge"
-                    />
-                    <input
-                      type="number"
-                      value={item.price || ''}
-                      onChange={(e) => updateItem(index, 'price', e.target.value)}
-                      className="w-28 bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
-                      placeholder="Cijena"
+                      value={section.title}
+                      onChange={(e) => updateScopeSection(sectionIndex, 'title', e.target.value)}
+                      className="flex-1 bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none font-semibold"
+                      placeholder="Naziv sekcije"
                     />
                     <button
-                      onClick={() => removeItem(index)}
-                      disabled={editForm.items.length === 1}
+                      onClick={() => removeScopeSection(sectionIndex)}
+                      disabled={editForm.scope.length === 1}
                       className="p-2 text-gray-500 hover:text-red-500 disabled:opacity-30"
                     >
-                      <Trash2 size={18} />
+                      <Trash2 size={16} />
                     </button>
                   </div>
-                  <textarea
-                    value={item.description || ''}
-                    onChange={(e) => updateItem(index, 'description', e.target.value)}
-                    className="w-full bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none text-sm"
-                    placeholder="Opis (opcionalno)"
-                    rows={2}
-                  />
+                  <div className="space-y-2 ml-10">
+                    {section.items.map((item, itemIndex) => (
+                      <div key={itemIndex} className="flex gap-2 items-center">
+                        <span className="text-[#00FF94]">→</span>
+                        <input
+                          type="text"
+                          value={item}
+                          onChange={(e) => updateScopeItem(sectionIndex, itemIndex, e.target.value)}
+                          className="flex-1 bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none text-sm"
+                          placeholder="Stavka"
+                        />
+                        <button
+                          onClick={() => removeScopeItem(sectionIndex, itemIndex)}
+                          disabled={section.items.length === 1}
+                          className="p-1 text-gray-500 hover:text-red-500 disabled:opacity-30"
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
+                    ))}
+                    <button
+                      onClick={() => addScopeItem(sectionIndex)}
+                      className="text-[#00FF94] text-sm hover:underline ml-4"
+                    >
+                      + Dodaj stavku
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
-
-            {/* Discount & Deposit */}
-            <div className="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-[#2A2A2A]">
-              <div>
-                <label className="block text-sm text-gray-400 mb-2">Popust (%)</label>
-                <input
-                  type="number"
-                  value={editForm.discountRate}
-                  onChange={(e) => setEditForm({...editForm, discountRate: Number(e.target.value)})}
-                  className="w-full bg-[#0F0F0F] text-white p-3 rounded-lg border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
-                  min="0"
-                  max="100"
-                />
-              </div>
-              <div>
-                <label className="block text-sm text-gray-400 mb-2">Akontacija (%)</label>
-                <input
-                  type="number"
-                  value={editForm.depositRate}
-                  onChange={(e) => setEditForm({...editForm, depositRate: Math.min(100, Math.max(0, Number(e.target.value)))})}
-                  className="w-full bg-[#0F0F0F] text-white p-3 rounded-lg border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
-                  min="0"
-                  max="100"
-                />
-              </div>
-            </div>
-
-            {/* Live Total Preview */}
-            <div className="mt-4 pt-4 border-t border-[#2A2A2A] text-sm">
-              <div className="flex justify-between text-gray-400 mb-1">
-                <span>Međuzbroj:</span>
-                <span>€{calculateEditTotals().subtotal.toLocaleString()}</span>
-              </div>
-              {editForm.discountRate > 0 && (
-                <div className="flex justify-between text-[#00FF94] mb-1">
-                  <span>Popust ({editForm.discountRate}%):</span>
-                  <span>-€{calculateEditTotals().discountAmount.toLocaleString()}</span>
-                </div>
-              )}
-              <div className="flex justify-between text-white font-bold text-lg">
-                <span>Ukupno:</span>
-                <span className="text-[#00FF94]">€{calculateEditTotals().total.toLocaleString()}</span>
-              </div>
-            </div>
           </div>
 
-          {/* Maintenance & Support (Optional) */}
+          {/* Pricing */}
           <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6">
             <div className="flex justify-between items-center mb-4">
-              <div>
-                <h3 className="text-xl font-bold text-[#00FF94]">Maintenance & Support</h3>
-                <p className="text-gray-500 text-xs mt-1">Optional recurring monthly service (not included in project total)</p>
-              </div>
-              <button
-                type="button"
-                onClick={() => setEditForm({...editForm, maintenanceEnabled: !editForm.maintenanceEnabled})}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                  editForm.maintenanceEnabled ? 'bg-[#00FF94]' : 'bg-[#2A2A2A]'
-                }`}
-              >
-                <span
-                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                    editForm.maintenanceEnabled ? 'translate-x-6' : 'translate-x-1'
-                  }`}
-                />
-              </button>
+              <h3 className="text-xl font-bold text-[#00FF94]">{isMonthly ? 'Mjesečna cijena' : 'Stavke / Usluge'}</h3>
+              {!isMonthly && (
+                <button
+                  onClick={addItem}
+                  className="flex items-center gap-2 bg-[#00FF94] text-black px-3 py-2 rounded text-sm font-semibold hover:bg-[#00DD7F] transition-colors"
+                >
+                  <Plus size={16} />
+                  Dodaj stavku
+                </button>
+              )}
             </div>
 
-            {editForm.maintenanceEnabled && (
-              <div className="space-y-4 mt-4 pt-4 border-t border-[#2A2A2A]">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="md:col-span-2">
-                    <label className="block text-sm text-gray-400 mb-2">Description</label>
-                    <textarea
-                      value={editForm.maintenanceDescription}
-                      onChange={(e) => setEditForm({...editForm, maintenanceDescription: e.target.value})}
-                      className="w-full bg-[#0F0F0F] text-white p-3 rounded-lg border border-[#2A2A2A] focus:border-[#00FF94] outline-none h-20 text-sm"
-                      placeholder="Describe what's included in the maintenance package..."
+            {isMonthly ? (
+              <div>
+                <label className="block text-sm text-gray-400 mb-2">Mjesečna cijena (EUR) *</label>
+                <input
+                  type="number"
+                  value={editForm.monthlyPrice || ''}
+                  onChange={(e) => setEditForm({...editForm, monthlyPrice: Number(e.target.value)})}
+                  className="w-full bg-[#0F0F0F] text-white p-3 rounded-lg border border-[#2A2A2A] focus:border-[#00FF94] outline-none text-2xl font-bold"
+                  placeholder="0"
+                />
+              </div>
+            ) : (
+              <>
+                <div className="space-y-3">
+                  {editForm.items.map((item, index) => (
+                    <div key={index} className="bg-[#0F0F0F] p-4 rounded-lg border border-[#2A2A2A]">
+                      <div className="flex gap-3 items-start mb-2">
+                        <input
+                          type="text"
+                          value={item.name}
+                          onChange={(e) => updateItem(index, 'name', e.target.value)}
+                          className="flex-1 bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
+                          placeholder="Naziv usluge"
+                        />
+                        <input
+                          type="number"
+                          value={item.price || ''}
+                          onChange={(e) => updateItem(index, 'price', e.target.value)}
+                          className="w-28 bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
+                          placeholder="Cijena"
+                        />
+                        <button
+                          onClick={() => removeItem(index)}
+                          disabled={editForm.items.length === 1}
+                          className="p-2 text-gray-500 hover:text-red-500 disabled:opacity-30"
+                        >
+                          <Trash2 size={18} />
+                        </button>
+                      </div>
+                      <textarea
+                        value={item.description || ''}
+                        onChange={(e) => updateItem(index, 'description', e.target.value)}
+                        className="w-full bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none text-sm"
+                        placeholder="Opis (opcionalno)"
+                        rows={2}
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                {/* Discount & Deposit */}
+                <div className="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-[#2A2A2A]">
+                  <div>
+                    <label className="block text-sm text-gray-400 mb-2">Popust (%)</label>
+                    <input
+                      type="number"
+                      value={editForm.discountRate}
+                      onChange={(e) => setEditForm({...editForm, discountRate: Number(e.target.value)})}
+                      className="w-full bg-[#0F0F0F] text-white p-3 rounded-lg border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
+                      min="0"
+                      max="100"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-400 mb-2">Monthly Price (€)</label>
+                    <label className="block text-sm text-gray-400 mb-2">Akontacija (%)</label>
                     <input
                       type="number"
-                      value={editForm.maintenancePrice}
-                      onChange={(e) => setEditForm({...editForm, maintenancePrice: Number(e.target.value)})}
+                      value={editForm.depositRate}
+                      onChange={(e) => setEditForm({...editForm, depositRate: Math.min(100, Math.max(0, Number(e.target.value)))})}
                       className="w-full bg-[#0F0F0F] text-white p-3 rounded-lg border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
-                      placeholder="150"
                       min="0"
+                      max="100"
                     />
                   </div>
                 </div>
-                <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-3">
-                  <p className="text-blue-400 text-xs">
-                    <strong>Note:</strong> This is presented as a recommended monthly service, separate from the one-time project cost.
-                  </p>
+
+                {/* Live Total Preview */}
+                <div className="mt-4 pt-4 border-t border-[#2A2A2A] text-sm">
+                  <div className="flex justify-between text-gray-400 mb-1">
+                    <span>Međuzbroj:</span>
+                    <span>€{calculateEditTotals().subtotal.toLocaleString()}</span>
+                  </div>
+                  {editForm.discountRate > 0 && (
+                    <div className="flex justify-between text-[#00FF94] mb-1">
+                      <span>Popust ({editForm.discountRate}%):</span>
+                      <span>-€{calculateEditTotals().discountAmount.toLocaleString()}</span>
+                    </div>
+                  )}
+                  <div className="flex justify-between text-white font-bold text-lg">
+                    <span>Ukupno:</span>
+                    <span className="text-[#00FF94]">€{calculateEditTotals().total.toLocaleString()}</span>
+                  </div>
                 </div>
-              </div>
+              </>
             )}
           </div>
 
-          {/* Timeline */}
-          <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-bold text-[#00FF94]">Vremenski plan</h3>
-              <button
-                onClick={addTimelinePhase}
-                className="flex items-center gap-2 bg-[#00FF94] text-black px-3 py-2 rounded text-sm font-semibold hover:bg-[#00DD7F] transition-colors"
-              >
-                <Plus size={16} />
-                Dodaj fazu
-              </button>
-            </div>
-            <div className="space-y-3">
-              {editForm.timeline.map((phase, index) => (
-                <div key={index} className="flex gap-3 items-center bg-[#0F0F0F] p-3 rounded-lg border border-[#2A2A2A]">
-                  <div className="w-8 h-8 bg-[#00FF94] rounded flex items-center justify-center text-black font-bold text-sm flex-shrink-0">
-                    {index + 1}
-                  </div>
-                  <input
-                    type="text"
-                    value={phase.week}
-                    onChange={(e) => updateTimelinePhase(index, 'week', e.target.value)}
-                    className="w-28 bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none text-sm"
-                    placeholder="Tjedan"
-                  />
-                  <input
-                    type="text"
-                    value={phase.phase}
-                    onChange={(e) => updateTimelinePhase(index, 'phase', e.target.value)}
-                    className="flex-1 bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none text-sm"
-                    placeholder="Naziv faze"
-                  />
-                  <input
-                    type="text"
-                    value={phase.duration}
-                    onChange={(e) => updateTimelinePhase(index, 'duration', e.target.value)}
-                    className="w-28 bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none text-sm"
-                    placeholder="Trajanje"
-                  />
-                  <button
-                    onClick={() => removeTimelinePhase(index)}
-                    disabled={editForm.timeline.length === 1}
-                    className="p-2 text-gray-500 hover:text-red-500 disabled:opacity-30"
-                  >
-                    <Trash2 size={16} />
-                  </button>
+          {/* Maintenance & Support (Optional) - Only for project quotes */}
+          {!isMonthly && (
+            <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6">
+              <div className="flex justify-between items-center mb-4">
+                <div>
+                  <h3 className="text-xl font-bold text-[#00FF94]">Maintenance & Support</h3>
+                  <p className="text-gray-500 text-xs mt-1">Optional recurring monthly service (not included in project total)</p>
                 </div>
-              ))}
+                <button
+                  type="button"
+                  onClick={() => setEditForm({...editForm, maintenanceEnabled: !editForm.maintenanceEnabled})}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                    editForm.maintenanceEnabled ? 'bg-[#00FF94]' : 'bg-[#2A2A2A]'
+                  }`}
+                >
+                  <span
+                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                      editForm.maintenanceEnabled ? 'translate-x-6' : 'translate-x-1'
+                    }`}
+                  />
+                </button>
+              </div>
+
+              {editForm.maintenanceEnabled && (
+                <div className="space-y-4 mt-4 pt-4 border-t border-[#2A2A2A]">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="md:col-span-2">
+                      <label className="block text-sm text-gray-400 mb-2">Description</label>
+                      <textarea
+                        value={editForm.maintenanceDescription}
+                        onChange={(e) => setEditForm({...editForm, maintenanceDescription: e.target.value})}
+                        className="w-full bg-[#0F0F0F] text-white p-3 rounded-lg border border-[#2A2A2A] focus:border-[#00FF94] outline-none h-20 text-sm"
+                        placeholder="Describe what's included in the maintenance package..."
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm text-gray-400 mb-2">Monthly Price (€)</label>
+                      <input
+                        type="number"
+                        value={editForm.maintenancePrice}
+                        onChange={(e) => setEditForm({...editForm, maintenancePrice: Number(e.target.value)})}
+                        className="w-full bg-[#0F0F0F] text-white p-3 rounded-lg border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
+                        placeholder="150"
+                        min="0"
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
-          </div>
+          )}
+
+          {/* Timeline - Only for project quotes */}
+          {!isMonthly && (
+            <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-xl font-bold text-[#00FF94]">Vremenski plan</h3>
+                <button
+                  onClick={addTimelinePhase}
+                  className="flex items-center gap-2 bg-[#00FF94] text-black px-3 py-2 rounded text-sm font-semibold hover:bg-[#00DD7F] transition-colors"
+                >
+                  <Plus size={16} />
+                  Dodaj fazu
+                </button>
+              </div>
+              <div className="space-y-3">
+                {editForm.timeline.map((phase, index) => (
+                  <div key={index} className="flex gap-3 items-center bg-[#0F0F0F] p-3 rounded-lg border border-[#2A2A2A]">
+                    <div className="w-8 h-8 bg-[#00FF94] rounded flex items-center justify-center text-black font-bold text-sm flex-shrink-0">
+                      {index + 1}
+                    </div>
+                    <input
+                      type="text"
+                      value={phase.week}
+                      onChange={(e) => updateTimelinePhase(index, 'week', e.target.value)}
+                      className="w-28 bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none text-sm"
+                      placeholder="Tjedan"
+                    />
+                    <input
+                      type="text"
+                      value={phase.phase}
+                      onChange={(e) => updateTimelinePhase(index, 'phase', e.target.value)}
+                      className="flex-1 bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none text-sm"
+                      placeholder="Naziv faze"
+                    />
+                    <input
+                      type="text"
+                      value={phase.duration}
+                      onChange={(e) => updateTimelinePhase(index, 'duration', e.target.value)}
+                      className="w-28 bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none text-sm"
+                      placeholder="Trajanje"
+                    />
+                    <button
+                      onClick={() => removeTimelinePhase(index)}
+                      disabled={editForm.timeline.length === 1}
+                      className="p-2 text-gray-500 hover:text-red-500 disabled:opacity-30"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       ) : (
         /* View Mode */
@@ -703,10 +863,13 @@ export default function QuoteDetailPage() {
           {/* Stats */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-8">
             <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 text-center">
-              <div className="text-xs text-gray-500 uppercase tracking-wider mb-3">Total Value</div>
-              <div className="text-3xl font-black text-[#00FF94] flex items-center justify-center gap-2">
+              <div className="text-xs text-gray-500 uppercase tracking-wider mb-3">
+                {isMonthly ? 'Monthly Value' : 'Total Value'}
+              </div>
+              <div className={`text-3xl font-black flex items-center justify-center gap-2 ${isMonthly ? 'text-purple-400' : 'text-[#00FF94]'}`}>
                 <DollarSign size={24} />
-                €{quote.pricing?.total?.toLocaleString() || 0}
+                €{isMonthly ? (quote.monthly_price || 0).toLocaleString() : (quote.pricing?.total || 0).toLocaleString()}
+                {isMonthly && <span className="text-lg">/mj</span>}
               </div>
             </div>
 
@@ -791,91 +954,129 @@ export default function QuoteDetailPage() {
           {/* Project Overview */}
           {quote.project_overview && (
             <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 mb-8">
-              <h3 className="text-xl font-bold mb-4">Pregled projekta</h3>
+              <h3 className="text-xl font-bold mb-4">Pregled {isMonthly ? 'usluge' : 'projekta'}</h3>
               <p className="text-gray-400 leading-relaxed">{quote.project_overview}</p>
+            </div>
+          )}
+
+          {/* Scope */}
+          {quote.scope && quote.scope.length > 0 && (
+            <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 mb-8">
+              <h3 className="text-xl font-bold mb-4">{isMonthly ? 'Što je uključeno' : 'Opseg rada'}</h3>
+              <div className="space-y-4">
+                {quote.scope.map((section, index) => (
+                  <div key={index} className="bg-[#0F0F0F] p-4 rounded-lg">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className={`w-8 h-8 rounded flex items-center justify-center text-black font-bold text-sm ${isMonthly ? 'bg-purple-400' : 'bg-[#00FF94]'}`}>
+                        {section.number}
+                      </div>
+                      <span className="font-semibold text-white">{section.title}</span>
+                    </div>
+                    <ul className="ml-11 space-y-1">
+                      {section.items.map((item, itemIndex) => (
+                        <li key={itemIndex} className="text-gray-400 text-sm flex items-start gap-2">
+                          <span className={isMonthly ? 'text-purple-400' : 'text-[#00FF94]'}>→</span>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 
           {/* Pricing Breakdown */}
           <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 mb-8">
-            <h3 className="text-xl font-bold mb-4">Pricing Breakdown</h3>
+            <h3 className="text-xl font-bold mb-4">{isMonthly ? 'Cijena' : 'Pricing Breakdown'}</h3>
 
-            {/* Line Items */}
-            {quote.pricing?.items && quote.pricing.items.length > 0 && (
-              <div className="space-y-3 mb-4">
-                {quote.pricing.items.map((item, index) => (
-                  <div key={index} className="py-3 border-b border-[#2A2A2A]">
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-300">{item.name}</span>
-                      <span className="text-white font-semibold">€{item.price.toLocaleString()}</span>
+            {isMonthly ? (
+              <div className={`text-center py-6 rounded-xl ${isMonthly ? 'bg-purple-500/10' : 'bg-[#00FF94]/10'}`}>
+                <div className={`text-4xl font-black ${isMonthly ? 'text-purple-400' : 'text-[#00FF94]'}`}>
+                  €{(quote.monthly_price || 0).toLocaleString()}
+                  <span className="text-xl text-gray-400">/mj</span>
+                </div>
+              </div>
+            ) : (
+              <>
+                {/* Line Items */}
+                {quote.pricing?.items && quote.pricing.items.length > 0 && (
+                  <div className="space-y-3 mb-4">
+                    {quote.pricing.items.map((item, index) => (
+                      <div key={index} className="py-3 border-b border-[#2A2A2A]">
+                        <div className="flex justify-between items-center">
+                          <span className="text-gray-300">{item.name}</span>
+                          <span className="text-white font-semibold">€{item.price?.toLocaleString()}</span>
+                        </div>
+                        {item.description && (
+                          <p className="text-sm text-gray-500 mt-1">{item.description}</p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between text-gray-400">
+                    <span>Subtotal</span>
+                    <span>€{quote.pricing?.subtotal?.toLocaleString() || 0}</span>
+                  </div>
+                  {quote.pricing?.discountRate > 0 && (
+                    <div className="flex justify-between text-[#00FF94]">
+                      <span>Discount ({(quote.pricing.discountRate * 100).toFixed(0)}%)</span>
+                      <span>-€{quote.pricing.discountAmount?.toLocaleString() || 0}</span>
                     </div>
-                    {item.description && (
-                      <p className="text-sm text-gray-500 mt-1">{item.description}</p>
-                    )}
-                  </div>
-                ))}
-              </div>
-            )}
-
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between text-gray-400">
-                <span>Subtotal</span>
-                <span>€{quote.pricing?.subtotal?.toLocaleString() || 0}</span>
-              </div>
-              {quote.pricing?.discountRate > 0 && (
-                <div className="flex justify-between text-[#00FF94]">
-                  <span>Discount ({(quote.pricing.discountRate * 100).toFixed(0)}%)</span>
-                  <span>-€{quote.pricing.discountAmount?.toLocaleString() || 0}</span>
-                </div>
-              )}
-              <div className="flex justify-between text-lg font-bold pt-2 border-t border-[#2A2A2A]">
-                <span>Total</span>
-                <span className="text-[#00FF94]">€{quote.pricing?.total?.toLocaleString() || 0}</span>
-              </div>
-            </div>
-
-            {/* Payment Structure */}
-            <div className="mt-6 pt-4 border-t border-[#2A2A2A]">
-              <h4 className="text-sm font-semibold text-gray-400 mb-3">Payment Structure</h4>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-[#00FF94]/10 border border-[#00FF94]/20 rounded-xl p-4">
-                  <div className="text-xs text-[#00FF94]/70 mb-1">
-                    {((quote.pricing?.depositRate || 0.5) * 100).toFixed(0)}% Deposit
-                  </div>
-                  <div className="text-xl font-bold text-[#00FF94]">
-                    €{(quote.pricing?.total * (quote.pricing?.depositRate || 0.5))?.toLocaleString() || 0}
-                  </div>
-                </div>
-                <div className="bg-[#2A2A2A] rounded-xl p-4">
-                  <div className="text-xs text-gray-500 mb-1">
-                    {(100 - (quote.pricing?.depositRate || 0.5) * 100).toFixed(0)}% On Completion
-                  </div>
-                  <div className="text-xl font-bold text-white">
-                    €{(quote.pricing?.total * (1 - (quote.pricing?.depositRate || 0.5)))?.toLocaleString() || 0}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Maintenance & Support (if enabled) */}
-            {quote.pricing?.maintenance?.enabled && (
-              <div className="mt-6 pt-4 border-t border-[#2A2A2A]">
-                <h4 className="text-sm font-semibold text-gray-400 mb-3">Maintenance & Support (Optional)</h4>
-                <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-4">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-blue-400 font-semibold">Monthly Service</span>
-                    <span className="text-blue-400 font-bold text-xl">€{quote.pricing.maintenance.price?.toLocaleString()}/mo</span>
-                  </div>
-                  {quote.pricing.maintenance.description && (
-                    <p className="text-blue-400/70 text-sm">{quote.pricing.maintenance.description}</p>
                   )}
+                  <div className="flex justify-between text-lg font-bold pt-2 border-t border-[#2A2A2A]">
+                    <span>Total</span>
+                    <span className="text-[#00FF94]">€{quote.pricing?.total?.toLocaleString() || 0}</span>
+                  </div>
                 </div>
-              </div>
+
+                {/* Payment Structure */}
+                <div className="mt-6 pt-4 border-t border-[#2A2A2A]">
+                  <h4 className="text-sm font-semibold text-gray-400 mb-3">Payment Structure</h4>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-[#00FF94]/10 border border-[#00FF94]/20 rounded-xl p-4">
+                      <div className="text-xs text-[#00FF94]/70 mb-1">
+                        {((quote.pricing?.depositRate || 0.5) * 100).toFixed(0)}% Deposit
+                      </div>
+                      <div className="text-xl font-bold text-[#00FF94]">
+                        €{(quote.pricing?.total * (quote.pricing?.depositRate || 0.5))?.toLocaleString() || 0}
+                      </div>
+                    </div>
+                    <div className="bg-[#2A2A2A] rounded-xl p-4">
+                      <div className="text-xs text-gray-500 mb-1">
+                        {(100 - (quote.pricing?.depositRate || 0.5) * 100).toFixed(0)}% On Completion
+                      </div>
+                      <div className="text-xl font-bold text-white">
+                        €{(quote.pricing?.total * (1 - (quote.pricing?.depositRate || 0.5)))?.toLocaleString() || 0}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Maintenance & Support (if enabled) */}
+                {quote.pricing?.maintenance?.enabled && (
+                  <div className="mt-6 pt-4 border-t border-[#2A2A2A]">
+                    <h4 className="text-sm font-semibold text-gray-400 mb-3">Maintenance & Support (Optional)</h4>
+                    <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-4">
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-blue-400 font-semibold">Monthly Service</span>
+                        <span className="text-blue-400 font-bold text-xl">€{quote.pricing.maintenance.price?.toLocaleString()}/mo</span>
+                      </div>
+                      {quote.pricing.maintenance.description && (
+                        <p className="text-blue-400/70 text-sm">{quote.pricing.maintenance.description}</p>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </>
             )}
           </div>
 
-          {/* Timeline */}
-          {quote.timeline && quote.timeline.length > 0 && (
+          {/* Timeline - Only for project quotes */}
+          {!isMonthly && quote.timeline && quote.timeline.length > 0 && (
             <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 mb-8">
               <h3 className="text-xl font-bold mb-4">Vremenski plan</h3>
               <div className="space-y-3">
