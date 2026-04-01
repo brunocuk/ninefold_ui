@@ -13,19 +13,19 @@ import CTASection from '@/components/sections/CTASection'
 import BlogSection from '@/components/sections/BlogSection'
 
 export const metadata = {
-  title: 'NineFold | Web Development & Design in Croatia',
-  description: 'Professional web development, design, and digital services in Zagreb. Custom websites, Shopify stores, and web applications built for performance and conversions.',
+  title: 'NineFold | Kreativna Agencija Zagreb - Web, Video, Branding',
+  description: 'Full-service kreativna agencija iz Zagreba. Branding, web razvoj, video produkcija i fotografija - sve pod jednim krovom.',
   openGraph: {
-    title: 'NineFold | Web Development & Design in Croatia',
-    description: 'Professional web development, design, and digital services in Zagreb. Custom websites, Shopify stores, and web applications built for performance and conversions.',
+    title: 'NineFold | Kreativna Agencija Zagreb - Web, Video, Branding',
+    description: 'Full-service kreativna agencija iz Zagreba. Branding, web razvoj, video produkcija i fotografija - sve pod jednim krovom.',
     type: 'website',
-    locale: 'en_US',
+    locale: 'hr_HR',
     siteName: 'NineFold',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'NineFold | Web Development & Design in Croatia',
-    description: 'Professional web development, design, and digital services in Zagreb.',
+    title: 'NineFold | Kreativna Agencija Zagreb',
+    description: 'Full-service kreativna agencija iz Zagreba. Branding, web, video i fotografija.',
   },
   alternates: {
     canonical: 'https://ninefold.eu',

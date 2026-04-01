@@ -24,10 +24,10 @@ export default function BlogSection() {
   // Format date helper
   const formatDate = (dateString) => {
     const date = new Date(dateString)
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'short', 
-      day: 'numeric' 
+    return date.toLocaleDateString('hr-HR', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
     })
   }
 
@@ -62,16 +62,16 @@ export default function BlogSection() {
                 transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
                 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 will-change-transform"
               >
-                Latest insights
+                Najnoviji uvidi
               </motion.h2>
-              
+
               <motion.p
                 initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
                 className="text-xl md:text-2xl text-[#88939D] will-change-transform"
               >
-                Thoughts on design, development, and building better digital experiences.
+                Razmišljanja o dizajnu, razvoju i stvaranju boljih digitalnih iskustava.
               </motion.p>
             </div>
 
@@ -98,7 +98,7 @@ export default function BlogSection() {
                   }}
                   className="px-6 py-3 border-2 border-[#88939D]/30 text-white font-semibold rounded-xl text-base hover:text-[#00FF94] transition-colors duration-300 flex items-center gap-2 will-change-transform group"
                 >
-                  View all articles
+                  Pogledajte sve članke
                   <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
@@ -207,7 +207,7 @@ export default function BlogSection() {
                           ease: "easeInOut"
                         }}
                       />
-                      <span className="text-white text-sm font-semibold">Read article</span>
+                      <span className="text-white text-sm font-semibold">Pročitajte članak</span>
                     </motion.div>
                   </div>
 
@@ -270,16 +270,16 @@ export default function BlogSection() {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
             <div className="max-w-2xl">
               <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Stay updated with our newsletter
+                Budite u toku s našim novostima
               </h3>
               <p className="text-lg text-[#88939D]">
-                Get the latest articles and insights delivered straight to your inbox.
+                Najnoviji članci i uvidi isporučeni direktno u vaš inbox.
               </p>
             </div>
-            
+
             <Link href="/blog">
               <motion.button
-                whileHover={{ 
+                whileHover={{
                   scale: 1.02,
                   transition: {
                     type: "spring",
@@ -287,13 +287,13 @@ export default function BlogSection() {
                     damping: 30
                   }
                 }}
-                whileTap={{ 
+                whileTap={{
                   scale: 0.98,
                   transition: { duration: 0.1 }
                 }}
                 className="px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg transition-all whitespace-nowrap will-change-transform shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30"
               >
-                Explore all articles
+                Istražite sve članke
               </motion.button>
             </Link>
           </div>

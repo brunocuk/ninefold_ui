@@ -17,13 +17,13 @@ export default function ProcessSection() {
   const steps = [
     {
       number: '01',
-      title: "Discovery & strategy",
-      description: 'We start by understanding your business goals, target audience, and what success looks like for your project.',
+      title: "Istraživanje i strategija",
+      description: 'Počinjemo razumijevanjem vaših poslovnih ciljeva, ciljane publike i kako izgleda uspjeh za vaš projekt.',
       details: [
-        'Stakeholder interviews and research',
-        'Competitive analysis and market positioning',
-        'Technical requirements and constraints',
-        'Success metrics and KPIs definition',
+        'Intervjui i istraživanje',
+        'Analiza konkurencije i pozicioniranje',
+        'Tehnički zahtjevi i ograničenja',
+        'Definiranje metrika uspjeha',
       ],
       icon: (
         <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -33,13 +33,13 @@ export default function ProcessSection() {
     },
     {
       number: '02',
-      title: 'Design & prototype',
-      description: 'We transform insights into beautiful, user-centered designs that bring your brand to life.',
+      title: 'Dizajn i prototip',
+      description: 'Pretvaramo uvide u prekrasne dizajne fokusirane na korisnika koji oživljavaju vaš brand.',
       details: [
-        'Wireframes and user flow mapping',
-        'High-fidelity mockups and prototypes',
-        'Design system and style guide',
-        'Interactive prototypes for feedback',
+        'Wireframe i mapiranje korisničkog toka',
+        'Mockupovi i prototipi visoke kvalitete',
+        'Dizajn sustav i vodič za stil',
+        'Interaktivni prototipi za povratne informacije',
       ],
       icon: (
         <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -49,13 +49,13 @@ export default function ProcessSection() {
     },
     {
       number: '03',
-      title: 'Development & testing',
-      description: 'Clean code meets cutting-edge technology. We build fast, secure, and scalable solutions.',
+      title: 'Razvoj i testiranje',
+      description: 'Čist kod susreće najnoviju tehnologiju. Gradimo brza, sigurna i skalabilna rješenja.',
       details: [
-        'Front-end and back-end development',
-        'Performance optimization and SEO',
-        'Cross-browser and device testing',
-        'Security audits and quality assurance',
+        'Frontend i backend razvoj',
+        'Optimizacija performansi i SEO',
+        'Testiranje na svim preglednicima',
+        'Sigurnosne provjere i osiguranje kvalitete',
       ],
       icon: (
         <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -65,13 +65,13 @@ export default function ProcessSection() {
     },
     {
       number: '04',
-      title: 'Launch & support',
-      description: 'Your site goes live, but our partnership continues. We ensure everything runs smoothly.',
+      title: 'Pokretanje i podrška',
+      description: 'Vaš projekt ide uživo, ali naše partnerstvo se nastavlja. Osiguravamo da sve radi glatko.',
       details: [
-        'Deployment and performance monitoring',
-        'Team training and documentation',
-        'Ongoing maintenance and updates',
-        'Analytics setup and optimization',
+        'Objava i praćenje performansi',
+        'Obuka tima i dokumentacija',
+        'Tekuće održavanje i nadogradnje',
+        'Postavljanje analitike i optimizacija',
       ],
       icon: (
         <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -111,7 +111,7 @@ export default function ProcessSection() {
             className="inline-block mb-6 will-change-transform"
           >
             <span className="px-4 py-2 bg-[#00FF94]/10 border border-[#00FF94]/30 rounded-full text-[#00FF94] text-sm font-mono uppercase tracking-wider">
-              Our Process
+              Naš Proces
             </span>
           </motion.div>
 
@@ -121,7 +121,7 @@ export default function ProcessSection() {
             transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 will-change-transform"
           >
-            How we deliver on time, every time
+            Kako isporučujemo na vrijeme, svaki put
           </motion.h2>
 
           <motion.p
@@ -130,7 +130,7 @@ export default function ProcessSection() {
             transition={{ duration: 1, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
             className="text-xl md:text-2xl text-[#88939D] max-w-3xl mx-auto will-change-transform"
           >
-            A clear 4-step process. No surprises. You'll know exactly where your project stands at every stage.
+            Jasan proces u 4 koraka. Bez iznenađenja. Uvijek ćete znati gdje vaš projekt stoji.
           </motion.p>
         </motion.div>
 
@@ -311,17 +311,17 @@ export default function ProcessSection() {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
             <div className="max-w-2xl">
               <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Ready to get started?
+                Spremni za početak?
               </h3>
               <p className="text-lg text-[#88939D]">
-                Let's discuss your project and create a tailored plan for success
+                Razgovarajmo o vašem projektu i kreirajmo plan za uspjeh
               </p>
             </div>
-            
+
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/contact">
                 <motion.button
-                  whileHover={{ 
+                  whileHover={{
                     scale: 1.02,
                     transition: {
                       type: "spring",
@@ -329,13 +329,13 @@ export default function ProcessSection() {
                       damping: 30
                     }
                   }}
-                  whileTap={{ 
+                  whileTap={{
                     scale: 0.98,
                     transition: { duration: 0.1 }
                   }}
                   className="group px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg transition-all whitespace-nowrap flex items-center gap-2 will-change-transform shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30"
                 >
-                  Book a free call
+                  Zakažite besplatan poziv
                   <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
@@ -359,7 +359,7 @@ export default function ProcessSection() {
                   }}
                   className="px-8 py-5 bg-transparent border-2 border-[#88939D]/30 text-white font-bold rounded-xl text-lg transition-colors duration-300 whitespace-nowrap hover:text-[#00FF94] will-change-transform"
                 >
-                  See our work
+                  Pogledajte naše radove
                 </motion.button>
               </Link>
             </div>

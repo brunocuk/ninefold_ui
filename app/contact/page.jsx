@@ -4,11 +4,11 @@ import { Suspense } from 'react'
 import ContactContent from './ContactContent'
 
 export const metadata = {
-  title: 'Contact Us | Get in Touch - NineFold',
-  description: 'Have a project in mind? Contact our web development team in Zagreb, Croatia. We respond within 24 hours. Let\'s build something great together.',
+  title: 'Kontakt | NineFold - Kreativna Agencija Zagreb',
+  description: 'Imate projekt na umu? Kontaktirajte naš kreativni tim u Zagrebu. Odgovaramo unutar 24 sata. Izgradimo nešto sjajno zajedno.',
   openGraph: {
-    title: 'Contact Us | Get in Touch - NineFold',
-    description: 'Have a project in mind? Contact our web development team in Zagreb, Croatia. We respond within 24 hours.',
+    title: 'Kontakt | NineFold - Kreativna Agencija Zagreb',
+    description: 'Imate projekt na umu? Kontaktirajte naš kreativni tim u Zagrebu. Odgovaramo unutar 24 sata.',
     type: 'website',
   },
 }

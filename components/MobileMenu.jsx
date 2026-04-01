@@ -11,21 +11,21 @@ export default function MobileMenu({ isOpen, onClose }) {
   const prefersReducedMotion = useReducedMotion()
 
   const navItems = [
-    { label: 'Home', href: '/' },
-    { label: 'Work', href: '/work' },
-    { label: 'Services', href: '/services', hasSubmenu: true },
-    { label: 'About', href: '/about' },
-    { label: 'Contact', href: '/contact' },
+    { label: 'Naslovna', href: '/' },
+    { label: 'Radovi', href: '/work' },
+    { label: 'Usluge', href: '/usluge', hasSubmenu: true },
+    { label: 'O nama', href: '/about' },
+    { label: 'Kontakt', href: '/contact' },
     { label: 'Blog', href: '/blog' },
   ]
 
   const services = [
-    { title: 'Web Design', href: '/services/web-design', description: 'Beautiful interfaces that convert' },
-    { title: 'Web Development', href: '/services/web-development', description: 'Fast, scalable, future-proof' },
-    { title: 'Content Creation', href: '/services/content-creation', description: 'Professional photos & videos' },
-    { title: 'E-Commerce', href: '/services/e-commerce', description: 'Online stores that sell' },
-    { title: 'Web Applications', href: '/services/web-applications', description: 'Custom software solutions' },
-    { title: 'SEO Optimization', href: '/services/search-engine-optimization', description: 'Get found, rank higher' },
+    { title: 'Strategija i Branding', href: '/usluge/strategija-branding', description: 'Vizualni identitet i pozicioniranje' },
+    { title: 'Web i Aplikacije', href: '/usluge/web-digitalno', description: 'Web stranice i aplikacije' },
+    { title: 'Video i Animacija', href: '/usluge/video-animacija', description: 'TV reklame, korporativni video' },
+    { title: 'Fotografija', href: '/usluge/fotografija', description: 'Produktna i lifestyle fotografija' },
+    { title: 'Sadržaj i Društvene Mreže', href: '/usluge/sadrzaj-drustvene-mreze', description: 'Content strategija i copywriting' },
+    { title: 'Studio', href: '/usluge/studio', description: 'Podcast i video studio za najam' },
   ]
 
   const socialLinks = [
@@ -234,7 +234,7 @@ export default function MobileMenu({ isOpen, onClose }) {
                       variants={headerVariants}
                       className="text-[#00FF94] text-xs uppercase tracking-wider mb-6 font-mono font-bold will-change-transform"
                     >
-                      Navigation
+                      Navigacija
                     </motion.h3>
                     <div className="space-y-2">
                       {navItems.map((item, index) => {
@@ -282,7 +282,7 @@ export default function MobileMenu({ isOpen, onClose }) {
                   {/* Right side - Services Submenu */}
                   <div className="hidden lg:block relative">
                     <AnimatePresence mode="wait">
-                      {hoveredItem === 'Services' && (
+                      {hoveredItem === 'Usluge' && (
                         <motion.div
                           variants={submenuVariants}
                           initial="closed"
@@ -296,7 +296,7 @@ export default function MobileMenu({ isOpen, onClose }) {
                             transition={{ delay: 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                             className="text-[#00FF94] text-xs uppercase tracking-wider mb-8 font-mono font-bold"
                           >
-                            Our Services
+                            Naše Usluge
                           </motion.h3>
                           
                           <div className="space-y-3">
@@ -412,7 +412,7 @@ export default function MobileMenu({ isOpen, onClose }) {
                     className="will-change-transform"
                   >
                     <p className="text-[#88939D] text-xs uppercase tracking-wider mb-3 font-mono">
-                      Get in touch
+                      Kontaktirajte nas
                     </p>
                     <motion.a 
                       href="mailto:hello@ninefold.eu"
@@ -440,13 +440,13 @@ export default function MobileMenu({ isOpen, onClose }) {
 
                   {/* Social */}
                   <div>
-                    <motion.p 
+                    <motion.p
                       className="text-[#88939D] text-xs uppercase tracking-wider mb-3 font-mono"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 1.2, duration: 0.5 }}
                     >
-                      Follow us
+                      Pratite nas
                     </motion.p>
                     <div className="flex flex-wrap gap-4">
                       {socialLinks.map((social, index) => (

@@ -80,7 +80,7 @@ export default function WorkPage() {
               className="mb-8"
             >
               <span className="inline-block px-4 py-2 bg-[#00FF94]/10 border border-[#00FF94]/30 rounded-full text-[#00FF94] text-sm font-mono uppercase tracking-wider">
-                Our Work
+                Naši radovi
               </span>
             </motion.div>
 
@@ -92,10 +92,10 @@ export default function WorkPage() {
               className="text-[clamp(3rem,8vw,6rem)] font-bold leading-[1.05] tracking-tight mb-8"
             >
               <span className="block text-white">
-                Projects we're
+                Projekti na koje
               </span>
               <span className="block text-white">
-                proud of<span className="text-[#00FF94]">.</span>
+                smo ponosni<span className="text-[#00FF94]">.</span>
               </span>
             </motion.h1>
 
@@ -106,8 +106,8 @@ export default function WorkPage() {
               transition={{ duration: shouldReduceAnimations ? 0 : 1, delay: shouldReduceAnimations ? 0 : 0.4, ease: [0.16, 1, 0.3, 1] }}
               className="text-xl md:text-2xl text-[#88939D] leading-relaxed max-w-3xl"
             >
-              A showcase of our recent work—from stunning websites to powerful web applications. 
-              Each project tells a story of collaboration, innovation, and results.
+              Pregled naših nedavnih radova - od vizualno dojmljivih web stranica do snažnih web aplikacija.
+              Svaki projekt priča priču o suradnji, inovaciji i rezultatima.
             </motion.p>
           </div>
         </div>
@@ -167,7 +167,7 @@ export default function WorkPage() {
               className="mb-20"
             >
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-                Featured Work
+                Istaknuti radovi
               </h2>
             </motion.div>
 
@@ -218,7 +218,7 @@ export default function WorkPage() {
 
                         {/* Featured Badge */}
                         <div className="absolute -top-4 -right-4 px-4 py-2 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold text-sm rounded-full z-10 shadow-lg shadow-[#00FF94]/30">
-                          Featured
+                          Istaknuto
                         </div>
                       </div>
 
@@ -247,7 +247,7 @@ export default function WorkPage() {
                           {/* Services */}
                           <div>
                             <p className="text-sm text-[#88939D] uppercase tracking-wider font-mono mb-3">
-                              Services
+                              Usluge
                             </p>
                             <div className="flex flex-wrap gap-2">
                               {project.services.map((service, i) => (
@@ -280,7 +280,7 @@ export default function WorkPage() {
 
                           {/* CTA */}
                           <div className="flex items-center gap-2 text-[#00FF94] font-medium pt-4 group-hover:gap-3 transition-all duration-300">
-                            View Case Study
+                            Pogledajte studiju slučaja
                             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                               <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                             </svg>
@@ -321,7 +321,7 @@ export default function WorkPage() {
               className="mb-20"
             >
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-                {selectedCategory === 'All' ? 'More Projects' : `${selectedCategory} Projects`}
+                {selectedCategory === 'All' ? 'Više projekata' : `${selectedCategory} projekti`}
               </h2>
             </motion.div>
 
@@ -451,11 +451,11 @@ export default function WorkPage() {
           >
             <div className="max-w-2xl">
               <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Ready to start your project?
+                Spremni započeti svoj projekt?
               </h3>
               <p className="text-lg text-[#88939D]">
-                Let's create something amazing together. Get in touch and let's discuss
-                how we can bring your vision to life.
+                Stvorimo nešto nevjerojatno zajedno. Javite nam se i razgovarajmo
+                o tome kako možemo oživjeti vašu viziju.
               </p>
             </div>
 
@@ -463,7 +463,7 @@ export default function WorkPage() {
               <Link href="/contact">
                 <button className="group relative px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg overflow-hidden transition-all shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30">
                   <span className="relative z-10 flex items-center gap-2">
-                    Start a project
+                    Započnite projekt
                     <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
@@ -471,9 +471,9 @@ export default function WorkPage() {
                 </button>
               </Link>
 
-              <Link href="/services">
+              <Link href="/usluge">
                 <button className="px-8 py-5 bg-transparent border-2 border-[#88939D]/30 text-white font-bold rounded-xl text-lg transition-all duration-300 hover:border-[#00FF94]">
-                  View services
+                  Pogledajte usluge
                 </button>
               </Link>
             </div>

@@ -40,29 +40,29 @@ export default function StatsSection() {
 
   const stats = [
     {
-      value: 20,
+      value: 50,
       suffix: "+",
-      label: "Projects delivered",
-      description: "Successful projects across industries",
+      label: "Isporučenih projekata",
+      description: "Uspješni projekti u raznim industrijama",
     },
     {
       value: 98,
       suffix: "%",
-      label: "Client satisfaction",
-      description: "Clients who would recommend us",
+      label: "Zadovoljstvo klijenata",
+      description: "Klijenti koji bi nas preporučili",
     },
     {
       value: 0.5,
       prefix: "<",
       suffix: "s",
-      label: "Avg. Load Time",
+      label: "Prosj. vrijeme učitavanja",
       description: "First Contentful Paint",
     },
     {
       value: 100,
       suffix: "%",
-      label: "On-time delivery",
-      description: "We respect deadlines and budgets",
+      label: "Isporuka na vrijeme",
+      description: "Poštujemo rokove i budžete",
     },
   ];
 
@@ -96,7 +96,7 @@ export default function StatsSection() {
             transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 max-w-3xl will-change-transform"
           >
-            We don't just promise. We deliver.
+            Ne obećavamo. Isporučujemo.
           </motion.h2>
 
           <motion.p
@@ -105,7 +105,7 @@ export default function StatsSection() {
             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="text-xl md:text-2xl text-[#88939D] max-w-3xl will-change-transform"
           >
-            These aren't goals. They're guarantees we've kept on every project.
+            Ovo nisu ciljevi. To su garancije koje smo održali na svakom projektu.
           </motion.p>
         </motion.div>
 
@@ -196,9 +196,9 @@ export default function StatsSection() {
           />
 
           {[
-            { label: "Average project value", value: "€5K+" },
-            { label: "Response time", value: "< 24h" },
-            { label: "Client rating", value: "4.9/5" },
+            { label: "Prosječna vrijednost projekta", value: "€5K+" },
+            { label: "Vrijeme odgovora", value: "< 24h" },
+            { label: "Ocjena klijenata", value: "4.9/5" },
           ].map((item, i) => (
             <motion.div
               key={i}
@@ -241,10 +241,10 @@ export default function StatsSection() {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
             <div className="max-w-2xl">
               <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Your competitors' websites are slow. Yours won't be.
+                Web stranice vaše konkurencije su spore. Vaša neće biti.
               </h3>
               <p className="text-lg text-[#88939D]">
-                95+ PageSpeed. On-time delivery. No hidden fees. Guaranteed.
+                95+ PageSpeed. Isporuka na vrijeme. Bez skrivenih troškova. Garantirano.
               </p>
             </div>
 
@@ -264,7 +264,7 @@ export default function StatsSection() {
                 }}
                 className="px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg transition-all whitespace-nowrap will-change-transform shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30"
               >
-                Book a free call
+                Zakažite besplatan poziv
               </motion.button>
             </a>
           </div>

@@ -26,7 +26,7 @@ export default function HeroSection() {
         
         <div className="max-w-5xl">
 
-          {/* Main headline - Problem-first (PAS Formula) */}
+          {/* Main headline */}
           <motion.h1
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -38,15 +38,15 @@ export default function HeroSection() {
             className="text-[clamp(3rem,8vw,6rem)] font-bold leading-[1.05] tracking-tight mb-8 will-change-transform"
           >
             <span className="block text-white">
-              Slow websites
+              Vaš brand
             </span>
             <span className="block text-white">
-              lose{' '}
-              <span className="text-[#00FF94]">customers</span>.
+              zaslužuje{' '}
+              <span className="text-[#00FF94]">više</span>.
             </span>
           </motion.h1>
 
-          {/* Subheadline - Solution + Specifics + Guarantee */}
+          {/* Subheadline */}
           <motion.p
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -57,8 +57,9 @@ export default function HeroSection() {
             }}
             className="text-xl md:text-2xl text-[#88939D] leading-relaxed max-w-3xl mb-8 will-change-transform"
           >
-            We build lightning-fast, custom-coded websites that rank higher and convert better.
-            <span className="text-white"> 95+ PageSpeed guaranteed</span>, or we fix it free.
+            Strategija, web, video i fotografija —{' '}
+            <span className="text-white">sve pod jednim krovom</span>.
+            Kreativna agencija iz Zagreba koja gradi brandove koji se pamte.
           </motion.p>
 
           {/* Value-focused CTAs */}
@@ -84,7 +85,7 @@ export default function HeroSection() {
                 className="group relative px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg overflow-hidden transition-all will-change-transform"
               >
                 <span className="relative z-10 flex items-center gap-2">
-                  Book a free call
+                  Zakažite besplatan poziv
                   <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300 ease-out" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
@@ -104,12 +105,12 @@ export default function HeroSection() {
                 }}
                 className="px-8 py-5 bg-transparent border-2 border-[#88939D]/30 text-white font-bold rounded-xl text-lg will-change-transform"
               >
-                See our work
+                Pogledajte naše radove
               </motion.button>
             </Link>
           </motion.div>
 
-          {/* Objection handling - Trust line */}
+          {/* Trust line */}
           <motion.p
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -124,19 +125,19 @@ export default function HeroSection() {
               <svg className="w-4 h-4 text-[#00FF94]" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
               </svg>
-              Free consultation
+              Besplatne konzultacije
             </span>
             <span className="flex items-center gap-1.5">
               <svg className="w-4 h-4 text-[#00FF94]" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
               </svg>
-              Reply within 24h
+              Odgovor unutar 24h
             </span>
             <span className="flex items-center gap-1.5">
               <svg className="w-4 h-4 text-[#00FF94]" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
               </svg>
-              No commitment
+              Bez obaveza
             </span>
           </motion.p>
 
@@ -152,10 +153,10 @@ export default function HeroSection() {
             className="grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-[#88939D]/20 pt-12"
           >
             {[
-              { value: '95+', label: 'PageSpeed Guaranteed' },
-              { value: '100%', label: 'On-Time Delivery' },
-              { value: '20+', label: 'Projects Delivered' },
-              { value: '€0', label: 'Hidden Fees' },
+              { value: '50+', label: 'Uspješnih projekata' },
+              { value: '100%', label: 'Isporuka na vrijeme' },
+              { value: '5+', label: 'Godina iskustva' },
+              { value: '€0', label: 'Skrivenih troškova' },
             ].map((stat, i) => (
               <motion.div
                 key={i}

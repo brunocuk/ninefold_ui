@@ -15,19 +15,19 @@ export default function FeaturesSection() {
 
   const features = [
     {
-      title: 'Lightning Performance',
-      description: 'Your site loads in under 1 second. Better user experience, better SEO rankings, more conversions. We guarantee it.',
-      metrics: ['95+', 'PageSpeed Guaranteed']
+      title: 'Puna Usluga',
+      description: 'Strategija, branding, web, video, fotografija — sve na jednom mjestu. Bez koordinacije između više agencija.',
+      metrics: ['5', 'Usluga pod jednim krovom']
     },
     {
-      title: 'Custom Design',
-      description: 'Every pixel is designed for your brand. No generic themes, no cookie-cutter layouts. Just you.',
-      metrics: ['0%', 'Templates Used']
+      title: 'Prilagođena Rješenja',
+      description: 'Svaki projekt je jedinstven. Bez predložaka, bez kompromisa. Samo ono što vašem brandu treba.',
+      metrics: ['0%', 'Predložaka']
     },
     {
-      title: 'Transparent Process',
-      description: 'Fixed pricing. Clear timeline. Weekly updates. You\'ll always know exactly where your project stands.',
-      metrics: ['€0', 'Surprise Fees']
+      title: 'Transparentan Proces',
+      description: 'Fiksne cijene. Jasan timeline. Tjedni izvještaji. Uvijek ćete znati gdje projekt stoji.',
+      metrics: ['€0', 'Skrivenih troškova']
     },
   ]
 
@@ -60,7 +60,7 @@ export default function FeaturesSection() {
             transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 max-w-3xl will-change-transform"
           >
-            Why your site will outperform the competition
+            Zašto raditi s nama?
           </motion.h2>
 
           <motion.p
@@ -69,7 +69,7 @@ export default function FeaturesSection() {
             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="text-xl md:text-2xl text-[#88939D] max-w-3xl will-change-transform"
           >
-            While others cut corners, we guarantee these on every project.
+            Dok drugi štede na kvaliteti, mi garantiramo izvrsnost na svakom projektu.
           </motion.p>
         </motion.div>
 
@@ -155,13 +155,13 @@ export default function FeaturesSection() {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
             <div className="max-w-2xl">
               <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Ready to get started?
+                Spremni za početak?
               </h3>
               <p className="text-lg text-[#88939D]">
-                Let's discuss your project and see how we can help you succeed.
+                Razgovarajmo o vašem projektu i kako vam možemo pomoći da uspijete.
               </p>
             </div>
-            
+
             <a href="/contact">
               <motion.button
                 whileHover={{
@@ -178,7 +178,7 @@ export default function FeaturesSection() {
                 }}
                 className="px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg transition-all whitespace-nowrap will-change-transform shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30"
               >
-                Book a free call
+                Zakažite besplatan poziv
               </motion.button>
             </a>
           </div>

@@ -1,4 +1,4 @@
-// app/services/content-creation/ContentCreationContent.jsx
+// app/usluge/video-animacija/VideoAnimacijaContent.jsx
 
 'use client'
 
@@ -8,39 +8,29 @@ import Link from 'next/link'
 import { useState } from 'react'
 
 const service = {
-  title: 'Photography & Videography',
-  tagline: 'Content that makes websites shine',
-  description: 'Professional photography and videography specifically designed for websites. Product shots, team photos, space photography, and brand videos—all optimized for web and delivered ready to use.',
-  
+  title: 'Video i Animacija',
+  tagline: 'Vizualni sadržaj koji prodaje',
+  description: 'Profesionalna video produkcija za TV reklame, korporativne videe, društvene mreže i drone snimanje. Od ideje do finalne isporuke — sve pod jednim krovom.',
+
   icon: (
     <svg className="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-      <path strokeLinecap="round" strokeLinejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
     </svg>
   ),
-  
+
   features: [
     {
-      title: 'Product Photography',
-      description: 'Clean, professional product shots on white backgrounds or styled in context. Perfect for e-commerce stores and product pages.',
+      title: 'TV Reklame',
+      description: 'Kreativne televizijske reklame koje privlače pažnju i pokreću akciju. Od koncepta do emitiranja.',
       icon: (
         <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
         </svg>
       ),
     },
     {
-      title: 'Team & Headshots',
-      description: 'Professional team photos and individual headshots for about pages and team sections. Natural, approachable, and on-brand.',
-      icon: (
-        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-        </svg>
-      ),
-    },
-    {
-      title: 'Space Photography',
-      description: 'Interior and exterior photography for offices, restaurants, hotels, and retail spaces. Showcase your location in the best light.',
+      title: 'Korporativni Video',
+      description: 'Profesionalni videozapisi za internu komunikaciju, prezentacije tvrtke i edukativni sadržaj.',
       icon: (
         <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
@@ -48,180 +38,190 @@ const service = {
       ),
     },
     {
-      title: 'Brand Videos',
-      description: 'Short brand videos (30-90 seconds) that tell your story. Perfect for homepage heroes, about sections, and social media.',
+      title: 'Video za Društvene Mreže',
+      description: 'Kratki, dinamični videozapisi optimizirani za Instagram, TikTok, Facebook i YouTube.',
       icon: (
         <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+          <path strokeLinecap="round" strokeLinejoin="round" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
         </svg>
       ),
     },
     {
-      title: 'Lifestyle Shots',
-      description: 'Products and services shown in real-world contexts. Help customers visualize using your product or experiencing your service.',
+      title: 'Drone Snimanje',
+      description: 'Spektakularne zračne snimke za nekretnine, turizam, evente i promotivne materijale.',
       icon: (
         <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          <path strokeLinecap="round" strokeLinejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
       ),
     },
     {
-      title: 'Web Optimization',
-      description: 'All images delivered web-optimized and in multiple sizes. Ready to upload and use immediately—no additional editing needed.',
+      title: 'Motion Graphics',
+      description: 'Animirana grafika, logotipi i infografike koje oživljavaju vaš brand i poruku.',
       icon: (
         <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+          <path strokeLinecap="round" strokeLinejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+          <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
       ),
     },
-  ],
-  
-  process: [
     {
-      number: '01',
-      title: 'Planning Call',
-      description: 'We discuss what you need photographed or filmed, the style you\'re going for, and how the content will be used on your website.',
-      duration: '1 week',
-    },
-    {
-      number: '02',
-      title: 'Shoot Preparation',
-      description: 'Shot list creation, scheduling, and logistics planning. For products, we discuss styling and backgrounds. For spaces, we plan timing and angles.',
-      duration: '1 week',
-    },
-    {
-      number: '03',
-      title: 'Production Day',
-      description: 'Professional photo/video shoot with full equipment. We work efficiently to capture everything needed while keeping disruption minimal.',
-      duration: '2-6 hours',
-    },
-    {
-      number: '04',
-      title: 'Editing & Optimization',
-      description: 'Color correction, retouching, and web optimization. Videos are edited, color-graded, and exported in web-friendly formats.',
-      duration: '1-2 weeks',
-    },
-    {
-      number: '05',
-      title: 'Review & Adjustments',
-      description: 'You review the content and request any changes. We make adjustments until you\'re happy with the results.',
-      duration: '3-5 days',
-    },
-    {
-      number: '06',
-      title: 'Delivery',
-      description: 'Final files delivered in all required sizes and formats, organized and ready to upload to your website immediately.',
-      duration: '1-2 days',
-    },
-  ],
-  
-  benefits: [
-    {
-      title: 'Professional Presentation',
-      description: 'High-quality visuals immediately establish credibility. Visitors judge your business by the quality of your photos and videos.',
-    },
-    {
-      title: 'Better Conversions',
-      description: 'Professional product photography can increase sales by 30%+. People buy what they can see clearly and attractively.',
-    },
-    {
-      title: 'Stand Out from Competitors',
-      description: 'Custom content beats stock photos every time. Show your actual products, team, and space—not generic stock imagery.',
-    },
-    {
-      title: 'Ready to Use',
-      description: 'All content delivered web-optimized and in multiple sizes. No additional work needed—just upload and go live.',
+      title: 'Postprodukcija',
+      description: 'Profesionalna montaža, color grading, zvučni dizajn i vizualni efekti za savršen finalni proizvod.',
+      icon: (
+        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
+        </svg>
+      ),
     },
   ],
 
-  contentTypes: [
-    { name: 'Product Shots', category: 'Photography' },
-    { name: 'Team Photos', category: 'Photography' },
-    { name: 'Headshots', category: 'Photography' },
-    { name: 'Space/Interior', category: 'Photography' },
-    { name: 'Lifestyle Shots', category: 'Photography' },
-    { name: 'Detail Close-ups', category: 'Photography' },
-    { name: 'Brand Videos', category: 'Video' },
-    { name: 'Product Demos', category: 'Video' },
-    { name: 'Team Intros', category: 'Video' },
-    { name: 'Process Videos', category: 'Video' },
-    { name: 'Testimonials', category: 'Video' },
-    { name: 'Social Content', category: 'Video' },
+  process: [
+    {
+      number: '01',
+      title: 'Kreativni Brief',
+      description: 'Definiramo ciljeve, ciljnu publiku, ključne poruke i vizualni stil. Razumijemo vaš brand i očekivanja.',
+      duration: '1 tjedan',
+    },
+    {
+      number: '02',
+      title: 'Koncept i Skripta',
+      description: 'Razvijamo kreativni koncept, pišemo skriptu i izrađujemo storyboard za vizualizaciju finalnog proizvoda.',
+      duration: '1-2 tjedna',
+    },
+    {
+      number: '03',
+      title: 'Predprodukcija',
+      description: 'Casting, lokacije, oprema, raspored snimanja. Sve je isplanirano do najsitnijih detalja.',
+      duration: '1 tjedan',
+    },
+    {
+      number: '04',
+      title: 'Produkcija',
+      description: 'Profesionalno snimanje s vrhunskom opremom, osvjetljenjem i timom iskusnih stručnjaka.',
+      duration: '1-3 dana',
+    },
+    {
+      number: '05',
+      title: 'Postprodukcija',
+      description: 'Montaža, color grading, motion graphics, zvučni dizajn i vizualni efekti.',
+      duration: '2-3 tjedna',
+    },
+    {
+      number: '06',
+      title: 'Isporuka',
+      description: 'Finalni video u svim potrebnim formatima i rezolucijama, spreman za objavu.',
+      duration: '2-3 dana',
+    },
+  ],
+
+  benefits: [
+    {
+      title: 'Profesionalna Kvaliteta',
+      description: 'Vrhunska oprema i iskusan tim garantiraju kinematografsku kvalitetu svakog projekta.',
+    },
+    {
+      title: 'Sve na Jednom Mjestu',
+      description: 'Od koncepta do finalne isporuke — nema potrebe za koordinacijom više agencija.',
+    },
+    {
+      title: 'Brza Isporuka',
+      description: 'Efikasan workflow omogućuje brzu izradu bez kompromisa u kvaliteti.',
+    },
+    {
+      title: 'Mjerljivi Rezultati',
+      description: 'Video sadržaj koji povećava engagement, konverzije i prepoznatljivost branda.',
+    },
+  ],
+
+  videoTypes: [
+    { name: 'TV Reklame', category: 'Reklame' },
+    { name: 'Online Reklame', category: 'Reklame' },
+    { name: 'Korporativni Film', category: 'Korporativno' },
+    { name: 'Prezentacija Tvrtke', category: 'Korporativno' },
+    { name: 'Edukativni Video', category: 'Korporativno' },
+    { name: 'Instagram Reels', category: 'Društvene Mreže' },
+    { name: 'TikTok Video', category: 'Društvene Mreže' },
+    { name: 'YouTube Sadržaj', category: 'Društvene Mreže' },
+    { name: 'Drone Snimke', category: 'Zračno' },
+    { name: 'Nekretnine Flythrough', category: 'Zračno' },
+    { name: 'Event Video', category: 'Eventi' },
+    { name: 'Testimoniali', category: 'Eventi' },
   ],
 
   pricing: {
     ranges: [
-      { 
-        size: 'Half-Day Shoot', 
-        price: '€400 - €800', 
-        description: 'Perfect for small product catalogs or team photos',
-        features: ['2-4 hours on location', 'Up to 30 edited photos', 'Basic retouching', 'Web-optimized delivery', 'Commercial usage rights']
+      {
+        size: 'Video za Društvene Mreže',
+        price: '€500 - €1.500',
+        description: 'Kratki videozapisi za Instagram, TikTok, Facebook',
+        features: ['15-60 sekundi trajanje', 'Snimanje na lokaciji', 'Profesionalna montaža', 'Optimizacija za platformu', 'Glazba i grafike uključene']
       },
-      { 
-        size: 'Full-Day Shoot', 
-        price: '€1,000 - €2,000', 
-        description: 'Comprehensive photography for larger projects',
-        features: ['6-8 hours on location', 'Up to 80 edited photos', 'Advanced retouching', 'Multiple locations/setups', 'All file formats']
+      {
+        size: 'Korporativni Video',
+        price: '€2.000 - €5.000',
+        description: 'Profesionalni video za prezentaciju tvrtke',
+        features: ['1-3 minute trajanje', 'Skripta i storyboard', 'Višednevno snimanje', 'Profesionalni voice-over', 'Color grading', 'Motion graphics']
       },
-      { 
-        size: 'Video Production', 
-        price: '€2,000 - €3,000', 
-        description: 'Professional brand videos and product demos',
-        features: ['Full-day production', '1-2 minute final video', 'Professional editing', 'Color grading', 'Music & graphics', 'Multiple formats']
+      {
+        size: 'TV Reklama',
+        price: '€5.000 - €15.000+',
+        description: 'Kreativna TV reklama s punom produkcijom',
+        features: ['15-60 sekundi trajanje', 'Kreativni koncept', 'Profesionalna produkcija', 'Casting i lokacije', 'Kompleksni VFX', 'Broadcast kvaliteta']
       },
     ],
-    note: 'Pricing varies based on location, number of products/people, complexity, and usage rights. Travel costs may apply for shoots outside Zagreb. Video projects are quoted separately based on length and complexity.',
+    note: 'Cijene variraju ovisno o kompleksnosti projekta, broju dana snimanja, lokacijama i postprodukcijskim zahtjevima. Drone snimanje i motion graphics mogu se dodati bilo kojem paketu.',
   },
-  
+
   faqs: [
     {
-      question: 'Do you shoot at our location or in a studio?',
-      answer: 'We can do both! For product photography, we typically use our studio setup for clean, consistent shots. For team photos, office spaces, and restaurants, we come to your location. We\'re based in Zagreb but can travel throughout Croatia.',
+      question: 'Koliko traje izrada jednog videa?',
+      answer: 'Ovisno o kompleksnosti: kratki video za društvene mreže 1-2 tjedna, korporativni video 3-4 tjedna, TV reklama 4-8 tjedana. Ubrzana isporuka moguća uz dodatnu naknadu.',
     },
     {
-      question: 'How long does a typical shoot take?',
-      answer: 'Product photography: 2-4 hours for 10-20 products. Team photos: 2-3 hours for 5-10 people. Space photography: 3-5 hours depending on size. Brand videos: Full day for shooting, then 1-2 weeks for editing.',
+      question: 'Koji je vaš radius djelovanja?',
+      answer: 'Bazirani smo u Zagrebu, ali snimamo po cijeloj Hrvatskoj i šire. Putni troškovi se obračunavaju za lokacije izvan Zagreba.',
     },
     {
-      question: 'What equipment do you use?',
-      answer: 'Professional full-frame cameras (Sony/Canon), quality lenses, professional lighting equipment, and 4K video gear. We bring everything needed including backdrops, props, and stabilization equipment.',
+      question: 'Možete li pomoći s kreativnim konceptom?',
+      answer: 'Apsolutno! Naš kreativni tim razvija kompletne koncepte — od ideje, skripte i storyboarda do finalnog videa. Možete doći samo s ciljem, mi ćemo osmisliti kako ga postići.',
     },
     {
-      question: 'Can we use the photos everywhere?',
-      answer: 'Yes! You receive full commercial usage rights for your website, social media, print materials, and advertising. Clear license agreement included.',
+      question: 'Koja oprema koristite?',
+      answer: 'Snimamo na profesionalnim kamerama (RED, Sony FX serija, Blackmagic), s kinematografskim objektivima, profesionalnom rasvjetom i stabilizacijom. Za drone koristimo DJI profesionalnu seriju.',
     },
     {
-      question: 'Do you provide the files in different sizes?',
-      answer: 'Absolutely. We deliver web-optimized images in multiple sizes ready to use immediately. For print, we also provide high-resolution versions. Videos are exported in multiple formats (MP4, WebM) for web use.',
+      question: 'Dobivamo li sirovi materijal?',
+      answer: 'Sirovi materijal (raw footage) nije uključen u standardne pakete, ali se može dodati uz dodatnu naknadu. Svi finalni videozapisi isporučuju se u višestrukim formatima.',
     },
     {
-      question: 'What if we need changes after the shoot?',
-      answer: 'We include one round of revisions in all packages. For photography, this means color/exposure adjustments. For video, this means basic edit changes. Additional revisions can be added if needed.',
+      question: 'Nudite li i fotografske usluge?',
+      answer: 'Da! Često kombiniramo video produkciju s fotografijom — posebno za evente, produkte i korporativne projekte. Pogledajte našu uslugu fotografije za više detalja.',
     },
   ],
 }
 
 const relatedServices = [
-  { 
-    title: 'Web Design', 
-    slug: 'web-design',
-    description: 'Designs that showcase your content beautifully',
+  {
+    title: 'Studio',
+    slug: 'studio',
+    description: 'Profesionalni studio za video i podcast snimanje',
   },
-  { 
-    title: 'Shopify Development', 
-    slug: 'e-commerce',
-    description: 'E-commerce stores that need product photography',
+  {
+    title: 'Fotografija',
+    slug: 'fotografija',
+    description: 'Profesionalne fotografije za web i print',
   },
-  { 
-    title: 'Web Development', 
-    slug: 'web-development',
-    description: 'Fast websites optimized for images and videos',
+  {
+    title: 'Sadržaj i Društvene Mreže',
+    slug: 'sadrzaj-drustvene-mreze',
+    description: 'Video sadržaj za društvene mreže',
   },
 ]
 
-export default function ContentCreationContent() {
+export default function VideoAnimacijaContent() {
   const prefersReducedMotion = useReducedMotion()
-  
+
   const [heroRef, heroInView] = useInView({
     threshold: 0.15,
     triggerOnce: true,
@@ -251,12 +251,12 @@ export default function ContentCreationContent() {
 
   return (
     <div className="min-h-screen bg-[#0F0F0F]">
-      
+
       {/* Hero Section */}
       <section ref={heroRef} className="relative min-h-screen flex items-center bg-[#0F0F0F] overflow-hidden">
-        
+
         {/* Subtle noise texture */}
-        <div 
+        <div
           className="absolute inset-0 opacity-[0.02] mix-blend-overlay pointer-events-none"
           style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
@@ -267,7 +267,7 @@ export default function ContentCreationContent() {
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gradient-to-b from-[#00CC78]/20 via-[#00FF94]/10 to-transparent rounded-full blur-[120px] pointer-events-none will-change-transform" />
 
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 py-20">
-          
+
           <div className="max-w-5xl">
             {/* Breadcrumb */}
             <motion.div
@@ -276,8 +276,8 @@ export default function ContentCreationContent() {
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
               className="flex items-center gap-2 text-sm text-[#88939D] mb-8 will-change-transform"
             >
-              <Link href="/services" className="hover:text-[#00FF94] transition-colors duration-300">
-                Services
+              <Link href="/usluge" className="hover:text-[#00FF94] transition-colors duration-300">
+                Usluge
               </Link>
               <span>/</span>
               <span className="text-white">{service.title}</span>
@@ -343,7 +343,7 @@ export default function ContentCreationContent() {
             >
               <Link href="/contact">
                 <motion.button
-                  whileHover={{ 
+                  whileHover={{
                     scale: 1.02,
                     transition: {
                       type: "spring",
@@ -355,7 +355,7 @@ export default function ContentCreationContent() {
                   className="group relative px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg overflow-hidden transition-all shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30 will-change-transform"
                 >
                   <span className="relative z-10 flex items-center gap-2">
-                    Book a shoot
+                    Razgovarajmo o projektu
                     <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
@@ -365,8 +365,8 @@ export default function ContentCreationContent() {
 
               <Link href="/work">
                 <motion.button
-                  whileHover={{ 
-                    scale: 1.02, 
+                  whileHover={{
+                    scale: 1.02,
                     borderColor: '#00FF94',
                     transition: {
                       type: "spring",
@@ -377,7 +377,7 @@ export default function ContentCreationContent() {
                   whileTap={{ scale: 0.98 }}
                   className="px-8 py-5 bg-transparent border-2 border-[#88939D]/30 text-white font-bold rounded-xl text-lg transition-all duration-300 will-change-transform"
                 >
-                  View examples
+                  Pogledajte radove
                 </motion.button>
               </Link>
             </motion.div>
@@ -390,12 +390,12 @@ export default function ContentCreationContent() {
 
       {/* Features Section */}
       <section ref={featuresRef} className="relative py-24 lg:py-32 bg-[#0F0F0F] overflow-hidden">
-        
+
         {/* Subtle gradient glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none will-change-transform" />
 
         {/* Noise texture */}
-        <div 
+        <div
           className="absolute inset-0 opacity-[0.02] mix-blend-overlay pointer-events-none"
           style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
@@ -403,7 +403,7 @@ export default function ContentCreationContent() {
         />
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
-          
+
           {/* Section Header */}
           <motion.div
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
@@ -417,16 +417,16 @@ export default function ContentCreationContent() {
               transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
               className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 will-change-transform"
             >
-              What we create
+              Što stvaramo
             </motion.h2>
-            
+
             <motion.p
               initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
               animate={featuresInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 1, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
               className="text-xl md:text-2xl text-[#88939D] max-w-3xl will-change-transform"
             >
-              Professional content specifically designed for web—optimized, engaging, and built to convert.
+              Profesionalni video sadržaj koji privlači pažnju, prenosi poruku i pokreće akciju.
             </motion.p>
           </motion.div>
 
@@ -437,14 +437,14 @@ export default function ContentCreationContent() {
                 key={index}
                 initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 40 }}
                 animate={featuresInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ 
-                  duration: 1, 
+                transition={{
+                  duration: 1,
                   delay: 0.4 + index * 0.08,
                   ease: [0.16, 1, 0.3, 1]
                 }}
                 className="group relative will-change-transform"
               >
-                <motion.div 
+                <motion.div
                   className="relative h-full p-8 lg:p-10 rounded-2xl bg-transparent border-2 border-[#88939D]/20 transition-all duration-500 hover:border-[#00FF94] overflow-hidden will-change-transform"
                   whileHover={{
                     y: -5,
@@ -455,7 +455,7 @@ export default function ContentCreationContent() {
                     }
                   }}
                 >
-                  
+
                   {/* Hover gradient background */}
                   <motion.div
                     className="absolute inset-0 bg-gradient-to-br from-[#00FF94]/5 via-[#00CC78]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
@@ -464,7 +464,7 @@ export default function ContentCreationContent() {
 
                   {/* Content */}
                   <div className="relative z-10">
-                    <motion.div 
+                    <motion.div
                       className="w-12 h-12 text-[#00FF94] mb-6"
                       whileHover={{
                         scale: 1.2,
@@ -495,14 +495,14 @@ export default function ContentCreationContent() {
         </div>
       </section>
 
-      {/* Content Types Section */}
+      {/* Video Types Section */}
       <section className="relative py-24 lg:py-32 bg-[#0F0F0F] overflow-hidden">
-        
+
         {/* Subtle gradient glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none will-change-transform" />
 
         {/* Noise texture */}
-        <div 
+        <div
           className="absolute inset-0 opacity-[0.02] mix-blend-overlay pointer-events-none"
           style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
@@ -510,7 +510,7 @@ export default function ContentCreationContent() {
         />
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
-          
+
           {/* Section Header */}
           <motion.div
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
@@ -520,28 +520,28 @@ export default function ContentCreationContent() {
             className="mb-16 text-center will-change-transform"
           >
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-              Content types we deliver
+              Vrste video sadržaja
             </h2>
             <p className="text-lg md:text-xl text-[#88939D] max-w-2xl mx-auto">
-              From photography to video, we create every type of content your website needs.
+              Od TV reklama do TikTok videa — pokrivamo sve formate i platforme.
             </p>
           </motion.div>
 
-          {/* Content Types Grid */}
+          {/* Video Types Grid */}
           <div className="flex flex-wrap gap-4 justify-center">
-            {service.contentTypes.map((type, index) => (
+            {service.videoTypes.map((type, index) => (
               <motion.div
                 key={index}
                 initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ 
-                  duration: 0.6, 
+                transition={{
+                  duration: 0.6,
                   delay: index * 0.04,
                   ease: [0.16, 1, 0.3, 1]
                 }}
-                whileHover={{ 
-                  scale: 1.05, 
+                whileHover={{
+                  scale: 1.05,
                   y: -3,
                   borderColor: '#00FF94',
                   transition: {
@@ -562,12 +562,12 @@ export default function ContentCreationContent() {
 
       {/* Benefits Section */}
       <section className="relative py-24 lg:py-32 bg-[#0F0F0F] overflow-hidden">
-        
+
         {/* Subtle gradient glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none will-change-transform" />
 
         {/* Noise texture */}
-        <div 
+        <div
           className="absolute inset-0 opacity-[0.02] mix-blend-overlay pointer-events-none"
           style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
@@ -575,7 +575,7 @@ export default function ContentCreationContent() {
         />
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
-          
+
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Left - Title */}
             <motion.div
@@ -586,12 +586,12 @@ export default function ContentCreationContent() {
               className="will-change-transform"
             >
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-                Why great content
+                Zašto video
                 <br />
-                <span className="text-[#00FF94]">matters</span>
+                <span className="text-[#00FF94]">dominira</span>
               </h2>
               <p className="text-lg md:text-xl text-[#88939D] leading-relaxed">
-                Your website's content is often the first impression potential customers get of your business. Make it count.
+                Video sadržaj ima 1200% više dijeljenja od teksta i slika zajedno. Vaša publika očekuje video — dajte im ga.
               </p>
             </motion.div>
 
@@ -621,7 +621,7 @@ export default function ContentCreationContent() {
                   }}
                   className="flex gap-4 p-6 bg-transparent border-2 border-[#88939D]/20 rounded-xl transition-all duration-300 will-change-transform"
                 >
-                  <motion.div 
+                  <motion.div
                     className="flex-shrink-0 w-6 h-6 rounded-full bg-[#00FF94]/10 border border-[#00FF94]/30 flex items-center justify-center mt-1"
                     whileHover={{
                       scale: 1.2,
@@ -646,14 +646,15 @@ export default function ContentCreationContent() {
           </div>
         </div>
       </section>
+
       {/* Process Section */}
       <section ref={processRef} className="relative py-24 lg:py-32 bg-[#0F0F0F] overflow-hidden">
-        
+
         {/* Subtle gradient glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none will-change-transform" />
 
         {/* Noise texture */}
-        <div 
+        <div
           className="absolute inset-0 opacity-[0.02] mix-blend-overlay pointer-events-none"
           style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
@@ -661,7 +662,7 @@ export default function ContentCreationContent() {
         />
 
         <div className="relative z-10 max-w-5xl mx-auto px-6 lg:px-12">
-          
+
           {/* Section Header */}
           <motion.div
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
@@ -670,10 +671,10 @@ export default function ContentCreationContent() {
             className="mb-20 text-center will-change-transform"
           >
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-              Our production process
+              Naš produkcijski proces
             </h2>
             <p className="text-lg md:text-xl text-[#88939D]">
-              From concept to delivery, we handle every step of content creation professionally.
+              Od ideje do gotovog videa — transparentan i efikasan workflow.
             </p>
           </motion.div>
 
@@ -684,14 +685,14 @@ export default function ContentCreationContent() {
                 key={index}
                 initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, x: -30 }}
                 animate={processInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ 
-                  duration: 1, 
+                transition={{
+                  duration: 1,
                   delay: 0.2 + index * 0.08,
                   ease: [0.16, 1, 0.3, 1]
                 }}
                 className="group will-change-transform"
               >
-                <motion.div 
+                <motion.div
                   className="relative flex gap-6 p-8 bg-transparent border-2 border-[#88939D]/20 rounded-2xl hover:border-[#00FF94] transition-all duration-500 overflow-hidden will-change-transform"
                   whileHover={{
                     x: 5,
@@ -702,14 +703,14 @@ export default function ContentCreationContent() {
                     }
                   }}
                 >
-                  
+
                   {/* Hover gradient background */}
                   <motion.div
                     className="absolute inset-0 bg-gradient-to-br from-[#00FF94]/5 via-[#00CC78]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                     initial={false}
                   />
 
-                  <motion.div 
+                  <motion.div
                     className="relative z-10 flex-shrink-0 w-16 h-16 rounded-full bg-[#00FF94]/10 border-2 border-[#00FF94]/30 flex items-center justify-center text-[#00FF94] font-bold text-xl font-mono"
                     whileHover={{
                       scale: 1.1,
@@ -741,12 +742,12 @@ export default function ContentCreationContent() {
 
       {/* Pricing Section */}
       <section ref={pricingRef} className="relative py-24 lg:py-32 bg-[#0F0F0F] overflow-hidden">
-        
+
         {/* Subtle gradient glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none will-change-transform" />
 
         {/* Noise texture */}
-        <div 
+        <div
           className="absolute inset-0 opacity-[0.02] mix-blend-overlay pointer-events-none"
           style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
@@ -754,7 +755,7 @@ export default function ContentCreationContent() {
         />
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
-          
+
           {/* Section Header */}
           <motion.div
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
@@ -763,10 +764,10 @@ export default function ContentCreationContent() {
             className="mb-20 text-center will-change-transform"
           >
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-              Investment ranges
+              Okvirne cijene
             </h2>
             <p className="text-lg md:text-xl text-[#88939D] max-w-2xl mx-auto">
-              Flexible packages designed for different content needs and budgets.
+              Transparentne cijene prilagođene različitim potrebama i budžetima.
             </p>
           </motion.div>
 
@@ -777,14 +778,14 @@ export default function ContentCreationContent() {
                 key={index}
                 initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 40 }}
                 animate={pricingInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ 
-                  duration: 1, 
+                transition={{
+                  duration: 1,
                   delay: 0.2 + index * 0.1,
                   ease: [0.16, 1, 0.3, 1]
                 }}
                 className="group relative will-change-transform"
               >
-                <motion.div 
+                <motion.div
                   className="relative h-full p-8 lg:p-10 rounded-2xl bg-transparent border-2 border-[#88939D]/20 transition-all duration-500 hover:border-[#00FF94] overflow-hidden text-center will-change-transform"
                   whileHover={{
                     y: -8,
@@ -796,7 +797,7 @@ export default function ContentCreationContent() {
                     }
                   }}
                 >
-                  
+
                   {/* Hover gradient background */}
                   <motion.div
                     className="absolute inset-0 bg-gradient-to-br from-[#00FF94]/5 via-[#00CC78]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
@@ -806,7 +807,7 @@ export default function ContentCreationContent() {
                   {/* Content */}
                   <div className="relative z-10">
                     <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-[#00FF94] transition-colors duration-300">{range.size}</h3>
-                    <motion.div 
+                    <motion.div
                       className="text-4xl md:text-5xl font-bold text-[#00FF94] mb-6"
                       whileHover={{
                         scale: 1.1,
@@ -820,12 +821,12 @@ export default function ContentCreationContent() {
                       {range.price}
                     </motion.div>
                     <p className="text-[#88939D] mb-6 group-hover:text-white/70 transition-colors duration-300">{range.description}</p>
-                    
+
                     {/* Features List */}
                     <div className="space-y-3 mb-6 text-left">
                       {range.features.map((feature, i) => (
-                        <motion.div 
-                          key={i} 
+                        <motion.div
+                          key={i}
                           className="flex items-center gap-2 text-sm text-[#88939D]"
                           initial={{ opacity: 0, x: -10 }}
                           animate={pricingInView ? { opacity: 1, x: 0 } : {}}
@@ -861,12 +862,12 @@ export default function ContentCreationContent() {
 
       {/* FAQ Section */}
       <section ref={faqRef} className="relative py-24 lg:py-32 bg-[#0F0F0F] overflow-hidden">
-        
+
         {/* Subtle gradient glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none will-change-transform" />
 
         {/* Noise texture */}
-        <div 
+        <div
           className="absolute inset-0 opacity-[0.02] mix-blend-overlay pointer-events-none"
           style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
@@ -874,7 +875,7 @@ export default function ContentCreationContent() {
         />
 
         <div className="relative z-10 max-w-3xl mx-auto px-6 lg:px-12">
-          
+
           {/* Section Header */}
           <motion.div
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
@@ -883,10 +884,10 @@ export default function ContentCreationContent() {
             className="mb-16 text-center will-change-transform"
           >
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-              Common questions
+              Česta pitanja
             </h2>
             <p className="text-lg md:text-xl text-[#88939D]">
-              Everything you need to know about our content creation services.
+              Sve što trebate znati o našim video uslugama.
             </p>
           </motion.div>
 
@@ -897,8 +898,8 @@ export default function ContentCreationContent() {
                 key={index}
                 initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
                 animate={faqInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ 
-                  duration: 0.7, 
+                transition={{
+                  duration: 0.7,
                   delay: 0.2 + index * 0.05,
                   ease: [0.16, 1, 0.3, 1]
                 }}
@@ -944,12 +945,12 @@ export default function ContentCreationContent() {
 
       {/* Related Services */}
       <section className="relative py-24 lg:py-32 bg-[#0F0F0F] overflow-hidden">
-        
+
         {/* Subtle gradient glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none will-change-transform" />
 
         {/* Noise texture */}
-        <div 
+        <div
           className="absolute inset-0 opacity-[0.02] mix-blend-overlay pointer-events-none"
           style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
@@ -957,7 +958,7 @@ export default function ContentCreationContent() {
         />
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
-          
+
           {/* Section Header */}
           <motion.div
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
@@ -967,10 +968,10 @@ export default function ContentCreationContent() {
             className="mb-16 text-center will-change-transform"
           >
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Related services
+              Povezane usluge
             </h2>
             <p className="text-lg md:text-xl text-[#88939D]">
-              Maximize your content's impact with our complementary services.
+              Maksimizirajte utjecaj vašeg video sadržaja s našim komplementarnim uslugama.
             </p>
           </motion.div>
 
@@ -982,15 +983,15 @@ export default function ContentCreationContent() {
                 initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ 
-                  duration: 1, 
+                transition={{
+                  duration: 1,
                   delay: index * 0.1,
                   ease: [0.16, 1, 0.3, 1]
                 }}
                 className="group will-change-transform"
               >
                 <Link
-                  href={`/services/${related.slug}`}
+                  href={`/usluge/${related.slug}`}
                   className="block relative h-full p-8 lg:p-10 bg-transparent border-2 border-[#88939D]/20 rounded-2xl hover:border-[#00FF94] transition-all duration-500 overflow-hidden will-change-transform"
                 >
                   <motion.div
@@ -1018,7 +1019,7 @@ export default function ContentCreationContent() {
                         {related.description}
                       </p>
                       <div className="flex items-center justify-center gap-2 text-[#00FF94] font-medium mt-6 group-hover:gap-3 transition-all duration-300">
-                        Learn more
+                        Saznajte više
                         <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                         </svg>
@@ -1037,12 +1038,12 @@ export default function ContentCreationContent() {
 
       {/* CTA Section */}
       <section className="relative py-24 lg:py-32 bg-[#0F0F0F] overflow-hidden">
-        
+
         {/* Subtle gradient glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none will-change-transform" />
 
         {/* Noise texture */}
-        <div 
+        <div
           className="absolute inset-0 opacity-[0.02] mix-blend-overlay pointer-events-none"
           style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
@@ -1057,16 +1058,16 @@ export default function ContentCreationContent() {
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           >
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-              Ready to create stunning
+              Spremni za profesionalni
               <br />
-              <span className="text-[#00FF94]">content?</span>
+              <span className="text-[#00FF94]">video?</span>
             </h2>
             <p className="text-lg md:text-xl text-[#88939D] mb-12 max-w-2xl mx-auto">
-              Let's discuss your content needs and create visuals that make your website shine.
+              Razgovarajmo o vašem projektu i stvorimo video sadržaj koji ostavlja dojam.
             </p>
             <Link href="/contact">
               <motion.button
-                whileHover={{ 
+                whileHover={{
                   scale: 1.02,
                   transition: {
                     type: "spring",
@@ -1078,7 +1079,7 @@ export default function ContentCreationContent() {
                 className="group relative px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg overflow-hidden transition-all shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30 will-change-transform"
               >
                 <span className="relative z-10 flex items-center gap-2">
-                  Get in touch
+                  Zakažite besplatan poziv
                   <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>

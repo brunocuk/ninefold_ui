@@ -33,64 +33,55 @@ export default function AboutPage() {
   const values = [
     {
       number: '01',
-      title: 'Performance First',
-      description: 'Every website we build is optimized for speed. 99/100 Lighthouse scores aren\'t a goal—they\'re the standard. Fast websites convert better, rank higher, and keep visitors engaged.',
+      title: 'Kvaliteta na prvom mjestu',
+      description: 'Svaki projekt koji radimo mora biti na najvišoj razini. Od web stranica do video produkcije - kompromis na kvaliteti nije opcija. Rezultati govore sami za sebe.',
     },
     {
       number: '02',
-      title: 'Deadlines Matter',
-      description: 'When we commit to a timeline, we deliver. Whether it\'s a 4-week launch or a hard PR deadline, you can count on us to meet it without compromising quality.',
+      title: 'Poštujemo rokove',
+      description: 'Kad se obvežemo na rok, isporučujemo. Bilo da je riječ o lansiranju za 4 tjedna ili strogom PR roku, možete računati na nas bez kompromisa na kvaliteti.',
     },
     {
       number: '03',
-      title: 'Real Partnership',
-      description: 'Your success is our success. We work as an extension of your team, not just a vendor. From the first conversation to long after launch, we\'re here to support your growth.',
+      title: 'Pravo partnerstvo',
+      description: 'Vaš uspjeh je naš uspjeh. Radimo kao produžetak vašeg tima, ne samo kao dobavljač. Od prvog razgovora do dugo nakon završetka projekta, tu smo za vas.',
     },
     {
       number: '04',
-      title: 'Honest Communication',
-      description: 'No jargon, no surprises, no hidden costs. We speak plainly about what\'s possible, what it takes, and what you can expect. Transparency builds trust.',
+      title: 'Iskrena komunikacija',
+      description: 'Bez žargona, bez iznenađenja, bez skrivenih troškova. Govorimo jasno o mogućnostima, zahtjevima i očekivanjima. Transparentnost gradi povjerenje.',
     },
   ]
 
   const stats = [
-    { value: '20+', label: 'Projects delivered' },
-    { value: '2019', label: 'Started building' },
-    { value: '99/100', label: 'Avg. performance' },
-    { value: 'Zagreb', label: 'Based in Croatia' },
+    { value: '100+', label: 'Isporučenih projekata' },
+    { value: '2019', label: 'Godina osnivanja' },
+    { value: '99/100', label: 'Prosječna ocjena' },
+    { value: 'Zagreb', label: 'Sjedište u Hrvatskoj' },
   ]
 
   const team = [
     {
       name: 'Bruno Čukić',
-      role: 'Founder & Lead Developer',
-      bio: 'Writes code that doesn\'t break. Allergic to slow websites. Will argue about React for hours.',
+      role: 'Web Development',
+      bio: 'Živi u kodu od 2019. Opsjednut brzinom, čistim dizajnom i pikselima na pravom mjestu. Vjerojatno debugira nešto upravo sad.',
       id: "1"
     },
-    // {
-    //   name: 'Petar',
-    //   role: 'Content Creator',
-    //   bio: 'Points camera, magic happens. Your products will never look this good again. Brings the vibes.',
-    //   id: "2"
-    // },
     {
-      name: 'Development Team',
-      role: 'Specialized Developers',
-      bio: 'Senior devs on speed dial for when things get complicated. Backend wizards and API whisperers.',
-      id: "3"
+      name: 'Petar Zirdum',
+      role: 'Video & Foto',
+      bio: 'Vidi kadrove gdje drugi vide kaos. Pretvara proizvode u zvijezde i brendove u priče koje se pamte.',
+      id: "2"
     },
-    {
-      name: 'Coffee',
-      role: 'Chief Motivation Officer',
-      bio: 'Powers every line of code. Makes impossible deadlines possible. Consumed in dangerous quantities.',
-      id: "4"
-    },
-    {
-      name: 'Debugging Porsche',
-      role: 'Problem Solver',
-      bio: 'Lives on Bruno\'s desk. Witnesses every bug fix and breakthrough. Never complains about working late.',
-      id: "5"
-    },
+  ]
+
+  const clients = [
+    { name: 'Klijent 1' },
+    { name: 'Klijent 2' },
+    { name: 'Klijent 3' },
+    { name: 'Klijent 4' },
+    { name: 'Klijent 5' },
+    { name: 'Klijent 6' },
   ]
 
   return (
@@ -121,7 +112,7 @@ export default function AboutPage() {
               className="mb-8 will-change-transform"
             >
               <span className="inline-block px-4 py-2 bg-[#00FF94]/10 border border-[#00FF94]/30 rounded-full text-[#00FF94] text-sm font-mono uppercase tracking-wider">
-                About Us
+                O nama
               </span>
             </motion.div>
 
@@ -133,11 +124,11 @@ export default function AboutPage() {
               className="text-[clamp(3rem,8vw,6rem)] font-bold leading-[1.05] tracking-tight mb-8 will-change-transform"
             >
               <span className="block text-white">
-                Fast websites that
+                Kreativna agencija
               </span>
               <span className="block text-white">
-                businesses can{' '}
-                <span className="text-[#00FF94]">rely on</span>.
+                na koju se možete{' '}
+                <span className="text-[#00FF94]">osloniti</span>.
               </span>
             </motion.h1>
 
@@ -148,8 +139,8 @@ export default function AboutPage() {
               transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
               className="text-xl md:text-2xl text-[#88939D] leading-relaxed max-w-3xl mb-12 will-change-transform"
             >
-              A specialized web development studio from Zagreb, building high-performance 
-              websites for Croatian businesses who refuse to compromise on quality.
+              Full-service kreativna agencija iz Zagreba. Branding, web, video produkcija i fotografija
+              za hrvatske tvrtke koje ne prihvaćaju kompromise na kvaliteti.
             </motion.p>
 
             {/* Stats row */}
@@ -224,9 +215,9 @@ export default function AboutPage() {
                 transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
                 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 will-change-transform"
               >
-                Six years of refining
+                Šest godina usavršavanja
                 <br />
-                our craft.
+                našeg zanata.
               </motion.h2>
             </motion.div>
 
@@ -242,38 +233,36 @@ export default function AboutPage() {
                 animate={storyInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
               >
-                NineFold started in 2019 with a simple observation: too many Croatian businesses 
-                were stuck with slow, outdated websites that looked good but didn't perform. 
-                They'd invested money but couldn't rely on their sites long-term.
+                NineFold je osnovan 2019. godine s jednostavnim zapažanjem: previše hrvatskih tvrtki
+                bilo je zaglavljeno sa sporim, zastarjelim web stranicama koje su izgledale dobro,
+                ali nisu funkcionirale. Uložili su novac, ali se nisu mogli dugoročno osloniti na svoje stranice.
               </motion.p>
               <motion.p
                 initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 15 }}
                 animate={storyInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
               >
-                What began as building websites evolved into mastering the craft of web development. 
-                Year after year, project after project, we pushed ourselves to deliver faster, 
-                cleaner, more reliable work. We learned what separates good websites from great ones 
-                and it's rarely what clients expect.
+                Ono što je počelo kao izrada web stranica preraslo je u sveobuhvatnu kreativnu agenciju.
+                Danas nudimo sve pod jednim krovom: strategiju i branding, web razvoj, video produkciju,
+                fotografiju i upravljanje društvenim mrežama. Naučili smo što odvaja dobar rad od izvrsnog.
               </motion.p>
               <motion.p
                 initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 15 }}
                 animate={storyInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
               >
-                Today, we specialize in high performance websites that consistently score 97-100 
-                on performance tests. Not because we chase metrics, but because speed and reliability 
-                are the foundations of everything that matters online: user experience, conversions, 
-                search rankings, and long term value.
+                Danas se specijaliziramo za cjelovita kreativna rješenja - od prvog brainstorminga
+                do finalne isporuke. Kombiniramo strateško razmišljanje s tehničkom izvrsnošću
+                jer znamo da pravi rezultati dolaze samo kad sve komponente rade zajedno.
               </motion.p>
               <motion.p
                 initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 15 }}
                 animate={storyInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.8, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
               >
-                We're not trying to be the biggest studio in Zagreb. We're focused on being the most 
-                reliable, the one you call when quality and performance aren't negotiable. Every project 
-                is an opportunity to prove that great web development is worth investing in.
+                Ne pokušavamo biti najveća agencija u Zagrebu. Fokusirani smo na to da budemo
+                najpouzdaniji partner kojeg zovete kad kvaliteta nije upitna. Svaki projekt je
+                prilika da dokažemo da se ulaganje u pravi kreativni tim višestruko isplati.
               </motion.p>
             </motion.div>
           </div>
@@ -309,16 +298,16 @@ export default function AboutPage() {
               transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
               className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 max-w-3xl will-change-transform"
             >
-              What we stand for
+              Naše vrijednosti
             </motion.h2>
-            
+
             <motion.p
               initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
               animate={valuesInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
               className="text-xl md:text-2xl text-[#88939D] max-w-3xl will-change-transform"
             >
-              The non-negotiables that guide every project we take on.
+              Principi koji vode svaki projekt na kojem radimo.
             </motion.p>
           </motion.div>
 
@@ -424,77 +413,69 @@ export default function AboutPage() {
               transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
               className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 max-w-3xl will-change-transform"
             >
-              The team behind
+              Tim iza vašeg
               <br />
-              your <span className="text-[#00FF94]">success</span>
+              <span className="text-[#00FF94]">uspjeha</span>
             </motion.h2>
-            
+
             <motion.p
               initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
               animate={teamInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
               className="text-xl md:text-2xl text-[#88939D] max-w-3xl will-change-transform"
             >
-              A focused team dedicated to delivering exceptional results for every client.
+              Fokusiran tim posvećen isporuci izvanrednih rezultata za svakog klijenta.
             </motion.p>
           </motion.div>
 
           {/* Team Cards */}
-          <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
+          <div className="grid md:grid-cols-2 gap-8 lg:gap-12 max-w-5xl mx-auto">
             {team.map((member, index) => (
               <motion.div
                 key={member.id}
                 initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 40 }}
                 animate={teamInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ 
-                  duration: 1, 
-                  delay: 0.45 + index * 0.1,
+                transition={{
+                  duration: 1,
+                  delay: 0.45 + index * 0.15,
                   ease: [0.16, 1, 0.3, 1]
                 }}
-                className="group relative will-change-transform"
+                className="group will-change-transform"
               >
-                {/* Card */}
-                <motion.div 
-                  className="relative h-full rounded-2xl bg-transparent border-2 border-[#88939D]/20 transition-all duration-500 hover:border-[#00FF94] overflow-hidden will-change-transform"
-                  whileHover={{ 
-                    y: -8,
-                    transition: {
-                      type: "spring",
-                      stiffness: 300,
-                      damping: 25
-                    }
-                  }}
+                <motion.div
+                  className="relative h-full rounded-2xl bg-[#1a1a1a]/50 border-2 border-[#88939D]/20 overflow-hidden transition-all duration-500 hover:border-[#00FF94]/60 hover:shadow-2xl hover:shadow-[#00FF94]/20"
+                  whileHover={{ y: -8 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 25 }}
                 >
-                  
                   {/* Image */}
-                  <div className="relative aspect-[3/4] bg-gradient-to-br from-[#1a1a1a] to-[#0F0F0F] overflow-hidden">
+                  <div className="relative aspect-[4/5] bg-gradient-to-br from-[#1a1a1a] to-[#0F0F0F] overflow-hidden">
                     <motion.div
                       className="relative w-full h-full"
                       whileHover={{ scale: 1.05 }}
                       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                     >
-                      <Image 
-                        src={`/images/team/${member.id}.webp`} 
+                      <Image
+                        src={`/images/team/${member.id}.webp`}
                         alt={member.name}
                         fill
                         className="object-cover will-change-transform"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 33vw"
+                        sizes="(max-width: 768px) 100vw, 50vw"
                       />
                     </motion.div>
-                    
-                    {/* Hover gradient overlay */}
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-br from-[#00FF94]/10 via-[#00CC78]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                      initial={false}
-                    />
+
+                    {/* Gradient overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0F0F0F] via-transparent to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+
+                    {/* Green glow on hover */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#00FF94]/10 via-transparent to-[#00CC78]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   </div>
 
                   {/* Content */}
-                  <div className="p-8">
-                    <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-[#00FF94] transition-colors duration-300">
+                  <div className="relative p-8">
+                    <h3 className="text-2xl lg:text-3xl font-bold mb-2 text-white group-hover:text-[#00FF94] transition-colors duration-300">
                       {member.name}
                     </h3>
-                    <p className="text-[#00FF94] text-sm mb-3 uppercase tracking-wider font-mono">
+                    <p className="text-[#00FF94] text-sm mb-4 uppercase tracking-wider font-mono">
                       {member.role}
                     </p>
                     <p className="text-[#88939D] leading-relaxed group-hover:text-white/70 transition-colors duration-300">
@@ -503,7 +484,7 @@ export default function AboutPage() {
                   </div>
 
                   {/* Bottom gradient line accent */}
-                  <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00FF94]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#00FF94] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </motion.div>
               </motion.div>
             ))}
@@ -511,14 +492,98 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* Clients Section */}
       <section className="relative py-24 lg:py-32 bg-[#0F0F0F] overflow-hidden">
-        
+
         {/* Subtle gradient glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none will-change-transform" />
 
         {/* Noise texture */}
-        <div 
+        <div
+          className="absolute inset-0 opacity-[0.02] mix-blend-overlay pointer-events-none"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+          }}
+        />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
+
+          {/* Section Header */}
+          <motion.div
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, threshold: 0.15 }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="text-center mb-16 will-change-transform"
+          >
+            <motion.h2
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, threshold: 0.15 }}
+              transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+              className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 will-change-transform"
+            >
+              Radili smo s <span className="text-[#00FF94]">najboljima</span>
+            </motion.h2>
+
+            <motion.p
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, threshold: 0.15 }}
+              transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className="text-xl md:text-2xl text-[#88939D] max-w-2xl mx-auto will-change-transform"
+            >
+              Ponosni smo na suradnju s vodećim hrvatskim brendovima.
+            </motion.p>
+          </motion.div>
+
+          {/* Client Logos Grid */}
+          <motion.div
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, threshold: 0.15 }}
+            transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 lg:gap-8"
+          >
+            {clients.map((client, index) => (
+              <motion.div
+                key={client.name}
+                initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, threshold: 0.15 }}
+                transition={{
+                  duration: 0.8,
+                  delay: 0.5 + index * 0.1,
+                  ease: [0.16, 1, 0.3, 1]
+                }}
+                whileHover={{
+                  scale: 1.05,
+                  borderColor: 'rgba(0, 255, 148, 0.5)',
+                  transition: {
+                    type: "spring",
+                    stiffness: 400,
+                    damping: 30
+                  }
+                }}
+                className="flex items-center justify-center p-8 rounded-xl bg-[#1a1a1a]/50 border border-[#88939D]/10 hover:bg-[#1a1a1a] transition-all duration-300 will-change-transform"
+              >
+                <span className="text-xl font-bold text-[#88939D]/50 group-hover:text-white transition-colors">
+                  {client.name}
+                </span>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="relative py-24 lg:py-32 bg-[#0F0F0F] overflow-hidden">
+
+        {/* Subtle gradient glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none will-change-transform" />
+
+        {/* Noise texture */}
+        <div
           className="absolute inset-0 opacity-[0.02] mix-blend-overlay pointer-events-none"
           style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
@@ -529,10 +594,10 @@ export default function AboutPage() {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 border-t border-[#88939D]/20 pt-20">
             <div className="max-w-2xl">
               <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Ready to build something great?
+                Spremni izgraditi nešto sjajno?
               </h3>
               <p className="text-lg text-[#88939D]">
-                Let's talk about your project and how we can help you succeed online.
+                Razgovarajmo o vašem projektu i kako vam možemo pomoći da uspijete.
               </p>
             </div>
             
@@ -554,7 +619,7 @@ export default function AboutPage() {
                   className="group relative px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg overflow-hidden transition-all will-change-transform shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30"
                 >
                   <span className="relative z-10 flex items-center gap-2">
-                    Start your project
+                    Započnite projekt
                     <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
@@ -564,8 +629,8 @@ export default function AboutPage() {
 
               <Link href="/work">
                 <motion.button
-                  whileHover={{ 
-                    scale: 1.02, 
+                  whileHover={{
+                    scale: 1.02,
                     borderColor: '#00FF94',
                     transition: {
                       type: "spring",
@@ -573,13 +638,13 @@ export default function AboutPage() {
                       damping: 30
                     }
                   }}
-                  whileTap={{ 
+                  whileTap={{
                     scale: 0.98,
                     transition: { duration: 0.1 }
                   }}
                   className="px-8 py-5 bg-transparent border-2 border-[#88939D]/30 text-white font-bold rounded-xl text-lg transition-colors duration-300 hover:text-[#00FF94] will-change-transform"
                 >
-                  View our work
+                  Pogledajte radove
                 </motion.button>
               </Link>
             </div>

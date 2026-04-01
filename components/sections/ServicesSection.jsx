@@ -16,63 +16,69 @@ export default function ServicesSection() {
 
   const services = [
     {
-      title: 'Web Design',
-      description: 'Beautiful, user-centric designs that captivate and convert. Interfaces that users love and remember.',
+      title: 'Strategija i Branding',
+      slug: 'strategija-branding',
+      description: 'Gradimo brandove koji se pamte. Od vizualnog identiteta do kompletne brand strategije.',
       features: [
-        'UI/UX Design',
-        'Responsive Design',
-        'Design Systems',
-        'Prototyping',
+        'Vizualni identitet',
+        'Pozicioniranje branda',
+        'Naming i tagline',
+        'Brand strategija',
       ],
     },
     {
-      title: 'Web Development',
-      description: 'Custom-coded websites built with modern technologies. Fast, secure, and scalable solutions.',
+      title: 'Web i Aplikacije',
+      slug: 'web-digitalno',
+      description: 'Web stranice i aplikacije koje ostvaruju rezultate. Brzo, sigurno i skalabilno.',
       features: [
-        'React & Next.js',
-        'Custom CMS',
-        'API Integration',
-        'Performance Optimization',
+        'Web dizajn i razvoj',
+        'E-commerce rješenja',
+        'Web aplikacije',
+        'SEO optimizacija',
       ],
     },
     {
-      title: 'E-Commerce',
-      description: 'Online stores that drive sales. Complete shopping experiences from product catalogs to checkout.',
+      title: 'Video i Animacija',
+      slug: 'video-animacija',
+      description: 'TV reklame, korporativni video i sadržaj za društvene mreže. Profesionalna produkcija od ideje do finala.',
       features: [
-        'Shopify Development',
-        'Payment Integration',
-        'Inventory Management',
-        'Analytics Setup',
+        'TV reklame',
+        'Korporativni video',
+        'Drone snimanje',
+        'Motion graphics',
       ],
     },
     {
-      title: 'Web Applications',
-      description: 'Complex web apps that solve real problems. From SaaS platforms to custom internal tools.',
+      title: 'Fotografija',
+      slug: 'fotografija',
+      description: 'Profesionalna fotografija koja prodaje. Produktna, lifestyle i korporativna fotografija.',
       features: [
-        'SaaS Development',
-        'Database Design',
-        'User Authentication',
-        'Cloud Deployment',
+        'Produktna fotografija',
+        'Lifestyle fotografija',
+        'Korporativna fotografija',
+        'Interijerna fotografija',
       ],
     },
     {
-      title: 'Search Engine Optimization',
-      description: 'Drive organic traffic and increase visibility with strategic SEO. From technical optimization to content strategy.',
+      title: 'Sadržaj i Društvene Mreže',
+      slug: 'sadrzaj-drustvene-mreze',
+      description: 'Sadržaj koji angažira i pretvara pratitelje u kupce. Strategija i kreacija za sve platforme.',
       features: [
-        'Technical SEO',
-        'Keyword Research',
-        'On-Page Optimization',
-        'Content Strategy',
+        'Content strategija',
+        'Social media sadržaj',
+        'Copywriting',
+        'Upravljanje kampanjama',
       ],
     },
     {
-      title: 'Content Creation',
-      description: 'Professional photography and videography specifically designed for websites.',
+      title: 'Studio',
+      slug: 'studio',
+      description: 'Profesionalno opremljen studio za video i podcast snimanje. Dostupan za najam ili vaše projekte.',
       features: [
-        'Product shots',
-        'Team photos',
-        'Space photography',
-        'Brand videos',
+        'Podcast snimanje',
+        'Video snimanje',
+        'Najam studija',
+        'Postprodukcija',
       ],
     },
   ]
@@ -106,16 +112,16 @@ export default function ServicesSection() {
             transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 max-w-3xl will-change-transform"
           >
-            What we do
+            Što radimo
           </motion.h2>
-          
+
           <motion.p
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="text-xl md:text-2xl text-[#88939D] max-w-3xl will-change-transform"
           >
-            End-to-end digital solutions tailored to your business needs.
+            Kompletna kreativna rješenja prilagođena vašim poslovnim potrebama.
           </motion.p>
         </motion.div>
 
@@ -188,10 +194,10 @@ export default function ServicesSection() {
                   </ul>
 
                   {/* Learn More Link */}
-                  <Link href={`/services/${service.title.toLowerCase().replace(/\s+/g, '-')}`}>
+                  <Link href={`/usluge/${service.slug}`}>
                     <motion.div
                       className="inline-flex items-center gap-2 text-sm font-semibold text-[#88939D] group-hover:text-[#00FF94] transition-colors duration-300"
-                      whileHover={{ 
+                      whileHover={{
                         x: 5,
                         transition: {
                           type: "spring",
@@ -200,18 +206,18 @@ export default function ServicesSection() {
                         }
                       }}
                     >
-                      Learn more
-                      <motion.svg 
+                      Saznajte više
+                      <motion.svg
                         className="w-4 h-4"
                         animate={{ x: [0, 3, 0] }}
-                        transition={{ 
-                          repeat: Infinity, 
+                        transition={{
+                          repeat: Infinity,
                           duration: 1.5,
                           ease: "easeInOut"
                         }}
-                        fill="none" 
-                        stroke="currentColor" 
-                        viewBox="0 0 24 24" 
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
                         strokeWidth={2}
                       >
                         <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -237,17 +243,17 @@ export default function ServicesSection() {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
             <div className="max-w-2xl">
               <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Need something custom?
+                Trebate nešto prilagođeno?
               </h3>
               <p className="text-lg text-[#88939D]">
-                We build tailored solutions for unique challenges. Let's discuss your specific needs.
+                Gradimo rješenja po mjeri za jedinstvene izazove. Razgovarajmo o vašim potrebama.
               </p>
             </div>
-            
+
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/contact">
                 <motion.button
-                  whileHover={{ 
+                  whileHover={{
                     scale: 1.02,
                     transition: {
                       type: "spring",
@@ -255,13 +261,13 @@ export default function ServicesSection() {
                       damping: 30
                     }
                   }}
-                  whileTap={{ 
+                  whileTap={{
                     scale: 0.98,
                     transition: { duration: 0.1 }
                   }}
                   className="px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg transition-all whitespace-nowrap will-change-transform shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30"
                 >
-                  Book a free call
+                  Zakažite besplatan poziv
                 </motion.button>
               </Link>
 
@@ -276,13 +282,13 @@ export default function ServicesSection() {
                       damping: 30
                     }
                   }}
-                  whileTap={{ 
+                  whileTap={{
                     scale: 0.98,
                     transition: { duration: 0.1 }
                   }}
                   className="px-8 py-5 bg-transparent border-2 border-[#88939D]/30 text-white font-bold rounded-xl text-lg transition-colors duration-300 whitespace-nowrap hover:text-[#00FF94] will-change-transform"
                 >
-                  See our work
+                  Pogledajte naše radove
                 </motion.button>
               </Link>
             </div>

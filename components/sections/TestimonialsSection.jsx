@@ -15,30 +15,30 @@ export default function TestimonialsSection() {
 
   const testimonials = [
     {
-      quote: "The transformation of our website exceeded our expectations. We went from barely receiving any inquiries online to getting over 100 in just two months.",
+      quote: "Transformacija našeg weba premašila je naša očekivanja. Prešli smo s gotovo nikakvih online upita na preko 100 u samo dva mjeseca.",
       author: "Božidar Jurišić",
-      role: "Owner",
+      role: "Vlasnik",
       company: "Elit Projekt",
       avatar: "BJ",
     },
     {
-      quote: "NineFold perfectly captured what makes our studio special. The custom videos for each artist are brilliant - clients love getting to know us before they come in. The website has the right balance of showcasing our professional work while keeping that fun, relaxed vibe that defines us. It\'s exactly what we needed to represent Radijona online.",
+      quote: "NineFold je savršeno uhvatio ono što naš studio čini posebnim. Prilagođeni videi za svakog umjetnika su briljantni - klijentima se sviđa što nas mogu upoznati prije nego dođu. Web ima pravu ravnotežu prikazivanja našeg profesionalnog rada uz zadržavanje te opuštene atmosfere koja nas definira.",
       author: "Tomislav Majić",
-      role: "Owner",
+      role: "Vlasnik",
       company: "Radijona Tattoo",
       avatar: "SP",
     },
     {
-      quote: "The new website perfectly captures our brand's premium positioning, and the custom configurators have made a huge difference in how clients engage with our products.",
+      quote: "Nova web stranica savršeno hvata premium pozicioniranje našeg branda, a prilagođeni konfiguratori napravili su ogromnu razliku u načinu na koji klijenti komuniciraju s našim proizvodima.",
       author: "Mirko Koren",
-      role: "Co-Founder",
+      role: "Suosnivač",
       company: "Desk&Co",
       avatar: "MK",
     },
     {
-      quote: "NineFold took our decade of industry experience and created a digital presence that truly represents who we are. All of our wishes when creating our digital platforms, after analysis, NineFold transformed into meaningful communication and offered the right solution and the right representation of our values. Their presence during the project realization gave us insight into every step of the creation of our websites.",
+      quote: "NineFold je uzeo naše desetljeće iskustva u industriji i stvorio digitalnu prisutnost koja uistinu predstavlja tko smo. Sve naše želje prilikom stvaranja digitalnih platformi, nakon analize, NineFold je transformirao u smislenu komunikaciju i ponudio pravo rješenje i pravu reprezentaciju naših vrijednosti.",
       author: "Leonardo Zovko",
-      role: "Owner",
+      role: "Vlasnik",
       company: "The Office Company",
       avatar: "LZ",
     },
@@ -73,16 +73,16 @@ export default function TestimonialsSection() {
             transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 max-w-3xl will-change-transform"
           >
-            What clients say
+            Što kažu klijenti
           </motion.h2>
-          
+
           <motion.p
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="text-xl md:text-2xl text-[#88939D] max-w-3xl will-change-transform"
           >
-            Real feedback from real clients who trusted us with their projects.
+            Stvarne povratne informacije od pravih klijenata koji su nam povjerili svoje projekte.
           </motion.p>
         </motion.div>
 
@@ -211,10 +211,10 @@ export default function TestimonialsSection() {
           />
           
           {[
-            { value: '98%', label: 'Satisfaction rate' },
-            { value: '20+', label: 'Projects delivered' },
-            { value: '0.5s', label: 'Avg. Page Load' },
-            { value: '100%', label: 'On-time delivery' },
+            { value: '98%', label: 'Stopa zadovoljstva' },
+            { value: '50+', label: 'Isporučenih projekata' },
+            { value: '0.5s', label: 'Prosj. učitavanje' },
+            { value: '100%', label: 'Isporuka na vrijeme' },
           ].map((stat, i) => (
             <motion.div
               key={i}
@@ -257,10 +257,10 @@ export default function TestimonialsSection() {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
             <div className="max-w-2xl">
               <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Ready to join them?
+                Spremni im se pridružiti?
               </h3>
               <p className="text-lg text-[#88939D]">
-                Book a free call. We'll discuss your project and see if we're a good fit.
+                Zakažite besplatan poziv. Razgovarat ćemo o vašem projektu i vidjeti odgovaramo li vam.
               </p>
             </div>
 
@@ -280,7 +280,7 @@ export default function TestimonialsSection() {
                 }}
                 className="px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg transition-all whitespace-nowrap will-change-transform shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30"
               >
-                Book a free call
+                Zakažite besplatan poziv
               </motion.button>
             </a>
           </div>

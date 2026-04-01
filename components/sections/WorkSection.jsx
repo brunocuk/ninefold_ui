@@ -50,18 +50,18 @@ export default function WorkSection() {
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
             <div className="max-w-3xl">
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-                Selected work
+                Odabrani radovi
               </h2>
 
               <p className="text-xl md:text-2xl text-[#88939D]">
-                Real projects, real results. See how we've helped businesses grow online.
+                Pravi projekti, pravi rezultati. Pogledajte kako smo pomogli tvrtkama da rastu.
               </p>
             </div>
 
             <div className="flex-shrink-0">
               <Link href="/work">
                 <button className="px-6 py-3 border-2 border-[#88939D]/30 text-white font-semibold rounded-xl text-base hover:text-[#00FF94] hover:border-[#00FF94] transition-colors duration-300 flex items-center gap-2">
-                  View all projects
+                  Pogledajte sve projekte
                   <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
@@ -119,7 +119,7 @@ export default function WorkSection() {
                     {/* View Project indicator on hover */}
                     <div className="absolute bottom-6 left-6 flex items-center gap-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <div className="w-2 h-2 rounded-full bg-[#00FF94]" />
-                      <span className="text-white text-sm font-semibold">View project</span>
+                      <span className="text-white text-sm font-semibold">Pogledaj projekt</span>
                     </div>
                   </div>
 
@@ -168,16 +168,16 @@ export default function WorkSection() {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
             <div className="max-w-2xl">
               <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Let's build something great
+                Izgradimo nešto izvrsno zajedno
               </h3>
               <p className="text-lg text-[#88939D]">
-                Ready to start your project? Get in touch and let's discuss how we can help.
+                Spremni za početak projekta? Javite nam se i razgovarajmo kako vam možemo pomoći.
               </p>
             </div>
 
             <Link href="/contact">
               <button className="px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg transition-all whitespace-nowrap shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30">
-                Start your project
+                Započnite projekt
               </button>
             </Link>
           </div>

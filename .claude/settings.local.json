@@ -32,7 +32,9 @@
       "Bash(npm run lint:*)",
       "Bash(node --check:*)",
       "Bash(wc:*)",
-      "Bash(git diff:*)"
+      "Bash(git diff:*)",
+      "WebFetch(domain:www.ninefold.eu)",
+      "Bash(grep:*)"
     ]
   }
 }

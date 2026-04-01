@@ -55,7 +55,7 @@ export default function Footer() {
             </Link>
 
             <p className="text-[#88939D] text-base leading-relaxed max-w-md">
-              Custom web development for businesses that want to stand out. No templates, no shortcuts.
+              Full-service kreativna agencija. Strategija, web, video i fotografija — sve pod jednim krovom.
             </p>
 
             {/* Contact Info */}
@@ -82,15 +82,15 @@ export default function Footer() {
             {/* Explore */}
             <div>
               <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-6">
-                Explore
+                Istraži
               </h4>
               <nav className="space-y-3">
                 {[
-                  { label: 'Home', href: '/' },
-                  { label: 'About', href: '/about' },
-                  { label: 'Work', href: '/work' },
-                  { label: 'Services', href: '/services' },
-                  { label: 'Contact', href: '/contact' },
+                  { label: 'Naslovna', href: '/' },
+                  { label: 'O nama', href: '/about' },
+                  { label: 'Radovi', href: '/work' },
+                  { label: 'Usluge', href: '/usluge' },
+                  { label: 'Kontakt', href: '/contact' },
                 ].map((link) => (
                   <Link key={link.href} href={link.href}>
                     <div className="text-[#88939D] hover:text-white transition-colors text-sm">
@@ -104,7 +104,7 @@ export default function Footer() {
             {/* Connect */}
             <div>
               <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-6">
-                Connect
+                Poveži se
               </h4>
               <nav className="space-y-3">
                 {[
@@ -129,13 +129,13 @@ export default function Footer() {
             {/* Legal */}
             <div>
               <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-6">
-                Legal
+                Pravno
               </h4>
               <nav className="space-y-3">
                 {[
-                  { label: 'Privacy Policy', href: '/privacy' },
-                  { label: 'Terms of Service', href: '/terms' },
-                  { label: 'Cookies', href: '/cookies' },
+                  { label: 'Politika privatnosti', href: '/privacy' },
+                  { label: 'Uvjeti korištenja', href: '/terms' },
+                  { label: 'Kolačići', href: '/cookies' },
                 ].map((link) => (
                   <Link key={link.href} href={link.href}>
                     <div className="text-[#88939D] hover:text-white transition-colors text-sm">
@@ -151,10 +151,10 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-[#88939D]/20 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-[#88939D] text-sm">
-            © {currentYear} Ninefold. All rights reserved.
+            © {currentYear} Ninefold. Sva prava pridržana.
           </p>
           <p className="text-[#88939D] text-sm">
-            Made with care in Zagreb
+            Napravljeno s ljubavlju u Zagrebu
           </p>
         </div>
       </div>

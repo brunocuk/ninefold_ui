@@ -42,10 +42,10 @@ export default function BlogPage() {
   // Format date helper
   const formatDate = (dateString) => {
     const date = new Date(dateString)
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'short', 
-      day: 'numeric' 
+    return date.toLocaleDateString('hr-HR', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
     })
   }
 
@@ -101,7 +101,7 @@ export default function BlogPage() {
               className="mb-8 will-change-transform"
             >
               <span className="inline-block px-4 py-2 bg-[#00FF94]/10 border border-[#00FF94]/30 rounded-full text-[#00FF94] text-sm font-mono uppercase tracking-wider">
-                Our Blog
+                Naš blog
               </span>
             </motion.div>
 
@@ -113,10 +113,10 @@ export default function BlogPage() {
               className="text-[clamp(3rem,8vw,6rem)] font-bold leading-[1.05] tracking-tight mb-8 will-change-transform"
             >
               <span className="block text-white">
-                Insights &
+                Uvidi i
               </span>
               <span className="block text-white">
-                <span className="text-[#00FF94]">inspiration</span>.
+                <span className="text-[#00FF94]">inspiracija</span>.
               </span>
             </motion.h1>
 
@@ -127,8 +127,8 @@ export default function BlogPage() {
               transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
               className="text-xl md:text-2xl text-[#88939D] leading-relaxed max-w-3xl will-change-transform"
             >
-              Thoughts on design, development, and building better digital experiences. 
-              Stay updated with the latest trends and best practices.
+              Razmišljanja o dizajnu, razvoju i stvaranju boljih digitalnih iskustava.
+              Budite u toku s najnovijim trendovima i najboljim praksama.
             </motion.p>
           </div>
         </div>
@@ -152,7 +152,7 @@ export default function BlogPage() {
               <div className="relative">
                 <input
                   type="text"
-                  placeholder="Search articles..."
+                  placeholder="Pretražite članke..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full px-4 py-4 pl-12 bg-transparent border-2 border-[#88939D]/20 rounded-xl text-white placeholder-[#88939D] focus:border-[#00FF94] focus:outline-none transition-all duration-300"
@@ -237,7 +237,7 @@ export default function BlogPage() {
                 transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
                 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 will-change-transform"
               >
-                Featured Articles
+                Istaknuti članci
               </motion.h2>
             </motion.div>
 
@@ -304,7 +304,7 @@ export default function BlogPage() {
                           transition={{ duration: 0.5, delay: 0.5 + index * 0.12 }}
                         >
                           <span className="px-3 py-1 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black text-xs font-bold rounded-full uppercase shadow-lg shadow-[#00FF94]/30">
-                            Featured
+                            Istaknuto
                           </span>
                         </motion.div>
                       </div>
@@ -392,7 +392,7 @@ export default function BlogPage() {
               transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
               className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 will-change-transform"
             >
-              {selectedCategory === 'All' ? 'Latest Articles' : `${selectedCategory} Articles`}
+              {selectedCategory === 'All' ? 'Najnoviji članci' : `${selectedCategory} članci`}
             </motion.h2>
           </motion.div>
 
@@ -479,7 +479,7 @@ export default function BlogPage() {
                           <div className="flex items-center justify-between pt-3 border-t border-[#88939D]/10">
                             <span className="text-xs text-[#88939D]">{post.date}</span>
                             <span className="text-xs text-[#00FF94] font-medium group-hover:gap-1 flex items-center transition-all">
-                              Read more
+                              Pročitajte više
                               <svg className="w-4 h-4 ml-0 group-hover:ml-1 transition-all duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                               </svg>
@@ -505,7 +505,7 @@ export default function BlogPage() {
               <svg className="w-16 h-16 mx-auto mb-4 text-[#88939D]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <p className="text-[#88939D] text-lg">No articles found matching your criteria.</p>
+              <p className="text-[#88939D] text-lg">Nema članaka koji odgovaraju vašim kriterijima.</p>
             </motion.div>
           )}
         </div>
@@ -533,22 +533,22 @@ export default function BlogPage() {
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
-              Never miss an
+              Ne propustite
               <br />
-              <span className="text-[#00FF94]">update</span>
+              <span className="text-[#00FF94]">novosti</span>
             </h2>
             <p className="text-lg md:text-xl text-[#88939D] mb-8 max-w-2xl mx-auto">
-              Subscribe to our newsletter and get the latest articles delivered straight to your inbox.
+              Pretplatite se na naš newsletter i primajte najnovije članke direktno u inbox.
             </p>
 
             <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto mb-4">
               <input
                 type="email"
-                placeholder="your@email.com"
+                placeholder="vas@email.hr"
                 className="flex-1 px-4 py-4 bg-transparent border-2 border-[#88939D]/20 rounded-xl text-white placeholder-[#88939D] focus:border-[#00FF94] focus:outline-none transition-all duration-300"
               />
               <motion.button
-                whileHover={{ 
+                whileHover={{
                   scale: 1.05,
                   transition: {
                     type: "spring",
@@ -556,19 +556,19 @@ export default function BlogPage() {
                     damping: 30
                   }
                 }}
-                whileTap={{ 
+                whileTap={{
                   scale: 0.95,
                   transition: { duration: 0.1 }
                 }}
                 type="submit"
                 className="px-8 py-4 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl hover:shadow-lg hover:shadow-[#00FF94]/20 transition-all will-change-transform"
               >
-                Subscribe
+                Pretplatite se
               </motion.button>
             </form>
 
             <p className="text-xs text-[#88939D]">
-              No spam, unsubscribe anytime.
+              Bez spama, odjava bilo kad.
             </p>
           </motion.div>
         </div>

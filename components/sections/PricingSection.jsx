@@ -18,58 +18,58 @@ export default function PricingSection() {
     {
       name: 'Starter',
       price: '€1,900',
-      tagline: 'Launch your online presence',
-      description: 'Perfect for freelancers, consultants, restaurants, and businesses starting out.',
+      tagline: 'Pokrenite online prisutnost',
+      description: 'Savršeno za freelancere, konzultante, restorane i tvrtke na početku.',
       features: [
-        'Single-page scrolling website',
-        'Mobile-first responsive design',
-        'Contact form with notifications',
-        'Basic SEO setup',
-        'Google Analytics integration',
-        '2 rounds of revisions',
-        '2-3 week delivery',
-        '14 days post-launch support',
+        'Single-page scrolling web',
+        'Mobile-first responzivni dizajn',
+        'Kontakt forma s notifikacijama',
+        'Osnovno SEO postavljanje',
+        'Google Analytics integracija',
+        '2 runde revizija',
+        'Isporuka 2-3 tjedna',
+        '14 dana podrške nakon lansiranja',
       ],
       popular: false,
-      guarantee: '95+ PageSpeed Guaranteed',
+      guarantee: '95+ PageSpeed garantirano',
     },
     {
       name: 'Business',
       price: '€3,900',
-      tagline: 'For businesses that need control',
-      description: 'Multi-page website with CMS so you can update content yourself.',
+      tagline: 'Za tvrtke koje žele kontrolu',
+      description: 'Višestranični web s CMS-om tako da sami možete ažurirati sadržaj.',
       features: [
-        'Up to 8 custom pages',
-        'CMS included — edit anytime',
-        'Mobile-first responsive',
-        'Full SEO foundation',
+        'Do 8 prilagođenih stranica',
+        'CMS uključen — uređujte kad god želite',
+        'Mobile-first responzivni',
+        'Kompletna SEO osnova',
         'Google Analytics + Search Console',
-        'Blog-ready structure',
-        '3 rounds of revisions',
-        '4-5 week delivery',
-        '30 days post-launch support',
+        'Blog-ready struktura',
+        '3 runde revizija',
+        'Isporuka 4-5 tjedana',
+        '30 dana podrške nakon lansiranja',
       ],
       popular: true,
-      guarantee: '95+ PageSpeed + On-Time Delivery',
+      guarantee: '95+ PageSpeed + Isporuka na vrijeme',
     },
     {
       name: 'Pro',
       price: '€7,500+',
-      tagline: 'When you need custom functionality',
-      description: 'For businesses needing custom admin panels, dashboards, or integrations.',
+      tagline: 'Kada trebate prilagođenu funkcionalnost',
+      description: 'Za tvrtke koje trebaju prilagođene admin panele, dashboarde ili integracije.',
       features: [
-        'Unlimited pages',
-        'Custom admin panel',
-        'User authentication (if needed)',
-        'Third-party integrations',
-        'Multilingual support',
-        'Advanced SEO strategy',
-        '5 rounds of revisions',
-        '6-8 week delivery',
-        '60 days post-launch support',
+        'Neograničen broj stranica',
+        'Prilagođeni admin panel',
+        'Autentifikacija korisnika',
+        'Third-party integracije',
+        'Višejezična podrška',
+        'Napredna SEO strategija',
+        '5 rundi revizija',
+        'Isporuka 6-8 tjedana',
+        '60 dana prioritetne podrške',
       ],
       popular: false,
-      guarantee: '95+ PageSpeed + On-Time + Priority Support',
+      guarantee: '95+ PageSpeed + Na vrijeme + Prioritetna podrška',
     },
   ]
 
@@ -102,7 +102,7 @@ export default function PricingSection() {
             transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 will-change-transform"
           >
-            Simple pricing. Serious websites.
+            Jednostavne cijene. Ozbiljni projekti.
           </motion.h2>
 
           <motion.p
@@ -111,7 +111,7 @@ export default function PricingSection() {
             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="text-xl md:text-2xl text-[#88939D] max-w-3xl mx-auto will-change-transform"
           >
-            Pick a package. Get a timeline. Know exactly what you're paying.
+            Odaberite paket. Dobijte timeline. Znate točno što plaćate.
           </motion.p>
         </motion.div>
 
@@ -133,13 +133,13 @@ export default function PricingSection() {
             >
               {/* Popular badge */}
               {tier.popular && (
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={inView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.6, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
                   className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black text-xs font-bold rounded-full z-10 shadow-lg shadow-[#00FF94]/30"
                 >
-                  Most Popular
+                  Najpopularnije
                 </motion.div>
               )}
 
@@ -245,7 +245,7 @@ export default function PricingSection() {
                           : 'bg-white/5 border-2 border-[#88939D]/30 text-white hover:border-[#00FF94]'
                       }`}
                     >
-                      Book a free call
+                      Zakažite besplatan poziv
                     </motion.button>
                   </Link>
                 </div>
@@ -267,7 +267,7 @@ export default function PricingSection() {
         >
           <div className="relative p-8 md:p-10 rounded-2xl border-2 border-[#00FF94]/30 bg-gradient-to-br from-[#00FF94]/5 to-transparent">
             <h3 className="text-2xl md:text-3xl font-bold text-white text-center mb-8">
-              Our Guarantee
+              Naša Garancija
             </h3>
 
             <div className="grid md:grid-cols-3 gap-8">
@@ -278,9 +278,9 @@ export default function PricingSection() {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                 </div>
-                <h4 className="text-lg font-bold text-white mb-2">95+ PageSpeed Score</h4>
+                <h4 className="text-lg font-bold text-white mb-2">95+ PageSpeed rezultat</h4>
                 <p className="text-[#88939D] text-sm leading-relaxed">
-                  Your website will score 95+ on Google PageSpeed. If it doesn't, we'll optimize it until it does — at no extra cost.
+                  Vaš web će postići 95+ na Google PageSpeed. Ako ne postigne, optimizirat ćemo ga dok ne postigne — bez dodatnih troškova.
                 </p>
               </div>
 
@@ -291,9 +291,9 @@ export default function PricingSection() {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
-                <h4 className="text-lg font-bold text-white mb-2">On-Time Delivery</h4>
+                <h4 className="text-lg font-bold text-white mb-2">Isporuka na vrijeme</h4>
                 <p className="text-[#88939D] text-sm leading-relaxed">
-                  We'll deliver on the agreed date. If we're late, you get 10% off your final invoice. No excuses.
+                  Isporučit ćemo na dogovoreni datum. Ako kasnimo, dobivate 10% popusta na konačni račun. Bez isprika.
                 </p>
               </div>
 
@@ -304,9 +304,9 @@ export default function PricingSection() {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
-                <h4 className="text-lg font-bold text-white mb-2">No Hidden Fees</h4>
+                <h4 className="text-lg font-bold text-white mb-2">Bez skrivenih troškova</h4>
                 <p className="text-[#88939D] text-sm leading-relaxed">
-                  The price you see is the price you pay. We scope everything upfront — no surprise invoices.
+                  Cijena koju vidite je cijena koju plaćate. Sve definiramo unaprijed — bez iznenadnih računa.
                 </p>
               </div>
             </div>
@@ -321,7 +321,7 @@ export default function PricingSection() {
           className="mt-10 text-center will-change-transform"
         >
           <p className="text-[#88939D] text-sm">
-            Need something different? <Link href="/contact" className="text-[#00FF94] hover:underline">Let's talk</Link> about a custom solution.
+            Trebate nešto drugačije? <Link href="/contact" className="text-[#00FF94] hover:underline">Razgovarajmo</Link> o prilagođenom rješenju.
           </p>
         </motion.div>
       </div>
