@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { 
+import {
   ArrowLeft,
   Edit,
   Building2,
@@ -20,9 +20,12 @@ import {
   DollarSign,
   Briefcase,
   Clock,
-  User
+  User,
+  FileText,
+  Sparkles
 } from 'lucide-react';
 import { useToast } from '@/components/Toast';
+import { generateQuoteData, calculateQuoteFromSelections, formatCurrency } from '@/lib/quoteCalculations';
 
 export default function LeadDetailPage() {
   const params = useParams();
@@ -33,6 +36,7 @@ export default function LeadDetailPage() {
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState({});
+  const [generatingQuote, setGeneratingQuote] = useState(false);
 
   useEffect(() => {
     loadLead();
@@ -132,6 +136,45 @@ export default function LeadDetailPage() {
     }
   };
 
+  const handleGenerateQuoteFromSelections = async () => {
+    if (!lead.service_selections) {
+      toast.error('Ovaj lead nema spremljene odabire usluga');
+      return;
+    }
+
+    setGeneratingQuote(true);
+
+    try {
+      const clientInfo = {
+        name: lead.name,
+        company: lead.company,
+        email: lead.email,
+        projectTitle: `Ponuda za ${lead.company || lead.name}`
+      };
+
+      const quoteData = generateQuoteData(lead.service_selections, clientInfo);
+
+      // Link quote to lead
+      quoteData.lead_id = lead.id;
+
+      const { data: quote, error } = await supabase
+        .from('quotes')
+        .insert([quoteData])
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      toast.success('Ponuda kreirana iz odabira!');
+      router.push(`/crm/quotes/${quote.id}`);
+    } catch (error) {
+      console.error('Error generating quote:', error);
+      toast.error('Greška pri kreiranju ponude');
+    } finally {
+      setGeneratingQuote(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
@@ -219,6 +262,16 @@ export default function LeadDetailPage() {
               >
                 <Building2 size={18} />
                 Convert to Client
+              </button>
+            )}
+            {lead.service_selections && (
+              <button
+                onClick={handleGenerateQuoteFromSelections}
+                disabled={generatingQuote}
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-purple-500 text-white rounded-xl font-bold hover:bg-purple-600 hover:shadow-lg hover:shadow-purple-500/30 transition-all disabled:opacity-50"
+              >
+                <Sparkles size={18} />
+                {generatingQuote ? 'Kreiram...' : 'Generiraj ponudu iz odabira'}
               </button>
             )}
             <button
@@ -434,9 +487,20 @@ export default function LeadDetailPage() {
               <h3 className="text-2xl font-bold mb-6 pb-4 border-b border-[#2A2A2A]">
                 Project Description
               </h3>
-              <p className="text-gray-400 leading-relaxed text-lg">
+              <p className="text-gray-400 leading-relaxed text-lg whitespace-pre-wrap">
                 {lead.description}
               </p>
+            </div>
+          )}
+
+          {/* Service Selections from Questionnaire */}
+          {lead.service_selections && (
+            <div className="bg-[#1a1a1a] border border-purple-500/30 rounded-2xl p-8">
+              <h3 className="text-2xl font-bold mb-6 pb-4 border-b border-[#2A2A2A] flex items-center gap-3">
+                <Sparkles size={24} className="text-purple-400" />
+                Odabiri iz upitnika
+              </h3>
+              <ServiceSelectionsDisplay selections={lead.service_selections} />
             </div>
           )}
         </div>
@@ -451,6 +515,63 @@ export default function LeadDetailPage() {
           animation: fadeIn 0.5s ease-out;
         }
       `}</style>
+    </div>
+  );
+}
+
+// Component to display service selections from questionnaire
+function ServiceSelectionsDisplay({ selections }) {
+  const quoteResult = calculateQuoteFromSelections(selections);
+
+  return (
+    <div className="space-y-4">
+      {/* One-time items */}
+      {quoteResult.lineItems.oneTime.length > 0 && (
+        <div>
+          <h4 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Jednokratno</h4>
+          <div className="space-y-2">
+            {quoteResult.lineItems.oneTime.map((item, index) => (
+              <div key={index} className="flex justify-between items-center bg-[#0a0a0a] rounded-lg p-3">
+                <span className="text-gray-300">{item.name}</span>
+                <span className="text-[#00FF94] font-bold">{formatCurrency(item.price)}</span>
+              </div>
+            ))}
+          </div>
+          <div className="flex justify-between items-center mt-3 pt-3 border-t border-[#2A2A2A]">
+            <span className="text-white font-semibold">Ukupno jednokratno</span>
+            <span className="text-[#00FF94] font-bold text-lg">{formatCurrency(quoteResult.summary?.oneTime?.total || 0)}</span>
+          </div>
+        </div>
+      )}
+
+      {/* Monthly items */}
+      {quoteResult.lineItems.monthly.length > 0 && (
+        <div className="mt-6">
+          <h4 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Mjesečno</h4>
+          <div className="space-y-2">
+            {quoteResult.lineItems.monthly.map((item, index) => (
+              <div key={index} className="flex justify-between items-center bg-[#0a0a0a] rounded-lg p-3">
+                <span className="text-gray-300">{item.name}</span>
+                <span className="text-purple-400 font-bold">{formatCurrency(item.monthlyPrice)}/mj</span>
+              </div>
+            ))}
+          </div>
+          <div className="flex justify-between items-center mt-3 pt-3 border-t border-[#2A2A2A]">
+            <span className="text-white font-semibold">Ukupno mjesečno</span>
+            <span className="text-purple-400 font-bold text-lg">{formatCurrency(quoteResult.summary?.monthly?.total || 0)}/mj</span>
+          </div>
+        </div>
+      )}
+
+      {/* Bundle discount */}
+      {quoteResult.summary?.bundleDiscount?.eligible && (
+        <div className="mt-4 bg-[#00FF94]/10 border border-[#00FF94]/20 rounded-lg p-3">
+          <div className="flex items-center gap-2 text-[#00FF94] text-sm">
+            <Sparkles size={16} />
+            <span>Bundle popust aktiviran (-10%)</span>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

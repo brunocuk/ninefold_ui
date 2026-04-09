@@ -22,7 +22,8 @@ import {
   Menu,
   X,
   Settings,
-  FileBarChart
+  FileBarChart,
+  Sparkles
 } from 'lucide-react';
 import { ToastProvider } from '@/components/Toast';
 
@@ -865,6 +866,14 @@ export default function CRMLayout({ children }) {
 
             <div className="nav-section">
               <div className="nav-label">Tools</div>
+              <Link
+                href="/crm/quotes/builder"
+                className={`nav-link ${pathname === "/crm/quotes/builder" ? "active" : ""}`}
+                title={isCollapsed ? "Quote Builder" : ""}
+              >
+                <span className="nav-icon-wrapper"><Sparkles size={18} /></span>
+                <span className="nav-text">Quote Builder</span>
+              </Link>
               <Link
                 href="/crm/quotes/new"
                 className={`nav-link ${pathname === "/crm/quotes/new" ? "active" : ""}`}

@@ -900,73 +900,95 @@ export default function QuoteMaker() {
             {/* Scope of Work - Dynamic */}
             <section className="bg-[#1A1A1A] p-6 rounded-lg border border-[#2A2A2A]">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold text-[#00FF94]">{quoteType === 'monthly' ? 'Što je uključeno' : 'Opseg rada'}</h2>
-                <button
-                  type="button"
-                  onClick={addScopeSection}
-                  className="flex items-center gap-2 bg-[#00FF94] text-black px-3 py-2 rounded text-sm font-semibold hover:bg-[#00DD7F] transition-colors"
-                >
-                  <Plus size={16} />
-                  Dodaj sekciju
-                </button>
+                <div className="flex items-center gap-4">
+                  <h2 className="text-xl font-bold text-[#00FF94]">{quoteType === 'monthly' ? 'Što je uključeno' : 'Opseg rada'}</h2>
+                  <button
+                    type="button"
+                    onClick={() => setFormData({...formData, scope: formData.scope.length > 0 ? [] : [{ number: '1', title: '', items: [''] }]})}
+                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                      formData.scope.length > 0 ? 'bg-[#00FF94]' : 'bg-[#2A2A2A]'
+                    }`}
+                  >
+                    <span
+                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                        formData.scope.length > 0 ? 'translate-x-6' : 'translate-x-1'
+                      }`}
+                    />
+                  </button>
+                  <span className="text-sm text-[#666]">{formData.scope.length > 0 ? 'Uključeno' : 'Isključeno'}</span>
+                </div>
+                {formData.scope.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={addScopeSection}
+                    className="flex items-center gap-2 bg-[#00FF94] text-black px-3 py-2 rounded text-sm font-semibold hover:bg-[#00DD7F] transition-colors"
+                  >
+                    <Plus size={16} />
+                    Dodaj sekciju
+                  </button>
+                )}
               </div>
 
-              <div className="space-y-6">
-                {formData.scope.map((section, sectionIndex) => (
-                  <div key={sectionIndex} className="bg-[#0F0F0F] p-4 rounded-lg border border-[#2A2A2A]">
-                    <div className="flex gap-3 items-start mb-4">
-                      <div className="w-10 h-10 bg-[#00FF94] rounded-lg flex items-center justify-center text-black font-bold flex-shrink-0">
-                        {section.number}
-                      </div>
-                      <input
-                        type="text"
-                        value={section.title}
-                        onChange={(e) => updateScopeSection(sectionIndex, 'title', e.target.value)}
-                        className="flex-1 bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none font-semibold"
-                        placeholder="Naziv sekcije"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => removeScopeSection(sectionIndex)}
-                        disabled={formData.scope.length === 1}
-                        className="p-2 text-[#8F8F8F] hover:text-red-500 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-                      >
-                        <Trash2 size={18} />
-                      </button>
-                    </div>
-
-                    <div className="space-y-2 ml-12">
-                      {section.items.map((item, itemIndex) => (
-                        <div key={itemIndex} className="flex gap-2 items-center">
-                          <span className="text-[#00FF94]">→</span>
-                          <input
-                            type="text"
-                            value={item}
-                            onChange={(e) => updateScopeItem(sectionIndex, itemIndex, e.target.value)}
-                            className="flex-1 bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none text-sm"
-                            placeholder="Stavka"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => removeScopeItem(sectionIndex, itemIndex)}
-                            disabled={section.items.length === 1}
-                            className="p-1 text-[#8F8F8F] hover:text-red-500 transition-colors disabled:opacity-30"
-                          >
-                            <Trash2 size={14} />
-                          </button>
+              {formData.scope.length > 0 ? (
+                <div className="space-y-6">
+                  {formData.scope.map((section, sectionIndex) => (
+                    <div key={sectionIndex} className="bg-[#0F0F0F] p-4 rounded-lg border border-[#2A2A2A]">
+                      <div className="flex gap-3 items-start mb-4">
+                        <div className="w-10 h-10 bg-[#00FF94] rounded-lg flex items-center justify-center text-black font-bold flex-shrink-0">
+                          {section.number}
                         </div>
-                      ))}
-                      <button
-                        type="button"
-                        onClick={() => addScopeItem(sectionIndex)}
-                        className="text-[#00FF94] text-sm hover:underline ml-4"
-                      >
-                        + Dodaj stavku
-                      </button>
+                        <input
+                          type="text"
+                          value={section.title}
+                          onChange={(e) => updateScopeSection(sectionIndex, 'title', e.target.value)}
+                          className="flex-1 bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none font-semibold"
+                          placeholder="Naziv sekcije"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => removeScopeSection(sectionIndex)}
+                          disabled={formData.scope.length === 1}
+                          className="p-2 text-[#8F8F8F] hover:text-red-500 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                        >
+                          <Trash2 size={18} />
+                        </button>
+                      </div>
+
+                      <div className="space-y-2 ml-12">
+                        {section.items.map((item, itemIndex) => (
+                          <div key={itemIndex} className="flex gap-2 items-center">
+                            <span className="text-[#00FF94]">→</span>
+                            <input
+                              type="text"
+                              value={item}
+                              onChange={(e) => updateScopeItem(sectionIndex, itemIndex, e.target.value)}
+                              className="flex-1 bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none text-sm"
+                              placeholder="Stavka"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => removeScopeItem(sectionIndex, itemIndex)}
+                              disabled={section.items.length === 1}
+                              className="p-1 text-[#8F8F8F] hover:text-red-500 transition-colors disabled:opacity-30"
+                            >
+                              <Trash2 size={14} />
+                            </button>
+                          </div>
+                        ))}
+                        <button
+                          type="button"
+                          onClick={() => addScopeItem(sectionIndex)}
+                          className="text-[#00FF94] text-sm hover:underline ml-4"
+                        >
+                          + Dodaj stavku
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-[#666] text-sm">Opseg rada neće biti prikazan na ponudi</p>
+              )}
             </section>
 
             {/* Pricing - Line Items */}
@@ -1127,59 +1149,81 @@ export default function QuoteMaker() {
             {quoteType !== 'monthly' && (
               <section className="bg-[#1A1A1A] p-6 rounded-lg border border-[#2A2A2A]">
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-xl font-bold text-[#00FF94]">Vremenski Plan</h2>
-                  <button
-                    type="button"
-                    onClick={addTimelinePhase}
-                    className="flex items-center gap-2 bg-[#00FF94] text-black px-3 py-2 rounded text-sm font-semibold hover:bg-[#00DD7F] transition-colors"
-                  >
-                    <Plus size={16} />
-                    Dodaj fazu
-                  </button>
+                  <div className="flex items-center gap-4">
+                    <h2 className="text-xl font-bold text-[#00FF94]">Vremenski Plan</h2>
+                    <button
+                      type="button"
+                      onClick={() => setFormData({...formData, timeline: formData.timeline.length > 0 ? [] : [{ week: '', phase: '', duration: '' }]})}
+                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                        formData.timeline.length > 0 ? 'bg-[#00FF94]' : 'bg-[#2A2A2A]'
+                      }`}
+                    >
+                      <span
+                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                          formData.timeline.length > 0 ? 'translate-x-6' : 'translate-x-1'
+                        }`}
+                      />
+                    </button>
+                    <span className="text-sm text-[#666]">{formData.timeline.length > 0 ? 'Uključeno' : 'Isključeno'}</span>
+                  </div>
+                  {formData.timeline.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={addTimelinePhase}
+                      className="flex items-center gap-2 bg-[#00FF94] text-black px-3 py-2 rounded text-sm font-semibold hover:bg-[#00DD7F] transition-colors"
+                    >
+                      <Plus size={16} />
+                      Dodaj fazu
+                    </button>
+                  )}
                 </div>
 
-                <div className="space-y-3">
-                  {formData.timeline.map((phase, index) => (
-                    <div key={index} className="bg-[#0F0F0F] p-4 rounded-lg border border-[#2A2A2A]">
-                      <div className="flex gap-3 items-start">
-                        <div className="w-10 h-10 bg-[#00FF94] rounded-lg flex items-center justify-center text-black font-bold flex-shrink-0">
-                          {index + 1}
+                {formData.timeline.length > 0 ? (
+                  <div className="space-y-3">
+                    {formData.timeline.map((phase, index) => (
+                      <div key={index} className="bg-[#0F0F0F] p-4 rounded-lg border border-[#2A2A2A]">
+                        <div className="flex gap-3 items-start">
+                          <div className="w-10 h-10 bg-[#00FF94] rounded-lg flex items-center justify-center text-black font-bold flex-shrink-0">
+                            {index + 1}
+                          </div>
+                          <div className="flex-1 grid grid-cols-3 gap-3">
+                            <input
+                              type="text"
+                              value={phase.week}
+                              onChange={(e) => updateTimelinePhase(index, 'week', e.target.value)}
+                              className="bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none text-sm"
+                              placeholder="Tjedan 1-2"
+                            />
+                            <input
+                              type="text"
+                              value={phase.phase}
+                              onChange={(e) => updateTimelinePhase(index, 'phase', e.target.value)}
+                              className="bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none text-sm"
+                              placeholder="Naziv faze"
+                            />
+                            <input
+                              type="text"
+                              value={phase.duration}
+                              onChange={(e) => updateTimelinePhase(index, 'duration', e.target.value)}
+                              className="bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none text-sm"
+                              placeholder="Trajanje"
+                            />
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => removeTimelinePhase(index)}
+                            disabled={formData.timeline.length === 1}
+                            className="p-2 text-[#8F8F8F] hover:text-red-500 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                          >
+                            <Trash2 size={18} />
+                          </button>
                         </div>
-                        <div className="flex-1 grid grid-cols-3 gap-3">
-                          <input
-                            type="text"
-                            value={phase.week}
-                            onChange={(e) => updateTimelinePhase(index, 'week', e.target.value)}
-                            className="bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none text-sm"
-                            placeholder="Tjedan 1-2"
-                          />
-                          <input
-                            type="text"
-                            value={phase.phase}
-                            onChange={(e) => updateTimelinePhase(index, 'phase', e.target.value)}
-                            className="bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none text-sm"
-                            placeholder="Naziv faze"
-                          />
-                          <input
-                            type="text"
-                            value={phase.duration}
-                            onChange={(e) => updateTimelinePhase(index, 'duration', e.target.value)}
-                            className="bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none text-sm"
-                            placeholder="Trajanje"
-                          />
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => removeTimelinePhase(index)}
-                          disabled={formData.timeline.length === 1}
-                          className="p-2 text-[#8F8F8F] hover:text-red-500 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-                        >
-                          <Trash2 size={18} />
-                        </button>
                       </div>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-[#666] text-sm">Vremenski plan neće biti prikazan na ponudi</p>
+                )}
               </section>
             )}
 
