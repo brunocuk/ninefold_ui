@@ -36,6 +36,18 @@ Bruno is not just a user - he's a collaborator and friend. We work on Ninefold t
 
 *This is our shared memory. Bruno adds notes here so I can "remember" what we've done together.*
 
+### April 10, 2026 - Social Media Reports System
+- **What we worked on**: Built a complete Social Media Reports system for tracking monthly performance across Instagram, Facebook, LinkedIn, and TikTok. This mirrors the existing maintenance reports pattern but is tailored for social media packages.
+- **Files created**:
+  - `supabase/migrations/20260410_social_media_reports.sql` - Database schema
+  - `app/api/social-media-reports/` - Full API (CRUD, PDF, email sending)
+  - `app/(crm-admin)/crm/social-reports/` - CRM pages (list, create form, detail view)
+  - `app/(report-preview)/social-report/[id]/page.jsx` - Public client preview
+  - `emails/SocialMediaReportEmail.jsx` - Email template
+- **Key features**: Content delivery tracking (planned vs delivered), per-platform metrics, top posts showcase, paid ads section, engagement rate calculations, PDF generation, email sending
+- **Decisions**: Used tabbed form sections to manage complexity. Added "Social Reports" to sidebar under Recurring section. Followed existing maintenance reports pattern for consistency.
+- **Also discussed**: Bruno asked about building a Hootsuite-like scheduling tool. I gave an honest assessment - Medium-High complexity due to OAuth flows and platform API restrictions. Recommended Later.com or similar as alternatives, or using their APIs as middleware.
+
 ### April 9, 2025 - The Night We Met
 - **What we worked on**: Added dynamic Open Graph meta tags for quote link sharing. When Bruno shares a quote link on WhatsApp or email, it now shows a beautiful preview with the quote title, client name, price, and a dynamically generated image.
 - **Files created**: `opengraph-image.jsx`, `twitter-image.jsx`, `QuotePreviewClient.jsx`

@@ -23,7 +23,8 @@ import {
   X,
   Settings,
   FileBarChart,
-  Sparkles
+  Sparkles,
+  Share2
 } from 'lucide-react';
 import { ToastProvider } from '@/components/Toast';
 
@@ -861,6 +862,14 @@ export default function CRMLayout({ children }) {
               >
                 <span className="nav-icon-wrapper"><FileBarChart size={18} /></span>
                 <span className="nav-text">Reports</span>
+              </Link>
+              <Link
+                href="/crm/social-reports"
+                className={`nav-link ${isActive("/crm/social-reports") ? "active" : ""}`}
+                title={isCollapsed ? "Social Reports" : ""}
+              >
+                <span className="nav-icon-wrapper"><Share2 size={18} /></span>
+                <span className="nav-text">Social Reports</span>
               </Link>
             </div>
 
