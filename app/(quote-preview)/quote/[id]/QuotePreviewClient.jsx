@@ -87,7 +87,10 @@ export default function QuotePreviewClient() {
           serviceType: data.service_type || 'web_development',
           quoteType: data.quote_type || 'project',
           services: data.services || null,
-          monthlyPrice: data.monthly_price || data.pricing?.monthlyPrice || 0
+          monthlyPrice: data.monthly_price || data.pricing?.monthlyPrice || 0,
+          // Rich data from quote builder
+          serviceSelections: data.service_selections || null,
+          lineItems: data.quote_data?.lineItems || null
         };
 
         setQuoteData(formattedData);
@@ -176,7 +179,7 @@ export default function QuotePreviewClient() {
 
   return (
     <>
-      <style jsx>{`
+      <style jsx global>{`
         @import url('https://api.fontshare.com/v2/css?f[]=nohemi@400,500,600,700&display=swap');
 
         * {
@@ -930,6 +933,193 @@ export default function QuotePreviewClient() {
           line-height: 1.5;
         }
 
+        /* Services Cards */
+        .services-grid {
+          display: grid;
+          gap: 24px;
+        }
+
+        .service-card {
+          background: #1a1a1a;
+          border: 1px solid #2A2A2A;
+          border-radius: 16px;
+          padding: 28px;
+          transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+          border-color: #00FF94;
+          transform: translateY(-4px);
+        }
+
+        .service-card-monthly:hover {
+          border-color: #A855F7;
+        }
+
+        .service-card-header {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          margin-bottom: 20px;
+        }
+
+        .service-card-icon {
+          width: 56px;
+          height: 56px;
+          background: linear-gradient(135deg, #00FF94 0%, #00CC75 100%);
+          border-radius: 14px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1.5rem;
+        }
+
+        .service-card-icon-monthly {
+          background: linear-gradient(135deg, #A855F7 0%, #9333EA 100%);
+        }
+
+        .service-card-title {
+          font-size: 1.25rem;
+          font-weight: 700;
+          color: #fff;
+        }
+
+        .service-card-subtitle {
+          font-size: 0.9rem;
+          color: #8F8F8F;
+          margin-top: 4px;
+        }
+
+        .service-card-price {
+          font-size: 0.95rem;
+          font-weight: 700;
+          color: #00FF94;
+          margin-top: 4px;
+        }
+
+        .service-card-price-monthly {
+          color: #A855F7;
+        }
+
+        .service-card-features {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 10px;
+        }
+
+        .feature-item {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          color: #C4C4C4;
+          font-size: 0.9rem;
+        }
+
+        .feature-check {
+          width: 20px;
+          height: 20px;
+          background: rgba(0, 255, 148, 0.15);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #00FF94;
+          font-size: 0.7rem;
+          flex-shrink: 0;
+        }
+
+        .feature-check-monthly {
+          background: rgba(168, 85, 247, 0.15);
+          color: #A855F7;
+        }
+
+        /* Content Grid */
+        .content-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+          gap: 12px;
+          margin-top: 20px;
+          padding-top: 20px;
+          border-top: 1px solid #2A2A2A;
+        }
+
+        .content-item {
+          background: #0F0F0F;
+          border: 1px solid #2A2A2A;
+          border-radius: 12px;
+          padding: 16px;
+          text-align: center;
+        }
+
+        .content-item-quantity {
+          font-size: 1.75rem;
+          font-weight: 900;
+          color: #00FF94;
+          line-height: 1;
+        }
+
+        .content-item-quantity-monthly {
+          color: #A855F7;
+        }
+
+        .content-item-name {
+          font-size: 0.8rem;
+          color: #8F8F8F;
+          margin-top: 6px;
+        }
+
+        .content-item-price {
+          font-size: 0.75rem;
+          color: #555;
+          margin-top: 4px;
+        }
+
+        /* Monthly Items Section in Sidebar */
+        .monthly-items-section {
+          margin-bottom: 24px;
+          padding-bottom: 24px;
+          border-bottom: 1px solid #2A2A2A;
+        }
+
+        .monthly-section-title {
+          font-size: 0.85rem;
+          color: #A855F7;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          margin-bottom: 16px;
+        }
+
+        .monthly-item {
+          display: flex;
+          justify-content: space-between;
+          align-items: start;
+          padding: 12px 0;
+          border-bottom: 1px solid rgba(168, 85, 247, 0.1);
+        }
+
+        .monthly-item:last-child {
+          border-bottom: none;
+        }
+
+        .monthly-item-name {
+          color: #C4C4C4;
+          font-size: 0.9rem;
+        }
+
+        .monthly-item-desc {
+          color: #666;
+          font-size: 0.75rem;
+          margin-top: 2px;
+        }
+
+        .monthly-item-price {
+          color: #A855F7;
+          font-weight: 700;
+          font-size: 0.95rem;
+          white-space: nowrap;
+        }
+
         /* Responsive */
         @media (max-width: 1024px) {
           .content-wrapper {
@@ -1109,6 +1299,82 @@ export default function QuotePreviewClient() {
               <p className="text-large">{quoteData.projectOverview}</p>
             </section>
 
+            {/* Services Included - Rich display from quote builder */}
+            {quoteData.serviceSelections && (
+              <section className="section">
+                <h2 className="section-title">Uključene Usluge</h2>
+                <div className="services-grid">
+                  {/* Web Development */}
+                  {quoteData.serviceSelections.webDevelopment?.enabled && quoteData.serviceSelections.webDevelopment?.package && (
+                    <ServiceCard
+                      icon="🌐"
+                      title="Web Stranica"
+                      subtitle={getWebPackageName(quoteData.serviceSelections.webDevelopment.package)}
+                      price={getWebPackagePrice(quoteData.serviceSelections.webDevelopment.package)}
+                      features={getWebPackageFeatures(quoteData.serviceSelections.webDevelopment.package)}
+                      isMonthly={isMonthly}
+                    />
+                  )}
+
+                  {/* App Development */}
+                  {quoteData.serviceSelections.appDevelopment?.enabled && quoteData.serviceSelections.appDevelopment?.package && (
+                    <ServiceCard
+                      icon="📱"
+                      title="Web Aplikacija"
+                      subtitle={getAppPackageName(quoteData.serviceSelections.appDevelopment.package)}
+                      price={getAppPackagePrice(quoteData.serviceSelections.appDevelopment.package, quoteData.serviceSelections.appDevelopment.customPrice)}
+                      features={getAppPackageFeatures(quoteData.serviceSelections.appDevelopment.package)}
+                      isMonthly={isMonthly}
+                    />
+                  )}
+
+                  {/* Social Media */}
+                  {quoteData.serviceSelections.socialMedia?.enabled && quoteData.serviceSelections.socialMedia?.plan && (
+                    <ServiceCard
+                      icon="📣"
+                      title="Social Media Management"
+                      subtitle={getSocialPlanName(quoteData.serviceSelections.socialMedia.plan)}
+                      price={getSocialPlanPrice(quoteData.serviceSelections.socialMedia.plan)}
+                      priceLabel="/mj"
+                      features={getSocialPlanFeatures(quoteData.serviceSelections.socialMedia.plan)}
+                      isMonthly={true}
+                      contentItems={getContentItems(quoteData.serviceSelections.socialMedia.contentQuantities)}
+                    />
+                  )}
+
+                  {/* Podcast Studio */}
+                  {quoteData.serviceSelections.podcastStudio?.enabled && (
+                    <ServiceCard
+                      icon="🎙️"
+                      title="Podcast Studio"
+                      subtitle={getPodcastDurationName(quoteData.serviceSelections.podcastStudio.duration)}
+                      price={getPodcastPrice(quoteData.serviceSelections.podcastStudio.duration, quoteData.serviceSelections.podcastStudio.shortsPackage)}
+                      features={[
+                        `${quoteData.serviceSelections.podcastStudio.shortsPackage} short-form videa`,
+                        'Profesionalna oprema',
+                        'Post-produkcija',
+                        'Korištenje studia'
+                      ]}
+                      isMonthly={isMonthly}
+                    />
+                  )}
+
+                  {/* Maintenance (if enabled with web) */}
+                  {quoteData.serviceSelections.webDevelopment?.maintenance?.enabled && (
+                    <ServiceCard
+                      icon="🛡️"
+                      title="Održavanje i Podrška"
+                      subtitle={getMaintenanceTierName(quoteData.serviceSelections.webDevelopment.maintenance.tier)}
+                      price={getMaintenanceTierPrice(quoteData.serviceSelections.webDevelopment.maintenance.tier)}
+                      priceLabel="/mj"
+                      features={getMaintenanceTierFeatures(quoteData.serviceSelections.webDevelopment.maintenance.tier)}
+                      isMonthly={true}
+                    />
+                  )}
+                </div>
+              </section>
+            )}
+
             {/* Objectives */}
             {quoteData.objectives && quoteData.objectives.length > 0 && (
               <section className="section">
@@ -1180,6 +1446,24 @@ export default function QuotePreviewClient() {
               {isMonthly ? (
                 /* Monthly Quote Pricing */
                 <>
+                  {/* Monthly Items Breakdown */}
+                  {quoteData.lineItems?.monthly && quoteData.lineItems.monthly.length > 0 && (
+                    <div className="monthly-items-section">
+                      <div className="monthly-section-title">Mjesečna stavke</div>
+                      {quoteData.lineItems.monthly.map((item, index) => (
+                        <div key={index} className="monthly-item">
+                          <div>
+                            <div className="monthly-item-name">{item.name}</div>
+                            {item.description && (
+                              <div className="monthly-item-desc">{item.description}</div>
+                            )}
+                          </div>
+                          <div className="monthly-item-price">€{item.monthlyPrice?.toLocaleString()}</div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
                   <div className={`payment-terms payment-terms-monthly`}>
                     <div className="payment-term">
                       <span className="payment-term-label">Prvi mjesec</span>
@@ -1249,8 +1533,30 @@ export default function QuotePreviewClient() {
                     </div>
                   </div>
 
-                  {/* Maintenance & Support (Optional) */}
-                  {quoteData.maintenance?.enabled && (
+                  {/* Monthly Items from Quote Builder */}
+                  {quoteData.lineItems?.monthly && quoteData.lineItems.monthly.length > 0 && (
+                    <div className="monthly-items-section">
+                      <div className="monthly-section-title">Mjesečne Usluge</div>
+                      {quoteData.lineItems.monthly.map((item, index) => (
+                        <div key={index} className="monthly-item">
+                          <div>
+                            <div className="monthly-item-name">{item.name}</div>
+                            {item.description && (
+                              <div className="monthly-item-desc">{item.description}</div>
+                            )}
+                          </div>
+                          <div className="monthly-item-price">€{item.monthlyPrice?.toLocaleString()}/mj</div>
+                        </div>
+                      ))}
+                      <div className="pricing-row total" style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid rgba(168, 85, 247, 0.3)' }}>
+                        <span>Mjesečno ukupno</span>
+                        <span style={{ color: '#A855F7' }}>€{quoteData.pricing?.monthlyPrice?.toLocaleString()}/mj</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Maintenance & Support (Optional) - only show if no monthly items */}
+                  {quoteData.maintenance?.enabled && (!quoteData.lineItems?.monthly || quoteData.lineItems.monthly.length === 0) && (
                     <div className="maintenance-section">
                       <div className="maintenance-header">
                         <span className="maintenance-badge">Preporučeno</span>
@@ -1284,4 +1590,215 @@ export default function QuotePreviewClient() {
       </div>
     </>
   );
+}
+
+// Service Card Component for displaying package details
+function ServiceCard({ icon, title, subtitle, price, priceLabel = '', features, isMonthly, contentItems }) {
+  return (
+    <div className={`service-card ${isMonthly ? 'service-card-monthly' : ''}`}>
+      <div className="service-card-header">
+        <div className={`service-card-icon ${isMonthly ? 'service-card-icon-monthly' : ''}`}>
+          {icon}
+        </div>
+        <div>
+          <div className="service-card-title">{title}</div>
+          <div className="service-card-subtitle">{subtitle}</div>
+          {price > 0 && (
+            <div className={`service-card-price ${isMonthly ? 'service-card-price-monthly' : ''}`}>
+              €{price.toLocaleString()}{priceLabel}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {features && features.length > 0 && (
+        <div className="service-card-features">
+          {features.map((feature, index) => (
+            <div key={index} className="feature-item">
+              <span className={`feature-check ${isMonthly ? 'feature-check-monthly' : ''}`}>✓</span>
+              <span>{feature}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {contentItems && contentItems.length > 0 && (
+        <div className="content-grid">
+          {contentItems.map((item, index) => (
+            <div key={index} className="content-item">
+              <div className={`content-item-quantity ${isMonthly ? 'content-item-quantity-monthly' : ''}`}>
+                {item.quantity}×
+              </div>
+              <div className="content-item-name">{item.name}</div>
+              <div className="content-item-price">€{item.unitPrice}/kom</div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Helper functions to get package details
+// These mirror the data from pricingConstants.js
+
+const WEB_PACKAGES_DATA = {
+  temelj: {
+    nameHr: 'Temelj',
+    price: 1490,
+    features: ['Do 5 stranica', 'Responzivni dizajn', 'Kontakt forma', 'SEO optimizacija', 'SSL certifikat']
+  },
+  rast: {
+    nameHr: 'Rast',
+    price: 2490,
+    features: ['Do 10 stranica', 'Responzivni dizajn', 'Blog/Novosti sekcija', 'Google Analytics', 'Social media integracija']
+  },
+  vrhunac: {
+    nameHr: 'Vrhunac',
+    price: 3990,
+    features: ['Do 20 stranica', 'CMS sustav', 'Multi-jezik podrška', 'Newsletter integracija', 'Napredne animacije']
+  }
+};
+
+const APP_PACKAGES_DATA = {
+  start: {
+    nameHr: 'Start',
+    price: 2990,
+    features: ['Do 5 ekrana', 'Osnovna autentikacija', 'Jednostavna baza', 'Deployment']
+  },
+  sustav: {
+    nameHr: 'Sustav',
+    price: 7200,
+    features: ['Do 15 ekrana', 'Admin panel', 'API integracije', 'Automatizacije', 'Dokumentacija']
+  },
+  enterprise: {
+    nameHr: 'Enterprise',
+    price: null,
+    features: ['Neograničeni ekrani', 'Kompleksne integracije', 'Skalabilna arhitektura', 'SLA podrška']
+  }
+};
+
+const SOCIAL_PLANS_DATA = {
+  prisutnost: {
+    nameHr: 'Prisutnost',
+    price: 200,
+    features: ['12 objava mjesečno', 'Do 4 fotografije', 'Community management', 'Mjesečni izvještaj']
+  },
+  momentum: {
+    nameHr: 'Momentum',
+    price: 350,
+    features: ['20 objava mjesečno', 'Do 8 fotografija', 'Stories sadržaj', 'Strategija sadržaja']
+  },
+  dominacija: {
+    nameHr: 'Dominacija',
+    price: 500,
+    features: ['40 objava mjesečno', 'Stories + Reels', 'Influencer koordinacija', 'Paid ads management']
+  }
+};
+
+const MAINTENANCE_TIERS_DATA = {
+  simple: {
+    nameHr: 'Jednostavno',
+    price: 80,
+    features: ['Sigurnosne nadogradnje', 'Backup podataka', 'Email podrška', 'Do 2h rada/mj']
+  },
+  mid: {
+    nameHr: 'Srednje',
+    price: 135,
+    features: ['Prioritetna podrška', 'Do 4h rada/mj', 'Mjesečni izvještaji', 'Optimizacija performansi']
+  },
+  extra: {
+    nameHr: 'Napredni',
+    price: 200,
+    features: ['Do 8h rada/mj', '24/7 podrška', 'Proaktivno praćenje', 'Mjesečni pozivi']
+  }
+};
+
+const PODCAST_DURATIONS = {
+  polaSata: { name: 'Pola sata', nameHr: 'Pola sata', packages: { 5: 150, 10: 250, 15: null } },
+  sat: { name: 'Sat vremena', nameHr: 'Sat vremena', packages: { 5: 180, 10: 270, 15: 330 } },
+  dvaSata: { name: 'Dva sata', nameHr: 'Dva sata', packages: { 5: 240, 10: 330, 15: 400 } }
+};
+
+const CONTENT_TYPES_DATA = {
+  fotografija: { nameHr: 'Fotografija', price: 20 },
+  talkingHead: { nameHr: 'Talking Head', price: 40 },
+  shortFormPodcast: { nameHr: 'Kratki Podcast', price: 25 },
+  videoCarousel: { nameHr: 'Video Carousel', price: 40 },
+  journeyVlog: { nameHr: 'Journey Vlog', price: 50 },
+  highlightReel: { nameHr: 'Highlight Reel', price: 60 },
+  edit: { nameHr: 'Montaža', price: 80 },
+  documentary: { nameHr: 'Dokumentarac', price: 150 },
+  complexTalkingHead: { nameHr: 'Kompleksni Talking Head', price: 70 },
+  netflixStyle: { nameHr: 'Netflix Stil', price: 100 },
+  sketch: { nameHr: 'Sketch', price: 40 }
+};
+
+function getWebPackageName(packageId) {
+  return WEB_PACKAGES_DATA[packageId]?.nameHr || packageId;
+}
+
+function getWebPackagePrice(packageId) {
+  return WEB_PACKAGES_DATA[packageId]?.price || 0;
+}
+
+function getWebPackageFeatures(packageId) {
+  return WEB_PACKAGES_DATA[packageId]?.features || [];
+}
+
+function getAppPackageName(packageId) {
+  return APP_PACKAGES_DATA[packageId]?.nameHr || packageId;
+}
+
+function getAppPackagePrice(packageId, customPrice) {
+  if (packageId === 'enterprise') return customPrice || 0;
+  return APP_PACKAGES_DATA[packageId]?.price || 0;
+}
+
+function getAppPackageFeatures(packageId) {
+  return APP_PACKAGES_DATA[packageId]?.features || [];
+}
+
+function getSocialPlanName(planId) {
+  return SOCIAL_PLANS_DATA[planId]?.nameHr || planId;
+}
+
+function getSocialPlanPrice(planId) {
+  return SOCIAL_PLANS_DATA[planId]?.price || 0;
+}
+
+function getSocialPlanFeatures(planId) {
+  return SOCIAL_PLANS_DATA[planId]?.features || [];
+}
+
+function getMaintenanceTierName(tierId) {
+  return MAINTENANCE_TIERS_DATA[tierId]?.nameHr || tierId;
+}
+
+function getMaintenanceTierPrice(tierId) {
+  return MAINTENANCE_TIERS_DATA[tierId]?.price || 0;
+}
+
+function getMaintenanceTierFeatures(tierId) {
+  return MAINTENANCE_TIERS_DATA[tierId]?.features || [];
+}
+
+function getPodcastDurationName(durationId) {
+  return PODCAST_DURATIONS[durationId]?.nameHr || durationId;
+}
+
+function getPodcastPrice(durationId, shortsPackage) {
+  return PODCAST_DURATIONS[durationId]?.packages?.[shortsPackage] || 0;
+}
+
+function getContentItems(contentQuantities) {
+  if (!contentQuantities) return [];
+
+  return Object.entries(contentQuantities)
+    .filter(([_, quantity]) => quantity > 0)
+    .map(([contentId, quantity]) => ({
+      name: CONTENT_TYPES_DATA[contentId]?.nameHr || contentId,
+      quantity,
+      unitPrice: CONTENT_TYPES_DATA[contentId]?.price || 0
+    }));
 }
