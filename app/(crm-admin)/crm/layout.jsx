@@ -350,8 +350,7 @@ export default function CRMLayout({ children }) {
           border-right: 1px solid rgba(255, 255, 255, 0.06);
           position: fixed;
           height: 100vh;
-          overflow-y: auto;
-          overflow-x: hidden;
+          overflow: hidden;
           z-index: 1003;
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           display: flex;
@@ -364,6 +363,7 @@ export default function CRMLayout({ children }) {
           justify-content: space-between;
           padding: ${isCollapsed ? '16px 12px' : '16px'};
           border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+          flex-shrink: 0;
         }
 
         .logo-container {
@@ -425,8 +425,11 @@ export default function CRMLayout({ children }) {
 
         .sidebar-nav {
           flex: 1;
+          min-height: 0;
           padding: 8px 0;
           overflow-y: auto;
+          overscroll-behavior: contain;
+          -webkit-overflow-scrolling: touch;
         }
 
         .nav-section {
@@ -722,12 +725,25 @@ export default function CRMLayout({ children }) {
         }
 
         .sidebar-nav {
-          scrollbar-width: none;
-          -ms-overflow-style: none;
+          scrollbar-width: thin;
+          scrollbar-color: rgba(255,255,255,0.2) transparent;
         }
 
         .sidebar-nav::-webkit-scrollbar {
-          display: none;
+          width: 6px;
+        }
+
+        .sidebar-nav::-webkit-scrollbar-track {
+          background: transparent;
+        }
+
+        .sidebar-nav::-webkit-scrollbar-thumb {
+          background: rgba(255,255,255,0.2);
+          border-radius: 3px;
+        }
+
+        .sidebar-nav::-webkit-scrollbar-thumb:hover {
+          background: rgba(255,255,255,0.3);
         }
       `}</style>
 
@@ -768,7 +784,7 @@ export default function CRMLayout({ children }) {
             </button>
           </div>
 
-          <nav className="sidebar-nav crm-nav">
+          <nav className="sidebar-nav crm-nav" data-lenis-prevent>
             <div className="nav-section">
               <div className="nav-label">Overview</div>
               <Link
