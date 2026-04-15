@@ -154,6 +154,62 @@ export default function QuoteBuilderPage() {
     }));
   };
 
+  const updateCustomPlan = (field, value) => {
+    setSelections(prev => ({
+      ...prev,
+      socialMedia: {
+        ...prev.socialMedia,
+        customPlan: {
+          ...prev.socialMedia.customPlan,
+          [field]: value
+        }
+      }
+    }));
+  };
+
+  const updateCustomDeliverable = (contentType, weekly) => {
+    setSelections(prev => ({
+      ...prev,
+      socialMedia: {
+        ...prev.socialMedia,
+        customPlan: {
+          ...prev.socialMedia.customPlan,
+          contentDeliverables: {
+            ...prev.socialMedia.customPlan?.contentDeliverables,
+            [contentType]: { weekly: Math.max(0, weekly) }
+          }
+        }
+      }
+    }));
+  };
+
+  const addCustomFeature = (feature) => {
+    if (!feature.trim()) return;
+    setSelections(prev => ({
+      ...prev,
+      socialMedia: {
+        ...prev.socialMedia,
+        customPlan: {
+          ...prev.socialMedia.customPlan,
+          features: [...(prev.socialMedia.customPlan?.features || []), feature.trim()]
+        }
+      }
+    }));
+  };
+
+  const removeCustomFeature = (index) => {
+    setSelections(prev => ({
+      ...prev,
+      socialMedia: {
+        ...prev.socialMedia,
+        customPlan: {
+          ...prev.socialMedia.customPlan,
+          features: prev.socialMedia.customPlan?.features?.filter((_, i) => i !== index) || []
+        }
+      }
+    }));
+  };
+
   const handleSubmit = async () => {
     // Validate
     const validation = validateSelections(selections);
@@ -375,8 +431,8 @@ export default function QuoteBuilderPage() {
             {/* Plan Selection */}
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-400 mb-3">Odaberi plan</label>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {Object.values(SOCIAL_PLANS).map((plan) => (
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                {Object.values(SOCIAL_PLANS).filter(p => p.id !== 'custom').map((plan) => (
                   <PackageCard
                     key={plan.id}
                     name={plan.nameHr}
@@ -389,18 +445,142 @@ export default function QuoteBuilderPage() {
                     highlight={`${plan.postsPerMonth} objava, max ${plan.maxPhotos} foto`}
                   />
                 ))}
+                {/* Custom Plan Card */}
+                <PackageCard
+                  name="Prilagođeni"
+                  price={null}
+                  priceLabel=""
+                  description="Prilagođeni paket po vašim potrebama"
+                  features={['Fleksibilni sadržaj', 'Prilagođene usluge', 'Custom cijena']}
+                  selected={selections.socialMedia.plan === 'custom'}
+                  onClick={() => updateSelection('socialMedia', 'plan', 'custom')}
+                  isCustomPrice={true}
+                  highlight="Potpuna kontrola"
+                />
               </div>
             </div>
+
+            {/* Custom Plan Configuration */}
+            {selections.socialMedia.plan === 'custom' && (
+              <div className="border-t border-[#2A2A2A] pt-6 mb-6">
+                <h4 className="text-white font-semibold mb-4 flex items-center gap-2">
+                  <Sparkles size={16} className="text-[#00FF94]" />
+                  Prilagođeni paket - Konfiguracija
+                </h4>
+
+                {/* Custom Management Price */}
+                <div className="mb-6">
+                  <label className="block text-sm font-medium text-gray-400 mb-2">Mjesečna cijena upravljanja (EUR) *</label>
+                  <input
+                    type="number"
+                    value={selections.socialMedia.customPlan?.managementPrice || ''}
+                    onChange={(e) => updateCustomPlan('managementPrice', Number(e.target.value) || null)}
+                    className="w-full max-w-xs px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                    placeholder="450"
+                  />
+                </div>
+
+                {/* Weekly Content Deliverables */}
+                <div className="mb-6">
+                  <label className="block text-sm font-medium text-gray-400 mb-3">Sadržaj tjedno (automatski se računa mjesečno × 4)</label>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    {Object.values(CONTENT_TYPES).map((content) => {
+                      const weekly = selections.socialMedia.customPlan?.contentDeliverables?.[content.id]?.weekly || 0;
+                      const monthly = weekly * 4;
+
+                      return (
+                        <div key={content.id} className="bg-[#0a0a0a] rounded-xl p-3">
+                          <div className="flex justify-between items-start mb-2">
+                            <span className="text-sm text-gray-300">{content.nameHr}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <button
+                              onClick={() => updateCustomDeliverable(content.id, weekly - 1)}
+                              className="w-8 h-8 rounded-lg bg-[#2A2A2A] text-white flex items-center justify-center hover:bg-[#3A3A3A] transition-colors"
+                            >
+                              <Minus size={14} />
+                            </button>
+                            <span className="w-8 text-center text-white font-medium">{weekly}</span>
+                            <button
+                              onClick={() => updateCustomDeliverable(content.id, weekly + 1)}
+                              className="w-8 h-8 rounded-lg bg-[#2A2A2A] text-white flex items-center justify-center hover:bg-[#3A3A3A] transition-colors"
+                            >
+                              <Plus size={14} />
+                            </button>
+                          </div>
+                          {weekly > 0 && (
+                            <div className="text-xs text-[#00FF94] mt-2">
+                              {weekly}/tj = {monthly}/mj
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Custom Features */}
+                <div className="mb-6">
+                  <label className="block text-sm font-medium text-gray-400 mb-3">Uključene usluge</label>
+                  <div className="flex flex-wrap gap-2 mb-3">
+                    {(selections.socialMedia.customPlan?.features || []).map((feature, index) => (
+                      <span
+                        key={index}
+                        className="inline-flex items-center gap-1 px-3 py-1.5 bg-[#00FF94]/10 border border-[#00FF94]/30 rounded-full text-sm text-[#00FF94]"
+                      >
+                        {feature}
+                        <button
+                          onClick={() => removeCustomFeature(index)}
+                          className="ml-1 hover:text-white transition-colors"
+                        >
+                          ×
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      id="newFeatureInput"
+                      className="flex-1 max-w-xs px-4 py-2 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white text-sm focus:border-[#00FF94] focus:outline-none transition-colors"
+                      placeholder="Nova usluga..."
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          addCustomFeature(e.target.value);
+                          e.target.value = '';
+                        }
+                      }}
+                    />
+                    <button
+                      onClick={() => {
+                        const input = document.getElementById('newFeatureInput');
+                        addCustomFeature(input.value);
+                        input.value = '';
+                      }}
+                      className="px-4 py-2 bg-[#2A2A2A] text-white rounded-xl hover:bg-[#3A3A3A] transition-colors text-sm"
+                    >
+                      Dodaj
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Content Production */}
             {selections.socialMedia.plan && (
               <div className="border-t border-[#2A2A2A] pt-6">
-                <h4 className="text-white font-semibold mb-4">Produkcija sadržaja (mjesečno)</h4>
+                <h4 className="text-white font-semibold mb-4">Produkcija sadržaja (mjesečno) - dodatna naplata</h4>
+                <p className="text-sm text-gray-500 mb-4">
+                  {selections.socialMedia.plan === 'custom'
+                    ? 'Ako trebate dodatnu produkciju sadržaja uz prilagođeni paket, odaberite količine ispod.'
+                    : 'Odaberite količine za dodatnu produkciju sadržaja.'}
+                </p>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                   {Object.values(CONTENT_TYPES).map((content) => {
                     const quantity = selections.socialMedia.contentQuantities[content.id] || 0;
                     const plan = SOCIAL_PLANS[selections.socialMedia.plan];
-                    const maxPhotos = content.id === 'fotografija' ? plan?.maxPhotos : null;
+                    const isCustomPlan = selections.socialMedia.plan === 'custom';
+                    const maxPhotos = !isCustomPlan && content.id === 'fotografija' ? plan?.maxPhotos : null;
 
                     return (
                       <div key={content.id} className="bg-[#0a0a0a] rounded-xl p-3">

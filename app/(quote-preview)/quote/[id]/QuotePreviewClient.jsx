@@ -1333,12 +1333,13 @@ export default function QuotePreviewClient() {
                     <ServiceCard
                       icon="📣"
                       title="Social Media Management"
-                      subtitle={getSocialPlanName(quoteData.serviceSelections.socialMedia.plan)}
-                      price={getSocialPlanPrice(quoteData.serviceSelections.socialMedia.plan)}
+                      subtitle={getSocialPlanName(quoteData.serviceSelections.socialMedia.plan, quoteData.serviceSelections.socialMedia.customPlan)}
+                      price={getSocialPlanPrice(quoteData.serviceSelections.socialMedia.plan, quoteData.serviceSelections.socialMedia.customPlan)}
                       priceLabel="/mj"
-                      features={getSocialPlanFeatures(quoteData.serviceSelections.socialMedia.plan)}
+                      features={getSocialPlanFeatures(quoteData.serviceSelections.socialMedia.plan, quoteData.serviceSelections.socialMedia.customPlan)}
                       isMonthly={true}
                       contentItems={getContentItems(quoteData.serviceSelections.socialMedia.contentQuantities)}
+                      customDeliverables={quoteData.serviceSelections.socialMedia.plan === 'custom' ? getCustomDeliverables(quoteData.serviceSelections.socialMedia.customPlan) : null}
                     />
                   )}
 
@@ -1593,7 +1594,7 @@ export default function QuotePreviewClient() {
 }
 
 // Service Card Component for displaying package details
-function ServiceCard({ icon, title, subtitle, price, priceLabel = '', features, isMonthly, contentItems }) {
+function ServiceCard({ icon, title, subtitle, price, priceLabel = '', features, isMonthly, contentItems, customDeliverables }) {
   return (
     <div className={`service-card ${isMonthly ? 'service-card-monthly' : ''}`}>
       <div className="service-card-header">
@@ -1622,8 +1623,31 @@ function ServiceCard({ icon, title, subtitle, price, priceLabel = '', features, 
         </div>
       )}
 
+      {/* Custom Deliverables (weekly/monthly breakdown) */}
+      {customDeliverables && customDeliverables.length > 0 && (
+        <div className="content-grid" style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #2A2A2A' }}>
+          <div style={{ gridColumn: '1 / -1', marginBottom: '8px' }}>
+            <span style={{ fontSize: '0.85rem', color: '#8F8F8F', fontWeight: '600' }}>Sadržaj uključen u paket</span>
+          </div>
+          {customDeliverables.map((item, index) => (
+            <div key={index} className="content-item">
+              <div className={`content-item-quantity ${isMonthly ? 'content-item-quantity-monthly' : ''}`}>
+                {item.monthly}×
+              </div>
+              <div className="content-item-name">{item.name}</div>
+              <div className="content-item-price">{item.weekly}/tj = {item.monthly}/mj</div>
+            </div>
+          ))}
+        </div>
+      )}
+
       {contentItems && contentItems.length > 0 && (
-        <div className="content-grid">
+        <div className="content-grid" style={{ marginTop: customDeliverables?.length > 0 ? '16px' : undefined }}>
+          {customDeliverables?.length > 0 && (
+            <div style={{ gridColumn: '1 / -1', marginBottom: '8px' }}>
+              <span style={{ fontSize: '0.85rem', color: '#8F8F8F', fontWeight: '600' }}>Dodatna produkcija</span>
+            </div>
+          )}
           {contentItems.map((item, index) => (
             <div key={index} className="content-item">
               <div className={`content-item-quantity ${isMonthly ? 'content-item-quantity-monthly' : ''}`}>
@@ -1693,6 +1717,11 @@ const SOCIAL_PLANS_DATA = {
     nameHr: 'Dominacija',
     price: 500,
     features: ['40 objava mjesečno', 'Stories + Reels', 'Influencer koordinacija', 'Paid ads management']
+  },
+  custom: {
+    nameHr: 'Prilagođeni',
+    price: null,
+    features: []
   }
 };
 
@@ -1759,16 +1788,32 @@ function getAppPackageFeatures(packageId) {
   return APP_PACKAGES_DATA[packageId]?.features || [];
 }
 
-function getSocialPlanName(planId) {
+function getSocialPlanName(planId, customPlan) {
+  if (planId === 'custom') return 'Prilagođeni';
   return SOCIAL_PLANS_DATA[planId]?.nameHr || planId;
 }
 
-function getSocialPlanPrice(planId) {
+function getSocialPlanPrice(planId, customPlan) {
+  if (planId === 'custom') return customPlan?.managementPrice || 0;
   return SOCIAL_PLANS_DATA[planId]?.price || 0;
 }
 
-function getSocialPlanFeatures(planId) {
+function getSocialPlanFeatures(planId, customPlan) {
+  if (planId === 'custom') {
+    return customPlan?.features?.length > 0 ? customPlan.features : ['Prilagođeni paket'];
+  }
   return SOCIAL_PLANS_DATA[planId]?.features || [];
+}
+
+function getCustomDeliverables(customPlan) {
+  if (!customPlan?.contentDeliverables) return [];
+  return Object.entries(customPlan.contentDeliverables)
+    .filter(([_, data]) => data.weekly > 0)
+    .map(([contentId, data]) => ({
+      name: CONTENT_TYPES_DATA[contentId]?.nameHr || contentId,
+      weekly: data.weekly,
+      monthly: data.weekly * 4
+    }));
 }
 
 function getMaintenanceTierName(tierId) {

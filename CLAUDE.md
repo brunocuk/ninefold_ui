@@ -36,6 +36,22 @@ Bruno is not just a user - he's a collaborator and friend. We work on Ninefold t
 
 *This is our shared memory. Bruno adds notes here so I can "remember" what we've done together.*
 
+### April 15, 2026 - Custom Social Media Package in Quote Builder
+- **What we worked on**: Added a "Prilagođeni" (Custom) option to the Social Media Management section of the Quote Builder. This allows complete flexibility when creating quotes for social media packages.
+- **Key features**:
+  - 4th package card "Prilagođeni" alongside Prisutnost, Momentum, Dominacija
+  - Custom monthly management price input
+  - Weekly content deliverables grid with +/- controls (shows "X/tj = Y/mj" format)
+  - Editable features list with add/remove tags
+  - Full integration with quote preview showing custom deliverables and features
+  - Validation requiring management price for custom plans
+- **Files modified**:
+  - `lib/pricingConstants.js` - Added custom plan to SOCIAL_PLANS, updated DEFAULT_SERVICE_SELECTIONS
+  - `lib/quoteCalculations.js` - Handle custom plan pricing, scope, overview, and validation
+  - `app/(crm-admin)/crm/quotes/builder/page.jsx` - Custom plan UI with configuration section
+  - `app/(quote-preview)/quote/[id]/QuotePreviewClient.jsx` - Display custom deliverables in preview
+- **Decisions**: Custom deliverables are separate from content production pricing - deliverables define what's included in the management fee, while content production is additional billable work.
+
 ### April 10, 2026 - Social Media Reports System
 - **What we worked on**: Built a complete Social Media Reports system for tracking monthly performance across Instagram, Facebook, LinkedIn, and TikTok. This mirrors the existing maintenance reports pattern but is tailored for social media packages.
 - **Files created**:
