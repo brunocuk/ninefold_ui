@@ -102,7 +102,7 @@ export default function PricingSection() {
             transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 will-change-transform"
           >
-            Jednostavne cijene. Ozbiljni projekti.
+            Cijene
           </motion.h2>
 
           <motion.p
@@ -111,7 +111,7 @@ export default function PricingSection() {
             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="text-xl md:text-2xl text-[#88939D] max-w-3xl mx-auto will-change-transform"
           >
-            Odaberite paket. Dobijte timeline. Znate točno što plaćate.
+            Okvirne cijene za web. Sve ostalo ovisi o projektu — javi se pa ćemo vidjeti.
           </motion.p>
         </motion.div>
 
@@ -245,7 +245,7 @@ export default function PricingSection() {
                           : 'bg-white/5 border-2 border-[#88939D]/30 text-white hover:border-[#00FF94]'
                       }`}
                     >
-                      Zakažite besplatan poziv
+                      Čujemo se
                     </motion.button>
                   </Link>
                 </div>
@@ -267,7 +267,7 @@ export default function PricingSection() {
         >
           <div className="relative p-8 md:p-10 rounded-2xl border-2 border-[#00FF94]/30 bg-gradient-to-br from-[#00FF94]/5 to-transparent">
             <h3 className="text-2xl md:text-3xl font-bold text-white text-center mb-8">
-              Naša Garancija
+              Što garantiramo
             </h3>
 
             <div className="grid md:grid-cols-3 gap-8">
@@ -321,7 +321,7 @@ export default function PricingSection() {
           className="mt-10 text-center will-change-transform"
         >
           <p className="text-[#88939D] text-sm">
-            Trebate nešto drugačije? <Link href="/contact" className="text-[#00FF94] hover:underline">Razgovarajmo</Link> o prilagođenom rješenju.
+            Treba ti nešto drugačije? <Link href="/contact" className="text-[#00FF94] hover:underline">Javi se</Link>, skužit ćemo.
           </p>
         </motion.div>
       </div>

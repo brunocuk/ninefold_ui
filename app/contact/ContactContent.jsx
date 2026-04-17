@@ -182,7 +182,7 @@ export default function ContactContent() {
               className="mb-8 will-change-transform"
             >
               <span className="inline-block px-4 py-2 bg-[#00FF94]/10 border border-[#00FF94]/30 rounded-full text-[#00FF94] text-sm font-mono uppercase tracking-wider">
-                Kontaktirajte nas
+                Kontakt
               </span>
             </motion.div>
 
@@ -194,10 +194,10 @@ export default function ContactContent() {
               className="text-[clamp(3rem,8vw,6rem)] font-bold leading-[1.05] tracking-tight mb-8 will-change-transform"
             >
               <span className="block text-white">
-                Izgradimo nešto
+                Javi
               </span>
               <span className="block text-white">
-                <span className="text-[#00FF94]">sjajno</span> zajedno.
+                <span className="text-[#00FF94]">se</span>.
               </span>
             </motion.h1>
 
@@ -208,7 +208,7 @@ export default function ContactContent() {
               transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
               className="text-xl md:text-2xl text-[#88939D] leading-relaxed max-w-3xl will-change-transform"
             >
-              Zakažite besplatan 15-minutni uvodni poziv. Razgovarat ćemo o vašem projektu i vidjeti odgovaramo li.
+              Zakaži poziv ili nam pošalji poruku. Odgovorimo brzo, obećajemo.
             </motion.p>
           </div>
         </div>
@@ -241,10 +241,10 @@ export default function ContactContent() {
             className="text-center mb-12 will-change-transform"
           >
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Odaberite termin koji vam odgovara
+              Odaberi termin
             </h2>
             <p className="text-lg text-[#88939D]">
-              Besplatna konzultacija • Bez obveza • Odgovor unutar 24h
+              15 minuta, bez obaveza. Samo da se upoznamo.
             </p>
           </motion.div>
 
@@ -269,7 +269,7 @@ export default function ContactContent() {
       <div className="relative py-16 bg-[#0F0F0F]">
         <div className="max-w-4xl mx-auto px-6 lg:px-12 text-center">
           <p className="text-[#88939D] text-lg">
-            Preferirate email? Ispunite obrazac ispod i javit ćemo vam se unutar 24 sata.
+            Ili nam pošalji poruku dolje. Javimo se brzo.
           </p>
         </div>
       </div>
@@ -615,7 +615,7 @@ export default function ContactContent() {
                       </>
                     ) : (
                       <>
-                        Pošaljite poruku
+                        Pošalji
                         <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                         </svg>
@@ -647,7 +647,7 @@ export default function ContactContent() {
                 )}
 
                 <p className="text-sm text-[#88939D] text-center">
-                  Slanjem ovog obrasca pristajete na našu politiku privatnosti.
+                  Slanjem pristajete na našu politiku privatnosti. Obećajemo da nećemo spamat.
                 </p>
               </form>
             </motion.div>

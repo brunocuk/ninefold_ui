@@ -111,7 +111,7 @@ export default function ProcessSection() {
             className="inline-block mb-6 will-change-transform"
           >
             <span className="px-4 py-2 bg-[#00FF94]/10 border border-[#00FF94]/30 rounded-full text-[#00FF94] text-sm font-mono uppercase tracking-wider">
-              Naš Proces
+              Proces
             </span>
           </motion.div>
 
@@ -121,7 +121,7 @@ export default function ProcessSection() {
             transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 will-change-transform"
           >
-            Kako isporučujemo na vrijeme, svaki put
+            Kako radimo
           </motion.h2>
 
           <motion.p
@@ -130,7 +130,7 @@ export default function ProcessSection() {
             transition={{ duration: 1, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
             className="text-xl md:text-2xl text-[#88939D] max-w-3xl mx-auto will-change-transform"
           >
-            Jasan proces u 4 koraka. Bez iznenađenja. Uvijek ćete znati gdje vaš projekt stoji.
+            Četiri koraka. Nije komplicirano.
           </motion.p>
         </motion.div>
 
@@ -311,10 +311,10 @@ export default function ProcessSection() {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
             <div className="max-w-2xl">
               <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Spremni za početak?
+                Zvuči jednostavno?
               </h3>
               <p className="text-lg text-[#88939D]">
-                Razgovarajmo o vašem projektu i kreirajmo plan za uspjeh
+                Zato što i jest. Javi se pa krećemo.
               </p>
             </div>
 
@@ -335,7 +335,7 @@ export default function ProcessSection() {
                   }}
                   className="group px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg transition-all whitespace-nowrap flex items-center gap-2 will-change-transform shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30"
                 >
-                  Zakažite besplatan poziv
+                  Čujemo se
                   <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
@@ -359,7 +359,7 @@ export default function ProcessSection() {
                   }}
                   className="px-8 py-5 bg-transparent border-2 border-[#88939D]/30 text-white font-bold rounded-xl text-lg transition-colors duration-300 whitespace-nowrap hover:text-[#00FF94] will-change-transform"
                 >
-                  Pogledajte naše radove
+                  Pogledaj radove
                 </motion.button>
               </Link>
             </div>

@@ -355,7 +355,7 @@ export default function VideoAnimacijaContent() {
                   className="group relative px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg overflow-hidden transition-all shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30 will-change-transform"
                 >
                   <span className="relative z-10 flex items-center gap-2">
-                    Razgovarajmo o projektu
+                    Čujemo se
                     <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
@@ -377,7 +377,7 @@ export default function VideoAnimacijaContent() {
                   whileTap={{ scale: 0.98 }}
                   className="px-8 py-5 bg-transparent border-2 border-[#88939D]/30 text-white font-bold rounded-xl text-lg transition-all duration-300 will-change-transform"
                 >
-                  Pogledajte radove
+                  Pogledaj radove
                 </motion.button>
               </Link>
             </motion.div>
@@ -417,7 +417,7 @@ export default function VideoAnimacijaContent() {
               transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
               className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 will-change-transform"
             >
-              Što stvaramo
+              Što radimo
             </motion.h2>
 
             <motion.p
@@ -426,7 +426,7 @@ export default function VideoAnimacijaContent() {
               transition={{ duration: 1, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
               className="text-xl md:text-2xl text-[#88939D] max-w-3xl will-change-transform"
             >
-              Profesionalni video sadržaj koji privlači pažnju, prenosi poruku i pokreće akciju.
+              Video koji izgleda dobro i radi posao.
             </motion.p>
           </motion.div>
 
@@ -523,7 +523,7 @@ export default function VideoAnimacijaContent() {
               Vrste video sadržaja
             </h2>
             <p className="text-lg md:text-xl text-[#88939D] max-w-2xl mx-auto">
-              Od TV reklama do TikTok videa — pokrivamo sve formate i platforme.
+              Od TV reklama do TikToka. Sve formate, sve platforme.
             </p>
           </motion.div>
 
@@ -586,12 +586,12 @@ export default function VideoAnimacijaContent() {
               className="will-change-transform"
             >
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-                Zašto video
+                Zašto
                 <br />
-                <span className="text-[#00FF94]">dominira</span>
+                <span className="text-[#00FF94]">video</span>
               </h2>
               <p className="text-lg md:text-xl text-[#88939D] leading-relaxed">
-                Video sadržaj ima 1200% više dijeljenja od teksta i slika zajedno. Vaša publika očekuje video — dajte im ga.
+                Ljudi vole gledati. Jednostavno.
               </p>
             </motion.div>
 
@@ -671,10 +671,10 @@ export default function VideoAnimacijaContent() {
             className="mb-20 text-center will-change-transform"
           >
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-              Naš produkcijski proces
+              Kako radimo
             </h2>
             <p className="text-lg md:text-xl text-[#88939D]">
-              Od ideje do gotovog videa — transparentan i efikasan workflow.
+              Od ideje do gotovog videa. Korak po korak.
             </p>
           </motion.div>
 
@@ -767,7 +767,7 @@ export default function VideoAnimacijaContent() {
               Okvirne cijene
             </h2>
             <p className="text-lg md:text-xl text-[#88939D] max-w-2xl mx-auto">
-              Transparentne cijene prilagođene različitim potrebama i budžetima.
+              Ovisi o projektu, ali evo otprilike.
             </p>
           </motion.div>
 
@@ -887,7 +887,7 @@ export default function VideoAnimacijaContent() {
               Česta pitanja
             </h2>
             <p className="text-lg md:text-xl text-[#88939D]">
-              Sve što trebate znati o našim video uslugama.
+              Evo odgovora na najčešće.
             </p>
           </motion.div>
 
@@ -971,7 +971,7 @@ export default function VideoAnimacijaContent() {
               Povezane usluge
             </h2>
             <p className="text-lg md:text-xl text-[#88939D]">
-              Maksimizirajte utjecaj vašeg video sadržaja s našim komplementarnim uslugama.
+              Možda ti treba i ovo.
             </p>
           </motion.div>
 
@@ -1019,7 +1019,7 @@ export default function VideoAnimacijaContent() {
                         {related.description}
                       </p>
                       <div className="flex items-center justify-center gap-2 text-[#00FF94] font-medium mt-6 group-hover:gap-3 transition-all duration-300">
-                        Saznajte više
+                        Više o ovome
                         <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                         </svg>
@@ -1058,12 +1058,12 @@ export default function VideoAnimacijaContent() {
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           >
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-              Spremni za profesionalni
+              Trebaš
               <br />
               <span className="text-[#00FF94]">video?</span>
             </h2>
             <p className="text-lg md:text-xl text-[#88939D] mb-12 max-w-2xl mx-auto">
-              Razgovarajmo o vašem projektu i stvorimo video sadržaj koji ostavlja dojam.
+              Javi se. Skužit ćemo što ti treba.
             </p>
             <Link href="/contact">
               <motion.button
@@ -1079,7 +1079,7 @@ export default function VideoAnimacijaContent() {
                 className="group relative px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg overflow-hidden transition-all shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30 will-change-transform"
               >
                 <span className="relative z-10 flex items-center gap-2">
-                  Zakažite besplatan poziv
+                  Čujemo se
                   <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>

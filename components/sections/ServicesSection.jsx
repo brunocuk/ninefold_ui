@@ -112,7 +112,7 @@ export default function ServicesSection() {
             transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 max-w-3xl will-change-transform"
           >
-            Što radimo
+            Što znamo radit
           </motion.h2>
 
           <motion.p
@@ -121,7 +121,7 @@ export default function ServicesSection() {
             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="text-xl md:text-2xl text-[#88939D] max-w-3xl will-change-transform"
           >
-            Kompletna kreativna rješenja prilagođena vašim poslovnim potrebama.
+            Sve ispod. Ako ti treba nešto što nije na listi, pitaj — možda znamo i to.
           </motion.p>
         </motion.div>
 
@@ -243,10 +243,10 @@ export default function ServicesSection() {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
             <div className="max-w-2xl">
               <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Trebate nešto prilagođeno?
+                Treba ti nešto od ovoga?
               </h3>
               <p className="text-lg text-[#88939D]">
-                Gradimo rješenja po mjeri za jedinstvene izazove. Razgovarajmo o vašim potrebama.
+                Javi se. Skužit ćemo zajedno što ti treba.
               </p>
             </div>
 
@@ -267,7 +267,7 @@ export default function ServicesSection() {
                   }}
                   className="px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg transition-all whitespace-nowrap will-change-transform shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30"
                 >
-                  Zakažite besplatan poziv
+                  Čujemo se
                 </motion.button>
               </Link>
 
@@ -288,7 +288,7 @@ export default function ServicesSection() {
                   }}
                   className="px-8 py-5 bg-transparent border-2 border-[#88939D]/30 text-white font-bold rounded-xl text-lg transition-colors duration-300 whitespace-nowrap hover:text-[#00FF94] will-change-transform"
                 >
-                  Pogledajte naše radove
+                  Pogledaj radove
                 </motion.button>
               </Link>
             </div>

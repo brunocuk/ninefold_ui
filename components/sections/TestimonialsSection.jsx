@@ -73,7 +73,7 @@ export default function TestimonialsSection() {
             transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 max-w-3xl will-change-transform"
           >
-            Što kažu klijenti
+            Što kažu ljudi
           </motion.h2>
 
           <motion.p
@@ -82,7 +82,7 @@ export default function TestimonialsSection() {
             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="text-xl md:text-2xl text-[#88939D] max-w-3xl will-change-transform"
           >
-            Stvarne povratne informacije od pravih klijenata koji su nam povjerili svoje projekte.
+            Nismo ih natjerali da ovo napišu. Barem ne svi.
           </motion.p>
         </motion.div>
 
@@ -257,10 +257,10 @@ export default function TestimonialsSection() {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
             <div className="max-w-2xl">
               <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Spremni im se pridružiti?
+                Možda budemo i tvoji favoriti.
               </h3>
               <p className="text-lg text-[#88939D]">
-                Zakažite besplatan poziv. Razgovarat ćemo o vašem projektu i vidjeti odgovaramo li vam.
+                Javi se pa ćemo vidjeti.
               </p>
             </div>
 
@@ -280,7 +280,7 @@ export default function TestimonialsSection() {
                 }}
                 className="px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg transition-all whitespace-nowrap will-change-transform shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30"
               >
-                Zakažite besplatan poziv
+                Čujemo se
               </motion.button>
             </a>
           </div>

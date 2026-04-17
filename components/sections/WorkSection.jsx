@@ -50,18 +50,18 @@ export default function WorkSection() {
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
             <div className="max-w-3xl">
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-                Odabrani radovi
+                Što smo radili
               </h2>
 
               <p className="text-xl md:text-2xl text-[#88939D]">
-                Pravi projekti, pravi rezultati. Pogledajte kako smo pomogli tvrtkama da rastu.
+                Evo par projekata. Ostalo pogledaj u portfoliju.
               </p>
             </div>
 
             <div className="flex-shrink-0">
               <Link href="/work">
                 <button className="px-6 py-3 border-2 border-[#88939D]/30 text-white font-semibold rounded-xl text-base hover:text-[#00FF94] hover:border-[#00FF94] transition-colors duration-300 flex items-center gap-2">
-                  Pogledajte sve projekte
+                  Svi projekti
                   <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
@@ -168,16 +168,16 @@ export default function WorkSection() {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
             <div className="max-w-2xl">
               <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Izgradimo nešto izvrsno zajedno
+                Sviđa ti se što vidiš?
               </h3>
               <p className="text-lg text-[#88939D]">
-                Spremni za početak projekta? Javite nam se i razgovarajmo kako vam možemo pomoći.
+                Javi se. Možda napravimo nešto slično i za tebe.
               </p>
             </div>
 
             <Link href="/contact">
               <button className="px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg transition-all whitespace-nowrap shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30">
-                Započnite projekt
+                Čujemo se
               </button>
             </Link>
           </div>

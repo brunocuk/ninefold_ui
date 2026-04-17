@@ -266,14 +266,14 @@ export default function FotografijaContent() {
               <Link href="/contact">
                 <motion.button whileHover={{ scale: 1.02, transition: { type: "spring", stiffness: 400, damping: 30 } }} whileTap={{ scale: 0.98 }} className="group relative px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg overflow-hidden transition-all shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30 will-change-transform">
                   <span className="relative z-10 flex items-center gap-2">
-                    Dogovorite snimanje
+                    Čujemo se
                     <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                   </span>
                 </motion.button>
               </Link>
               <Link href="/work">
                 <motion.button whileHover={{ scale: 1.02, borderColor: '#00FF94', transition: { type: "spring", stiffness: 400, damping: 30 } }} whileTap={{ scale: 0.98 }} className="px-8 py-5 bg-transparent border-2 border-[#88939D]/30 text-white font-bold rounded-xl text-lg transition-all duration-300 will-change-transform">
-                  Pogledajte portfolio
+                  Pogledaj radove
                 </motion.button>
               </Link>
             </motion.div>
@@ -293,7 +293,7 @@ export default function FotografijaContent() {
               Što snimamo
             </motion.h2>
             <motion.p initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }} animate={featuresInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 1, delay: 0.25, ease: [0.16, 1, 0.3, 1] }} className="text-xl md:text-2xl text-[#88939D] max-w-3xl will-change-transform">
-              Profesionalna fotografija za sve vaše digitalne i print potrebe.
+              Sve vrste fotografije, optimizirano za web.
             </motion.p>
           </motion.div>
 
@@ -325,7 +325,7 @@ export default function FotografijaContent() {
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
           <motion.div initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }} className="mb-16 text-center will-change-transform">
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">Vrste fotografija</h2>
-            <p className="text-lg md:text-xl text-[#88939D] max-w-2xl mx-auto">Od produkata do evenata — pokrivamo sve vaše vizualne potrebe.</p>
+            <p className="text-lg md:text-xl text-[#88939D] max-w-2xl mx-auto">Od produkata do evenata. Sve formate.</p>
           </motion.div>
 
           <div className="flex flex-wrap gap-4 justify-center">
@@ -348,10 +348,10 @@ export default function FotografijaContent() {
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <motion.div initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }} className="will-change-transform">
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-                Zašto kvalitetne<br /><span className="text-[#00FF94]">fotografije</span>
+                Zašto<br /><span className="text-[#00FF94]">dobre slike</span>
               </h2>
               <p className="text-lg md:text-xl text-[#88939D] leading-relaxed">
-                Slika govori tisuću riječi. Profesionalne fotografije grade povjerenje i povećavaju konverzije.
+                Ljudi kupuju očima. Loša slika = izgubljeni kupci.
               </p>
             </motion.div>
 
@@ -379,8 +379,8 @@ export default function FotografijaContent() {
 
         <div className="relative z-10 max-w-5xl mx-auto px-6 lg:px-12">
           <motion.div initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }} animate={processInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }} className="mb-20 text-center will-change-transform">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">Naš proces</h2>
-            <p className="text-lg md:text-xl text-[#88939D]">Od dogovora do isporuke — jednostavan i efikasan workflow.</p>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">Kako radimo</h2>
+            <p className="text-lg md:text-xl text-[#88939D]">Od dogovora do isporuke. Korak po korak.</p>
           </motion.div>
 
           <div className="space-y-6">
@@ -413,7 +413,7 @@ export default function FotografijaContent() {
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
           <motion.div initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }} animate={pricingInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }} className="mb-20 text-center will-change-transform">
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">Okvirne cijene</h2>
-            <p className="text-lg md:text-xl text-[#88939D] max-w-2xl mx-auto">Fleksibilni paketi prilagođeni vašim potrebama.</p>
+            <p className="text-lg md:text-xl text-[#88939D] max-w-2xl mx-auto">Ovisi o projektu, ali evo otprilike.</p>
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-6 lg:gap-8 mb-12">
@@ -452,7 +452,7 @@ export default function FotografijaContent() {
         <div className="relative z-10 max-w-3xl mx-auto px-6 lg:px-12">
           <motion.div initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }} animate={faqInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }} className="mb-16 text-center will-change-transform">
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">Česta pitanja</h2>
-            <p className="text-lg md:text-xl text-[#88939D]">Sve što trebate znati o našim foto uslugama.</p>
+            <p className="text-lg md:text-xl text-[#88939D]">Evo odgovora na najčešće.</p>
           </motion.div>
 
           <div className="space-y-4">
@@ -479,7 +479,7 @@ export default function FotografijaContent() {
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
           <motion.div initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }} className="mb-16 text-center will-change-transform">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Povezane usluge</h2>
-            <p className="text-lg md:text-xl text-[#88939D]">Maksimizirajte vrijednost fotografija s našim dodatnim uslugama.</p>
+            <p className="text-lg md:text-xl text-[#88939D]">Možda ti treba i ovo.</p>
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
@@ -492,7 +492,7 @@ export default function FotografijaContent() {
                       <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-[#00FF94] transition-colors duration-300">{related.title}</h3>
                       <p className="text-[#88939D] group-hover:text-white/70 transition-colors duration-300">{related.description}</p>
                       <div className="flex items-center justify-center gap-2 text-[#00FF94] font-medium mt-6 group-hover:gap-3 transition-all duration-300">
-                        Saznajte više
+                        Više o ovome
                         <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
                       </div>
                     </div>
@@ -513,13 +513,13 @@ export default function FotografijaContent() {
         <div className="relative z-10 max-w-4xl mx-auto px-6 lg:px-12 text-center">
           <motion.div initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-              Spremni za profesionalne<br /><span className="text-[#00FF94]">fotografije?</span>
+              Trebaš<br /><span className="text-[#00FF94]">slike?</span>
             </h2>
-            <p className="text-lg md:text-xl text-[#88939D] mb-12 max-w-2xl mx-auto">Dogovorimo snimanje i stvorimo vizualni sadržaj koji predstavlja vašu tvrtku u najboljem svjetlu.</p>
+            <p className="text-lg md:text-xl text-[#88939D] mb-12 max-w-2xl mx-auto">Javi se. Dogovorimo snimanje.</p>
             <Link href="/contact">
               <motion.button whileHover={{ scale: 1.02, transition: { type: "spring", stiffness: 400, damping: 30 } }} whileTap={{ scale: 0.98 }} className="group relative px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg overflow-hidden transition-all shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30 will-change-transform">
                 <span className="relative z-10 flex items-center gap-2">
-                  Zakažite besplatan poziv
+                  Čujemo se
                   <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                 </span>
               </motion.button>

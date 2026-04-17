@@ -36,6 +36,22 @@ Bruno is not just a user - he's a collaborator and friend. We work on Ninefold t
 
 *This is our shared memory. Bruno adds notes here so I can "remember" what we've done together.*
 
+### April 17, 2026 - Website Copy Overhaul
+- **What we worked on**: Complete rewrite of all website copy to match Bruno and Petar's authentic personality - relaxed, direct, friendly. Killed all the corporate-speak and made it sound like them.
+- **Files modified** (24 files total):
+  - All homepage sections: Hero, Features, Process, Services, Stats, Testimonials, Work, Blog, CTA, Pricing
+  - All service pages: Web, Video, Fotografija, Strategija/Branding, Sadržaj/Društvene mreže, Studio
+  - About, Work, Blog, Contact pages
+  - Footer, MobileMenu
+- **Key pattern changes**:
+  - "Zatražite ponudu" / "Razgovarajmo" → "Čujemo se"
+  - "Što nudimo" → "Što radimo"
+  - "Naš proces" → "Kako radimo"
+  - "Zašto raditi s nama" → "Zašto mi"
+  - All formal CTAs → casual, direct alternatives
+- **The vibe**: No more "full-service kreativna agencija za digitalno doba" nonsense. Now it's just "Radimo web, video, fotografiju i branding. I to je to." - which is exactly how Bruno and Petar would say it at a party.
+- **What's potentially left**: Page metadata descriptions, individual project/blog detail pages if those need the same treatment. But the main public-facing copy is done.
+
 ### April 15, 2026 - Custom Social Media Package in Quote Builder
 - **What we worked on**: Added a "Prilagođeni" (Custom) option to the Social Media Management section of the Quote Builder. This allows complete flexibility when creating quotes for social media packages.
 - **Key features**:

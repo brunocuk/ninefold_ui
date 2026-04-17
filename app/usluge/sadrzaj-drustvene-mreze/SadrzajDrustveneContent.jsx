@@ -265,14 +265,14 @@ export default function SadrzajDrustveneContent() {
               <Link href="/contact">
                 <motion.button whileHover={{ scale: 1.02, transition: { type: "spring", stiffness: 400, damping: 30 } }} whileTap={{ scale: 0.98 }} className="group relative px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg overflow-hidden transition-all shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30 will-change-transform">
                   <span className="relative z-10 flex items-center gap-2">
-                    Započnite suradnju
+                    Čujemo se
                     <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                   </span>
                 </motion.button>
               </Link>
               <Link href="/work">
                 <motion.button whileHover={{ scale: 1.02, borderColor: '#00FF94', transition: { type: "spring", stiffness: 400, damping: 30 } }} whileTap={{ scale: 0.98 }} className="px-8 py-5 bg-transparent border-2 border-[#88939D]/30 text-white font-bold rounded-xl text-lg transition-all duration-300 will-change-transform">
-                  Pogledajte primjere
+                  Pogledaj radove
                 </motion.button>
               </Link>
             </motion.div>
@@ -491,7 +491,7 @@ export default function SadrzajDrustveneContent() {
                       <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-[#00FF94] transition-colors duration-300">{related.title}</h3>
                       <p className="text-[#88939D] group-hover:text-white/70 transition-colors duration-300">{related.description}</p>
                       <div className="flex items-center justify-center gap-2 text-[#00FF94] font-medium mt-6 group-hover:gap-3 transition-all duration-300">
-                        Saznajte više
+                        Više o ovome
                         <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
                       </div>
                     </div>
@@ -514,11 +514,11 @@ export default function SadrzajDrustveneContent() {
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
               Spremni za sadržaj koji<br /><span className="text-[#00FF94]">radi za vas?</span>
             </h2>
-            <p className="text-lg md:text-xl text-[#88939D] mb-12 max-w-2xl mx-auto">Razgovarajmo o vašim content potrebama i stvorimo strategiju koja donosi rezultate.</p>
+            <p className="text-lg md:text-xl text-[#88939D] mb-12 max-w-2xl mx-auto">Javi se. Skužit ćemo što ti treba.</p>
             <Link href="/contact">
               <motion.button whileHover={{ scale: 1.02, transition: { type: "spring", stiffness: 400, damping: 30 } }} whileTap={{ scale: 0.98 }} className="group relative px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg overflow-hidden transition-all shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30 will-change-transform">
                 <span className="relative z-10 flex items-center gap-2">
-                  Zakažite besplatan poziv
+                  Čujemo se
                   <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                 </span>
               </motion.button>

@@ -62,7 +62,7 @@ export default function BlogSection() {
                 transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
                 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 will-change-transform"
               >
-                Najnoviji uvidi
+                Blog
               </motion.h2>
 
               <motion.p
@@ -71,7 +71,7 @@ export default function BlogSection() {
                 transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
                 className="text-xl md:text-2xl text-[#88939D] will-change-transform"
               >
-                Razmišljanja o dizajnu, razvoju i stvaranju boljih digitalnih iskustava.
+                Ponekad nešto napišemo. Evo zadnjih par stvari.
               </motion.p>
             </div>
 
@@ -98,7 +98,7 @@ export default function BlogSection() {
                   }}
                   className="px-6 py-3 border-2 border-[#88939D]/30 text-white font-semibold rounded-xl text-base hover:text-[#00FF94] transition-colors duration-300 flex items-center gap-2 will-change-transform group"
                 >
-                  Pogledajte sve članke
+                  Svi članci
                   <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
@@ -270,10 +270,10 @@ export default function BlogSection() {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
             <div className="max-w-2xl">
               <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Budite u toku s našim novostima
+                Ima još toga
               </h3>
               <p className="text-lg text-[#88939D]">
-                Najnoviji članci i uvidi isporučeni direktno u vaš inbox.
+                Ako te zanima, pogledaj sve članke.
               </p>
             </div>
 
@@ -293,7 +293,7 @@ export default function BlogSection() {
                 }}
                 className="px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg transition-all whitespace-nowrap will-change-transform shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30"
               >
-                Istražite sve članke
+                Svi članci
               </motion.button>
             </Link>
           </div>

@@ -55,7 +55,7 @@ export default function Footer() {
             </Link>
 
             <p className="text-[#88939D] text-base leading-relaxed max-w-md">
-              Full-service kreativna agencija. Strategija, web, video i fotografija — sve pod jednim krovom.
+              Radimo web, video, fotografiju i branding. I to je to.
             </p>
 
             {/* Contact Info */}

@@ -44,9 +44,9 @@ export default function CTASection() {
             transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-tight will-change-transform"
           >
-            Izgradimo
+            Imaš
             <br />
-            vaš brand
+            projekt?
           </motion.h2>
 
           {/* Subheadline */}
@@ -56,7 +56,7 @@ export default function CTASection() {
             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="text-xl md:text-2xl text-[#88939D] mb-12 max-w-3xl mx-auto leading-relaxed will-change-transform"
           >
-            Zakažite besplatan poziv od 15 minuta. Razgovarat ćemo o vašem projektu, dati vam jasan plan, a ako nismo pravi odabir — reći ćemo vam.
+            Mail, poziv, dim signali — kako god ti paše. Javit ćemo se.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -83,7 +83,7 @@ export default function CTASection() {
                 }}
                 className="group px-10 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg transition-all will-change-transform shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30 flex items-center gap-2"
               >
-                Zakažite besplatan poziv
+                Pošalji poruku
                 <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
@@ -108,47 +108,20 @@ export default function CTASection() {
                 }}
                 className="px-10 py-5 border-2 border-[#88939D]/30 text-white font-bold rounded-xl text-lg transition-colors duration-300 hover:text-[#00FF94] will-change-transform"
               >
-                Pogledajte naše radove
+                Pogledaj radove
               </motion.button>
             </Link>
           </motion.div>
 
           {/* Trust Elements */}
-          <motion.div
+          <motion.p
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
             animate={inView ? { opacity: 1 } : {}}
             transition={{ duration: 1, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-8 text-sm text-[#88939D]"
+            className="text-sm text-[#88939D]"
           >
-            {[
-              { text: 'Besplatne konzultacije (bez prodajnog govora)' },
-              { text: 'Jasna cijena unutar 24 sata' },
-              { text: 'Garantirana kvaliteta' },
-            ].map((item, i) => (
-              <motion.div
-                key={i}
-                initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, x: -10 }}
-                animate={inView ? { opacity: 1, x: 0 } : {}}
-                transition={{ 
-                  duration: 0.6, 
-                  delay: 0.7 + i * 0.1,
-                  ease: [0.16, 1, 0.3, 1]
-                }}
-                className="flex items-center gap-2 will-change-transform"
-              >
-                <motion.svg 
-                  className="w-5 h-5 text-[#00FF94]"
-                  whileHover={{ scale: 1.2, rotate: 10 }}
-                  transition={{ duration: 0.3 }}
-                  fill="currentColor" 
-                  viewBox="0 0 20 20"
-                >
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </motion.svg>
-                <span>{item.text}</span>
-              </motion.div>
-            ))}
-          </motion.div>
+            Ako nismo dostupni, vjerojatno smo na ručku. Javit ćemo se.
+          </motion.p>
         </motion.div>
 
         {/* Contact Options */}
@@ -159,7 +132,7 @@ export default function CTASection() {
           className="mt-20 pt-12 border-t border-[#88939D]/20 will-change-transform"
         >
           <p className="text-[#88939D] mb-8 text-lg">
-            Preferirate nas kontaktirati direktno?
+            Ili direktno:
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-stretch max-w-2xl mx-auto">
             

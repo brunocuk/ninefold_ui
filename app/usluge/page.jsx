@@ -124,7 +124,7 @@ export default function UslugePage() {
               className="mb-8 will-change-transform"
             >
               <span className="inline-block px-4 py-2 bg-[#00FF94]/10 border border-[#00FF94]/30 rounded-full text-[#00FF94] text-sm font-mono uppercase tracking-wider">
-                Što Radimo
+                Usluge
               </span>
             </motion.div>
 
@@ -147,7 +147,7 @@ export default function UslugePage() {
               transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
               className="text-xl md:text-2xl text-[#00FF94] mb-8 will-change-transform"
             >
-              Sve što vam treba za uspjeh — pod jednim krovom
+              Evo što znamo radit.
             </motion.p>
 
             {/* Description */}
@@ -157,7 +157,7 @@ export default function UslugePage() {
               transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
               className="text-lg md:text-xl text-[#88939D] leading-relaxed max-w-3xl will-change-transform"
             >
-              Od strategije i brandinga do web razvoja, video produkcije i fotografije — kompletna kreativna rješenja koja stvarno funkcioniraju.
+              Web, video, fotografija, branding. Ako ti treba nešto što nije na listi, pitaj — možda znamo i to.
             </motion.p>
           </div>
         </div>
@@ -260,7 +260,7 @@ export default function UslugePage() {
                         className="group px-8 py-4 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30 transition-shadow duration-300 will-change-transform"
                       >
                         <span className="flex items-center gap-2">
-                          Saznajte više
+                          Više o ovome
                           <svg
                             className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300"
                             fill="none"
@@ -383,12 +383,12 @@ export default function UslugePage() {
             className="will-change-transform"
           >
             <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8">
-              Izgradimo nešto
+              Imaš
               <br />
-              <span className="text-[#00FF94]">izvrsno zajedno</span>
+              <span className="text-[#00FF94]">projekt?</span>
             </h2>
             <p className="text-xl md:text-2xl text-[#88939D] mb-12 max-w-3xl mx-auto">
-              Spremni za početak projekta? Razgovarajmo o vašim potrebama i kreirajmo rješenje koje donosi rezultate.
+              Javi se. Mail, poziv, dim signali — kako god ti paše.
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Link href="/contact">
@@ -404,7 +404,7 @@ export default function UslugePage() {
                   whileTap={{ scale: 0.95 }}
                   className="px-12 py-6 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-xl shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30 transition-shadow duration-300 will-change-transform"
                 >
-                  Započnite projekt
+                  Čujemo se
                 </motion.button>
               </Link>
               <Link href="/work">
@@ -421,7 +421,7 @@ export default function UslugePage() {
                   whileTap={{ scale: 0.95 }}
                   className="px-12 py-6 bg-white/5 border-2 border-white/10 text-white font-bold rounded-xl text-xl transition-all duration-300 will-change-transform"
                 >
-                  Pogledajte naše radove
+                  Pogledaj radove
                 </motion.button>
               </Link>
             </div>

@@ -96,7 +96,7 @@ export default function StatsSection() {
             transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 max-w-3xl will-change-transform"
           >
-            Ne obećavamo. Isporučujemo.
+            Brojke, ako te zanimaju.
           </motion.h2>
 
           <motion.p
@@ -105,7 +105,7 @@ export default function StatsSection() {
             transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="text-xl md:text-2xl text-[#88939D] max-w-3xl will-change-transform"
           >
-            Ovo nisu ciljevi. To su garancije koje smo održali na svakom projektu.
+            Nismo ih sami izmislili. Uglavnom.
           </motion.p>
         </motion.div>
 
@@ -241,10 +241,10 @@ export default function StatsSection() {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
             <div className="max-w-2xl">
               <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Web stranice vaše konkurencije su spore. Vaša neće biti.
+                Svi naši webovi su brzi.
               </h3>
               <p className="text-lg text-[#88939D]">
-                95+ PageSpeed. Isporuka na vrijeme. Bez skrivenih troškova. Garantirano.
+                To je standard, ne dodatna usluga.
               </p>
             </div>
 
@@ -264,7 +264,7 @@ export default function StatsSection() {
                 }}
                 className="px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg transition-all whitespace-nowrap will-change-transform shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30"
               >
-                Zakažite besplatan poziv
+                Čujemo se
               </motion.button>
             </a>
           </div>

@@ -33,23 +33,23 @@ export default function AboutPage() {
   const values = [
     {
       number: '01',
-      title: 'Kvaliteta na prvom mjestu',
-      description: 'Svaki projekt koji radimo mora biti na najvišoj razini. Od web stranica do video produkcije - kompromis na kvaliteti nije opcija. Rezultati govore sami za sebe.',
+      title: 'Radimo, ne prodajemo',
+      description: 'Nećemo ti pričati o sinergijama i leverageu. Reći ćemo ti što možemo napraviti, koliko košta, i kad će biti gotovo.',
     },
     {
       number: '02',
-      title: 'Poštujemo rokove',
-      description: 'Kad se obvežemo na rok, isporučujemo. Bilo da je riječ o lansiranju za 4 tjedna ili strogom PR roku, možete računati na nas bez kompromisa na kvaliteti.',
+      title: 'Direktni smo',
+      description: 'Ako nešto nema smisla, reći ćemo ti. Ako imamo bolju ideju, predložit ćemo. Nismo tu da klimamo glavom na sve.',
     },
     {
       number: '03',
-      title: 'Pravo partnerstvo',
-      description: 'Vaš uspjeh je naš uspjeh. Radimo kao produžetak vašeg tima, ne samo kao dobavljač. Od prvog razgovora do dugo nakon završetka projekta, tu smo za vas.',
+      title: 'S nama je jednostavno',
+      description: 'Bez formalnosti, bez nepotrebnih meetinga. Čuješ se s nama kad treba, dobiješ što je dogovoreno, i to je to.',
     },
     {
       number: '04',
-      title: 'Iskrena komunikacija',
-      description: 'Bez žargona, bez iznenađenja, bez skrivenih troškova. Govorimo jasno o mogućnostima, zahtjevima i očekivanjima. Transparentnost gradi povjerenje.',
+      title: 'Klijenti postanu prijatelji',
+      description: 'Ljudi s kojima radimo dolaze u ured na kavu. Zovemo se. To je jednostavno tako kad radiš pošteno.',
     },
   ]
 
@@ -63,14 +63,14 @@ export default function AboutPage() {
   const team = [
     {
       name: 'Bruno Čukić',
-      role: 'Web Development',
-      bio: 'Živi u kodu od 2019. Opsjednut brzinom, čistim dizajnom i pikselima na pravom mjestu. Vjerojatno debugira nešto upravo sad.',
+      role: 'Web',
+      bio: 'Radi web. Komunicira tako da prekine Petra u najgorem mogućem trenutku. Čudo da još surađuju.',
       id: "1"
     },
     {
       name: 'Petar Zirdum',
       role: 'Video & Foto',
-      bio: 'Vidi kadrove gdje drugi vide kaos. Pretvara proizvode u zvijezde i brendove u priče koje se pamte.',
+      bio: 'Snima i montira. Ima više hard diskova nego prijatelja. Prijatelji kažu da je to ok.',
       id: "2"
     },
   ]
@@ -124,11 +124,11 @@ export default function AboutPage() {
               className="text-[clamp(3rem,8vw,6rem)] font-bold leading-[1.05] tracking-tight mb-8 will-change-transform"
             >
               <span className="block text-white">
-                Kreativna agencija
+                Ekipa od
               </span>
               <span className="block text-white">
-                na koju se možete{' '}
-                <span className="text-[#00FF94]">osloniti</span>.
+                dvoje{' '}
+                <span className="text-[#00FF94]">ljudi</span>.
               </span>
             </motion.h1>
 
@@ -139,8 +139,7 @@ export default function AboutPage() {
               transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
               className="text-xl md:text-2xl text-[#88939D] leading-relaxed max-w-3xl mb-12 will-change-transform"
             >
-              Full-service kreativna agencija iz Zagreba. Branding, web, video produkcija i fotografija
-              za hrvatske tvrtke koje ne prihvaćaju kompromise na kvaliteti.
+              Web, video, foto — sve radimo sami. Nema hijerarhije, nema accountova, nema prodaje magle. Pričaš direktno s nama.
             </motion.p>
 
             {/* Stats row */}
@@ -215,9 +214,9 @@ export default function AboutPage() {
                 transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
                 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 will-change-transform"
               >
-                Šest godina usavršavanja
+                Kako smo
                 <br />
-                našeg zanata.
+                počeli.
               </motion.h2>
             </motion.div>
 
@@ -233,36 +232,21 @@ export default function AboutPage() {
                 animate={storyInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
               >
-                NineFold je osnovan 2019. godine s jednostavnim zapažanjem: previše hrvatskih tvrtki
-                bilo je zaglavljeno sa sporim, zastarjelim web stranicama koje su izgledale dobro,
-                ali nisu funkcionirale. Uložili su novac, ali se nisu mogli dugoročno osloniti na svoje stranice.
+                NineFold postoji od 2019. Nismo imali veliki plan — htjeli smo raditi dobre stvari za ljude koji cijene dobar rad.
               </motion.p>
               <motion.p
                 initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 15 }}
                 animate={storyInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
               >
-                Ono što je počelo kao izrada web stranica preraslo je u sveobuhvatnu kreativnu agenciju.
-                Danas nudimo sve pod jednim krovom: strategiju i branding, web razvoj, video produkciju,
-                fotografiju i upravljanje društvenim mrežama. Naučili smo što odvaja dobar rad od izvrsnog.
+                Šest godina kasnije, i dalje isto. Nemamo filozofiju o "craftu" niti manifeste o dizajnu. Samo radimo, gledamo što ispadne, i obično ispadne dobro.
               </motion.p>
               <motion.p
                 initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 15 }}
                 animate={storyInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
               >
-                Danas se specijaliziramo za cjelovita kreativna rješenja - od prvog brainstorminga
-                do finalne isporuke. Kombiniramo strateško razmišljanje s tehničkom izvrsnošću
-                jer znamo da pravi rezultati dolaze samo kad sve komponente rade zajedno.
-              </motion.p>
-              <motion.p
-                initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 15 }}
-                animate={storyInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.8, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              >
-                Ne pokušavamo biti najveća agencija u Zagrebu. Fokusirani smo na to da budemo
-                najpouzdaniji partner kojeg zovete kad kvaliteta nije upitna. Svaki projekt je
-                prilika da dokažemo da se ulaganje u pravi kreativni tim višestruko isplati.
+                Nismo najveća agencija u Zagrebu. Nismo ni najjeftiniji. Ali kad ti treba netko na koga se možeš osloniti — tu smo.
               </motion.p>
             </motion.div>
           </div>
@@ -298,7 +282,7 @@ export default function AboutPage() {
               transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
               className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 max-w-3xl will-change-transform"
             >
-              Naše vrijednosti
+              Kako funkcioniramo
             </motion.h2>
 
             <motion.p
@@ -307,7 +291,7 @@ export default function AboutPage() {
               transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
               className="text-xl md:text-2xl text-[#88939D] max-w-3xl will-change-transform"
             >
-              Principi koji vode svaki projekt na kojem radimo.
+              Bez kompliciranja.
             </motion.p>
           </motion.div>
 
@@ -413,9 +397,9 @@ export default function AboutPage() {
               transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
               className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 max-w-3xl will-change-transform"
             >
-              Tim iza vašeg
+              <span className="text-[#00FF94]">Tko</span> stoji
               <br />
-              <span className="text-[#00FF94]">uspjeha</span>
+              iza svega
             </motion.h2>
 
             <motion.p
@@ -424,7 +408,7 @@ export default function AboutPage() {
               transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
               className="text-xl md:text-2xl text-[#88939D] max-w-3xl will-change-transform"
             >
-              Fokusiran tim posvećen isporuci izvanrednih rezultata za svakog klijenta.
+              Ima nas dvoje. To je to.
             </motion.p>
           </motion.div>
 
@@ -523,7 +507,7 @@ export default function AboutPage() {
               transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
               className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 will-change-transform"
             >
-              Radili smo s <span className="text-[#00FF94]">najboljima</span>
+              S kim smo <span className="text-[#00FF94]">radili</span>
             </motion.h2>
 
             <motion.p
@@ -533,7 +517,7 @@ export default function AboutPage() {
               transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
               className="text-xl md:text-2xl text-[#88939D] max-w-2xl mx-auto will-change-transform"
             >
-              Ponosni smo na suradnju s vodećim hrvatskim brendovima.
+              Par brendova koji su nam vjerovali.
             </motion.p>
           </motion.div>
 
@@ -594,10 +578,10 @@ export default function AboutPage() {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 border-t border-[#88939D]/20 pt-20">
             <div className="max-w-2xl">
               <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Spremni izgraditi nešto sjajno?
+                Imaš projekt?
               </h3>
               <p className="text-lg text-[#88939D]">
-                Razgovarajmo o vašem projektu i kako vam možemo pomoći da uspijete.
+                Javi se. Popijemo kavu, vidimo možemo li pomoći.
               </p>
             </div>
             
@@ -619,7 +603,7 @@ export default function AboutPage() {
                   className="group relative px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg overflow-hidden transition-all will-change-transform shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30"
                 >
                   <span className="relative z-10 flex items-center gap-2">
-                    Započnite projekt
+                    Čujemo se
                     <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
@@ -644,7 +628,7 @@ export default function AboutPage() {
                   }}
                   className="px-8 py-5 bg-transparent border-2 border-[#88939D]/30 text-white font-bold rounded-xl text-lg transition-colors duration-300 hover:text-[#00FF94] will-change-transform"
                 >
-                  Pogledajte radove
+                  Pogledaj radove
                 </motion.button>
               </Link>
             </div>

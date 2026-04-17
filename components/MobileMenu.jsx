@@ -412,7 +412,7 @@ export default function MobileMenu({ isOpen, onClose }) {
                     className="will-change-transform"
                   >
                     <p className="text-[#88939D] text-xs uppercase tracking-wider mb-3 font-mono">
-                      Kontaktirajte nas
+                      Javi se
                     </p>
                     <motion.a 
                       href="mailto:hello@ninefold.eu"

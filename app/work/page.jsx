@@ -80,7 +80,7 @@ export default function WorkPage() {
               className="mb-8"
             >
               <span className="inline-block px-4 py-2 bg-[#00FF94]/10 border border-[#00FF94]/30 rounded-full text-[#00FF94] text-sm font-mono uppercase tracking-wider">
-                Naši radovi
+                Radovi
               </span>
             </motion.div>
 
@@ -92,10 +92,10 @@ export default function WorkPage() {
               className="text-[clamp(3rem,8vw,6rem)] font-bold leading-[1.05] tracking-tight mb-8"
             >
               <span className="block text-white">
-                Projekti na koje
+                Naši
               </span>
               <span className="block text-white">
-                smo ponosni<span className="text-[#00FF94]">.</span>
+                radovi<span className="text-[#00FF94]">.</span>
               </span>
             </motion.h1>
 
@@ -106,8 +106,7 @@ export default function WorkPage() {
               transition={{ duration: shouldReduceAnimations ? 0 : 1, delay: shouldReduceAnimations ? 0 : 0.4, ease: [0.16, 1, 0.3, 1] }}
               className="text-xl md:text-2xl text-[#88939D] leading-relaxed max-w-3xl"
             >
-              Pregled naših nedavnih radova - od vizualno dojmljivih web stranica do snažnih web aplikacija.
-              Svaki projekt priča priču o suradnji, inovaciji i rezultatima.
+              Evo što smo radili. Svaki projekt je bio suradnja s ljudima koji su nam vjerovali.
             </motion.p>
           </div>
         </div>
@@ -451,11 +450,10 @@ export default function WorkPage() {
           >
             <div className="max-w-2xl">
               <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Spremni započeti svoj projekt?
+                Sviđa ti se nešto?
               </h3>
               <p className="text-lg text-[#88939D]">
-                Stvorimo nešto nevjerojatno zajedno. Javite nam se i razgovarajmo
-                o tome kako možemo oživjeti vašu viziju.
+                Javi se. Možda napravimo nešto slično za tebe.
               </p>
             </div>
 
@@ -463,7 +461,7 @@ export default function WorkPage() {
               <Link href="/contact">
                 <button className="group relative px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg overflow-hidden transition-all shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30">
                   <span className="relative z-10 flex items-center gap-2">
-                    Započnite projekt
+                    Čujemo se
                     <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
@@ -473,7 +471,7 @@ export default function WorkPage() {
 
               <Link href="/usluge">
                 <button className="px-8 py-5 bg-transparent border-2 border-[#88939D]/30 text-white font-bold rounded-xl text-lg transition-all duration-300 hover:border-[#00FF94]">
-                  Pogledajte usluge
+                  Pogledaj usluge
                 </button>
               </Link>
             </div>

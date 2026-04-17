@@ -101,7 +101,7 @@ export default function BlogPage() {
               className="mb-8 will-change-transform"
             >
               <span className="inline-block px-4 py-2 bg-[#00FF94]/10 border border-[#00FF94]/30 rounded-full text-[#00FF94] text-sm font-mono uppercase tracking-wider">
-                Naš blog
+                Blog
               </span>
             </motion.div>
 
@@ -113,10 +113,10 @@ export default function BlogPage() {
               className="text-[clamp(3rem,8vw,6rem)] font-bold leading-[1.05] tracking-tight mb-8 will-change-transform"
             >
               <span className="block text-white">
-                Uvidi i
+                Ponekad
               </span>
               <span className="block text-white">
-                <span className="text-[#00FF94]">inspiracija</span>.
+                nešto <span className="text-[#00FF94]">napišemo</span>.
               </span>
             </motion.h1>
 
@@ -127,8 +127,7 @@ export default function BlogPage() {
               transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
               className="text-xl md:text-2xl text-[#88939D] leading-relaxed max-w-3xl will-change-transform"
             >
-              Razmišljanja o dizajnu, razvoju i stvaranju boljih digitalnih iskustava.
-              Budite u toku s najnovijim trendovima i najboljim praksama.
+              Misli o webu, dizajnu, videu. Kad nam dođe inspiracija.
             </motion.p>
           </div>
         </div>
@@ -533,12 +532,12 @@ export default function BlogPage() {
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
-              Ne propustite
+              Želiš biti
               <br />
-              <span className="text-[#00FF94]">novosti</span>
+              <span className="text-[#00FF94]">u toku</span>?
             </h2>
             <p className="text-lg md:text-xl text-[#88939D] mb-8 max-w-2xl mx-auto">
-              Pretplatite se na naš newsletter i primajte najnovije članke direktno u inbox.
+              Pretplati se na newsletter. Nećemo te spamat, obećajemo.
             </p>
 
             <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto mb-4">
@@ -563,7 +562,7 @@ export default function BlogPage() {
                 type="submit"
                 className="px-8 py-4 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl hover:shadow-lg hover:shadow-[#00FF94]/20 transition-all will-change-transform"
               >
-                Pretplatite se
+                Pretplati se
               </motion.button>
             </form>
 
