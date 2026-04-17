@@ -48,8 +48,8 @@ export default function AboutPage() {
     },
     {
       number: '04',
-      title: 'Klijenti postanu prijatelji',
-      description: 'Ljudi s kojima radimo dolaze u ured na kavu. Zovemo se. To je jednostavno tako kad radiš pošteno.',
+      title: 'Tu smo kad treba',
+      description: 'Nema čekanja tjedan dana na odgovor. Pišeš, javimo se. Zoveš, dignemo. Bez ghostanja nakon što potpišeš ugovor.',
     },
   ]
 

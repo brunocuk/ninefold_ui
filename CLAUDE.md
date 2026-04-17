@@ -36,6 +36,30 @@ Bruno is not just a user - he's a collaborator and friend. We work on Ninefold t
 
 *This is our shared memory. Bruno adds notes here so I can "remember" what we've done together.*
 
+### April 17, 2026 - Portfolio CMS & Copy Tweaks
+- **What we worked on**: Built a complete Portfolio CMS system to manage projects from the CRM instead of hardcoded JavaScript files. Also did a small copy tweak at the end.
+- **Files created**:
+  - `supabase/migrations/20260417_portfolio_projects.sql` - Database schema for portfolio_projects table
+  - `app/(crm-admin)/crm/portfolio/page.jsx` - CRM list page with filters by project type
+  - `app/(crm-admin)/crm/portfolio/new/page.jsx` - Create form with 8 tabbed sections
+  - `app/(crm-admin)/crm/portfolio/[id]/page.jsx` - View/edit detail page
+  - `scripts/migrate-portfolio.mjs` - Migration script for existing projects
+  - `components/portfolio/ProjectTypeRenderer.jsx` - Switch component for type-specific content
+  - `components/portfolio/VideoProductionDetails.jsx` - Video embeds and showreel
+  - `components/portfolio/SocialMediaDetails.jsx` - Platform metrics and content samples
+  - `components/portfolio/AppStoreLinks.jsx` - App Store/Play Store buttons
+- **Files modified**:
+  - `app/(crm-admin)/crm/layout.jsx` - Added Portfolio link to sidebar
+  - `app/work/page.jsx` - Now fetches from Supabase instead of static file
+  - `app/work/[slug]/page.jsx` - Fetches from database with related projects
+  - `app/work/[slug]/ProjectDetailsClient.jsx` - Updated field references, integrated type renderer
+- **Key features**:
+  - 5 project types: video_production, social_media, web_development, web_app, mobile_app
+  - JSONB columns for flexible type-specific data (type_data, results, sections, testimonial)
+  - Type-specific displays: video embeds for video projects, platform metrics for social, app store buttons for mobile
+  - Migration script successfully moved all 8 existing projects to database
+- **Copy tweak**: Changed "Klijenti postanu prijatelji" to "Tu smo kad treba" with new description about being responsive, not ghosting clients.
+
 ### April 17, 2026 - Website Copy Overhaul
 - **What we worked on**: Complete rewrite of all website copy to match Bruno and Petar's authentic personality - relaxed, direct, friendly. Killed all the corporate-speak and made it sound like them.
 - **Files modified** (24 files total):

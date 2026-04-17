@@ -24,7 +24,8 @@ import {
   Settings,
   FileBarChart,
   Sparkles,
-  Share2
+  Share2,
+  Image
 } from 'lucide-react';
 import { ToastProvider } from '@/components/Toast';
 
@@ -891,6 +892,14 @@ export default function CRMLayout({ children }) {
 
             <div className="nav-section">
               <div className="nav-label">Tools</div>
+              <Link
+                href="/crm/portfolio"
+                className={`nav-link ${isActive("/crm/portfolio") ? "active" : ""}`}
+                title={isCollapsed ? "Portfolio" : ""}
+              >
+                <span className="nav-icon-wrapper"><Image size={18} /></span>
+                <span className="nav-text">Portfolio</span>
+              </Link>
               <Link
                 href="/crm/quotes/builder"
                 className={`nav-link ${pathname === "/crm/quotes/builder" ? "active" : ""}`}

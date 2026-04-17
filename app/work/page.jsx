@@ -6,9 +6,18 @@ import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState } from 'react'
-import { projects, getAllCategories } from '@/content/projects'
+import { useState, useEffect } from 'react'
+import { supabase } from '@/lib/supabase'
 import { useMobileOptimization } from '@/lib/useMobileOptimization'
+
+// Map project_type to display labels
+const PROJECT_TYPE_LABELS = {
+  video_production: 'Video',
+  social_media: 'Social Media',
+  web_development: 'Web',
+  web_app: 'Web App',
+  mobile_app: 'Mobile App'
+}
 
 export default function WorkPage() {
   const {
@@ -16,7 +25,10 @@ export default function WorkPage() {
     shouldDisableHover,
     prefersReducedMotion
   } = useMobileOptimization()
-  
+
+  const [projects, setProjects] = useState([])
+  const [loading, setLoading] = useState(true)
+
   const [heroRef, heroInView] = useInView({
     threshold: 0.15,
     triggerOnce: true,
@@ -40,14 +52,37 @@ export default function WorkPage() {
   const [selectedCategory, setSelectedCategory] = useState('All')
   const [hoveredProject, setHoveredProject] = useState(null)
 
-  // Get categories from projects data
-  const allCategories = getAllCategories()
-  const categories = ['All', ...allCategories]
+  // Fetch projects from Supabase
+  useEffect(() => {
+    async function fetchProjects() {
+      try {
+        const { data, error } = await supabase
+          .from('portfolio_projects')
+          .select('*')
+          .eq('published', true)
+          .order('display_order', { ascending: true })
+          .order('created_at', { ascending: false })
 
-  // Filter projects by category
-  const filteredProjects = selectedCategory === 'All' 
-    ? projects 
-    : projects.filter(p => p.category === selectedCategory)
+        if (error) throw error
+        setProjects(data || [])
+      } catch (error) {
+        console.error('Error fetching projects:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchProjects()
+  }, [])
+
+  // Get unique project types from fetched projects
+  const allTypes = [...new Set(projects.map(p => p.project_type))]
+  const categories = ['All', ...allTypes]
+
+  // Filter projects by type
+  const filteredProjects = selectedCategory === 'All'
+    ? projects
+    : projects.filter(p => p.project_type === selectedCategory)
 
   const featuredProjects = filteredProjects.filter(p => p.featured)
   const regularProjects = filteredProjects.filter(p => !p.featured)
@@ -134,7 +169,7 @@ export default function WorkPage() {
                     : 'bg-transparent border-2 border-[#88939D]/20 text-[#88939D] hover:border-[#00FF94] hover:text-white'
                 }`}
               >
-                {category}
+                {category === 'All' ? 'Svi' : (PROJECT_TYPE_LABELS[category] || category)}
               </button>
             ))}
           </motion.div>
@@ -190,9 +225,9 @@ export default function WorkPage() {
                       {/* Image */}
                       <div className={`relative ${index % 2 === 1 ? 'lg:col-start-2' : ''}`}>
                         <div className="relative aspect-[4/3] bg-gradient-to-br from-[#1a1a1a] to-[#0F0F0F] rounded-2xl overflow-hidden border-2 border-[#88939D]/20 group-hover:border-[#00FF94] transition-all duration-500">
-                          {project.thumbnail ? (
+                          {project.featured_image ? (
                             <Image
-                              src={project.thumbnail}
+                              src={project.featured_image}
                               alt={project.title}
                               fill
                               className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -228,7 +263,7 @@ export default function WorkPage() {
                           {/* Category & Year */}
                           <div className="flex items-center gap-3 text-sm">
                             <span className="px-3 py-1 bg-transparent border-2 border-[#00FF94]/30 rounded-full text-[#00FF94] font-mono">
-                              {project.category}
+                              {PROJECT_TYPE_LABELS[project.project_type] || project.project_type}
                             </span>
                             <span className="text-[#88939D]">{project.year}</span>
                           </div>
@@ -244,38 +279,42 @@ export default function WorkPage() {
                           </p>
 
                           {/* Services */}
-                          <div>
-                            <p className="text-sm text-[#88939D] uppercase tracking-wider font-mono mb-3">
-                              Usluge
-                            </p>
-                            <div className="flex flex-wrap gap-2">
-                              {project.services.map((service, i) => (
-                                <span
-                                  key={i}
-                                  className="px-3 py-1 bg-transparent border-2 border-[#88939D]/20 rounded-full text-white text-sm hover:border-[#00FF94] hover:text-[#00FF94] transition-colors duration-300 cursor-default"
-                                >
-                                  {service}
-                                </span>
-                              ))}
+                          {project.services && project.services.length > 0 && (
+                            <div>
+                              <p className="text-sm text-[#88939D] uppercase tracking-wider font-mono mb-3">
+                                Usluge
+                              </p>
+                              <div className="flex flex-wrap gap-2">
+                                {project.services.map((service, i) => (
+                                  <span
+                                    key={i}
+                                    className="px-3 py-1 bg-transparent border-2 border-[#88939D]/20 rounded-full text-white text-sm hover:border-[#00FF94] hover:text-[#00FF94] transition-colors duration-300 cursor-default"
+                                  >
+                                    {service}
+                                  </span>
+                                ))}
+                              </div>
                             </div>
-                          </div>
+                          )}
 
                           {/* Stats */}
-                          <div className="grid grid-cols-3 gap-4 pt-6">
-                            {project.results.slice(0, 3).map((stat, i) => (
-                              <div
-                                key={i}
-                                className="text-center p-4 bg-transparent border-2 border-[#88939D]/20 rounded-xl hover:border-[#00FF94]/30 transition-all duration-500"
-                              >
-                                <div className="text-2xl md:text-3xl font-bold text-[#00FF94] mb-1">
-                                  {stat.metric}
+                          {project.results && project.results.length > 0 && (
+                            <div className="grid grid-cols-3 gap-4 pt-6">
+                              {project.results.slice(0, 3).map((stat, i) => (
+                                <div
+                                  key={i}
+                                  className="text-center p-4 bg-transparent border-2 border-[#88939D]/20 rounded-xl hover:border-[#00FF94]/30 transition-all duration-500"
+                                >
+                                  <div className="text-2xl md:text-3xl font-bold text-[#00FF94] mb-1">
+                                    {stat.metric}
+                                  </div>
+                                  <div className="text-xs text-[#88939D] uppercase tracking-wider">
+                                    {stat.label}
+                                  </div>
                                 </div>
-                                <div className="text-xs text-[#88939D] uppercase tracking-wider">
-                                  {stat.label}
-                                </div>
-                              </div>
-                            ))}
-                          </div>
+                              ))}
+                            </div>
+                          )}
 
                           {/* CTA */}
                           <div className="flex items-center gap-2 text-[#00FF94] font-medium pt-4 group-hover:gap-3 transition-all duration-300">
@@ -320,7 +359,7 @@ export default function WorkPage() {
               className="mb-20"
             >
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-                {selectedCategory === 'All' ? 'Više projekata' : `${selectedCategory} projekti`}
+                {selectedCategory === 'All' ? 'Više projekata' : `${PROJECT_TYPE_LABELS[selectedCategory] || selectedCategory} projekti`}
               </h2>
             </motion.div>
 
@@ -348,9 +387,9 @@ export default function WorkPage() {
 
                       {/* Image */}
                       <div className="relative aspect-[4/3] bg-gradient-to-br from-[#1a1a1a] to-[#0F0F0F] overflow-hidden">
-                        {project.thumbnail ? (
+                        {project.featured_image ? (
                           <Image
-                            src={project.thumbnail}
+                            src={project.featured_image}
                             alt={project.title}
                             fill
                             className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -388,7 +427,7 @@ export default function WorkPage() {
                           {/* Category & Year */}
                           <div className="flex items-center gap-2 text-sm group-hover:text-[#00FF94] transition-colors duration-300">
                             <span className="px-2 py-1 bg-[#00FF94]/10 rounded text-[#00FF94] font-mono">
-                              {project.category}
+                              {PROJECT_TYPE_LABELS[project.project_type] || project.project_type}
                             </span>
                             <span className="text-[#88939D]">{project.year}</span>
                           </div>
@@ -404,14 +443,16 @@ export default function WorkPage() {
                           </p>
 
                           {/* Mini Stats */}
-                          <div className="flex gap-4 pt-3 text-sm border-t border-[#88939D]/10">
-                            {project.results.slice(0, 2).map((stat, i) => (
-                              <div key={i}>
-                                <span className="text-[#00FF94] font-bold">{stat.metric}</span>
-                                <span className="text-[#88939D] ml-1 text-xs">{stat.label}</span>
-                              </div>
-                            ))}
-                          </div>
+                          {project.results && project.results.length > 0 && (
+                            <div className="flex gap-4 pt-3 text-sm border-t border-[#88939D]/10">
+                              {project.results.slice(0, 2).map((stat, i) => (
+                                <div key={i}>
+                                  <span className="text-[#00FF94] font-bold">{stat.metric}</span>
+                                  <span className="text-[#88939D] ml-1 text-xs">{stat.label}</span>
+                                </div>
+                              ))}
+                            </div>
+                          )}
                         </div>
                       </div>
 

@@ -25,9 +25,9 @@ export default function FeaturesSection() {
       metrics: ['100%', 'Predanost']
     },
     {
-      title: 'Klijenti postanu prijatelji',
-      description: 'Nije floskula. Ljudi s kojima radimo dolaze u ured na kavu. Zovemo se. To je jednostavno tako kad radiš pošteno.',
-      metrics: ['☕', 'Kava uključena']
+      title: 'Tu smo kad treba',
+      description: 'Nema čekanja tjedan dana na odgovor. Pišeš, javimo se. Zoveš, dignemo. Bez ghostanja nakon što potpišeš ugovor.',
+      metrics: ['<1h', 'Vrijeme odgovora']
     },
   ]
 

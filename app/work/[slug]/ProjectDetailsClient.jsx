@@ -6,10 +6,19 @@ import { useInView } from "react-intersection-observer";
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
-import { projects } from "@/content/projects";
 import { useMobileOptimization } from "@/lib/useMobileOptimization";
+import ProjectTypeRenderer from "@/components/portfolio/ProjectTypeRenderer";
 
-export default function ProjectDetailsClient({ project }) {
+// Map project_type to display labels
+const PROJECT_TYPE_LABELS = {
+  video_production: 'Video Production',
+  social_media: 'Social Media',
+  web_development: 'Web Development',
+  web_app: 'Web App',
+  mobile_app: 'Mobile App'
+};
+
+export default function ProjectDetailsClient({ project, relatedProjects = [] }) {
   const {
     shouldReduceAnimations,
     shouldDisableVideos,
@@ -43,18 +52,8 @@ export default function ProjectDetailsClient({ project }) {
     triggerOnce: true,
   });
 
-  // Get related projects data
-  const getRelatedProjects = () => {
-    if (!project.relatedProjects || project.relatedProjects.length === 0)
-      return [];
-
-    return project.relatedProjects
-      .map((relatedId) => projects.find((p) => p.id === relatedId))
-      .filter(Boolean)
-      .slice(0, 3);
-  };
-
-  const relatedProjects = getRelatedProjects();
+  // Get lighthouse data from type_data if it's a web project
+  const lighthouse = project.type_data?.lighthouse || null;
 
   const renderSection = (section, index) => {
     if (section.type === "text") {
@@ -155,7 +154,7 @@ export default function ProjectDetailsClient({ project }) {
               className="inline-block mb-6"
             >
               <span className="px-4 py-2 rounded-full border border-[#00FF94]/30 bg-[#00FF94]/5 text-[#00FF94] text-sm font-medium">
-                {project.category}
+                {PROJECT_TYPE_LABELS[project.project_type] || project.project_type}
               </span>
             </motion.div>
 
@@ -196,22 +195,27 @@ export default function ProjectDetailsClient({ project }) {
             >
               <div>
                 <div className="text-sm mb-1">Client</div>
-                <div className="text-white font-semibold">{project.client}</div>
+                <div className="text-white font-semibold">{project.client_name}</div>
               </div>
-              <div>
-                <div className="text-sm mb-1">Year</div>
-                <div className="text-white font-semibold">{project.year}</div>
-              </div>
-              <div>
-                <div className="text-sm mb-1">Duration</div>
-                <div className="text-white font-semibold">
-                  {project.duration}
+              {project.year && (
+                <div>
+                  <div className="text-sm mb-1">Year</div>
+                  <div className="text-white font-semibold">{project.year}</div>
                 </div>
-              </div>
+              )}
+              {project.duration && (
+                <div>
+                  <div className="text-sm mb-1">Duration</div>
+                  <div className="text-white font-semibold">
+                    {project.duration}
+                  </div>
+                </div>
+              )}
             </motion.div>
-            
+
             {/* LINK TO SITE */}
-            <Link href={project.linkToSite}>
+            {project.live_site_url && (
+            <Link href={project.live_site_url}>
               <motion.div
                 initial={shouldReduceAnimations ? { opacity: 1 } : { opacity: 0, y: 20 }}
                 animate={heroInView ? { opacity: 1, y: 0 } : {}}
@@ -246,6 +250,7 @@ export default function ProjectDetailsClient({ project }) {
                 </svg>
               </motion.div>
             </Link>
+            )}
           </div>
         </div>
 
@@ -271,14 +276,14 @@ export default function ProjectDetailsClient({ project }) {
             }}
             className="relative rounded-2xl overflow-hidden border-2 border-[#88939D]/20 hover:border-[#00FF94]/50 transition-colors duration-500"
           >
-            {project.heroVideo ? (
+            {project.hero_video ? (
               // Video with mobile optimization
               <div className="relative aspect-video">
                 {/* On mobile/slow connection: show thumbnail with play button */}
                 {(shouldDisableVideos && !showVideo) ? (
                   <div className="relative w-full h-full">
                     <Image
-                      src={project.thumbnail || project.heroImage || '/images/placeholder.jpg'}
+                      src={project.featured_image || project.hero_image || '/images/placeholder.jpg'}
                       alt={project.title}
                       fill
                       className="object-cover"
@@ -302,20 +307,20 @@ export default function ProjectDetailsClient({ project }) {
                   isPageReady ? (
                     <video
                       ref={videoRef}
-                      src={project.heroVideo}
+                      src={project.hero_video}
                       autoPlay
                       loop
                       muted
                       playsInline
                       preload="metadata"
-                      poster={project.thumbnail || project.heroImage}
+                      poster={project.featured_image || project.hero_image}
                       onLoadedData={() => setVideoLoaded(true)}
                       className="w-full h-full object-cover"
                     />
                   ) : (
                     // Show poster while page loads
                     <Image
-                      src={project.thumbnail || project.heroImage || '/images/placeholder.jpg'}
+                      src={project.featured_image || project.hero_image || '/images/placeholder.jpg'}
                       alt={project.title}
                       fill
                       className="object-cover"
@@ -324,10 +329,20 @@ export default function ProjectDetailsClient({ project }) {
                   )
                 )}
               </div>
-            ) : project.heroImage ? (
+            ) : project.hero_image ? (
               <div className="relative aspect-video">
                 <Image
-                  src={project.heroImage}
+                  src={project.hero_image}
+                  alt={project.title}
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              </div>
+            ) : project.featured_image ? (
+              <div className="relative aspect-video">
+                <Image
+                  src={project.featured_image}
                   alt={project.title}
                   fill
                   className="object-cover"
@@ -496,7 +511,7 @@ export default function ProjectDetailsClient({ project }) {
 
           {/* Results Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-            {project.results.map((result, index) => (
+            {(project.results || []).map((result, index) => (
               <motion.div
                 key={index}
                 initial={shouldReduceAnimations ? { opacity: 1 } : { opacity: 0, y: 40 }}
@@ -536,7 +551,7 @@ export default function ProjectDetailsClient({ project }) {
       </section>
 
       {/* Lighthouse Performance Stats */}
-      {project.lighthouse && (
+      {lighthouse && (
         <section className="relative py-24 lg:py-32 bg-[#0F0F0F] overflow-hidden">
           {/* Background elements */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-b from-[#00CC78]/10 via-[#00FF94]/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
@@ -568,22 +583,22 @@ export default function ProjectDetailsClient({ project }) {
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
               {[
                 {
-                  score: project.lighthouse.performance,
+                  score: lighthouse.performance,
                   label: "Performance",
                   color: "#00FF94",
                 },
                 {
-                  score: project.lighthouse.accessibility,
+                  score: lighthouse.accessibility,
                   label: "Accessibility",
                   color: "#00FF94",
                 },
                 {
-                  score: project.lighthouse.bestPractices,
+                  score: lighthouse.bestPractices,
                   label: "Best Practices",
                   color: "#00FF94",
                 },
                 {
-                  score: project.lighthouse.seo,
+                  score: lighthouse.seo,
                   label: "SEO",
                   color: "#00FF94",
                 },
@@ -680,6 +695,13 @@ export default function ProjectDetailsClient({ project }) {
           </div>
         </section>
       )}
+
+      {/* Type-Specific Content (Video embeds, Social metrics, App store links, etc.) */}
+      <ProjectTypeRenderer
+        project={project}
+        shouldReduceAnimations={shouldReduceAnimations}
+        shouldDisableHover={shouldDisableHover}
+      />
 
       {/* Content Sections */}
       <section className="relative py-24 lg:py-32 bg-[#0F0F0F]">
@@ -792,9 +814,9 @@ export default function ProjectDetailsClient({ project }) {
 
                       {/* Image */}
                       <div className="relative aspect-video bg-gradient-to-br from-[#1a1a1a] to-[#0F0F0F] overflow-hidden">
-                        {relatedProject.thumbnail ? (
+                        {relatedProject.featured_image ? (
                           <Image
-                            src={relatedProject.thumbnail}
+                            src={relatedProject.featured_image}
                             alt={relatedProject.title}
                             fill
                             className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -826,9 +848,9 @@ export default function ProjectDetailsClient({ project }) {
                           {/* Category */}
                           <div className="flex items-center gap-2 text-xs text-[#88939D] group-hover:text-[#00FF94] transition-colors duration-300">
                             <span className="px-2 py-1 bg-[#00FF94]/10 rounded text-[#00FF94] font-mono">
-                              {relatedProject.category}
+                              {PROJECT_TYPE_LABELS[relatedProject.project_type] || relatedProject.project_type}
                             </span>
-                            <span>{relatedProject.client}</span>
+                            <span>{relatedProject.client_name}</span>
                           </div>
 
                           {/* Title */}
