@@ -1,13 +1,66 @@
 // app/(crm-admin)/crm/recurring/[id]/page.jsx
-// Contract Detail Page
+// Contract Detail Page - Redesigned with paid_periods as single source of truth
 
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useToast } from '@/components/Toast';
+
+// Helper: Get all expected periods from start date to now + 3 months
+function getExpectedPeriods(startDate, billingCycle, endDate = null) {
+  const periods = [];
+  const now = new Date();
+  const futureLimit = new Date(now);
+  futureLimit.setMonth(futureLimit.getMonth() + 3); // Show 3 months ahead
+
+  const end = endDate ? new Date(Math.min(new Date(endDate), futureLimit)) : futureLimit;
+  const start = new Date(startDate);
+  const current = new Date(start.getFullYear(), start.getMonth(), 1);
+
+  while (current <= end) {
+    const key = billingCycle === 'yearly'
+      ? current.getFullYear().toString()
+      : `${current.getFullYear()}-${String(current.getMonth() + 1).padStart(2, '0')}`;
+
+    const label = billingCycle === 'yearly'
+      ? current.getFullYear().toString()
+      : current.toLocaleDateString('en-US', { month: 'short' });
+
+    periods.push({
+      key,
+      label,
+      year: current.getFullYear(),
+      date: new Date(current),
+      isPast: current < new Date(now.getFullYear(), now.getMonth(), 1),
+      isCurrent: billingCycle === 'yearly'
+        ? current.getFullYear() === now.getFullYear()
+        : current.getFullYear() === now.getFullYear() && current.getMonth() === now.getMonth(),
+    });
+
+    if (billingCycle === 'yearly') {
+      current.setFullYear(current.getFullYear() + 1);
+    } else {
+      current.setMonth(current.getMonth() + 1);
+    }
+  }
+  return periods;
+}
+
+// Helper: Get overdue periods (past expected but not paid)
+function getOverduePeriods(periods, paidPeriods) {
+  return periods.filter(p => (p.isPast || p.isCurrent) && !paidPeriods.includes(p.key));
+}
+
+// Helper: Get next due period (first unpaid that's not in the future)
+function getNextDuePeriod(periods, paidPeriods) {
+  const overdue = getOverduePeriods(periods, paidPeriods);
+  if (overdue.length > 0) return overdue[0];
+  // If no overdue, find next upcoming unpaid
+  return periods.find(p => !paidPeriods.includes(p.key)) || null;
+}
 
 export default function ContractDetailPage() {
   const params = useParams();
@@ -17,11 +70,6 @@ export default function ContractDetailPage() {
   const [client, setClient] = useState(null);
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
-  const [showPaymentModal, setShowPaymentModal] = useState(false);
-  const [paymentAmount, setPaymentAmount] = useState('');
-  const [paymentDate, setPaymentDate] = useState(new Date().toISOString().split('T')[0]);
-  const [advanceBilling, setAdvanceBilling] = useState(true);
-  const [recordingPayment, setRecordingPayment] = useState(false);
 
   useEffect(() => {
     loadContract();
@@ -53,6 +101,38 @@ export default function ContractDetailPage() {
     }
   };
 
+  // Memoized calculations
+  const periods = useMemo(() => {
+    if (!contract) return [];
+    return getExpectedPeriods(contract.start_date, contract.billing_cycle, contract.end_date);
+  }, [contract?.start_date, contract?.billing_cycle, contract?.end_date]);
+
+  const paidPeriods = useMemo(() => contract?.paid_periods || [], [contract?.paid_periods]);
+
+  const overduePeriods = useMemo(() => {
+    return getOverduePeriods(periods, paidPeriods);
+  }, [periods, paidPeriods]);
+
+  const nextDue = useMemo(() => {
+    return getNextDuePeriod(periods, paidPeriods);
+  }, [periods, paidPeriods]);
+
+  const totalCollected = useMemo(() => {
+    return paidPeriods.length * (contract?.monthly_amount || 0);
+  }, [paidPeriods, contract?.monthly_amount]);
+
+  // Group periods by year for display
+  const periodsByYear = useMemo(() => {
+    const grouped = {};
+    periods.forEach(period => {
+      if (!grouped[period.year]) {
+        grouped[period.year] = [];
+      }
+      grouped[period.year].push(period);
+    });
+    return grouped;
+  }, [periods]);
+
   const updateStatus = async (newStatus) => {
     setUpdating(true);
     try {
@@ -62,7 +142,7 @@ export default function ContractDetailPage() {
         .eq('id', params.id);
 
       if (error) throw error;
-      
+
       setContract({ ...contract, status: newStatus });
       toast.success('Status updated successfully!');
     } catch (error) {
@@ -93,69 +173,35 @@ export default function ContractDetailPage() {
     }
   };
 
-  const openPaymentModal = () => {
-    // Pre-fill with the contract amount
-    const amount = contract.billing_cycle === 'yearly'
-      ? contract.monthly_amount
-      : contract.monthly_amount;
-    setPaymentAmount(amount.toString());
-    setPaymentDate(new Date().toISOString().split('T')[0]);
-    setAdvanceBilling(true);
-    setShowPaymentModal(true);
-  };
+  const togglePeriodPaid = async (periodKey) => {
+    const currentPaidPeriods = contract?.paid_periods || [];
+    let newPaidPeriods;
 
-  const recordPayment = async () => {
-    if (!paymentAmount || parseFloat(paymentAmount) <= 0) {
-      toast.error('Please enter a valid payment amount');
-      return;
+    if (currentPaidPeriods.includes(periodKey)) {
+      // Remove from paid
+      newPaidPeriods = currentPaidPeriods.filter(p => p !== periodKey);
+    } else {
+      // Add to paid
+      newPaidPeriods = [...currentPaidPeriods, periodKey].sort();
     }
 
-    setRecordingPayment(true);
     try {
-      const amount = parseFloat(paymentAmount);
-      const newTotalPaid = (contract.total_paid || 0) + amount;
-      const newTotalBilled = (contract.total_billed || 0) + amount;
-
-      // Calculate next billing date if advancing
-      let nextBillingDate = contract.next_billing_date;
-      if (advanceBilling) {
-        const currentBilling = new Date(contract.next_billing_date);
-        if (contract.billing_cycle === 'yearly') {
-          currentBilling.setFullYear(currentBilling.getFullYear() + 1);
-        } else {
-          currentBilling.setMonth(currentBilling.getMonth() + 1);
-        }
-        nextBillingDate = currentBilling.toISOString().split('T')[0];
-      }
-
       const { error } = await supabase
         .from('recurring_contracts')
-        .update({
-          total_paid: newTotalPaid,
-          total_billed: newTotalBilled,
-          last_billed_date: paymentDate,
-          next_billing_date: nextBillingDate
-        })
+        .update({ paid_periods: newPaidPeriods })
         .eq('id', params.id);
 
       if (error) throw error;
 
-      // Update local state
       setContract({
         ...contract,
-        total_paid: newTotalPaid,
-        total_billed: newTotalBilled,
-        last_billed_date: paymentDate,
-        next_billing_date: nextBillingDate
+        paid_periods: newPaidPeriods
       });
 
-      setShowPaymentModal(false);
-      toast.success(`Payment of ${formatCurrency(amount)} recorded successfully!`);
+      toast.success(currentPaidPeriods.includes(periodKey) ? 'Marked as unpaid' : 'Marked as paid');
     } catch (error) {
-      console.error('Error recording payment:', error);
-      toast.error('Error recording payment');
-    } finally {
-      setRecordingPayment(false);
+      console.error('Error updating paid periods:', error);
+      toast.error('Error updating payment status');
     }
   };
 
@@ -321,7 +367,7 @@ export default function ContractDetailPage() {
         /* Stats */
         .stats-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
           gap: 20px;
           margin-bottom: 40px;
         }
@@ -331,6 +377,11 @@ export default function ContractDetailPage() {
           border: 1px solid #333;
           border-radius: 12px;
           padding: 25px;
+        }
+
+        .stat-card.alert {
+          background: rgba(239, 68, 68, 0.1);
+          border-color: rgba(239, 68, 68, 0.3);
         }
 
         .stat-label {
@@ -346,6 +397,10 @@ export default function ContractDetailPage() {
           font-weight: 900;
           color: #00FF94;
           line-height: 1;
+        }
+
+        .stat-value.danger {
+          color: #ef4444;
         }
 
         .stat-sub {
@@ -481,174 +536,173 @@ export default function ContractDetailPage() {
           }
         }
 
-        /* Modal */
-        .modal-overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: rgba(0, 0, 0, 0.8);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          z-index: 1000;
-          padding: 20px;
-        }
-
-        .modal {
-          background: #1a1a1a;
-          border: 2px solid #333;
-          border-radius: 20px;
-          padding: 32px;
-          width: 100%;
-          max-width: 450px;
-          animation: modalIn 0.2s ease-out;
-        }
-
-        @keyframes modalIn {
-          from { opacity: 0; transform: scale(0.95); }
-          to { opacity: 1; transform: scale(1); }
-        }
-
-        .modal-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 24px;
-        }
-
-        .modal-title {
-          font-size: 1.5rem;
-          font-weight: 800;
-          color: white;
-        }
-
-        .modal-close {
-          background: none;
-          border: none;
-          color: #666;
-          font-size: 1.5rem;
-          cursor: pointer;
-          padding: 4px;
-          line-height: 1;
-        }
-
-        .modal-close:hover {
-          color: white;
-        }
-
-        .form-group {
-          margin-bottom: 20px;
-        }
-
-        .form-label {
-          display: block;
-          font-size: 0.9rem;
-          font-weight: 600;
-          color: #888;
-          margin-bottom: 8px;
-        }
-
-        .form-input {
-          width: 100%;
-          padding: 14px 16px;
-          background: #0a0a0a;
-          border: 2px solid #333;
-          border-radius: 10px;
-          color: white;
-          font-size: 1rem;
-          transition: border-color 0.2s;
-        }
-
-        .form-input:focus {
-          outline: none;
-          border-color: #00FF94;
-        }
-
-        .form-checkbox {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          cursor: pointer;
-        }
-
-        .form-checkbox input {
-          width: 20px;
-          height: 20px;
-          accent-color: #00FF94;
-        }
-
-        .form-checkbox span {
-          color: #ccc;
-          font-size: 0.95rem;
-        }
-
-        .modal-actions {
-          display: flex;
-          gap: 12px;
-          margin-top: 28px;
-        }
-
-        .btn-primary {
-          flex: 1;
-          padding: 14px 24px;
-          background: #00FF94;
-          color: #000;
-          border: none;
-          border-radius: 10px;
-          font-weight: 700;
-          font-size: 1rem;
-          cursor: pointer;
-          transition: all 0.2s;
-        }
-
-        .btn-primary:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 30px rgba(0, 255, 148, 0.3);
-        }
-
-        .btn-primary:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-          transform: none;
-        }
-
-        .btn-secondary {
-          padding: 14px 24px;
-          background: #2a2a2a;
-          color: white;
-          border: none;
-          border-radius: 10px;
-          font-weight: 600;
-          font-size: 1rem;
-          cursor: pointer;
-          transition: all 0.2s;
-        }
-
-        .btn-secondary:hover {
-          background: #3a3a3a;
-        }
-
-        .payment-btn {
-          background: #00FF94;
-          color: #000;
-          padding: 12px 24px;
-          border: none;
-          border-radius: 10px;
-          font-weight: 700;
-          font-size: 0.95rem;
-          cursor: pointer;
-          transition: all 0.2s;
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
+        /* Payment Tracker - Year Groups */
+        .payment-tracker {
           margin-top: 20px;
         }
 
-        .payment-btn:hover {
+        .year-group {
+          margin-bottom: 24px;
+        }
+
+        .year-group:last-child {
+          margin-bottom: 0;
+        }
+
+        .year-label {
+          font-size: 1rem;
+          font-weight: 700;
+          color: #666;
+          margin-bottom: 12px;
+          padding-bottom: 8px;
+          border-bottom: 1px solid #2a2a2a;
+        }
+
+        .payment-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+          gap: 10px;
+        }
+
+        .period-btn {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          padding: 14px 10px;
+          background: #0a0a0a;
+          border: 2px solid #333;
+          border-radius: 12px;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+
+        .period-btn:hover {
+          border-color: #555;
           transform: translateY(-2px);
-          box-shadow: 0 8px 30px rgba(0, 255, 148, 0.3);
+        }
+
+        .period-btn.paid {
+          background: rgba(0, 255, 148, 0.1);
+          border-color: #00FF94;
+        }
+
+        .period-btn.paid .period-label {
+          color: #00FF94;
+        }
+
+        .period-btn.paid .period-status {
+          color: #00FF94;
+        }
+
+        .period-btn.overdue {
+          background: rgba(239, 68, 68, 0.1);
+          border-color: #ef4444;
+        }
+
+        .period-btn.overdue .period-label {
+          color: #ef4444;
+        }
+
+        .period-btn.overdue .period-status {
+          color: #ef4444;
+        }
+
+        .period-btn.current {
+          border-width: 3px;
+        }
+
+        .period-btn.future {
+          opacity: 0.5;
+        }
+
+        .period-btn.future .period-status {
+          color: #666;
+        }
+
+        .period-label {
+          font-size: 0.85rem;
+          font-weight: 600;
+          color: #ccc;
+        }
+
+        .period-status {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .payment-legend {
+          display: flex;
+          gap: 20px;
+          padding-top: 20px;
+          margin-top: 20px;
+          border-top: 1px solid #333;
+        }
+
+        .legend-item {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 0.85rem;
+          color: #888;
+        }
+
+        .legend-dot {
+          width: 12px;
+          height: 12px;
+          border-radius: 4px;
+          border: 2px solid;
+        }
+
+        .legend-dot.paid {
+          background: rgba(0, 255, 148, 0.2);
+          border-color: #00FF94;
+        }
+
+        .legend-dot.overdue {
+          background: rgba(239, 68, 68, 0.2);
+          border-color: #ef4444;
+        }
+
+        .legend-dot.future {
+          background: transparent;
+          border-color: #555;
+        }
+
+        /* Quick Stats Row */
+        .quick-stats {
+          display: flex;
+          gap: 24px;
+          padding: 20px;
+          background: #0a0a0a;
+          border-radius: 10px;
+          margin-bottom: 20px;
+          flex-wrap: wrap;
+        }
+
+        .quick-stat {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+        }
+
+        .quick-stat-value {
+          font-size: 1.5rem;
+          font-weight: 800;
+          color: #00FF94;
+        }
+
+        .quick-stat-value.danger {
+          color: #ef4444;
+        }
+
+        .quick-stat-label {
+          font-size: 0.75rem;
+          color: #666;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
         }
       `}</style>
 
@@ -684,25 +738,33 @@ export default function ContractDetailPage() {
             <div className="stat-value">{formatCurrency(getMRR())}</div>
             <div className="stat-sub">MRR</div>
           </div>
-          
+
           <div className="stat-card">
-            <div className="stat-label">Annual Revenue</div>
-            <div className="stat-value">{formatCurrency(getARR())}</div>
-            <div className="stat-sub">ARR</div>
+            <div className="stat-label">Total Collected</div>
+            <div className="stat-value">{formatCurrency(totalCollected)}</div>
+            <div className="stat-sub">{paidPeriods.length} {contract.billing_cycle === 'yearly' ? 'years' : 'months'} paid</div>
           </div>
-          
-          <div className="stat-card">
-            <div className="stat-label">Next Billing</div>
-            <div className="stat-value" style={{fontSize: '1.5rem'}}>
-              {new Date(contract.next_billing_date).toLocaleDateString('en-US', {
-                month: 'short',
-                day: 'numeric'
-              })}
+
+          <div className={`stat-card ${overduePeriods.length > 0 ? 'alert' : ''}`}>
+            <div className="stat-label">Overdue</div>
+            <div className={`stat-value ${overduePeriods.length > 0 ? 'danger' : ''}`}>
+              {overduePeriods.length}
             </div>
             <div className="stat-sub">
-              {new Date(contract.next_billing_date).toLocaleDateString('en-US', {
-                year: 'numeric'
-              })}
+              {overduePeriods.length > 0
+                ? `${formatCurrency(overduePeriods.length * contract.monthly_amount)} owed`
+                : 'All caught up!'
+              }
+            </div>
+          </div>
+
+          <div className="stat-card">
+            <div className="stat-label">Next Due</div>
+            <div className="stat-value" style={{fontSize: '1.5rem', color: nextDue ? (overduePeriods.includes(nextDue) ? '#ef4444' : '#00FF94') : '#888'}}>
+              {nextDue ? nextDue.label : 'N/A'}
+            </div>
+            <div className="stat-sub">
+              {nextDue ? nextDue.year : ''}
             </div>
           </div>
 
@@ -717,6 +779,72 @@ export default function ContractDetailPage() {
 
         {/* Content */}
         <div className="content-grid">
+          {/* Payment Tracker - Main Feature */}
+          <div className="card">
+            <h3 className="card-title">Payment Tracker</h3>
+            <p style={{color: '#888', fontSize: '0.9rem', marginBottom: '20px'}}>
+              Click on any {contract.billing_cycle === 'yearly' ? 'year' : 'month'} to toggle paid status
+            </p>
+
+            <div className="payment-tracker">
+              {Object.keys(periodsByYear).sort().map((year) => (
+                <div key={year} className="year-group">
+                  <div className="year-label">{year}</div>
+                  <div className="payment-grid">
+                    {periodsByYear[year].map((period) => {
+                      const paid = paidPeriods.includes(period.key);
+                      const isOverdue = (period.isPast || period.isCurrent) && !paid;
+                      const isFuture = !period.isPast && !period.isCurrent;
+
+                      return (
+                        <button
+                          key={period.key}
+                          onClick={() => togglePeriodPaid(period.key)}
+                          className={`period-btn ${paid ? 'paid' : ''} ${isOverdue ? 'overdue' : ''} ${isFuture ? 'future' : ''} ${period.isCurrent ? 'current' : ''}`}
+                          title={paid ? 'Paid - click to mark unpaid' : 'Unpaid - click to mark paid'}
+                        >
+                          <span className="period-label">{period.label}</span>
+                          <span className="period-status">
+                            {paid ? (
+                              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                <polyline points="20 6 9 17 4 12"/>
+                              </svg>
+                            ) : isOverdue ? (
+                              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="12" y1="8" x2="12" y2="12"/>
+                                <line x1="12" y1="16" x2="12.01" y2="16"/>
+                              </svg>
+                            ) : (
+                              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <circle cx="12" cy="12" r="10"/>
+                              </svg>
+                            )}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="payment-legend">
+              <div className="legend-item">
+                <span className="legend-dot paid"></span>
+                <span>Paid</span>
+              </div>
+              <div className="legend-item">
+                <span className="legend-dot overdue"></span>
+                <span>Overdue</span>
+              </div>
+              <div className="legend-item">
+                <span className="legend-dot future"></span>
+                <span>Upcoming</span>
+              </div>
+            </div>
+          </div>
+
           {/* Status Management */}
           <div className="card">
             <div className="status-section">
@@ -778,8 +906,8 @@ export default function ContractDetailPage() {
                   <div className="info-label">Billing Day</div>
                   <div className="info-value">
                     {contract.billing_day}
-                    {contract.billing_day === 1 ? 'st' : 
-                     contract.billing_day === 2 ? 'nd' : 
+                    {contract.billing_day === 1 ? 'st' :
+                     contract.billing_day === 2 ? 'nd' :
                      contract.billing_day === 3 ? 'rd' : 'th'} of month
                   </div>
                 </div>
@@ -795,7 +923,7 @@ export default function ContractDetailPage() {
             </div>
           </div>
 
-          {/* Dates */}
+          {/* Timeline */}
           <div className="card">
             <h3 className="card-title">Timeline</h3>
             <div className="info-grid">
@@ -809,28 +937,6 @@ export default function ContractDetailPage() {
                   })}
                 </div>
               </div>
-              <div className="info-item">
-                <div className="info-label">Next Billing Date</div>
-                <div className="info-value highlight">
-                  {new Date(contract.next_billing_date).toLocaleDateString('en-US', {
-                    month: 'long',
-                    day: 'numeric',
-                    year: 'numeric'
-                  })}
-                </div>
-              </div>
-              {contract.last_billed_date && (
-                <div className="info-item">
-                  <div className="info-label">Last Billed</div>
-                  <div className="info-value">
-                    {new Date(contract.last_billed_date).toLocaleDateString('en-US', {
-                      month: 'long',
-                      day: 'numeric',
-                      year: 'numeric'
-                    })}
-                  </div>
-                </div>
-              )}
               {contract.end_date && (
                 <div className="info-item">
                   <div className="info-label">End Date</div>
@@ -859,95 +965,8 @@ export default function ContractDetailPage() {
             <h3 className="card-title">Notes</h3>
             <div className="notes-box">{contract.notes}</div>
           </div>
-
-          {/* Financial Tracking */}
-          <div className="card">
-            <h3 className="card-title">Financial Summary</h3>
-            <div className="info-grid">
-              <div className="info-item">
-                <div className="info-label">Total Billed</div>
-                <div className="info-value">{formatCurrency(contract.total_billed || 0)}</div>
-              </div>
-              <div className="info-item">
-                <div className="info-label">Total Paid</div>
-                <div className="info-value highlight">{formatCurrency(contract.total_paid || 0)}</div>
-              </div>
-              <div className="info-item">
-                <div className="info-label">Outstanding</div>
-                <div className="info-value">
-                  {formatCurrency((contract.total_billed || 0) - (contract.total_paid || 0))}
-                </div>
-              </div>
-            </div>
-            <button onClick={openPaymentModal} className="payment-btn">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="12" y1="1" x2="12" y2="23"/>
-                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-              </svg>
-              Record Payment
-            </button>
-          </div>
         </div>
       </div>
-
-      {/* Payment Modal */}
-      {showPaymentModal && (
-        <div className="modal-overlay" onClick={() => setShowPaymentModal(false)}>
-          <div className="modal" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
-              <h2 className="modal-title">Record Payment</h2>
-              <button className="modal-close" onClick={() => setShowPaymentModal(false)}>×</button>
-            </div>
-
-            <div className="form-group">
-              <label className="form-label">Payment Amount (EUR)</label>
-              <input
-                type="number"
-                className="form-input"
-                value={paymentAmount}
-                onChange={(e) => setPaymentAmount(e.target.value)}
-                placeholder="0.00"
-                step="0.01"
-                min="0"
-              />
-            </div>
-
-            <div className="form-group">
-              <label className="form-label">Payment Date</label>
-              <input
-                type="date"
-                className="form-input"
-                value={paymentDate}
-                onChange={(e) => setPaymentDate(e.target.value)}
-              />
-            </div>
-
-            <div className="form-group">
-              <label className="form-checkbox">
-                <input
-                  type="checkbox"
-                  checked={advanceBilling}
-                  onChange={(e) => setAdvanceBilling(e.target.checked)}
-                />
-                <span>Advance next billing date by 1 {contract.billing_cycle === 'yearly' ? 'year' : 'month'}</span>
-              </label>
-            </div>
-
-            <div className="modal-actions">
-              <button className="btn-secondary" onClick={() => setShowPaymentModal(false)}>
-                Cancel
-              </button>
-              <button
-                className="btn-primary"
-                onClick={recordPayment}
-                disabled={recordingPayment}
-              >
-                {recordingPayment ? 'Recording...' : 'Record Payment'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 }

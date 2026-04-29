@@ -46,39 +46,12 @@ export default function NewContractPage() {
     }
   };
 
-  const calculateNextBillingDate = (startDate, billingDay, billingCycle) => {
-    const start = new Date(startDate);
-    
-    if (billingCycle === 'yearly') {
-      // Next billing is one year from start
-      const nextYear = new Date(start);
-      nextYear.setFullYear(nextYear.getFullYear() + 1);
-      return nextYear.toISOString().split('T')[0];
-    }
-    
-    // Monthly billing
-    const today = new Date();
-    const nextBilling = new Date(today.getFullYear(), today.getMonth(), billingDay);
-    
-    // If billing day already passed this month, set to next month
-    if (nextBilling < today) {
-      nextBilling.setMonth(nextBilling.getMonth() + 1);
-    }
-    
-    return nextBilling.toISOString().split('T')[0];
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const nextBillingDate = calculateNextBillingDate(
-        formData.start_date,
-        formData.billing_day,
-        formData.billing_cycle
-      );
-
+      // Contract data - paid_periods starts empty, next billing will be derived
       const contractData = {
         client_id: formData.client_id,
         name: formData.name,
@@ -90,7 +63,7 @@ export default function NewContractPage() {
         payment_method: formData.payment_method || null,
         status: 'active',
         start_date: formData.start_date,
-        next_billing_date: nextBillingDate,
+        paid_periods: [], // Start with no paid periods
         notes: formData.notes || null
       };
 

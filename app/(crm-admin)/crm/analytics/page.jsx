@@ -4,6 +4,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import {
   Chart as ChartJS,
@@ -33,7 +34,10 @@ ChartJS.register(
 );
 
 export default function AnalyticsPage() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const [loading, setLoading] = useState(true);
+  const [dateRange, setDateRange] = useState(searchParams.get('range') || 'this_year');
   const [metrics, setMetrics] = useState({
     totalRevenue: 0,
     mrr: 0,
@@ -41,18 +45,56 @@ export default function AnalyticsPage() {
     pipelineValue: 0,
     conversionRate: 0,
     avgQuoteValue: 0,
-    newLeadsThisMonth: 0,
+    newLeads: 0,
     activeProjects: 0,
-    quotesSentThisMonth: 0,
-    quotesAcceptedThisMonth: 0,
+    quotesSent: 0,
+    quotesAccepted: 0,
   });
   const [revenueByMonth, setRevenueByMonth] = useState([]);
   const [quotesByStatus, setQuotesByStatus] = useState({});
   const [leadsBySource, setLeadsBySource] = useState({});
 
+  // Date range options
+  const dateRangeOptions = [
+    { value: 'this_month', label: 'This Month' },
+    { value: 'this_quarter', label: 'This Quarter' },
+    { value: 'this_year', label: 'This Year' },
+    { value: 'all_time', label: 'All Time' },
+  ];
+
+  // Get date range boundaries
+  const getDateRange = (range) => {
+    const now = new Date();
+    let start = null;
+
+    switch (range) {
+      case 'this_month':
+        start = new Date(now.getFullYear(), now.getMonth(), 1);
+        break;
+      case 'this_quarter':
+        const quarter = Math.floor(now.getMonth() / 3);
+        start = new Date(now.getFullYear(), quarter * 3, 1);
+        break;
+      case 'this_year':
+        start = new Date(now.getFullYear(), 0, 1);
+        break;
+      case 'all_time':
+      default:
+        start = null;
+        break;
+    }
+
+    return { start, end: now };
+  };
+
+  const handleDateRangeChange = (range) => {
+    setDateRange(range);
+    router.push(`/crm/analytics?range=${range}`, { scroll: false });
+  };
+
   useEffect(() => {
     loadAnalytics();
-  }, []);
+  }, [dateRange]);
 
   const loadAnalytics = async () => {
     try {
@@ -83,16 +125,20 @@ export default function AnalyticsPage() {
   };
 
   const calculateMetrics = (projects, quotes, leads, contracts) => {
-    // Current year filter
-    const currentYear = new Date().getFullYear();
-    const startOfYear = new Date(currentYear, 0, 1);
+    const { start: rangeStart } = getDateRange(dateRange);
 
-    // Total revenue from projects created this year
+    // Filter helper
+    const isInRange = (dateStr) => {
+      if (!rangeStart) return true; // all_time
+      return new Date(dateStr) >= rangeStart;
+    };
+
+    // Total revenue from projects in range
     const totalRevenue = projects
-      .filter(p => new Date(p.created_at) >= startOfYear)
+      .filter(p => isInRange(p.created_at))
       .reduce((sum, p) => sum + (p.total_value || p.budget || 0), 0);
 
-    // MRR and ARR from recurring contracts
+    // MRR and ARR from recurring contracts (always current, not filtered)
     const mrr = contracts
       .filter(c => c.status === 'active')
       .reduce((sum, c) => {
@@ -103,39 +149,38 @@ export default function AnalyticsPage() {
       }, 0);
     const arr = mrr * 12;
 
-    // Pipeline value (all active quotes)
+    // Pipeline value (all active quotes, not filtered by date)
     const pipelineValue = quotes
       .filter(q => ['draft', 'sent', 'viewed'].includes(q.status))
       .reduce((sum, q) => sum + (q.pricing?.total || 0), 0);
 
-    // Conversion rate
-    const sentQuotes = quotes.filter(q => ['sent', 'viewed', 'accepted'].includes(q.status)).length;
-    const acceptedQuotes = quotes.filter(q => q.status === 'accepted').length;
+    // Conversion rate (filtered by range)
+    const quotesInRange = quotes.filter(q => isInRange(q.created_at));
+    const sentQuotes = quotesInRange.filter(q => ['sent', 'viewed', 'accepted'].includes(q.status)).length;
+    const acceptedQuotes = quotesInRange.filter(q => q.status === 'accepted').length;
     const conversionRate = sentQuotes > 0 ? (acceptedQuotes / sentQuotes) * 100 : 0;
 
-    // Average quote value
+    // Average quote value (all quotes)
     const avgQuoteValue = quotes.length > 0
       ? quotes.reduce((sum, q) => sum + (q.pricing?.total || 0), 0) / quotes.length
       : 0;
 
-    // This month metrics
-    const now = new Date();
-    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-    
-    const newLeadsThisMonth = leads.filter(l => 
-      new Date(l.created_at) >= startOfMonth
-    ).length;
+    // New leads in range
+    const newLeads = leads.filter(l => isInRange(l.created_at)).length;
 
-    const activeProjects = projects.filter(p => 
+    // Active projects (current state, not filtered)
+    const activeProjects = projects.filter(p =>
       p.status === 'in_progress'
     ).length;
 
-    const quotesSentThisMonth = quotes.filter(q => 
-      q.last_sent_at && new Date(q.last_sent_at) >= startOfMonth
+    // Quotes sent in range
+    const quotesSent = quotes.filter(q =>
+      q.last_sent_at && isInRange(q.last_sent_at)
     ).length;
 
-    const quotesAcceptedThisMonth = quotes.filter(q => 
-      q.status === 'accepted' && new Date(q.updated_at) >= startOfMonth
+    // Quotes accepted in range
+    const quotesAccepted = quotes.filter(q =>
+      q.status === 'accepted' && isInRange(q.updated_at)
     ).length;
 
     setMetrics({
@@ -145,10 +190,10 @@ export default function AnalyticsPage() {
       pipelineValue,
       conversionRate,
       avgQuoteValue,
-      newLeadsThisMonth,
+      newLeads,
       activeProjects,
-      quotesSentThisMonth,
-      quotesAcceptedThisMonth,
+      quotesSent,
+      quotesAccepted,
     });
   };
 
@@ -337,7 +382,46 @@ export default function AnalyticsPage() {
 
         .subtitle {
           color: #888;
+          margin-bottom: 0;
+        }
+
+        .header-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          gap: 20px;
           margin-bottom: 40px;
+          flex-wrap: wrap;
+        }
+
+        .date-range-picker {
+          display: flex;
+          gap: 8px;
+          flex-wrap: wrap;
+        }
+
+        .range-btn {
+          padding: 10px 18px;
+          border: 1px solid transparent;
+          background: #1a1a1a;
+          color: #888;
+          border-radius: 10px;
+          cursor: pointer;
+          transition: all 0.2s;
+          font-weight: 600;
+          font-size: 0.9rem;
+        }
+
+        .range-btn:hover {
+          color: white;
+          background: #222;
+          border-color: #333;
+        }
+
+        .range-btn.active {
+          background: rgba(0, 255, 148, 0.15);
+          color: #00FF94;
+          border-color: rgba(0, 255, 148, 0.3);
         }
 
         /* Metrics Grid */
@@ -359,6 +443,21 @@ export default function AnalyticsPage() {
         .metric-card:hover {
           border-color: #00FF94;
           transform: translateY(-4px);
+        }
+
+        .metric-card.filtered {
+          position: relative;
+        }
+
+        .metric-card.filtered::after {
+          content: '';
+          position: absolute;
+          top: 8px;
+          right: 8px;
+          width: 6px;
+          height: 6px;
+          background: #00FF94;
+          border-radius: 50%;
         }
 
         .metric-label {
@@ -421,51 +520,66 @@ export default function AnalyticsPage() {
       `}</style>
 
       <div className="analytics-page">
-        <h1>Analytics Dashboard</h1>
-        <p className="subtitle">Track your business performance and growth</p>
+        <div className="header-row">
+          <div>
+            <h1>Analytics Dashboard</h1>
+            <p className="subtitle">Track your business performance and growth</p>
+          </div>
+          <div className="date-range-picker">
+            {dateRangeOptions.map((option) => (
+              <button
+                key={option.value}
+                onClick={() => handleDateRangeChange(option.value)}
+                className={`range-btn ${dateRange === option.value ? 'active' : ''}`}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+        </div>
 
         {/* Key Metrics */}
         <div className="metrics-grid">
-          <div className="metric-card">
-            <div className="metric-label">Revenue {new Date().getFullYear()}</div>
+          <div className="metric-card filtered">
+            <div className="metric-label">Revenue</div>
             <div className="metric-value">{formatCurrency(metrics.totalRevenue)}</div>
-            <div className="metric-sub">From projects this year</div>
+            <div className="metric-sub">From projects</div>
           </div>
 
           <div className="metric-card">
             <div className="metric-label">MRR</div>
             <div className="metric-value">{formatCurrency(metrics.mrr)}</div>
-            <div className="metric-sub">Monthly recurring revenue</div>
+            <div className="metric-sub">Monthly recurring</div>
           </div>
 
           <div className="metric-card">
             <div className="metric-label">ARR</div>
             <div className="metric-value">{formatCurrency(metrics.arr)}</div>
-            <div className="metric-sub">Annual recurring revenue</div>
+            <div className="metric-sub">Annual recurring</div>
           </div>
 
           <div className="metric-card">
             <div className="metric-label">Pipeline Value</div>
             <div className="metric-value">{formatCurrency(metrics.pipelineValue)}</div>
-            <div className="metric-sub">Active quotes total</div>
+            <div className="metric-sub">Active quotes</div>
           </div>
 
-          <div className="metric-card">
+          <div className="metric-card filtered">
             <div className="metric-label">Conversion Rate</div>
             <div className="metric-value">{metrics.conversionRate.toFixed(1)}%</div>
-            <div className="metric-sub">Quote acceptance rate</div>
+            <div className="metric-sub">Quote acceptance</div>
           </div>
 
           <div className="metric-card">
             <div className="metric-label">Avg Quote Value</div>
             <div className="metric-value">{formatCurrency(metrics.avgQuoteValue)}</div>
-            <div className="metric-sub">Average per quote</div>
+            <div className="metric-sub">All quotes</div>
           </div>
 
-          <div className="metric-card">
+          <div className="metric-card filtered">
             <div className="metric-label">New Leads</div>
-            <div className="metric-value">{metrics.newLeadsThisMonth}</div>
-            <div className="metric-sub">This month</div>
+            <div className="metric-value">{metrics.newLeads}</div>
+            <div className="metric-sub">In period</div>
           </div>
 
           <div className="metric-card">
@@ -474,16 +588,16 @@ export default function AnalyticsPage() {
             <div className="metric-sub">In progress</div>
           </div>
 
-          <div className="metric-card">
+          <div className="metric-card filtered">
             <div className="metric-label">Quotes Sent</div>
-            <div className="metric-value">{metrics.quotesSentThisMonth}</div>
-            <div className="metric-sub">This month</div>
+            <div className="metric-value">{metrics.quotesSent}</div>
+            <div className="metric-sub">In period</div>
           </div>
 
-          <div className="metric-card">
-            <div className="metric-label">Quotes Accepted</div>
-            <div className="metric-value">{metrics.quotesAcceptedThisMonth}</div>
-            <div className="metric-sub">This month</div>
+          <div className="metric-card filtered">
+            <div className="metric-label">Quotes Won</div>
+            <div className="metric-value">{metrics.quotesAccepted}</div>
+            <div className="metric-sub">In period</div>
           </div>
         </div>
 

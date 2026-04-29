@@ -6,10 +6,10 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
-import { 
-  FolderKanban, 
-  Building2, 
-  DollarSign, 
+import {
+  FolderKanban,
+  Building2,
+  DollarSign,
   Calendar,
   Plus,
   Clipboard,
@@ -18,11 +18,14 @@ import {
   TestTube,
   Rocket,
   CheckCircle,
-  Package
+  Package,
+  TrendingUp,
+  BadgeCheck
 } from 'lucide-react';
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState([]);
+  const [allProjects, setAllProjects] = useState([]); // For stats calculation
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all');
 
@@ -33,7 +36,8 @@ export default function ProjectsPage() {
   const loadProjects = async () => {
     setLoading(true);
     try {
-      let query = supabase
+      // Always fetch all projects for stats
+      const { data: allData, error: allError } = await supabase
         .from('projects')
         .select(`
           *,
@@ -44,18 +48,45 @@ export default function ProjectsPage() {
         `)
         .order('created_at', { ascending: false });
 
-      if (filter !== 'all') {
-        query = query.eq('status', filter);
+      if (allError) throw allError;
+      setAllProjects(allData || []);
+
+      // Apply filter for display
+      let filtered = allData || [];
+      if (filter === 'finished') {
+        filtered = filtered.filter(p => p.status === 'completed' || p.progress >= 100);
+      } else if (filter !== 'all') {
+        filtered = filtered.filter(p => p.status === filter);
       }
 
-      const { data, error } = await query;
-      if (error) throw error;
-      setProjects(data || []);
+      setProjects(filtered);
     } catch (error) {
       console.error('Error loading projects:', error);
     } finally {
       setLoading(false);
     }
+  };
+
+  // Check if project is finished
+  const isFinished = (project) => project.status === 'completed' || project.progress >= 100;
+
+  // Calculate stats from all projects
+  const stats = {
+    totalRemaining: allProjects
+      .filter(p => !isFinished(p))
+      .reduce((sum, p) => sum + (p.total_value - (p.paid_amount || 0)), 0),
+    activeProjects: allProjects.filter(p => !isFinished(p)).length,
+    totalValue: allProjects.reduce((sum, p) => sum + (p.total_value || 0), 0),
+    fullyPaid: allProjects.filter(p => (p.paid_amount || 0) >= p.total_value && p.total_value > 0).length,
+  };
+
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('hr-HR', {
+      style: 'currency',
+      currency: 'EUR',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(amount);
   };
 
   const statusConfig = {
@@ -86,12 +117,13 @@ export default function ProjectsPage() {
   };
 
   const filterButtons = [
-    { value: 'all', label: 'All', count: projects.length },
+    { value: 'all', label: 'All', count: allProjects.length },
     { value: 'planning', label: 'Planning', icon: Clipboard },
     { value: 'design', label: 'Design', icon: Palette },
     { value: 'development', label: 'Development', icon: Code },
     { value: 'testing', label: 'Testing', icon: TestTube },
-    { value: 'deployed', label: 'Deployed', icon: Rocket }
+    { value: 'deployed', label: 'Deployed', icon: Rocket },
+    { value: 'finished', label: 'Finished', icon: CheckCircle }
   ];
 
   return (
@@ -104,13 +136,56 @@ export default function ProjectsPage() {
           </h1>
           <p className="text-gray-400">Track active work and deliverables</p>
         </div>
-        <Link 
-          href="/crm/projects/new" 
+        <Link
+          href="/crm/projects/new"
           className="inline-flex items-center gap-2 px-6 py-3 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 hover:-translate-y-0.5 transition-all"
         >
           <Plus size={20} />
           New Project
         </Link>
+      </div>
+
+      {/* Statistics */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-xl p-5 hover:border-[#00FF94] transition-colors">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-10 h-10 rounded-lg bg-amber-500/10 flex items-center justify-center">
+              <DollarSign size={20} className="text-amber-500" />
+            </div>
+            <span className="text-xs text-gray-500 uppercase tracking-wider">Total Remaining</span>
+          </div>
+          <div className="text-2xl font-black text-white">{formatCurrency(stats.totalRemaining)}</div>
+        </div>
+
+        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-xl p-5 hover:border-[#00FF94] transition-colors">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center">
+              <TrendingUp size={20} className="text-blue-500" />
+            </div>
+            <span className="text-xs text-gray-500 uppercase tracking-wider">Active Projects</span>
+          </div>
+          <div className="text-2xl font-black text-white">{stats.activeProjects}</div>
+        </div>
+
+        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-xl p-5 hover:border-[#00FF94] transition-colors">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-10 h-10 rounded-lg bg-[#00FF94]/10 flex items-center justify-center">
+              <DollarSign size={20} className="text-[#00FF94]" />
+            </div>
+            <span className="text-xs text-gray-500 uppercase tracking-wider">Total Value</span>
+          </div>
+          <div className="text-2xl font-black text-[#00FF94]">{formatCurrency(stats.totalValue)}</div>
+        </div>
+
+        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-xl p-5 hover:border-[#00FF94] transition-colors">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center">
+              <BadgeCheck size={20} className="text-green-500" />
+            </div>
+            <span className="text-xs text-gray-500 uppercase tracking-wider">Fully Paid</span>
+          </div>
+          <div className="text-2xl font-black text-white">{stats.fullyPaid}</div>
+        </div>
       </div>
 
       {/* Filters */}
@@ -163,12 +238,21 @@ export default function ProjectsPage() {
         </div>
       ) : (
         <div className="grid gap-5">
-          {projects.map((project) => (
+          {projects.map((project) => {
+            const finished = isFinished(project);
+            return (
             <Link
               key={project.id}
               href={`/crm/projects/${project.id}`}
-              className="block group bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 hover:border-[#00FF94] hover:shadow-xl hover:shadow-[#00FF94]/10 hover:translate-x-1 transition-all duration-300"
+              className={`block group bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 hover:border-[#00FF94] hover:shadow-xl hover:shadow-[#00FF94]/10 hover:translate-x-1 transition-all duration-300 relative ${finished ? 'opacity-60 grayscale-[30%]' : ''}`}
             >
+              {/* Finished Badge */}
+              {finished && (
+                <div className="absolute top-4 right-4 bg-green-500/20 text-green-400 text-xs font-semibold px-2 py-1 rounded-full flex items-center gap-1">
+                  <CheckCircle size={12} />
+                  Finished
+                </div>
+              )}
               {/* Header */}
               <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-5">
                 <div className="flex-1">
@@ -194,7 +278,7 @@ export default function ProjectsPage() {
                     )}
                   </div>
                 </div>
-                {getStatusBadge(project.status)}
+                {!finished && getStatusBadge(project.status)}
               </div>
 
               {/* Details */}
@@ -253,7 +337,8 @@ export default function ProjectsPage() {
                 </p>
               )}
             </Link>
-          ))}
+          );
+          })}
         </div>
       )}
 

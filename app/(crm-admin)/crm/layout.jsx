@@ -25,7 +25,9 @@ import {
   FileBarChart,
   Sparkles,
   Share2,
-  Image
+  Image,
+  CalendarCheck,
+  FileEdit,
 } from 'lucide-react';
 import { ToastProvider } from '@/components/Toast';
 
@@ -887,6 +889,26 @@ export default function CRMLayout({ children }) {
               >
                 <span className="nav-icon-wrapper"><Share2 size={18} /></span>
                 <span className="nav-text">Social Reports</span>
+              </Link>
+            </div>
+
+            <div className="nav-section">
+              <div className="nav-label">Portal</div>
+              <Link
+                href="/crm/content"
+                className={`nav-link ${isActive("/crm/content") ? "active" : ""}`}
+                title={isCollapsed ? "Content" : ""}
+              >
+                <span className="nav-icon-wrapper"><CalendarCheck size={18} /></span>
+                <span className="nav-text">Content</span>
+              </Link>
+              <Link
+                href="/crm/change-requests"
+                className={`nav-link ${isActive("/crm/change-requests") ? "active" : ""}`}
+                title={isCollapsed ? "Requests" : ""}
+              >
+                <span className="nav-icon-wrapper"><FileEdit size={18} /></span>
+                <span className="nav-text">Requests</span>
               </Link>
             </div>
 

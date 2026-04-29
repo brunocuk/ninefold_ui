@@ -1,25 +1,79 @@
 // app/(crm-admin)/crm/recurring/page.jsx
-// Recurring Revenue Dashboard - Redesigned
+// Recurring Revenue Dashboard - Redesigned with paid_periods as single source of truth
 
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
 
+// Helper: Get all expected periods from start date to now
+function getExpectedPeriods(startDate, billingCycle) {
+  const periods = [];
+  const now = new Date();
+  const currentPeriod = new Date(now.getFullYear(), now.getMonth(), 1);
+  const start = new Date(startDate);
+  const current = new Date(start.getFullYear(), start.getMonth(), 1);
+
+  while (current <= currentPeriod) {
+    const key = billingCycle === 'yearly'
+      ? current.getFullYear().toString()
+      : `${current.getFullYear()}-${String(current.getMonth() + 1).padStart(2, '0')}`;
+
+    periods.push(key);
+
+    if (billingCycle === 'yearly') {
+      current.setFullYear(current.getFullYear() + 1);
+    } else {
+      current.setMonth(current.getMonth() + 1);
+    }
+  }
+  return periods;
+}
+
+// Helper: Get overdue periods (expected but not paid)
+function getOverduePeriods(startDate, billingCycle, paidPeriods) {
+  const expected = getExpectedPeriods(startDate, billingCycle);
+  return expected.filter(p => !paidPeriods.includes(p));
+}
+
+// Helper: Get next due period (first unpaid)
+function getNextDuePeriod(startDate, billingCycle, paidPeriods) {
+  const overdue = getOverduePeriods(startDate, billingCycle, paidPeriods);
+  return overdue[0] || null;
+}
+
+// Helper: Format period key for display
+function formatPeriodKey(periodKey, billingCycle) {
+  if (billingCycle === 'yearly') {
+    return periodKey;
+  }
+  // Monthly: "2025-04" -> "Apr 2025"
+  const [year, month] = periodKey.split('-');
+  const date = new Date(parseInt(year), parseInt(month) - 1, 1);
+  return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+}
+
 export default function RecurringRevenuePage() {
   const [contracts, setContracts] = useState([]);
+  const [allContracts, setAllContracts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all');
+  const [typeFilter, setTypeFilter] = useState('all');
+  const [sortBy, setSortBy] = useState('overdue');
 
   useEffect(() => {
     loadContracts();
-  }, [filter]);
+  }, []);
+
+  useEffect(() => {
+    applyFiltersAndSort();
+  }, [filter, typeFilter, sortBy, allContracts]);
 
   const loadContracts = async () => {
     setLoading(true);
     try {
-      let query = supabase
+      const { data, error } = await supabase
         .from('recurring_contracts')
         .select(`
           *,
@@ -31,14 +85,8 @@ export default function RecurringRevenuePage() {
         `)
         .order('created_at', { ascending: false });
 
-      if (filter !== 'all') {
-        query = query.eq('status', filter);
-      }
-
-      const { data, error } = await query;
-
       if (error) throw error;
-      setContracts(data || []);
+      setAllContracts(data || []);
     } catch (error) {
       console.error('Error loading contracts:', error);
     } finally {
@@ -46,8 +94,65 @@ export default function RecurringRevenuePage() {
     }
   };
 
+  // Calculate overdue info for each contract
+  const contractsWithOverdue = useMemo(() => {
+    return allContracts.map(contract => {
+      const paidPeriods = contract.paid_periods || [];
+      const overdue = getOverduePeriods(contract.start_date, contract.billing_cycle, paidPeriods);
+      const nextDue = getNextDuePeriod(contract.start_date, contract.billing_cycle, paidPeriods);
+
+      return {
+        ...contract,
+        overdueCount: overdue.length,
+        overduePeriods: overdue,
+        nextDuePeriod: nextDue,
+        totalCollected: paidPeriods.length * contract.monthly_amount
+      };
+    });
+  }, [allContracts]);
+
+  const applyFiltersAndSort = () => {
+    let filtered = [...contractsWithOverdue];
+
+    // Apply status filter
+    if (filter !== 'all') {
+      filtered = filtered.filter(c => c.status === filter);
+    }
+
+    // Apply type filter
+    if (typeFilter !== 'all') {
+      filtered = filtered.filter(c => c.contract_type === typeFilter);
+    }
+
+    // Apply sorting
+    filtered.sort((a, b) => {
+      switch (sortBy) {
+        case 'overdue':
+          // Most overdue first, then by amount
+          if (b.overdueCount !== a.overdueCount) {
+            return b.overdueCount - a.overdueCount;
+          }
+          return getMRRForContract(b) - getMRRForContract(a);
+        case 'amount_desc':
+          return getMRRForContract(b) - getMRRForContract(a);
+        case 'amount_asc':
+          return getMRRForContract(a) - getMRRForContract(b);
+        case 'client_name':
+          const nameA = (a.clients?.company || a.clients?.name || '').toLowerCase();
+          const nameB = (b.clients?.company || b.clients?.name || '').toLowerCase();
+          return nameA.localeCompare(nameB);
+        case 'tenure':
+          return new Date(a.start_date) - new Date(b.start_date);
+        default:
+          return 0;
+      }
+    });
+
+    setContracts(filtered);
+  };
+
   const calculateMRR = () => {
-    return contracts
+    return contractsWithOverdue
       .filter(c => c.status === 'active')
       .reduce((total, contract) => {
         if (contract.billing_cycle === 'yearly') {
@@ -62,11 +167,23 @@ export default function RecurringRevenuePage() {
   };
 
   const getActiveContracts = () => {
-    return contracts.filter(c => c.status === 'active').length;
+    return contractsWithOverdue.filter(c => c.status === 'active').length;
+  };
+
+  const getTotalOverdue = () => {
+    return contractsWithOverdue
+      .filter(c => c.status === 'active')
+      .reduce((sum, c) => sum + c.overdueCount, 0);
+  };
+
+  const getTotalOverdueAmount = () => {
+    return contractsWithOverdue
+      .filter(c => c.status === 'active')
+      .reduce((sum, c) => sum + (c.overdueCount * c.monthly_amount), 0);
   };
 
   const getContractsByType = (type) => {
-    return contracts.filter(c => c.contract_type === type && c.status === 'active');
+    return contractsWithOverdue.filter(c => c.contract_type === type && c.status === 'active');
   };
 
   const getMRRByType = (type) => {
@@ -75,7 +192,7 @@ export default function RecurringRevenuePage() {
 
   const getTotalMRR = () => {
     const mrr = calculateMRR();
-    return mrr > 0 ? mrr : 1; // Prevent division by zero
+    return mrr > 0 ? mrr : 1;
   };
 
   const getStatusBadge = (status) => {
@@ -160,23 +277,57 @@ export default function RecurringRevenuePage() {
     return contract.monthly_amount;
   };
 
-  const getNextBillingStatus = (date) => {
+  // Calculate contract tenure
+  const getTenure = (startDate) => {
+    const start = new Date(startDate);
     const now = new Date();
-    const billing = new Date(date);
-    const diffDays = Math.ceil((billing - now) / (1000 * 60 * 60 * 24));
+    const months = (now.getFullYear() - start.getFullYear()) * 12 + (now.getMonth() - start.getMonth());
 
-    if (diffDays < 0) return { text: 'Overdue', color: '#ef4444' };
-    if (diffDays <= 7) return { text: `${diffDays}d`, color: '#f59e0b' };
-    if (diffDays <= 30) return { text: `${diffDays}d`, color: '#00FF94' };
-    return { text: `${Math.ceil(diffDays / 7)}w`, color: '#888' };
+    if (months >= 12) {
+      const years = Math.floor(months / 12);
+      const remainingMonths = months % 12;
+      return remainingMonths > 0 ? `${years}y ${remainingMonths}mo` : `${years}y`;
+    }
+    return `${months}mo`;
+  };
+
+  // Mark oldest unpaid period as paid
+  const handleMarkPaid = async (e, contractId) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const contract = contractsWithOverdue.find(c => c.id === contractId);
+    if (!contract || !contract.nextDuePeriod) return;
+
+    const currentPaidPeriods = contract.paid_periods || [];
+    const newPaidPeriods = [...currentPaidPeriods, contract.nextDuePeriod].sort();
+
+    try {
+      const { error } = await supabase
+        .from('recurring_contracts')
+        .update({ paid_periods: newPaidPeriods })
+        .eq('id', contractId);
+
+      if (error) throw error;
+
+      // Reload contracts
+      loadContracts();
+    } catch (error) {
+      console.error('Error updating paid periods:', error);
+    }
   };
 
   const filterCounts = {
-    all: contracts.length,
-    active: contracts.filter(c => c.status === 'active').length,
-    paused: contracts.filter(c => c.status === 'paused').length,
-    cancelled: contracts.filter(c => c.status === 'cancelled').length
+    all: allContracts.length,
+    active: allContracts.filter(c => c.status === 'active').length,
+    paused: allContracts.filter(c => c.status === 'paused').length,
+    cancelled: allContracts.filter(c => c.status === 'cancelled').length
   };
+
+  // Get contracts with overdue payments (for attention section)
+  const overdueContracts = contractsWithOverdue
+    .filter(c => c.status === 'active' && c.overdueCount > 0)
+    .sort((a, b) => b.overdueCount - a.overdueCount);
 
   return (
     <>
@@ -233,10 +384,131 @@ export default function RecurringRevenuePage() {
           box-shadow: 0 8px 30px rgba(0, 255, 148, 0.3);
         }
 
+        /* Attention Section */
+        .attention-section {
+          background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, #111 100%);
+          border: 1px solid rgba(239, 68, 68, 0.3);
+          border-radius: 16px;
+          padding: 20px;
+          margin-bottom: 32px;
+        }
+
+        .attention-header {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          margin-bottom: 16px;
+        }
+
+        .attention-icon {
+          width: 36px;
+          height: 36px;
+          border-radius: 10px;
+          background: rgba(239, 68, 68, 0.15);
+          color: #ef4444;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .attention-title {
+          font-weight: 700;
+          color: #ef4444;
+          font-size: 0.95rem;
+        }
+
+        .attention-count {
+          background: rgba(239, 68, 68, 0.2);
+          color: #ef4444;
+          padding: 4px 10px;
+          border-radius: 12px;
+          font-size: 0.8rem;
+          font-weight: 600;
+        }
+
+        .attention-list {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .attention-item {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          padding: 12px 16px;
+          background: #0a0a0a;
+          border: 1px solid #2a2a2a;
+          border-radius: 10px;
+          text-decoration: none;
+          transition: all 0.2s;
+        }
+
+        .attention-item:hover {
+          border-color: #ef4444;
+          background: #111;
+        }
+
+        .attention-info {
+          flex: 1;
+          min-width: 0;
+        }
+
+        .attention-name {
+          display: block;
+          font-weight: 600;
+          color: white;
+          font-size: 0.9rem;
+        }
+
+        .attention-client {
+          display: block;
+          color: #666;
+          font-size: 0.8rem;
+        }
+
+        .attention-meta {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          gap: 2px;
+        }
+
+        .attention-overdue {
+          font-weight: 700;
+          color: #ef4444;
+          font-size: 0.9rem;
+        }
+
+        .attention-period {
+          font-size: 0.75rem;
+          color: #888;
+        }
+
+        .mark-paid-btn {
+          width: 32px;
+          height: 32px;
+          border-radius: 8px;
+          background: rgba(0, 255, 148, 0.1);
+          border: 1px solid rgba(0, 255, 148, 0.3);
+          color: #00FF94;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.2s;
+          flex-shrink: 0;
+        }
+
+        .mark-paid-btn:hover {
+          background: #00FF94;
+          color: black;
+        }
+
         /* Stats Section */
         .stats-section {
           display: grid;
-          grid-template-columns: 2fr 1fr;
+          grid-template-columns: 3fr 1fr;
           gap: 24px;
           margin-bottom: 48px;
         }
@@ -290,6 +562,16 @@ export default function RecurringRevenuePage() {
           border-color: rgba(0, 255, 148, 0.2);
         }
 
+        .stat-card.alert {
+          background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, #111 100%);
+          border-color: rgba(239, 68, 68, 0.2);
+        }
+
+        .stat-card.alert::before {
+          background: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);
+          opacity: 1;
+        }
+
         @media (max-width: 640px) {
           .stat-card.highlight {
             grid-column: span 1;
@@ -312,6 +594,11 @@ export default function RecurringRevenuePage() {
           background: rgba(0, 255, 148, 0.1);
         }
 
+        .stat-icon.danger {
+          color: #ef4444;
+          background: rgba(239, 68, 68, 0.1);
+        }
+
         .stat-label {
           font-size: 0.85rem;
           color: #666;
@@ -330,6 +617,10 @@ export default function RecurringRevenuePage() {
         .stat-card.highlight .stat-value {
           color: #00FF94;
           font-size: 2.8rem;
+        }
+
+        .stat-value.danger {
+          color: #ef4444;
         }
 
         .stat-sub {
@@ -427,9 +718,7 @@ export default function RecurringRevenuePage() {
           padding: 20px 24px;
           border-bottom: 1px solid #2a2a2a;
           display: flex;
-          justify-content: space-between;
-          align-items: center;
-          flex-wrap: wrap;
+          flex-direction: column;
           gap: 16px;
         }
 
@@ -439,11 +728,95 @@ export default function RecurringRevenuePage() {
           color: white;
         }
 
+        .filters-row {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          flex-wrap: wrap;
+        }
+
         /* Filters */
         .filters {
           display: flex;
           gap: 8px;
           flex-wrap: wrap;
+        }
+
+        .type-filters {
+          display: flex;
+          gap: 6px;
+          flex-wrap: wrap;
+          padding-left: 16px;
+          border-left: 1px solid #333;
+        }
+
+        .type-filter-btn {
+          padding: 6px 12px;
+          border: 1px solid #333;
+          background: transparent;
+          color: #666;
+          border-radius: 16px;
+          cursor: pointer;
+          transition: all 0.2s;
+          font-weight: 500;
+          font-size: 0.8rem;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+
+        .type-filter-btn:hover {
+          color: white;
+          border-color: #555;
+        }
+
+        .type-filter-btn.active {
+          background: rgba(255, 255, 255, 0.1);
+          color: white;
+          border-color: #555;
+        }
+
+        .type-dot {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+        }
+
+        .sort-select {
+          margin-left: auto;
+          padding: 8px 14px;
+          background: #1a1a1a;
+          border: 1px solid #333;
+          border-radius: 10px;
+          color: #ccc;
+          font-size: 0.85rem;
+          cursor: pointer;
+          outline: none;
+          transition: all 0.2s;
+        }
+
+        .sort-select:hover {
+          border-color: #555;
+        }
+
+        .sort-select:focus {
+          border-color: #00FF94;
+        }
+
+        .sort-select option {
+          background: #1a1a1a;
+        }
+
+        @media (max-width: 768px) {
+          .type-filters {
+            padding-left: 0;
+            border-left: none;
+            width: 100%;
+          }
+          .sort-select {
+            margin-left: 0;
+            width: 100%;
+          }
         }
 
         .filter-btn {
@@ -508,6 +881,14 @@ export default function RecurringRevenuePage() {
           border-color: #00FF94;
           transform: translateY(-2px);
           box-shadow: 0 8px 30px rgba(0, 255, 148, 0.1);
+        }
+
+        .contract-card.has-overdue {
+          border-color: rgba(239, 68, 68, 0.4);
+        }
+
+        .contract-card.has-overdue:hover {
+          border-color: #ef4444;
         }
 
         .card-top {
@@ -627,6 +1008,52 @@ export default function RecurringRevenuePage() {
           letter-spacing: 0.5px;
         }
 
+        .meta-value.tenure {
+          color: #8B5CF6;
+        }
+
+        .overdue-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 6px 12px;
+          background: rgba(239, 68, 68, 0.15);
+          border: 1px solid rgba(239, 68, 68, 0.3);
+          border-radius: 8px;
+          color: #ef4444;
+          font-size: 0.8rem;
+          font-weight: 600;
+        }
+
+        .quick-action-btn {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          padding: 8px 14px;
+          background: rgba(0, 255, 148, 0.1);
+          border: 1px solid rgba(0, 255, 148, 0.3);
+          border-radius: 8px;
+          color: #00FF94;
+          font-size: 0.8rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.2s;
+          margin-left: 16px;
+        }
+
+        .quick-action-btn:hover {
+          background: #00FF94;
+          color: black;
+          transform: scale(1.02);
+        }
+
+        @media (max-width: 640px) {
+          .quick-action-btn {
+            margin-left: 0;
+            margin-top: 12px;
+          }
+        }
+
         /* Empty State */
         .empty-state {
           text-align: center;
@@ -698,6 +1125,54 @@ export default function RecurringRevenuePage() {
           </Link>
         </div>
 
+        {/* Attention Section - Overdue Payments */}
+        {overdueContracts.length > 0 && (
+          <div className="attention-section">
+            <div className="attention-header">
+              <div className="attention-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="12" y1="8" x2="12" y2="12"/>
+                  <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+              </div>
+              <span className="attention-title">Needs Attention</span>
+              <span className="attention-count">{overdueContracts.length} overdue</span>
+            </div>
+            <div className="attention-list">
+              {overdueContracts.slice(0, 5).map((contract) => (
+                <Link
+                  key={contract.id}
+                  href={`/crm/recurring/${contract.id}`}
+                  className="attention-item"
+                >
+                  <div className="attention-info">
+                    <span className="attention-name">{contract.name}</span>
+                    <span className="attention-client">{contract.clients?.company || contract.clients?.name}</span>
+                  </div>
+                  <div className="attention-meta">
+                    <span className="attention-overdue">
+                      {contract.overdueCount} {contract.billing_cycle === 'yearly' ? 'year' : 'month'}{contract.overdueCount !== 1 ? 's' : ''} overdue
+                    </span>
+                    <span className="attention-period">
+                      {contract.nextDuePeriod && formatPeriodKey(contract.nextDuePeriod, contract.billing_cycle)}
+                    </span>
+                  </div>
+                  <button
+                    onClick={(e) => handleMarkPaid(e, contract.id)}
+                    className="mark-paid-btn"
+                    title="Mark oldest unpaid as paid"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                  </button>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Stats Section */}
         <div className="stats-section">
           <div className="main-stats">
@@ -713,16 +1188,24 @@ export default function RecurringRevenuePage() {
               <div className="stat-sub">per month</div>
             </div>
 
-            <div className="stat-card">
-              <div className="stat-icon">
+            <div className={`stat-card ${getTotalOverdue() > 0 ? 'alert' : ''}`}>
+              <div className={`stat-icon ${getTotalOverdue() > 0 ? 'danger' : ''}`}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
-                  <polyline points="17 6 23 6 23 12"/>
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="12" y1="8" x2="12" y2="12"/>
+                  <line x1="12" y1="16" x2="12.01" y2="16"/>
                 </svg>
               </div>
-              <div className="stat-label">Annual Recurring Revenue</div>
-              <div className="stat-value">{formatCurrency(calculateARR())}</div>
-              <div className="stat-sub">projected yearly</div>
+              <div className="stat-label">Overdue Payments</div>
+              <div className={`stat-value ${getTotalOverdue() > 0 ? 'danger' : ''}`}>
+                {getTotalOverdue()}
+              </div>
+              <div className="stat-sub">
+                {getTotalOverdue() > 0
+                  ? formatCurrency(getTotalOverdueAmount()) + ' owed'
+                  : 'All caught up!'
+                }
+              </div>
             </div>
 
             <div className="stat-card">
@@ -738,6 +1221,18 @@ export default function RecurringRevenuePage() {
               <div className="stat-value">{getActiveContracts()}</div>
               <div className="stat-sub">paying clients</div>
             </div>
+
+            <div className="stat-card">
+              <div className="stat-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+                  <polyline points="17 6 23 6 23 12"/>
+                </svg>
+              </div>
+              <div className="stat-label">Annual Recurring Revenue</div>
+              <div className="stat-value">{formatCurrency(calculateARR())}</div>
+              <div className="stat-sub">projected yearly</div>
+            </div>
           </div>
 
           {/* Breakdown */}
@@ -748,7 +1243,6 @@ export default function RecurringRevenuePage() {
                 const config = getTypeConfig(type);
                 const mrr = getMRRByType(type);
                 const percentage = (mrr / getTotalMRR()) * 100;
-                const count = getContractsByType(type).length;
 
                 return (
                   <div key={type} className="breakdown-item">
@@ -781,22 +1275,55 @@ export default function RecurringRevenuePage() {
         <div className="contracts-section">
           <div className="contracts-header">
             <div className="contracts-title">All Contracts</div>
-            <div className="filters">
-              {[
-                { key: 'all', label: 'All' },
-                { key: 'active', label: 'Active' },
-                { key: 'paused', label: 'Paused' },
-                { key: 'cancelled', label: 'Cancelled' }
-              ].map(f => (
-                <button
-                  key={f.key}
-                  className={`filter-btn ${filter === f.key ? 'active' : ''}`}
-                  onClick={() => setFilter(f.key)}
-                >
-                  {f.label}
-                  <span className="filter-count">{filterCounts[f.key]}</span>
-                </button>
-              ))}
+            <div className="filters-row">
+              <div className="filters">
+                {[
+                  { key: 'all', label: 'All' },
+                  { key: 'active', label: 'Active' },
+                  { key: 'paused', label: 'Paused' },
+                  { key: 'cancelled', label: 'Cancelled' }
+                ].map(f => (
+                  <button
+                    key={f.key}
+                    className={`filter-btn ${filter === f.key ? 'active' : ''}`}
+                    onClick={() => setFilter(f.key)}
+                  >
+                    {f.label}
+                    <span className="filter-count">{filterCounts[f.key]}</span>
+                  </button>
+                ))}
+              </div>
+              <div className="type-filters">
+                {[
+                  { key: 'all', label: 'All Types' },
+                  { key: 'maintenance', label: 'Maintenance' },
+                  { key: 'hosting', label: 'Hosting' },
+                  { key: 'social_media', label: 'Social' }
+                ].map(t => (
+                  <button
+                    key={t.key}
+                    className={`type-filter-btn ${typeFilter === t.key ? 'active' : ''}`}
+                    onClick={() => setTypeFilter(t.key)}
+                    style={t.key !== 'all' ? { borderColor: getTypeConfig(t.key).color + '40' } : {}}
+                  >
+                    {t.key !== 'all' && (
+                      <span className="type-dot" style={{ background: getTypeConfig(t.key).color }} />
+                    )}
+                    {t.label}
+                  </button>
+                ))}
+              </div>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="sort-select"
+              >
+                <option value="overdue">Most Overdue</option>
+                <option value="amount_desc">Amount (High → Low)</option>
+                <option value="amount_asc">Amount (Low → High)</option>
+                <option value="client_name">Client Name</option>
+                <option value="tenure">Tenure (Oldest)</option>
+              </select>
             </div>
           </div>
 
@@ -826,20 +1353,28 @@ export default function RecurringRevenuePage() {
               {contracts.map((contract) => {
                 const clientName = contract.clients?.company || contract.clients?.name || 'Unknown Client';
                 const typeConfig = getTypeConfig(contract.contract_type);
-                const nextBilling = getNextBillingStatus(contract.next_billing_date);
-                const nextBillingClass = nextBilling.color === '#ef4444' ? 'danger' : nextBilling.color === '#f59e0b' ? 'warning' : nextBilling.color === '#00FF94' ? 'success' : '';
 
                 return (
                   <Link
                     key={contract.id}
                     href={`/crm/recurring/${contract.id}`}
-                    className="contract-card"
+                    className={`contract-card ${contract.overdueCount > 0 ? 'has-overdue' : ''}`}
                   >
                     <div className="card-top">
                       <div className="card-info">
                         <div className="contract-name">
                           {contract.name}
                           {getStatusBadge(contract.status)}
+                          {contract.overdueCount > 0 && (
+                            <span className="overdue-badge">
+                              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="12" y1="8" x2="12" y2="12"/>
+                                <line x1="12" y1="16" x2="12.01" y2="16"/>
+                              </svg>
+                              {contract.overdueCount} overdue
+                            </span>
+                          )}
                         </div>
                         <div className="contract-client">{clientName}</div>
                       </div>
@@ -863,18 +1398,30 @@ export default function RecurringRevenuePage() {
 
                       <div className="card-meta">
                         <div className="meta-item">
-                          <div className={`meta-value ${nextBillingClass}`}>{nextBilling.text}</div>
-                          <div className="meta-label">Next billing</div>
+                          <div className={`meta-value ${contract.overdueCount > 0 ? 'danger' : 'success'}`}>
+                            {contract.nextDuePeriod
+                              ? formatPeriodKey(contract.nextDuePeriod, contract.billing_cycle)
+                              : 'Paid up'
+                            }
+                          </div>
+                          <div className="meta-label">Next due</div>
                         </div>
                         <div className="meta-item">
-                          <div className="meta-value">
-                            {new Date(contract.start_date).toLocaleDateString('en-US', {
-                              month: 'short',
-                              year: 'numeric'
-                            })}
-                          </div>
-                          <div className="meta-label">Started</div>
+                          <div className="meta-value tenure">{getTenure(contract.start_date)}</div>
+                          <div className="meta-label">Client for</div>
                         </div>
+                        {contract.status === 'active' && contract.nextDuePeriod && (
+                          <button
+                            onClick={(e) => handleMarkPaid(e, contract.id)}
+                            className="quick-action-btn"
+                            title="Mark oldest unpaid as paid"
+                          >
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                              <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            Mark Paid
+                          </button>
+                        )}
                       </div>
                     </div>
                   </Link>

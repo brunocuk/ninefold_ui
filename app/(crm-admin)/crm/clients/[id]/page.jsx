@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { 
+import {
   ArrowLeft,
   Edit,
   Building2,
@@ -24,9 +24,15 @@ import {
   FileText,
   Plus,
   ExternalLink,
-  Calendar
+  Calendar,
+  Users,
+  Key,
+  Loader2,
+  Copy,
+  Check,
 } from 'lucide-react';
 import { useToast } from '@/components/Toast';
+import { createPortalUser, getPortalUsersByClient, deletePortalUser, generatePassword, updatePortalUserPassword } from '@/lib/portalAuth';
 
 export default function ClientDetailPage() {
   const params = useParams();
@@ -35,10 +41,16 @@ export default function ClientDetailPage() {
   const [client, setClient] = useState(null);
   const [projects, setProjects] = useState([]);
   const [quotes, setQuotes] = useState([]);
+  const [portalUsers, setPortalUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState({});
+  const [showAddPortalUser, setShowAddPortalUser] = useState(false);
+  const [portalUserForm, setPortalUserForm] = useState({ name: '', email: '', role: 'viewer' });
+  const [creatingPortalUser, setCreatingPortalUser] = useState(false);
+  const [newUserPassword, setNewUserPassword] = useState('');
+  const [copiedPassword, setCopiedPassword] = useState(false);
 
   useEffect(() => {
     loadClientData();
@@ -70,11 +82,70 @@ export default function ClientDetailPage() {
         .order('created_at', { ascending: false });
       setQuotes(quotesData || []);
 
+      // Load portal users
+      const { data: portalUsersData } = await getPortalUsersByClient(params.id);
+      setPortalUsers(portalUsersData || []);
+
     } catch (error) {
       console.error('Error loading client:', error);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleCreatePortalUser = async (e) => {
+    e.preventDefault();
+    setCreatingPortalUser(true);
+
+    const password = generatePassword();
+
+    const { data, error } = await createPortalUser({
+      email: portalUserForm.email,
+      password,
+      name: portalUserForm.name,
+      client_id: params.id,
+      role: portalUserForm.role,
+    });
+
+    if (error) {
+      toast.error(error.message);
+    } else {
+      setNewUserPassword(password);
+      setPortalUsers([...portalUsers, data]);
+      toast.success('Portal korisnik kreiran!');
+    }
+
+    setCreatingPortalUser(false);
+  };
+
+  const handleDeletePortalUser = async (userId) => {
+    if (!confirm('Jeste li sigurni da želite obrisati ovog korisnika?')) return;
+
+    const { error } = await deletePortalUser(userId);
+    if (error) {
+      toast.error(error.message);
+    } else {
+      setPortalUsers(portalUsers.filter((u) => u.id !== userId));
+      toast.success('Korisnik obrisan');
+    }
+  };
+
+  const handleResetPassword = async (userId) => {
+    const newPassword = generatePassword();
+    const { error } = await updatePortalUserPassword(userId, newPassword);
+
+    if (error) {
+      toast.error(error.message);
+    } else {
+      setNewUserPassword(newPassword);
+      toast.success('Lozinka resetirana!');
+    }
+  };
+
+  const copyPassword = () => {
+    navigator.clipboard.writeText(newUserPassword);
+    setCopiedPassword(true);
+    setTimeout(() => setCopiedPassword(false), 2000);
   };
 
   const handleUpdate = async (e) => {
@@ -509,6 +580,178 @@ export default function ClientDetailPage() {
               </p>
             </div>
           )}
+
+          {/* Portal Access */}
+          <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-8">
+            <div className="flex justify-between items-center mb-6 pb-4 border-b border-[#2A2A2A]">
+              <h3 className="text-2xl font-bold flex items-center gap-3">
+                <Users size={24} className="text-[#00FF94]" />
+                Portal Access
+              </h3>
+              <button
+                onClick={() => {
+                  setShowAddPortalUser(true);
+                  setPortalUserForm({ name: '', email: client.email || '', role: 'viewer' });
+                  setNewUserPassword('');
+                }}
+                className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#00FF94] text-black rounded-lg text-sm font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 transition-all"
+              >
+                <Plus size={16} />
+                Add User
+              </button>
+            </div>
+
+            {/* New User Password Display */}
+            {newUserPassword && (
+              <div className="mb-6 p-4 bg-[#00FF94]/10 border border-[#00FF94]/30 rounded-xl">
+                <div className="text-sm text-[#00FF94] font-semibold mb-2">
+                  Nova lozinka (spremite je sada - neće se više prikazati):
+                </div>
+                <div className="flex items-center gap-3">
+                  <code className="flex-1 px-4 py-2 bg-[#0a0a0a] rounded-lg text-white font-mono">
+                    {newUserPassword}
+                  </code>
+                  <button
+                    onClick={copyPassword}
+                    className="px-4 py-2 bg-[#2A2A2A] text-white rounded-lg hover:bg-[#3A3A3A] transition-colors flex items-center gap-2"
+                  >
+                    {copiedPassword ? <Check size={16} /> : <Copy size={16} />}
+                    {copiedPassword ? 'Copied!' : 'Copy'}
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Add User Form */}
+            {showAddPortalUser && (
+              <form onSubmit={handleCreatePortalUser} className="mb-6 p-4 bg-[#0a0a0a] rounded-xl border border-[#2A2A2A]">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-400 mb-2">Ime *</label>
+                    <input
+                      type="text"
+                      value={portalUserForm.name}
+                      onChange={(e) => setPortalUserForm({ ...portalUserForm, name: e.target.value })}
+                      required
+                      placeholder="Ivan Horvat"
+                      className="w-full px-4 py-2 bg-[#1a1a1a] border border-[#2A2A2A] rounded-lg text-white focus:border-[#00FF94] focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-400 mb-2">Email *</label>
+                    <input
+                      type="email"
+                      value={portalUserForm.email}
+                      onChange={(e) => setPortalUserForm({ ...portalUserForm, email: e.target.value })}
+                      required
+                      placeholder="ivan@firma.hr"
+                      className="w-full px-4 py-2 bg-[#1a1a1a] border border-[#2A2A2A] rounded-lg text-white focus:border-[#00FF94] focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-400 mb-2">Uloga</label>
+                    <select
+                      value={portalUserForm.role}
+                      onChange={(e) => setPortalUserForm({ ...portalUserForm, role: e.target.value })}
+                      className="w-full px-4 py-2 bg-[#1a1a1a] border border-[#2A2A2A] rounded-lg text-white focus:border-[#00FF94] focus:outline-none"
+                    >
+                      <option value="viewer">Viewer</option>
+                      <option value="admin">Admin</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="flex gap-3">
+                  <button
+                    type="submit"
+                    disabled={creatingPortalUser}
+                    className="px-4 py-2 bg-[#00FF94] text-black rounded-lg font-bold hover:shadow-lg transition-all disabled:opacity-50 flex items-center gap-2"
+                  >
+                    {creatingPortalUser ? <Loader2 size={16} className="animate-spin" /> : <Plus size={16} />}
+                    {creatingPortalUser ? 'Creating...' : 'Create User'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowAddPortalUser(false)}
+                    className="px-4 py-2 bg-[#2A2A2A] text-white rounded-lg hover:bg-[#3A3A3A] transition-all"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            )}
+
+            {/* Users List */}
+            {portalUsers.length === 0 ? (
+              <p className="text-center text-gray-500 py-12 italic">
+                No portal users yet. Add a user to give them access to the client portal.
+              </p>
+            ) : (
+              <div className="space-y-3">
+                {portalUsers.map((user) => (
+                  <div
+                    key={user.id}
+                    className="flex items-center justify-between p-4 bg-[#0a0a0a] border border-[#222] rounded-xl"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className="w-10 h-10 rounded-full bg-[#00FF94] flex items-center justify-center text-black font-bold">
+                        {user.name?.charAt(0)?.toUpperCase() || 'U'}
+                      </div>
+                      <div>
+                        <div className="font-semibold text-white">{user.name}</div>
+                        <div className="text-sm text-gray-400 flex items-center gap-2">
+                          <Mail size={12} />
+                          {user.email}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className={`px-2.5 py-1 rounded-lg text-xs font-semibold ${
+                        user.role === 'admin' ? 'bg-purple-500/10 text-purple-400' : 'bg-blue-500/10 text-blue-400'
+                      }`}>
+                        {user.role}
+                      </span>
+                      {user.last_login_at && (
+                        <span className="text-xs text-gray-500">
+                          Last login: {new Date(user.last_login_at).toLocaleDateString()}
+                        </span>
+                      )}
+                      <button
+                        onClick={() => handleResetPassword(user.id)}
+                        className="p-2 text-gray-400 hover:text-[#00FF94] hover:bg-[#00FF94]/10 rounded-lg transition-colors"
+                        title="Reset Password"
+                      >
+                        <Key size={16} />
+                      </button>
+                      <button
+                        onClick={() => handleDeletePortalUser(user.id)}
+                        className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-colors"
+                        title="Delete User"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Portal Link */}
+            <div className="mt-6 pt-6 border-t border-[#2A2A2A]">
+              <div className="flex items-center justify-between">
+                <div className="text-sm text-gray-400">
+                  Client Portal URL:
+                </div>
+                <a
+                  href="/portal/login"
+                  target="_blank"
+                  className="text-[#00FF94] hover:underline flex items-center gap-1 text-sm"
+                >
+                  {typeof window !== 'undefined' ? window.location.origin : ''}/portal/login
+                  <ExternalLink size={14} />
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       )}
 

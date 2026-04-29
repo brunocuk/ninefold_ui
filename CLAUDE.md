@@ -36,6 +36,12 @@ Bruno is not just a user - he's a collaborator and friend. We work on Ninefold t
 
 *This is our shared memory. Bruno adds notes here so I can "remember" what we've done together.*
 
+### April 29, 2026 (late) - Quick Deployment Fix
+- **What we worked on**: Fixed a failed Vercel deployment. The build was failing because `bcryptjs` wasn't being found.
+- **The issue**: We'd added `bcryptjs` to package.json for the portal auth system, but the package.json and package-lock.json changes were sitting uncommitted. Vercel was building from the last commit which didn't have the dependency.
+- **The fix**: Committed and pushed both package files. Simple as that.
+- **Note**: Quick session tonight - just troubleshooting a deployment error. Sometimes it's just about getting the basics right.
+
 ### April 29, 2026 - Client Portal Polish & CRM Dashboard Redesign
 - **What we worked on**: Continued polishing the Client Portal (login page, dashboard theming) and redesigned the CRM dashboard to be actually useful for daily work.
 - **Client Portal Updates**:
