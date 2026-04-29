@@ -36,6 +36,35 @@ Bruno is not just a user - he's a collaborator and friend. We work on Ninefold t
 
 *This is our shared memory. Bruno adds notes here so I can "remember" what we've done together.*
 
+### April 29, 2026 - Client Portal Polish & CRM Dashboard Redesign
+- **What we worked on**: Continued polishing the Client Portal (login page, dashboard theming) and redesigned the CRM dashboard to be actually useful for daily work.
+- **Client Portal Updates**:
+  - Added dark/moody login page with film grain texture, bokeh effects, and vignette
+  - Implemented light/dark theme system with system preference detection (`lib/portalTheme.js`)
+  - Fixed various styling issues: buttons not showing green (styled-jsx doesn't work on Link components - used inline styles), scrolling not working (fixed container positioning), bottom blur bar (hid GradualBlur component)
+  - Updated copy to casual Croatian: "Logiraj se", "Login" button
+- **CRM Dashboard Redesign**:
+  - Created `crm_todos` table for personal todos (Bruno and Petar each see only their own)
+  - Replaced generic stats cards and "Quick Actions" with 4 actionable sections:
+    1. **My Todos** - Personal todo list with quick add, priority badges, due dates
+    2. **Client Requests** - Pending website change requests from portal
+    3. **Content to Review** - Content items needing approval/revision
+    4. **Upcoming Deadlines** - Project milestones due this week
+  - Kept the personalized greeting header (Good morning Bruno, etc.)
+- **Files created**:
+  - `lib/portalTheme.js` - Theme context with system preference detection
+  - `supabase/migrations/20260429_crm_todos.sql` - Todo system database schema
+- **Files modified**:
+  - `app/(client-portal)/portal/layout.jsx` - Complete portal layout with theme support
+  - `app/(client-portal)/portal/page.jsx` - Dashboard with themed cards
+  - `app/(client-portal)/portal/login/page.jsx` - Dark moody login design
+  - `app/(crm-admin)/crm/page.jsx` - New dashboard with 4 sections
+  - `TODO.md` - Updated project status
+- **Key decisions**:
+  - Portal uses React Context for theming (not CSS variables) for full control
+  - CRM todos are filtered by user in app code, not RLS (simpler for internal tool)
+  - Removed stats cards from CRM dashboard - they're "nice to know" but not actionable
+
 ### April 17, 2026 - Portfolio CMS & Copy Tweaks
 - **What we worked on**: Built a complete Portfolio CMS system to manage projects from the CRM instead of hardcoded JavaScript files. Also did a small copy tweak at the end.
 - **Files created**:
