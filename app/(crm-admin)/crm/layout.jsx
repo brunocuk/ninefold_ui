@@ -28,6 +28,7 @@ import {
   Image,
   CalendarCheck,
   FileEdit,
+  CheckSquare,
 } from 'lucide-react';
 import { ToastProvider } from '@/components/Toast';
 
@@ -813,6 +814,14 @@ export default function CRMLayout({ children }) {
               >
                 <span className="nav-icon-wrapper"><Calendar size={18} /></span>
                 <span className="nav-text">Calendar</span>
+              </Link>
+              <Link
+                href="/crm/todos"
+                className={`nav-link ${isActive("/crm/todos") ? "active" : ""}`}
+                title={isCollapsed ? "Todos" : ""}
+              >
+                <span className="nav-icon-wrapper"><CheckSquare size={18} /></span>
+                <span className="nav-text">Todos</span>
               </Link>
             </div>
 

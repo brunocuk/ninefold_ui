@@ -36,6 +36,24 @@ Bruno is not just a user - he's a collaborator and friend. We work on Ninefold t
 
 *This is our shared memory. Bruno adds notes here so I can "remember" what we've done together.*
 
+### May 4, 2026 - Full Todos Page
+- **What we worked on**: Built the missing `/crm/todos` page. The dashboard already had a "My Todos" widget linking to it, but the page didn't exist.
+- **Files created**:
+  - `app/(crm-admin)/crm/todos/page.jsx` - Full todos management page
+- **Files modified**:
+  - `app/(crm-admin)/crm/layout.jsx` - Added "Todos" link to sidebar under Overview section
+- **Features**:
+  - List of todos filtered by current user (Bruno or Petar)
+  - Status filters: Active, All, Completed
+  - Priority filters: Urgent, High, Normal, Low (with color-coded badges)
+  - Quick add new todo with title, description, due date, priority
+  - Checkbox to toggle complete/incomplete
+  - Edit modal for full editing
+  - Delete with confirmation
+  - Overdue dates shown in red
+  - Links to related items (client/project/lead/quote) if attached
+- **Note**: Quick session - just filling in a gap. The todo system was already built on April 29th with the database table and dashboard widget, we just needed the dedicated page.
+
 ### April 29, 2026 (late) - Quick Deployment Fix
 - **What we worked on**: Fixed a failed Vercel deployment. The build was failing because `bcryptjs` wasn't being found.
 - **The issue**: We'd added `bcryptjs` to package.json for the portal auth system, but the package.json and package-lock.json changes were sitting uncommitted. Vercel was building from the last commit which didn't have the dependency.
