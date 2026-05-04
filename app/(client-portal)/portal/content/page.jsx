@@ -35,6 +35,30 @@ const CONTENT_TYPE_LABELS = {
   carousel: 'Carousel',
 };
 
+// Helper to get thumbnail URL from various sources
+const getThumbnailUrl = (url) => {
+  if (!url) return null;
+
+  // Google Drive
+  const driveFileMatch = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
+  if (driveFileMatch) {
+    return `https://drive.google.com/uc?export=view&id=${driveFileMatch[1]}`;
+  }
+  const driveOpenMatch = url.match(/drive\.google\.com\/open\?id=([a-zA-Z0-9_-]+)/);
+  if (driveOpenMatch) {
+    return `https://drive.google.com/uc?export=view&id=${driveOpenMatch[1]}`;
+  }
+
+  // YouTube
+  const youtubeMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
+  if (youtubeMatch) {
+    return `https://img.youtube.com/vi/${youtubeMatch[1]}/mqdefault.jpg`;
+  }
+
+  // Direct URL
+  return url;
+};
+
 export default function ContentCalendarPage() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -526,13 +550,14 @@ export default function ContentCalendarPage() {
                           background: '#E5E7EB',
                         }}>
                           <img
-                            src={item.media_urls[0]}
+                            src={getThumbnailUrl(item.media_urls[0])}
                             alt=""
                             style={{
                               width: '100%',
                               height: '100%',
                               objectFit: 'cover',
                             }}
+                            onError={(e) => e.target.style.display = 'none'}
                           />
                         </div>
                       ) : (

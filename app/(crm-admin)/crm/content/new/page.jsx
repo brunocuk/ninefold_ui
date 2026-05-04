@@ -397,11 +397,11 @@ export default function NewContentPage() {
             </p>
             <div className="flex gap-2 mb-3">
               <input
-                type="url"
+                type="text"
                 value={newMediaUrl}
                 onChange={(e) => setNewMediaUrl(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddMedia())}
-                placeholder="Zalijepi link..."
+                placeholder="Zalijepi Google Drive, YouTube ili direktni link..."
                 className="flex-1 px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
               />
               <button

@@ -37,7 +37,7 @@ Bruno is not just a user - he's a collaborator and friend. We work on Ninefold t
 *This is our shared memory. Bruno adds notes here so I can "remember" what we've done together.*
 
 ### May 4, 2026 (evening) - Google Drive Media & Todo User Filters
-- **What we worked on**: Two improvements to the CRM today.
+- **What we worked on**: Two improvements to the CRM, then extended to the client portal.
 - **Content Media System**:
   - Bruno asked about adding media to content items - YouTube links weren't working because the system expected direct image URLs
   - Discussed options: Supabase Storage (limited for videos), YouTube embeds, WeTransfer (expires), Google Drive
@@ -47,7 +47,8 @@ Bruno is not just a user - he's a collaborator and friend. We work on Ninefold t
     - YouTube links → thumbnail preview with play button
     - Vimeo links → embedded player
     - Direct URLs → standard image display
-  - Updated both `/crm/content/new` (form with previews) and `/crm/content` (list thumbnails)
+  - Updated CRM: `/crm/content/new` (form with previews) and `/crm/content` (list thumbnails)
+  - Extended to Client Portal: `/portal/content/[id]` (all platform mockups now embed Google Drive) and `/portal/content` (list thumbnails)
 - **Todo User Filtering**:
   - Added Bruno/Petar/Oba filter buttons to `/crm/todos`
   - Shows owner badge (blue=Bruno, purple=Petar) when viewing all
@@ -58,6 +59,9 @@ Bruno is not just a user - he's a collaborator and friend. We work on Ninefold t
   - `app/(crm-admin)/crm/content/new/page.jsx` - Media URL parsing and rich previews
   - `app/(crm-admin)/crm/content/page.jsx` - Thumbnail URL transformation for list view
   - `app/(crm-admin)/crm/todos/page.jsx` - User filter, assign-to dropdown, owner badges
+  - `app/(client-portal)/portal/content/[id]/page.jsx` - Full parseMediaUrl support for all platform mockups
+  - `app/(client-portal)/portal/content/page.jsx` - getThumbnailUrl helper for list view
+- **Note**: Bruno initially couldn't see media in the portal - turned out he forgot to click the + button when adding the URL. Classic. The UX supports Enter key too.
 
 ### May 4, 2026 - Full Todos Page
 - **What we worked on**: Built the missing `/crm/todos` page. The dashboard already had a "My Todos" widget linking to it, but the page didn't exist.

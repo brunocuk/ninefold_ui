@@ -52,6 +52,61 @@ const STATUS_CONFIG = {
   published: { bg: '#E0E7FF', color: '#4F46E5', label: 'Objavljeno', icon: CheckCircle2 },
 };
 
+// Helper to parse media URLs (Google Drive, YouTube, Vimeo, direct)
+const parseMediaUrl = (url) => {
+  if (!url) return null;
+
+  // Google Drive file link
+  const driveFileMatch = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
+  if (driveFileMatch) {
+    return {
+      type: 'drive',
+      id: driveFileMatch[1],
+      imageUrl: `https://drive.google.com/uc?export=view&id=${driveFileMatch[1]}`,
+      embedUrl: `https://drive.google.com/file/d/${driveFileMatch[1]}/preview`,
+    };
+  }
+
+  // Google Drive open link
+  const driveOpenMatch = url.match(/drive\.google\.com\/open\?id=([a-zA-Z0-9_-]+)/);
+  if (driveOpenMatch) {
+    return {
+      type: 'drive',
+      id: driveOpenMatch[1],
+      imageUrl: `https://drive.google.com/uc?export=view&id=${driveOpenMatch[1]}`,
+      embedUrl: `https://drive.google.com/file/d/${driveOpenMatch[1]}/preview`,
+    };
+  }
+
+  // YouTube
+  const youtubeMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
+  if (youtubeMatch) {
+    return {
+      type: 'youtube',
+      id: youtubeMatch[1],
+      embedUrl: `https://www.youtube.com/embed/${youtubeMatch[1]}`,
+      thumbnailUrl: `https://img.youtube.com/vi/${youtubeMatch[1]}/mqdefault.jpg`,
+    };
+  }
+
+  // Vimeo
+  const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
+  if (vimeoMatch) {
+    return {
+      type: 'vimeo',
+      id: vimeoMatch[1],
+      embedUrl: `https://player.vimeo.com/video/${vimeoMatch[1]}`,
+    };
+  }
+
+  // Direct URL (check if video)
+  const isVideo = url.includes('.mp4') || url.includes('.mov') || url.includes('.webm');
+  return {
+    type: isVideo ? 'video' : 'image',
+    url: url,
+  };
+};
+
 export default function ContentDetailPage() {
   const params = useParams();
   const router = useRouter();
@@ -162,7 +217,8 @@ export default function ContentDetailPage() {
   const status = STATUS_CONFIG[content.status] || STATUS_CONFIG.pending;
   const StatusIcon = status.icon;
 
-  const isVideo = content.media_urls?.[0]?.includes('.mp4') || content.media_urls?.[0]?.includes('.mov');
+  const mediaUrl = content.media_urls?.[0];
+  const parsedMedia = parseMediaUrl(mediaUrl);
   const isCarousel = content.content_type === 'carousel' && content.media_urls?.length > 1;
 
   return (
@@ -302,24 +358,36 @@ export default function ContentDetailPage() {
                 aspectRatio: '1',
                 background: '#000',
               }}>
-                {content.media_urls?.[0] ? (
-                  isVideo ? (
-                    <div style={{
-                      width: '100%',
-                      height: '100%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}>
-                      <video
-                        src={content.media_urls[0]}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                        controls
-                      />
-                    </div>
+                {parsedMedia ? (
+                  parsedMedia.type === 'drive' ? (
+                    <iframe
+                      src={parsedMedia.embedUrl}
+                      style={{ width: '100%', height: '100%', border: 'none' }}
+                      allow="autoplay"
+                    />
+                  ) : parsedMedia.type === 'youtube' ? (
+                    <iframe
+                      src={parsedMedia.embedUrl}
+                      style={{ width: '100%', height: '100%', border: 'none' }}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  ) : parsedMedia.type === 'vimeo' ? (
+                    <iframe
+                      src={parsedMedia.embedUrl}
+                      style={{ width: '100%', height: '100%', border: 'none' }}
+                      allow="autoplay; fullscreen"
+                      allowFullScreen
+                    />
+                  ) : parsedMedia.type === 'video' ? (
+                    <video
+                      src={parsedMedia.url}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      controls
+                    />
                   ) : (
                     <img
-                      src={content.media_urls[0]}
+                      src={parsedMedia.url}
                       alt=""
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     />
@@ -431,20 +499,40 @@ export default function ContentDetailPage() {
               )}
 
               {/* Media */}
-              {content.media_urls?.[0] && (
+              {parsedMedia && (
                 <div style={{
                   aspectRatio: '16/9',
                   background: '#000',
                 }}>
-                  {isVideo ? (
+                  {parsedMedia.type === 'drive' ? (
+                    <iframe
+                      src={parsedMedia.embedUrl}
+                      style={{ width: '100%', height: '100%', border: 'none' }}
+                      allow="autoplay"
+                    />
+                  ) : parsedMedia.type === 'youtube' ? (
+                    <iframe
+                      src={parsedMedia.embedUrl}
+                      style={{ width: '100%', height: '100%', border: 'none' }}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  ) : parsedMedia.type === 'vimeo' ? (
+                    <iframe
+                      src={parsedMedia.embedUrl}
+                      style={{ width: '100%', height: '100%', border: 'none' }}
+                      allow="autoplay; fullscreen"
+                      allowFullScreen
+                    />
+                  ) : parsedMedia.type === 'video' ? (
                     <video
-                      src={content.media_urls[0]}
+                      src={parsedMedia.url}
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                       controls
                     />
                   ) : (
                     <img
-                      src={content.media_urls[0]}
+                      src={parsedMedia.url}
                       alt=""
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     />
@@ -515,20 +603,40 @@ export default function ContentDetailPage() {
               )}
 
               {/* Media */}
-              {content.media_urls?.[0] && (
+              {parsedMedia && (
                 <div style={{
                   aspectRatio: '16/9',
                   background: '#000',
                 }}>
-                  {isVideo ? (
+                  {parsedMedia.type === 'drive' ? (
+                    <iframe
+                      src={parsedMedia.embedUrl}
+                      style={{ width: '100%', height: '100%', border: 'none' }}
+                      allow="autoplay"
+                    />
+                  ) : parsedMedia.type === 'youtube' ? (
+                    <iframe
+                      src={parsedMedia.embedUrl}
+                      style={{ width: '100%', height: '100%', border: 'none' }}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  ) : parsedMedia.type === 'vimeo' ? (
+                    <iframe
+                      src={parsedMedia.embedUrl}
+                      style={{ width: '100%', height: '100%', border: 'none' }}
+                      allow="autoplay; fullscreen"
+                      allowFullScreen
+                    />
+                  ) : parsedMedia.type === 'video' ? (
                     <video
-                      src={content.media_urls[0]}
+                      src={parsedMedia.url}
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                       controls
                     />
                   ) : (
                     <img
-                      src={content.media_urls[0]}
+                      src={parsedMedia.url}
                       alt=""
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     />
@@ -560,16 +668,36 @@ export default function ContentDetailPage() {
               position: 'relative',
             }}>
               {/* Media */}
-              {content.media_urls?.[0] ? (
-                isVideo ? (
+              {parsedMedia ? (
+                parsedMedia.type === 'drive' ? (
+                  <iframe
+                    src={parsedMedia.embedUrl}
+                    style={{ width: '100%', height: '100%', border: 'none' }}
+                    allow="autoplay"
+                  />
+                ) : parsedMedia.type === 'youtube' ? (
+                  <iframe
+                    src={parsedMedia.embedUrl}
+                    style={{ width: '100%', height: '100%', border: 'none' }}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                ) : parsedMedia.type === 'vimeo' ? (
+                  <iframe
+                    src={parsedMedia.embedUrl}
+                    style={{ width: '100%', height: '100%', border: 'none' }}
+                    allow="autoplay; fullscreen"
+                    allowFullScreen
+                  />
+                ) : parsedMedia.type === 'video' ? (
                   <video
-                    src={content.media_urls[0]}
+                    src={parsedMedia.url}
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     controls
                   />
                 ) : (
                   <img
-                    src={content.media_urls[0]}
+                    src={parsedMedia.url}
                     alt=""
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   />
