@@ -31,6 +31,30 @@ const STATUS_CONFIG = {
   published: { bg: 'bg-indigo-500/10', text: 'text-indigo-500', label: 'Objavljeno' },
 };
 
+// Helper to get thumbnail URL from various sources
+const getThumbnailUrl = (url) => {
+  if (!url) return null;
+
+  // Google Drive
+  const driveFileMatch = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
+  if (driveFileMatch) {
+    return `https://drive.google.com/uc?export=view&id=${driveFileMatch[1]}`;
+  }
+  const driveOpenMatch = url.match(/drive\.google\.com\/open\?id=([a-zA-Z0-9_-]+)/);
+  if (driveOpenMatch) {
+    return `https://drive.google.com/uc?export=view&id=${driveOpenMatch[1]}`;
+  }
+
+  // YouTube
+  const youtubeMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
+  if (youtubeMatch) {
+    return `https://img.youtube.com/vi/${youtubeMatch[1]}/mqdefault.jpg`;
+  }
+
+  // Direct URL (fallback)
+  return url;
+};
+
 export default function ContentManagementPage() {
   const [loading, setLoading] = useState(true);
   const [content, setContent] = useState([]);
@@ -240,9 +264,10 @@ export default function ContentManagementPage() {
                 {item.media_urls?.[0] ? (
                   <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-[#2A2A2A]">
                     <img
-                      src={item.media_urls[0]}
+                      src={getThumbnailUrl(item.media_urls[0])}
                       alt=""
                       className="w-full h-full object-cover"
+                      onError={(e) => e.target.style.display = 'none'}
                     />
                   </div>
                 ) : (

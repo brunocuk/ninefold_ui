@@ -29,6 +29,58 @@ const CONTENT_TYPES = [
   { id: 'carousel', label: 'Carousel' },
 ];
 
+// Helper to parse and transform media URLs
+const parseMediaUrl = (url) => {
+  // Google Drive file link: https://drive.google.com/file/d/FILE_ID/view?usp=sharing
+  const driveFileMatch = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
+  if (driveFileMatch) {
+    return {
+      type: 'drive',
+      id: driveFileMatch[1],
+      imageUrl: `https://drive.google.com/uc?export=view&id=${driveFileMatch[1]}`,
+      embedUrl: `https://drive.google.com/file/d/${driveFileMatch[1]}/preview`,
+    };
+  }
+
+  // Google Drive open link: https://drive.google.com/open?id=FILE_ID
+  const driveOpenMatch = url.match(/drive\.google\.com\/open\?id=([a-zA-Z0-9_-]+)/);
+  if (driveOpenMatch) {
+    return {
+      type: 'drive',
+      id: driveOpenMatch[1],
+      imageUrl: `https://drive.google.com/uc?export=view&id=${driveOpenMatch[1]}`,
+      embedUrl: `https://drive.google.com/file/d/${driveOpenMatch[1]}/preview`,
+    };
+  }
+
+  // YouTube: https://www.youtube.com/watch?v=VIDEO_ID or https://youtu.be/VIDEO_ID
+  const youtubeMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
+  if (youtubeMatch) {
+    return {
+      type: 'youtube',
+      id: youtubeMatch[1],
+      embedUrl: `https://www.youtube.com/embed/${youtubeMatch[1]}`,
+      thumbnailUrl: `https://img.youtube.com/vi/${youtubeMatch[1]}/mqdefault.jpg`,
+    };
+  }
+
+  // Vimeo: https://vimeo.com/VIDEO_ID
+  const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
+  if (vimeoMatch) {
+    return {
+      type: 'vimeo',
+      id: vimeoMatch[1],
+      embedUrl: `https://player.vimeo.com/video/${vimeoMatch[1]}`,
+    };
+  }
+
+  // Direct image URL (fallback)
+  return {
+    type: 'direct',
+    imageUrl: url,
+  };
+};
+
 export default function NewContentPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -338,15 +390,18 @@ export default function NewContentPage() {
           <div>
             <label className="block text-sm font-semibold text-gray-400 mb-2">
               <Image size={14} className="inline mr-2" />
-              Mediji (URL-ovi)
+              Mediji
             </label>
+            <p className="text-xs text-gray-500 mb-2">
+              Google Drive, YouTube, Vimeo ili direktni URL slike
+            </p>
             <div className="flex gap-2 mb-3">
               <input
                 type="url"
                 value={newMediaUrl}
                 onChange={(e) => setNewMediaUrl(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddMedia())}
-                placeholder="https://..."
+                placeholder="Zalijepi link..."
                 className="flex-1 px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
               />
               <button
@@ -358,24 +413,93 @@ export default function NewContentPage() {
               </button>
             </div>
             {formData.media_urls.length > 0 && (
-              <div className="grid grid-cols-3 gap-3">
-                {formData.media_urls.map((url, i) => (
-                  <div key={i} className="relative group">
-                    <img
-                      src={url}
-                      alt=""
-                      className="w-full aspect-square object-cover rounded-xl"
-                      onError={(e) => e.target.src = 'https://via.placeholder.com/150?text=Error'}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveMedia(url)}
-                      className="absolute top-2 right-2 p-1.5 bg-red-500 text-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
-                    >
-                      <X size={14} />
-                    </button>
-                  </div>
-                ))}
+              <div className="grid grid-cols-2 gap-3">
+                {formData.media_urls.map((url, i) => {
+                  const media = parseMediaUrl(url);
+                  return (
+                    <div key={i} className="relative group">
+                      {/* Google Drive - try as image first, show video player on error */}
+                      {media.type === 'drive' && (
+                        <div className="relative aspect-video bg-[#0a0a0a] rounded-xl overflow-hidden">
+                          <img
+                            src={media.imageUrl}
+                            alt=""
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              // If image fails, it's probably a video - replace with iframe
+                              e.target.style.display = 'none';
+                              e.target.nextSibling.style.display = 'block';
+                            }}
+                          />
+                          <iframe
+                            src={media.embedUrl}
+                            className="w-full h-full absolute inset-0 hidden"
+                            allow="autoplay"
+                            frameBorder="0"
+                          />
+                          <span className="absolute bottom-2 left-2 px-2 py-1 bg-black/70 text-white text-xs rounded">
+                            Google Drive
+                          </span>
+                        </div>
+                      )}
+
+                      {/* YouTube */}
+                      {media.type === 'youtube' && (
+                        <div className="relative aspect-video bg-[#0a0a0a] rounded-xl overflow-hidden">
+                          <img
+                            src={media.thumbnailUrl}
+                            alt=""
+                            className="w-full h-full object-cover"
+                          />
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center">
+                              <div className="w-0 h-0 border-t-[8px] border-t-transparent border-l-[14px] border-l-white border-b-[8px] border-b-transparent ml-1" />
+                            </div>
+                          </div>
+                          <span className="absolute bottom-2 left-2 px-2 py-1 bg-black/70 text-white text-xs rounded">
+                            YouTube
+                          </span>
+                        </div>
+                      )}
+
+                      {/* Vimeo */}
+                      {media.type === 'vimeo' && (
+                        <div className="relative aspect-video bg-[#0a0a0a] rounded-xl overflow-hidden">
+                          <iframe
+                            src={media.embedUrl}
+                            className="w-full h-full"
+                            frameBorder="0"
+                            allow="autoplay; fullscreen"
+                          />
+                          <span className="absolute bottom-2 left-2 px-2 py-1 bg-black/70 text-white text-xs rounded">
+                            Vimeo
+                          </span>
+                        </div>
+                      )}
+
+                      {/* Direct URL (fallback) */}
+                      {media.type === 'direct' && (
+                        <div className="relative aspect-video bg-[#0a0a0a] rounded-xl overflow-hidden">
+                          <img
+                            src={media.imageUrl}
+                            alt=""
+                            className="w-full h-full object-cover"
+                            onError={(e) => e.target.src = 'https://via.placeholder.com/300x200?text=Error'}
+                          />
+                        </div>
+                      )}
+
+                      {/* Remove button */}
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveMedia(url)}
+                        className="absolute top-2 right-2 p-1.5 bg-red-500 text-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                      >
+                        <X size={14} />
+                      </button>
+                    </div>
+                  );
+                })}
               </div>
             )}
           </div>

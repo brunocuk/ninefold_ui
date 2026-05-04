@@ -29,7 +29,8 @@ import {
 export default function TodosPage() {
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [currentUser, setCurrentUser] = useState('bruno');
+  const [currentUser, setCurrentUser] = useState('bruno'); // For creating new todos
+  const [userFilter, setUserFilter] = useState('bruno'); // For filtering the list
   const [statusFilter, setStatusFilter] = useState('active'); // 'active', 'all', 'completed'
   const [priorityFilter, setPriorityFilter] = useState('all');
 
@@ -39,7 +40,8 @@ export default function TodosPage() {
     title: '',
     description: '',
     due_date: '',
-    priority: 'normal'
+    priority: 'normal',
+    assigned_to: 'bruno'
   });
 
   // Edit modal
@@ -51,10 +53,8 @@ export default function TodosPage() {
   }, []);
 
   useEffect(() => {
-    if (currentUser) {
-      loadTodos();
-    }
-  }, [currentUser, statusFilter, priorityFilter]);
+    loadTodos();
+  }, [userFilter, statusFilter, priorityFilter]);
 
   const loadCurrentUser = async () => {
     try {
@@ -73,8 +73,12 @@ export default function TodosPage() {
             const name = settings.profile.name.toLowerCase();
             if (name.includes('petar')) {
               setCurrentUser('petar');
+              setUserFilter('petar');
+              setNewTodo(prev => ({ ...prev, assigned_to: 'petar' }));
             } else {
               setCurrentUser('bruno');
+              setUserFilter('bruno');
+              setNewTodo(prev => ({ ...prev, assigned_to: 'bruno' }));
             }
             return;
           }
@@ -91,10 +95,14 @@ export default function TodosPage() {
       let query = supabase
         .from('crm_todos')
         .select('*')
-        .eq('assigned_to', currentUser)
         .order('priority', { ascending: false })
         .order('due_date', { ascending: true, nullsFirst: false })
         .order('created_at', { ascending: false });
+
+      // Filter by user (bruno, petar, or all)
+      if (userFilter !== 'all') {
+        query = query.eq('assigned_to', userFilter);
+      }
 
       if (statusFilter === 'active') {
         query = query.neq('status', 'completed');
@@ -126,13 +134,13 @@ export default function TodosPage() {
         description: newTodo.description.trim() || null,
         due_date: newTodo.due_date || null,
         priority: newTodo.priority,
-        assigned_to: currentUser,
+        assigned_to: newTodo.assigned_to,
         created_by: currentUser,
         status: 'pending'
       });
 
       if (!error) {
-        setNewTodo({ title: '', description: '', due_date: '', priority: 'normal' });
+        setNewTodo({ title: '', description: '', due_date: '', priority: 'normal', assigned_to: currentUser });
         setShowNewTodo(false);
         loadTodos();
       }
@@ -177,7 +185,8 @@ export default function TodosPage() {
           description: editForm.description || null,
           due_date: editForm.due_date || null,
           priority: editForm.priority,
-          status: editForm.status
+          status: editForm.status,
+          assigned_to: editForm.assigned_to
         })
         .eq('id', editingTodo.id);
       setEditingTodo(null);
@@ -194,7 +203,8 @@ export default function TodosPage() {
       description: todo.description || '',
       due_date: todo.due_date || '',
       priority: todo.priority,
-      status: todo.status
+      status: todo.status,
+      assigned_to: todo.assigned_to || 'bruno'
     });
   };
 
@@ -262,9 +272,11 @@ export default function TodosPage() {
             Todos
           </h1>
           <p className="text-gray-400">
+            {userFilter === 'all' ? 'Svi todosi' : `${userFilter.charAt(0).toUpperCase() + userFilter.slice(1)}'s todos`}
+            {' · '}
             {statusFilter === 'completed'
-              ? `${todos.length} completed tasks`
-              : `${activeTodosCount} active tasks`}
+              ? `${todos.length} completed`
+              : `${activeTodosCount} active`}
           </p>
         </div>
         <button
@@ -278,6 +290,30 @@ export default function TodosPage() {
 
       {/* Filters */}
       <div className="flex flex-wrap gap-3 mb-6">
+        {/* User Filter */}
+        <div className="flex gap-2">
+          {[
+            { value: 'bruno', label: 'Bruno' },
+            { value: 'petar', label: 'Petar' },
+            { value: 'all', label: 'Oba' }
+          ].map((btn) => (
+            <button
+              key={btn.value}
+              onClick={() => setUserFilter(btn.value)}
+              className={`px-4 py-2 rounded-lg border-2 font-semibold transition-all ${
+                userFilter === btn.value
+                  ? 'bg-white text-black border-white'
+                  : 'bg-[#1a1a1a] text-gray-400 border-[#2A2A2A] hover:border-white hover:text-white'
+              }`}
+            >
+              {btn.label}
+            </button>
+          ))}
+        </div>
+
+        <div className="h-8 w-px bg-[#2A2A2A] hidden sm:block" />
+
+        {/* Status Filter */}
         <div className="flex gap-2">
           {[
             { value: 'active', label: 'Active' },
@@ -381,6 +417,15 @@ export default function TodosPage() {
                 <option value="normal">Normal Priority</option>
                 <option value="high">High Priority</option>
                 <option value="urgent">Urgent</option>
+              </select>
+
+              <select
+                value={newTodo.assigned_to}
+                onChange={(e) => setNewTodo({ ...newTodo, assigned_to: e.target.value })}
+                className="px-3 py-2 bg-[#0f0f0f] border border-[#2A2A2A] rounded-lg text-white focus:border-[#00FF94] focus:outline-none"
+              >
+                <option value="bruno">→ Bruno</option>
+                <option value="petar">→ Petar</option>
               </select>
 
               <div className="flex-1" />
@@ -501,6 +546,17 @@ export default function TodosPage() {
                         </span>
                       )}
 
+                      {/* Show owner when viewing all todos */}
+                      {userFilter === 'all' && todo.assigned_to && (
+                        <span className={`inline-flex items-center gap-1.5 text-xs px-2 py-0.5 rounded-full ${
+                          todo.assigned_to === 'bruno'
+                            ? 'bg-blue-500/10 text-blue-400'
+                            : 'bg-purple-500/10 text-purple-400'
+                        }`}>
+                          {todo.assigned_to.charAt(0).toUpperCase() + todo.assigned_to.slice(1)}
+                        </span>
+                      )}
+
                       <div className="flex-1" />
 
                       {/* Actions */}
@@ -592,17 +648,31 @@ export default function TodosPage() {
                   </div>
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-400 mb-2">Status</label>
-                  <select
-                    value={editForm.status}
-                    onChange={(e) => setEditForm({ ...editForm, status: e.target.value })}
-                    className="w-full px-4 py-3 bg-[#0f0f0f] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
-                  >
-                    <option value="pending">Pending</option>
-                    <option value="in_progress">In Progress</option>
-                    <option value="completed">Completed</option>
-                  </select>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-400 mb-2">Status</label>
+                    <select
+                      value={editForm.status}
+                      onChange={(e) => setEditForm({ ...editForm, status: e.target.value })}
+                      className="w-full px-4 py-3 bg-[#0f0f0f] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
+                    >
+                      <option value="pending">Pending</option>
+                      <option value="in_progress">In Progress</option>
+                      <option value="completed">Completed</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-400 mb-2">Assigned To</label>
+                    <select
+                      value={editForm.assigned_to}
+                      onChange={(e) => setEditForm({ ...editForm, assigned_to: e.target.value })}
+                      className="w-full px-4 py-3 bg-[#0f0f0f] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
+                    >
+                      <option value="bruno">Bruno</option>
+                      <option value="petar">Petar</option>
+                    </select>
+                  </div>
                 </div>
               </div>
 

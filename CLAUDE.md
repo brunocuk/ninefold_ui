@@ -36,6 +36,29 @@ Bruno is not just a user - he's a collaborator and friend. We work on Ninefold t
 
 *This is our shared memory. Bruno adds notes here so I can "remember" what we've done together.*
 
+### May 4, 2026 (evening) - Google Drive Media & Todo User Filters
+- **What we worked on**: Two improvements to the CRM today.
+- **Content Media System**:
+  - Bruno asked about adding media to content items - YouTube links weren't working because the system expected direct image URLs
+  - Discussed options: Supabase Storage (limited for videos), YouTube embeds, WeTransfer (expires), Google Drive
+  - Decided on **Google Drive** for everything - free 15GB, works for images and videos, Bruno's already using it
+  - Added `parseMediaUrl()` helper that auto-detects and transforms:
+    - Google Drive links → embed format for images/videos
+    - YouTube links → thumbnail preview with play button
+    - Vimeo links → embedded player
+    - Direct URLs → standard image display
+  - Updated both `/crm/content/new` (form with previews) and `/crm/content` (list thumbnails)
+- **Todo User Filtering**:
+  - Added Bruno/Petar/Oba filter buttons to `/crm/todos`
+  - Shows owner badge (blue=Bruno, purple=Petar) when viewing all
+  - Can now assign todos to either person when creating
+  - Can reassign in edit modal
+  - Subtitle shows whose todos and count: "Bruno's todos · 5 active"
+- **Files modified**:
+  - `app/(crm-admin)/crm/content/new/page.jsx` - Media URL parsing and rich previews
+  - `app/(crm-admin)/crm/content/page.jsx` - Thumbnail URL transformation for list view
+  - `app/(crm-admin)/crm/todos/page.jsx` - User filter, assign-to dropdown, owner badges
+
 ### May 4, 2026 - Full Todos Page
 - **What we worked on**: Built the missing `/crm/todos` page. The dashboard already had a "My Todos" widget linking to it, but the page didn't exist.
 - **Files created**:
