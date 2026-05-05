@@ -13,6 +13,7 @@ import {
   FileBarChart,
   Receipt,
   MessageSquare,
+  Settings,
   LogOut,
   Menu,
   X,
@@ -99,6 +100,7 @@ function PortalLayoutInner({ children }) {
     { href: '/portal/reports', icon: FileBarChart, label: 'Izvještaji' },
     { href: '/portal/invoices', icon: Receipt, label: 'Ponude' },
     { href: '/portal/messages', icon: MessageSquare, label: 'Poruke' },
+    { href: '/portal/settings', icon: Settings, label: 'Postavke' },
   ];
 
   return (
