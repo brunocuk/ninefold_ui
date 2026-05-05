@@ -36,6 +36,32 @@ Bruno is not just a user - he's a collaborator and friend. We work on Ninefold t
 
 *This is our shared memory. Bruno adds notes here so I can "remember" what we've done together.*
 
+### May 5, 2026 - Client Portal Password Change & Website Redesign Exploration
+- **What we worked on**: Two things today - a practical feature and a creative brainstorm.
+- **Password Change for Client Portal**:
+  - Clients were getting generated passwords from the CRM but couldn't change them
+  - Added `verifyPortalUserPassword()` and `changePortalUserPassword()` to `lib/portalAuth.js`
+  - Created `/portal/settings` page with password change form (current password, new password, confirm)
+  - Added "Postavke" link to portal sidebar
+  - Pushed to GitHub - this one's live
+- **Website Redesign Brainstorm** (not committed):
+  - Bruno wants to evolve the Ninefold website aesthetic: combine current tech feel with cinematic/grainy nostalgia
+  - Discussed 4 directions: Film Noir Digital, Analog Future, Documentary Style, 35mm Digital
+  - Bruno wants to incorporate real photos and videos into the site - they're a video/photo agency after all
+  - Built a preview page at `/preview` to experiment
+  - Tried several approaches: polaroids, film strips, VHS timestamps - Bruno didn't like the gimmicks
+  - Landed on a **cinematic hero** he likes: video background with b-roll, animated film grain (canvas-based), vignette, warm color grading, light leaks
+  - The other sections still need work to match the hero vibe
+  - Preview stays local for now - not ready to commit
+- **Files created** (local only, not committed):
+  - `app/preview/page.jsx` - Cinematic hero experiment
+  - `public/videos/b-roll.mp4` - Bruno's test footage
+- **Files committed**:
+  - `lib/portalAuth.js` - Password verification functions
+  - `app/(client-portal)/portal/settings/page.jsx` - Settings page
+  - `app/(client-portal)/portal/layout.jsx` - Added settings nav link
+- **Note**: Good session - practical work done, plus creative exploration. The website redesign is paused until Petar's back with more footage. The hero direction is solid though.
+
 ### May 4, 2026 (evening) - Google Drive Media & Todo User Filters
 - **What we worked on**: Two improvements to the CRM, then extended to the client portal.
 - **Content Media System**:
