@@ -112,6 +112,7 @@ export default function ContentDetailPage() {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [content, setContent] = useState(null);
+  const [client, setClient] = useState(null);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [showRevisionModal, setShowRevisionModal] = useState(false);
@@ -136,6 +137,19 @@ export default function ContentDetailPage() {
       console.error('Error loading content:', error);
     } else {
       setContent(data);
+
+      // Fetch client data for social handles
+      if (data.client_id) {
+        const { data: clientData } = await supabase
+          .from('clients')
+          .select('company, instagram_handle, facebook_page_name, linkedin_page_name, tiktok_handle')
+          .eq('id', data.client_id)
+          .single();
+
+        if (clientData) {
+          setClient(clientData);
+        }
+      }
     }
 
     setLoading(false);
@@ -347,7 +361,7 @@ export default function ContentDetailPage() {
                   background: 'linear-gradient(135deg, #00ff94 0%, #00cc76 100%)',
                 }} />
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: '0.85rem', fontWeight: '600' }}>ninefold.agency</div>
+                  <div style={{ fontSize: '0.85rem', fontWeight: '600' }}>{client?.instagram_handle || client?.company || 'Account'}</div>
                 </div>
                 <MoreHorizontal size={20} style={{ color: '#262626' }} />
               </div>
@@ -441,7 +455,7 @@ export default function ContentDetailPage() {
                 </div>
 
                 <div style={{ fontSize: '0.85rem', lineHeight: '1.4' }}>
-                  <span style={{ fontWeight: '600' }}>ninefold.agency</span>{' '}
+                  <span style={{ fontWeight: '600' }}>{client?.instagram_handle || client?.company || 'Account'}</span>{' '}
                   {content.caption}
                 </div>
 
@@ -478,7 +492,7 @@ export default function ContentDetailPage() {
                   background: 'linear-gradient(135deg, #00ff94 0%, #00cc76 100%)',
                 }} />
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: '0.95rem', fontWeight: '600' }}>Ninefold</div>
+                  <div style={{ fontSize: '0.95rem', fontWeight: '600' }}>{client?.facebook_page_name || client?.company || 'Page'}</div>
                   <div style={{ fontSize: '0.75rem', color: '#65676B' }}>
                     {new Date(content.scheduled_date).toLocaleDateString('hr-HR')} · 🌐
                   </div>
@@ -580,9 +594,9 @@ export default function ContentDetailPage() {
                   background: 'linear-gradient(135deg, #00ff94 0%, #00cc76 100%)',
                 }} />
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: '0.95rem', fontWeight: '600', color: '#000' }}>Ninefold</div>
+                  <div style={{ fontSize: '0.95rem', fontWeight: '600', color: '#000' }}>{client?.linkedin_page_name || client?.company || 'Company'}</div>
                   <div style={{ fontSize: '0.8rem', color: '#666', marginBottom: '2px' }}>
-                    Creative Agency
+                    {client?.company || ''}
                   </div>
                   <div style={{ fontSize: '0.75rem', color: '#999' }}>
                     {new Date(content.scheduled_date).toLocaleDateString('hr-HR')} · 🌐
@@ -726,7 +740,7 @@ export default function ContentDetailPage() {
                 color: '#fff',
               }}>
                 <div style={{ fontSize: '0.9rem', marginBottom: '8px' }}>
-                  @ninefold.agency
+                  @{client?.tiktok_handle || client?.company?.toLowerCase().replace(/\s+/g, '') || 'account'}
                 </div>
                 <div style={{ fontSize: '0.85rem', lineHeight: '1.4', opacity: 0.9 }}>
                   {content.caption?.slice(0, 100)}

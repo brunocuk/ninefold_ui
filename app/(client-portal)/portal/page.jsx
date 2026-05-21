@@ -18,6 +18,9 @@ import {
   PartyPopper,
   Send,
   ArrowUpRight,
+  Instagram,
+  Facebook,
+  Linkedin,
 } from 'lucide-react';
 
 export default function PortalDashboard() {
@@ -34,6 +37,7 @@ export default function PortalDashboard() {
   });
   const [upcomingContent, setUpcomingContent] = useState([]);
   const [recentActivity, setRecentActivity] = useState([]);
+  const [clientData, setClientData] = useState(null);
 
   useEffect(() => { loadDashboard(); }, []);
 
@@ -47,7 +51,7 @@ export default function PortalDashboard() {
     }
 
     try {
-      const [contentRes, projectsRes, requestsRes, messagesRes] = await Promise.all([
+      const [contentRes, projectsRes, requestsRes, messagesRes, clientRes] = await Promise.all([
         supabase.from('content_items').select('id', { count: 'exact', head: true })
           .eq('client_id', currentUser.client_id).eq('status', 'pending'),
         supabase.from('projects').select('id', { count: 'exact', head: true })
@@ -56,7 +60,13 @@ export default function PortalDashboard() {
           .eq('client_id', currentUser.client_id).in('status', ['submitted', 'in_review', 'in_progress']),
         supabase.from('portal_messages').select('id', { count: 'exact', head: true })
           .eq('client_id', currentUser.client_id).eq('sender_type', 'admin').is('read_at', null),
+        supabase.from('clients').select('company, instagram_handle, facebook_page_name, linkedin_page_name, tiktok_handle')
+          .eq('id', currentUser.client_id).single(),
       ]);
+
+      if (clientRes.data) {
+        setClientData(clientRes.data);
+      }
 
       setStats({
         pendingContent: contentRes.count || 0,
@@ -111,6 +121,13 @@ export default function PortalDashboard() {
 
   const totalItems = stats.pendingContent + stats.activeProjects + stats.openRequests + stats.unreadMessages;
   const hasNoData = totalItems === 0 && upcomingContent.length === 0 && recentActivity.length === 0;
+
+  // Check which social accounts are connected
+  const connectedAccounts = [];
+  if (clientData?.instagram_handle) connectedAccounts.push({ platform: 'instagram', handle: clientData.instagram_handle, color: '#E4405F' });
+  if (clientData?.facebook_page_name) connectedAccounts.push({ platform: 'facebook', handle: clientData.facebook_page_name, color: '#1877F2' });
+  if (clientData?.linkedin_page_name) connectedAccounts.push({ platform: 'linkedin', handle: clientData.linkedin_page_name, color: '#0A66C2' });
+  if (clientData?.tiktok_handle) connectedAccounts.push({ platform: 'tiktok', handle: clientData.tiktok_handle, color: '#000000' });
 
   if (loading) {
     return (
@@ -424,6 +441,67 @@ export default function PortalDashboard() {
           flex-shrink: 0;
         }
 
+        /* Connected Accounts */
+        .connected-accounts {
+          margin-bottom: 24px;
+        }
+        .connected-accounts-header {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          margin-bottom: 16px;
+        }
+        .connected-accounts-title {
+          font-size: 0.9rem;
+          font-weight: 600;
+          color: ${t.textSecondary};
+        }
+        .accounts-grid {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 12px;
+        }
+        .account-badge {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 12px 18px;
+          background: ${t.bgCard};
+          border: 1px solid ${t.border};
+          border-radius: 12px;
+          text-decoration: none;
+          transition: all 0.15s;
+        }
+        .account-badge:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .account-icon {
+          width: 32px;
+          height: 32px;
+          border-radius: 8px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+        }
+        .account-info {
+          display: flex;
+          flex-direction: column;
+        }
+        .account-platform {
+          font-size: 0.7rem;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          color: ${t.textMuted};
+          font-weight: 600;
+        }
+        .account-handle {
+          font-size: 0.9rem;
+          font-weight: 500;
+          color: ${t.text};
+        }
+
         /* All Good State */
         .all-good {
           background: linear-gradient(135deg, ${theme === 'light' ? '#f0fdf4' : 'rgba(0, 255, 148, 0.05)'} 0%, ${t.bgCard} 100%);
@@ -499,6 +577,37 @@ export default function PortalDashboard() {
           <div className="stat-label">Novih poruka</div>
         </Link>
       </div>
+
+      {/* Connected Accounts */}
+      {connectedAccounts.length > 0 && (
+        <div className="connected-accounts">
+          <div className="connected-accounts-header">
+            <div className="connected-accounts-title">Povezani profili</div>
+          </div>
+          <div className="accounts-grid">
+            {connectedAccounts.map((account) => (
+              <div key={account.platform} className="account-badge">
+                <div className="account-icon" style={{ background: account.color }}>
+                  {account.platform === 'instagram' && <Instagram size={18} color="#fff" />}
+                  {account.platform === 'facebook' && <Facebook size={18} color="#fff" />}
+                  {account.platform === 'linkedin' && <Linkedin size={18} color="#fff" />}
+                  {account.platform === 'tiktok' && (
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff">
+                      <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                    </svg>
+                  )}
+                </div>
+                <div className="account-info">
+                  <span className="account-platform">{account.platform}</span>
+                  <span className="account-handle">
+                    {account.platform === 'instagram' || account.platform === 'tiktok' ? '@' : ''}{account.handle}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* All Good State - when everything is at 0 */}
       {hasNoData && (

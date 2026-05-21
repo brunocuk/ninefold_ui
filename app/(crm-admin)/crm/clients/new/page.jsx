@@ -25,7 +25,11 @@ export default function NewClientPage() {
     city: '',
     country: 'Croatia',
     status: 'active',
-    notes: ''
+    notes: '',
+    instagram_handle: '',
+    facebook_page_name: '',
+    linkedin_page_name: '',
+    tiktok_handle: '',
   });
 
   const handleSubmit = async (e) => {
@@ -383,6 +387,58 @@ export default function NewClientPage() {
                     onChange={handleChange}
                     placeholder="Croatia"
                   />
+                </div>
+              </div>
+            </div>
+
+            {/* Social Media */}
+            <div className="form-section">
+              <h3 className="section-title">Social Media</h3>
+              <div className="form-grid">
+                <div className="form-group">
+                  <label>Instagram Handle</label>
+                  <input
+                    type="text"
+                    name="instagram_handle"
+                    value={formData.instagram_handle}
+                    onChange={handleChange}
+                    placeholder="@company"
+                  />
+                  <div className="help-text">Without the @ symbol</div>
+                </div>
+
+                <div className="form-group">
+                  <label>Facebook Page</label>
+                  <input
+                    type="text"
+                    name="facebook_page_name"
+                    value={formData.facebook_page_name}
+                    onChange={handleChange}
+                    placeholder="Company Name"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>LinkedIn Page</label>
+                  <input
+                    type="text"
+                    name="linkedin_page_name"
+                    value={formData.linkedin_page_name}
+                    onChange={handleChange}
+                    placeholder="Company Name"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>TikTok Handle</label>
+                  <input
+                    type="text"
+                    name="tiktok_handle"
+                    value={formData.tiktok_handle}
+                    onChange={handleChange}
+                    placeholder="@company"
+                  />
+                  <div className="help-text">Without the @ symbol</div>
                 </div>
               </div>
             </div>

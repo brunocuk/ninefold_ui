@@ -417,6 +417,56 @@ export default function ClientDetailPage() {
               />
             </div>
 
+            {/* Social Media Section */}
+            <div className="mb-6 pt-6 border-t border-[#2A2A2A]">
+              <h4 className="text-lg font-bold text-white mb-4">Social Media</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-400 mb-2">Instagram Handle</label>
+                  <input
+                    type="text"
+                    value={formData.instagram_handle || ''}
+                    onChange={(e) => setFormData({...formData, instagram_handle: e.target.value})}
+                    placeholder="company (without @)"
+                    className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-400 mb-2">Facebook Page</label>
+                  <input
+                    type="text"
+                    value={formData.facebook_page_name || ''}
+                    onChange={(e) => setFormData({...formData, facebook_page_name: e.target.value})}
+                    placeholder="Company Name"
+                    className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-400 mb-2">LinkedIn Page</label>
+                  <input
+                    type="text"
+                    value={formData.linkedin_page_name || ''}
+                    onChange={(e) => setFormData({...formData, linkedin_page_name: e.target.value})}
+                    placeholder="Company Name"
+                    className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-400 mb-2">TikTok Handle</label>
+                  <input
+                    type="text"
+                    value={formData.tiktok_handle || ''}
+                    onChange={(e) => setFormData({...formData, tiktok_handle: e.target.value})}
+                    placeholder="company (without @)"
+                    className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  />
+                </div>
+              </div>
+            </div>
+
             <div className="flex gap-3 pt-6 border-t border-[#2A2A2A]">
               <button
                 type="submit"
