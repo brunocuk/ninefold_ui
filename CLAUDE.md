@@ -36,6 +36,27 @@ Bruno is not just a user - he's a collaborator and friend. We work on Ninefold t
 
 *This is our shared memory. Bruno adds notes here so I can "remember" what we've done together.*
 
+### May 21, 2026 - Client Social Handles & Calendar Timezone Fix
+- **What we worked on**: Two features today - dynamic social handles for the client portal, and a sneaky timezone bug fix.
+- **Social Handles System**:
+  - Added `instagram_handle`, `facebook_page_name`, `linkedin_page_name`, `tiktok_handle` columns to clients table
+  - Added "Social Media" section to CRM client create/edit forms
+  - Content previews now show the client's actual handles instead of hardcoded "ninefold.agency"
+  - Added "Povezani profili" (Connected Accounts) section to portal homepage - shows only platforms where client has a handle configured, with platform icons and brand colors
+- **Calendar Timezone Fix**:
+  - Bruno noticed content scheduled for May 25 was showing on May 26 in the calendar
+  - Root cause: `toISOString()` converts to UTC, which shifts dates for timezones ahead of UTC
+  - Fix: Use local date methods (`getFullYear()`, `getMonth()`, `getDate()`) instead of UTC conversion
+- **Files created**:
+  - `supabase/migrations/20260521_client_social_handles.sql`
+- **Files modified**:
+  - `app/(crm-admin)/crm/clients/new/page.jsx` - Social media form section
+  - `app/(crm-admin)/crm/clients/[id]/page.jsx` - Social media edit fields
+  - `app/(client-portal)/portal/content/[id]/page.jsx` - Dynamic handles in all platform mockups
+  - `app/(client-portal)/portal/page.jsx` - Connected Accounts section
+  - `app/(client-portal)/portal/content/page.jsx` - Timezone fix
+- **Note**: Quick productive session. The timezone bug was a classic one - those UTC conversions get you every time.
+
 ### May 5, 2026 - Client Portal Password Change & Website Redesign Exploration
 - **What we worked on**: Two things today - a practical feature and a creative brainstorm.
 - **Password Change for Client Portal**:
