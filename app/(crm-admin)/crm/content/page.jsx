@@ -254,8 +254,9 @@ export default function ContentManagementPage() {
             const status = STATUS_CONFIG[item.status] || STATUS_CONFIG.pending;
 
             return (
-              <div
+              <Link
                 key={item.id}
+                href={`/crm/content/${item.id}`}
                 className={`flex items-center gap-5 p-5 hover:bg-[#222] transition-colors ${
                   index < filteredContent.length - 1 ? 'border-b border-[#2A2A2A]' : ''
                 }`}
@@ -312,10 +313,14 @@ export default function ContentManagementPage() {
                 )}
 
                 {/* Actions */}
-                <div className="flex items-center gap-2 flex-shrink-0">
+                <div className="flex items-center gap-2 flex-shrink-0" onClick={(e) => e.preventDefault()}>
                   <select
                     value={item.status}
-                    onChange={(e) => handleStatusChange(item.id, e.target.value)}
+                    onChange={(e) => {
+                      e.preventDefault();
+                      handleStatusChange(item.id, e.target.value);
+                    }}
+                    onClick={(e) => e.preventDefault()}
                     className="px-3 py-2 bg-[#0a0a0a] border border-[#2A2A2A] rounded-lg text-sm text-white cursor-pointer"
                   >
                     <option value="pending">Čeka</option>
@@ -325,13 +330,16 @@ export default function ContentManagementPage() {
                   </select>
 
                   <button
-                    onClick={() => handleDelete(item.id)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleDelete(item.id);
+                    }}
                     className="p-2 text-gray-500 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-colors"
                   >
                     <Trash2 size={18} />
                   </button>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>

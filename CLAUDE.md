@@ -36,6 +36,18 @@ Bruno is not just a user - he's a collaborator and friend. We work on Ninefold t
 
 *This is our shared memory. Bruno adds notes here so I can "remember" what we've done together.*
 
+### May 22, 2026 - CRM Content Detail Page
+- **What we worked on**: Bruno tried to navigate to `/crm/content/{id}` and hit a 404. The CRM content section had a list page and a create page, but no detail/edit page. Built it.
+- **Files created**:
+  - `app/(crm-admin)/crm/content/[id]/page.jsx` - Full detail page with view and edit modes
+- **Files modified**:
+  - `app/(crm-admin)/crm/content/page.jsx` - Made content items clickable (Link wrapper), added preventDefault on status dropdown and delete button so they don't trigger navigation
+- **Features**:
+  - View mode: Platform badge, status with quick-change dropdown, schedule info, caption with hashtags, media gallery (Google Drive/YouTube/Vimeo embeds), client feedback section
+  - Edit mode: Client dropdown, platform/type button selectors, date/time pickers, caption textarea, hashtag management, media URL management with previews
+  - Delete functionality with confirmation
+- **Note**: Quick fix session. The detail page pattern matches the other CRM pages (clients, projects) - dark theme, view/edit toggle, same card styling.
+
 ### May 21, 2026 - Client Social Handles & Calendar Timezone Fix
 - **What we worked on**: Two features today - dynamic social handles for the client portal, and a sneaky timezone bug fix.
 - **Social Handles System**:
