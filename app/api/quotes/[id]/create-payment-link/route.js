@@ -27,7 +27,7 @@ export async function POST(request, { params }) {
 
     // Calculate deposit based on depositRate (default to 50% for backwards compatibility)
     const total = quote.pricing?.total || 0;
-    const depositRate = quote.pricing?.depositRate || 0.5;
+    const depositRate = quote.pricing?.depositRate ?? 0.5;
     const depositAmount = total * depositRate;
     const depositPercent = Math.round(depositRate * 100);
 

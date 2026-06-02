@@ -36,7 +36,8 @@ import {
   getMaintenanceTierForPackage,
   getPodcastStudioPrice,
   shouldWaiveOnboarding,
-  DEFAULT_SERVICE_SELECTIONS
+  DEFAULT_SERVICE_SELECTIONS,
+  COMPANIES
 } from '@/lib/pricingConstants';
 
 import {
@@ -59,6 +60,9 @@ export default function QuoteBuilderPage() {
     projectTitle: '',
     notes: ''
   });
+
+  // Company/Issuer Selection
+  const [selectedCompany, setSelectedCompany] = useState('progmatiq');
 
   // Service Selections
   const [selections, setSelections] = useState({ ...DEFAULT_SERVICE_SELECTIONS });
@@ -226,7 +230,7 @@ export default function QuoteBuilderPage() {
     setSaving(true);
 
     try {
-      const quoteData = generateQuoteData(selections, clientInfo);
+      const quoteData = generateQuoteData(selections, clientInfo, selectedCompany);
 
       const { data, error } = await supabase
         .from('quotes')
@@ -313,6 +317,33 @@ export default function QuoteBuilderPage() {
                   className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
                   placeholder="Web stranica za Tvrtka d.o.o."
                 />
+              </div>
+            </div>
+
+            {/* Company/Issuer Selection */}
+            <div className="mt-6 pt-6 border-t border-[#2A2A2A]">
+              <label className="block text-sm font-medium text-gray-400 mb-3">Izdavač ponude</label>
+              <div className="flex gap-3">
+                {Object.values(COMPANIES).map((company) => (
+                  <button
+                    key={company.id}
+                    type="button"
+                    onClick={() => setSelectedCompany(company.id)}
+                    className={`flex-1 p-4 rounded-xl border-2 transition-all text-left ${
+                      selectedCompany === company.id
+                        ? 'border-[#00FF94] bg-[#00FF94]/10'
+                        : 'border-[#2A2A2A] bg-[#0a0a0a] hover:border-[#3A3A3A]'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-1">
+                      <div className="text-sm font-bold text-white uppercase">{company.id}</div>
+                      {selectedCompany === company.id && (
+                        <Check size={16} className="text-[#00FF94]" />
+                      )}
+                    </div>
+                    <div className="text-xs text-gray-500">Potpisuje: {company.signatory}</div>
+                  </button>
+                ))}
               </div>
             </div>
           </div>

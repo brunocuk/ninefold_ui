@@ -16,6 +16,7 @@ import {
   getSelectableServiceTypes,
   combineServicesForAgencyPackage
 } from '@/lib/serviceTemplates';
+import { COMPANIES } from '@/lib/pricingConstants';
 
 export default function QuoteMaker() {
   const router = useRouter();
@@ -35,6 +36,7 @@ export default function QuoteMaker() {
   const [quoteType, setQuoteType] = useState('project'); // 'project' or 'monthly'
   const [selectedAgencyServices, setSelectedAgencyServices] = useState([]); // for agency package
   const [agencyPricingMode, setAgencyPricingMode] = useState('combined'); // 'combined' or 'separate'
+  const [selectedCompany, setSelectedCompany] = useState('progmatiq'); // 'progmatiq' or 'endemik'
 
   // Load clients and leads on mount
   useEffect(() => {
@@ -423,6 +425,7 @@ export default function QuoteMaker() {
         quote_type: quoteType,
         services: selectedServiceType === 'agency_package' ? selectedAgencyServices : null,
         monthly_price: isMonthly ? formData.monthlyPrice : null,
+        issuer_company: selectedCompany,
 
         title: formData.title || null,
         client_name: formData.clientName,
@@ -623,6 +626,35 @@ export default function QuoteMaker() {
                 <div className="font-bold text-white">Mjesečni paket</div>
                 <div className="text-xs text-gray-500">Recurring mjesečna naplata</div>
               </button>
+            </div>
+          </section>
+
+          {/* Company/Issuer Selection */}
+          <section className="bg-[#1A1A1A] p-6 rounded-lg border border-[#2A2A2A] mb-6">
+            <h2 className="text-xl font-bold text-[#00FF94] mb-4">Izdavač ponude</h2>
+
+            <div className="flex gap-4">
+              {Object.values(COMPANIES).map((company) => (
+                <button
+                  key={company.id}
+                  type="button"
+                  onClick={() => setSelectedCompany(company.id)}
+                  className={`flex-1 p-4 rounded-xl border-2 transition-all text-left ${
+                    selectedCompany === company.id
+                      ? 'border-[#00FF94] bg-[#00FF94]/10'
+                      : 'border-[#2A2A2A] hover:border-[#3A3A3A] bg-[#0F0F0F]'
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="text-lg font-bold text-white uppercase">{company.id}</div>
+                    {selectedCompany === company.id && (
+                      <Check size={16} className="text-[#00FF94]" />
+                    )}
+                  </div>
+                  <div className="text-xs text-gray-400 truncate">{company.name}</div>
+                  <div className="text-xs text-gray-500">Potpisuje: {company.signatory}</div>
+                </button>
+              ))}
             </div>
           </section>
 

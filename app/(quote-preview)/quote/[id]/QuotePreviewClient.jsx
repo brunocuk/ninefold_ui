@@ -1521,15 +1521,15 @@ export default function QuotePreviewClient() {
 
                   <div className="payment-terms">
                     <div className="payment-term">
-                      <span className="payment-term-label">{((quoteData.pricing?.depositRate || 0.5) * 100).toFixed(0)}% Akontacija</span>
+                      <span className="payment-term-label">{((quoteData.pricing?.depositRate ?? 0.5) * 100).toFixed(0)}% Akontacija</span>
                       <span className="payment-term-value">
-                        €{(quoteData.pricing?.total * (quoteData.pricing?.depositRate || 0.5))?.toLocaleString()}
+                        €{(quoteData.pricing?.total * (quoteData.pricing?.depositRate ?? 0.5))?.toLocaleString()}
                       </span>
                     </div>
                     <div className="payment-term">
-                      <span className="payment-term-label">{(100 - (quoteData.pricing?.depositRate || 0.5) * 100).toFixed(0)}% Po završetku</span>
+                      <span className="payment-term-label">{(100 - (quoteData.pricing?.depositRate ?? 0.5) * 100).toFixed(0)}% Po završetku</span>
                       <span className="payment-term-value">
-                        €{(quoteData.pricing?.total * (1 - (quoteData.pricing?.depositRate || 0.5)))?.toLocaleString()}
+                        €{(quoteData.pricing?.total * (1 - (quoteData.pricing?.depositRate ?? 0.5)))?.toLocaleString()}
                       </span>
                     </div>
                   </div>

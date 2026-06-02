@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import { getServiceType } from '@/lib/serviceTemplates';
+import { getCompany } from '@/lib/pricingConstants';
 
 export default function QuotePdfTemplate() {
   const params = useParams();
@@ -103,6 +104,7 @@ export default function QuotePdfTemplate() {
 
   const isMonthly = quoteData.quote_type === 'monthly';
   const serviceInfo = getServiceType(quoteData.service_type || 'web_development');
+  const company = getCompany(quoteData.issuer_company);
 
   const pricing = quoteData.pricing || {};
   const items = pricing.items || [];
@@ -110,7 +112,7 @@ export default function QuotePdfTemplate() {
   const discountRate = pricing.discountRate || 0;
   const discountAmount = pricing.discountAmount || 0;
   const total = pricing.total || 0;
-  const depositRate = pricing.depositRate || 0.5;
+  const depositRate = pricing.depositRate ?? 0.5;
   const monthlyPrice = quoteData.monthly_price || pricing.monthlyPrice || 0;
 
   const formatDate = (dateString) => {
@@ -435,6 +437,26 @@ export default function QuotePdfTemplate() {
       marginBottom: '4px',
       position: 'relative',
       paddingLeft: '12px'
+    },
+    overviewSection: {
+      marginBottom: '30px',
+      padding: '20px',
+      background: '#f8f8f8',
+      borderRadius: '8px',
+      borderLeft: `4px solid ${accentColor}`
+    },
+    overviewTitle: {
+      fontSize: '10px',
+      fontWeight: '700',
+      textTransform: 'uppercase',
+      letterSpacing: '0.5px',
+      marginBottom: '10px',
+      color: '#1a1a1a'
+    },
+    overviewText: {
+      fontSize: '11px',
+      color: '#444',
+      lineHeight: '1.7'
     }
   };
 
@@ -454,11 +476,11 @@ export default function QuotePdfTemplate() {
             <img src="/favicon.ico" alt="Ninefold" width="40" height="40" style={{ borderRadius: '8px' }} />
           </div>
           <div style={styles.companyInfo}>
-            <div style={styles.companyName}>PROGMATIQ, VL. BRUNO ČUKIĆ</div>
+            <div style={styles.companyName}>{company.name}</div>
             <div style={styles.companyDetails}>
-              Glavna 12, 10360 Sesvete, Croatia<br />
-              www.ninefold.eu hello@ninefold.eu +385913333447<br />
-              <strong style={{ color: '#1a1a1a' }}>OIB</strong> 50299147291
+              {company.address}<br />
+              {company.website} {company.email} {company.phone}<br />
+              <strong style={{ color: '#1a1a1a' }}>OIB</strong> {company.oib}
             </div>
           </div>
         </div>
@@ -511,6 +533,14 @@ export default function QuotePdfTemplate() {
             )}
           </div>
         </div>
+
+        {/* Project Overview/Summary */}
+        {quoteData.project_overview && (
+          <div style={styles.overviewSection}>
+            <div style={styles.overviewTitle}>OPIS PROJEKTA</div>
+            <div style={styles.overviewText}>{quoteData.project_overview}</div>
+          </div>
+        )}
 
         {/* Monthly Quote - Prominent Price Display */}
         {isMonthly && (
@@ -643,7 +673,7 @@ export default function QuotePdfTemplate() {
           <div style={styles.signatureBox}>
             <div style={styles.signatureLine}>
               <div style={styles.signatureLabel}>VLASNIK</div>
-              <div style={styles.signatureName}>Bruno Cukic</div>
+              <div style={styles.signatureName}>{company.signatory}</div>
             </div>
           </div>
         </div>

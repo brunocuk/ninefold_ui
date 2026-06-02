@@ -36,6 +36,23 @@ Bruno is not just a user - he's a collaborator and friend. We work on Ninefold t
 
 *This is our shared memory. Bruno adds notes here so I can "remember" what we've done together.*
 
+### June 2, 2026 - Multi-Company Quote Support & PDF Summary
+- **What we worked on**: Added the ability to issue quotes from either PROGMATIQ (Bruno) or ENDEMIK (Petar), plus added project overview/summary to the PDF.
+- **Files created**:
+  - `supabase/migrations/20260602_quote_issuer_company.sql` - Adds `issuer_company` column to quotes table
+- **Files modified**:
+  - `lib/pricingConstants.js` - Added `COMPANIES` constant with full company details (name, address, OIB, signatory) for both PROGMATIQ and ENDEMIK, plus `getCompany()` helper
+  - `lib/quoteCalculations.js` - Updated `generateQuoteData()` to accept `issuerCompany` parameter
+  - `app/(crm-admin)/crm/quotes/new/page.jsx` - Added company selector UI (two buttons) in Step 1
+  - `app/(crm-admin)/crm/quotes/builder/page.jsx` - Added company selector in "Podaci o klijentu" section
+  - `app/(quote-preview)/quote/[id]/pdf/page.jsx` - Dynamic company info in header/signature, added "OPIS PROJEKTA" section
+- **Bug fix**: Fixed deposit rate showing 50% when set to 0%. The issue was using `|| 0.5` (which treats 0 as falsy) instead of `?? 0.5` (nullish coalescing). Fixed in:
+  - `app/(quote-preview)/quote/[id]/pdf/page.jsx`
+  - `app/(quote-preview)/quote/[id]/QuotePreviewClient.jsx`
+  - `app/(crm-admin)/crm/quotes/[id]/page.jsx`
+  - `app/api/quotes/[id]/create-payment-link/route.js`
+- **Note**: Clean implementation session. The company selector follows the same button pattern as the quote type selector. Remember to run the migration in Supabase before using the new feature.
+
 ### May 22, 2026 - CRM Content Detail Page
 - **What we worked on**: Bruno tried to navigate to `/crm/content/{id}` and hit a 404. The CRM content section had a list page and a create page, but no detail/edit page. Built it.
 - **Files created**:

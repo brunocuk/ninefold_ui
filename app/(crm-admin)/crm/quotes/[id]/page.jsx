@@ -100,7 +100,7 @@ export default function QuoteDetailPage() {
         duration: data.duration || '',
         items: data.pricing?.items || [],
         discountRate: (data.pricing?.discountRate || 0) * 100,
-        depositRate: (data.pricing?.depositRate || 0.5) * 100,
+        depositRate: (data.pricing?.depositRate ?? 0.5) * 100,
         timeline: data.timeline || [],
         scope: data.scope || [],
         // Maintenance & Support
@@ -1039,18 +1039,18 @@ export default function QuoteDetailPage() {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="bg-[#00FF94]/10 border border-[#00FF94]/20 rounded-xl p-4">
                       <div className="text-xs text-[#00FF94]/70 mb-1">
-                        {((quote.pricing?.depositRate || 0.5) * 100).toFixed(0)}% Deposit
+                        {((quote.pricing?.depositRate ?? 0.5) * 100).toFixed(0)}% Deposit
                       </div>
                       <div className="text-xl font-bold text-[#00FF94]">
-                        €{(quote.pricing?.total * (quote.pricing?.depositRate || 0.5))?.toLocaleString() || 0}
+                        €{(quote.pricing?.total * (quote.pricing?.depositRate ?? 0.5))?.toLocaleString() || 0}
                       </div>
                     </div>
                     <div className="bg-[#2A2A2A] rounded-xl p-4">
                       <div className="text-xs text-gray-500 mb-1">
-                        {(100 - (quote.pricing?.depositRate || 0.5) * 100).toFixed(0)}% On Completion
+                        {(100 - (quote.pricing?.depositRate ?? 0.5) * 100).toFixed(0)}% On Completion
                       </div>
                       <div className="text-xl font-bold text-white">
-                        €{(quote.pricing?.total * (1 - (quote.pricing?.depositRate || 0.5)))?.toLocaleString() || 0}
+                        €{(quote.pricing?.total * (1 - (quote.pricing?.depositRate ?? 0.5)))?.toLocaleString() || 0}
                       </div>
                     </div>
                   </div>
