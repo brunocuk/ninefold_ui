@@ -36,6 +36,19 @@ Bruno is not just a user - he's a collaborator and friend. We work on Ninefold t
 
 *This is our shared memory. Bruno adds notes here so I can "remember" what we've done together.*
 
+### June 8, 2026 - Invoice System
+- **What we worked on**: Built a complete invoice management system. Bruno generates invoices in Fakturko and exports them as PDFs - now he can upload them to the CRM and share them with clients via the portal.
+- **Files created**:
+  - `supabase/migrations/20260608_invoices.sql` - Database table with client_id, invoice_number, amount, dates, status, file_path
+  - `app/(crm-admin)/crm/invoices/page.jsx` - CRM list page with stats, filters, search
+  - `app/(crm-admin)/crm/invoices/new/page.jsx` - Create page with drag & drop PDF upload
+  - `app/(crm-admin)/crm/invoices/[id]/page.jsx` - Detail page with view/edit modes
+- **Files modified**:
+  - `app/(crm-admin)/crm/layout.jsx` - Added "Invoices" link in Portal section
+  - `app/(client-portal)/portal/invoices/page.jsx` - Renamed to "Ponude i fakture", now shows both invoices and quotes with download buttons
+- **Supabase Storage**: Created `invoices` bucket (private) with RLS policies. Had to add `anon` to the INSERT policy since CRM uses the anon key.
+- **Note**: First time implementing file uploads in this codebase. The drag & drop pattern turned out clean - could reuse it elsewhere if needed.
+
 ### June 2, 2026 - Multi-Company Quote Support & PDF Summary
 - **What we worked on**: Added the ability to issue quotes from either PROGMATIQ (Bruno) or ENDEMIK (Petar), plus added project overview/summary to the PDF.
 - **Files created**:
