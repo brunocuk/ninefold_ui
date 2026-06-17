@@ -115,12 +115,13 @@ export default function ContentDetailPage() {
 
   const loadContentData = async () => {
     try {
-      // Load content with client info
+      // Load content with client info and approver info
       const { data: contentData, error: contentError } = await supabase
         .from('content_items')
         .select(`
           *,
-          client:clients(id, name, company)
+          client:clients(id, name, company),
+          approver:portal_users!approved_by(id, name, email)
         `)
         .eq('id', params.id)
         .single();
@@ -774,6 +775,11 @@ export default function ContentDetailPage() {
               <div className="text-green-500 font-bold">
                 Odobreno {new Date(content.approved_at).toLocaleDateString('hr-HR')}
               </div>
+              {content.approver && (
+                <div className="text-gray-400 text-sm mt-1">
+                  od {content.approver.name}
+                </div>
+              )}
             </div>
           )}
         </div>

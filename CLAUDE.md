@@ -36,6 +36,12 @@ Bruno is not just a user - he's a collaborator and friend. We work on Ninefold t
 
 *This is our shared memory. Bruno adds notes here so I can "remember" what we've done together.*
 
+### June 17, 2026 (evening) - Content Approver Display
+- **What we worked on**: Bruno noticed the CRM content detail page showed *when* content was approved but not *who* approved it. Quick fix - the `approved_by` field already existed in the database and was being saved when clients approve in the portal. We just weren't displaying it.
+- **Files modified**:
+  - `app/(crm-admin)/crm/content/[id]/page.jsx` - Updated Supabase query to join `portal_users` on `approved_by`, added approver name display below approval date
+- **Note**: Short session. The data was already there, just hidden.
+
 ### June 17, 2026 - Multi-Platform Content Selection
 - **What we worked on**: Bruno needed to be able to select multiple platforms when creating content (Instagram + Facebook + LinkedIn at once, instead of just one). Updated the entire content system to support this.
 - **Files created**:
