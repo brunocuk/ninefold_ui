@@ -126,7 +126,9 @@ export default function ContentManagementPage() {
   const filteredContent = content.filter((item) => {
     if (filterClient !== 'all' && item.client_id !== filterClient) return false;
     if (filterStatus !== 'all' && item.status !== filterStatus) return false;
-    if (filterPlatform !== 'all' && item.platform !== filterPlatform) return false;
+    // Support both platforms array and legacy platform field
+    const itemPlatforms = item.platforms?.length > 0 ? item.platforms : (item.platform ? [item.platform] : []);
+    if (filterPlatform !== 'all' && !itemPlatforms.includes(filterPlatform)) return false;
     if (searchTerm && !item.caption?.toLowerCase().includes(searchTerm.toLowerCase())) return false;
     return true;
   });
@@ -250,7 +252,9 @@ export default function ContentManagementPage() {
       ) : (
         <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl overflow-hidden">
           {filteredContent.map((item, index) => {
-            const platform = PLATFORM_CONFIG[item.platform] || PLATFORM_CONFIG.instagram;
+            // Support both platforms array and legacy platform field
+            const itemPlatforms = item.platforms?.length > 0 ? item.platforms : (item.platform ? [item.platform] : ['instagram']);
+            const firstPlatform = PLATFORM_CONFIG[itemPlatforms[0]] || PLATFORM_CONFIG.instagram;
             const status = STATUS_CONFIG[item.status] || STATUS_CONFIG.pending;
 
             return (
@@ -272,19 +276,24 @@ export default function ContentManagementPage() {
                     />
                   </div>
                 ) : (
-                  <div className={`w-16 h-16 rounded-lg ${platform.bg} flex items-center justify-center flex-shrink-0`}>
-                    <span className={`text-lg font-bold ${platform.text}`}>
-                      {platform.label.slice(0, 2)}
+                  <div className={`w-16 h-16 rounded-lg ${firstPlatform.bg} flex items-center justify-center flex-shrink-0`}>
+                    <span className={`text-lg font-bold ${firstPlatform.text}`}>
+                      {firstPlatform.label.slice(0, 2)}
                     </span>
                   </div>
                 )}
 
                 {/* Content */}
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className={`px-2.5 py-1 rounded-lg text-xs font-semibold ${platform.bg} ${platform.text}`}>
-                      {platform.label}
-                    </span>
+                  <div className="flex items-center gap-2 mb-2 flex-wrap">
+                    {itemPlatforms.map((p) => {
+                      const pConfig = PLATFORM_CONFIG[p] || PLATFORM_CONFIG.instagram;
+                      return (
+                        <span key={p} className={`px-2.5 py-1 rounded-lg text-xs font-semibold ${pConfig.bg} ${pConfig.text}`}>
+                          {pConfig.label}
+                        </span>
+                      );
+                    })}
                     <span className="text-sm text-gray-500 capitalize">{item.content_type}</span>
                   </div>
                   <div className="text-white font-semibold mb-1 truncate">

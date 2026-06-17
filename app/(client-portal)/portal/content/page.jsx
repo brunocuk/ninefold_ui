@@ -147,7 +147,9 @@ export default function ContentCalendarPage() {
 
   const filteredContent = content.filter((item) => {
     if (filterStatus !== 'all' && item.status !== filterStatus) return false;
-    if (filterPlatform !== 'all' && item.platform !== filterPlatform) return false;
+    // Support both platforms array and legacy platform field
+    const itemPlatforms = item.platforms?.length > 0 ? item.platforms : (item.platform ? [item.platform] : []);
+    if (filterPlatform !== 'all' && !itemPlatforms.includes(filterPlatform)) return false;
     return true;
   });
 
@@ -412,7 +414,8 @@ export default function ContentCalendarPage() {
             {getDaysInMonth().map((day, index) => {
               const dayContent = getContentForDate(day.date).filter((item) => {
                 if (filterStatus !== 'all' && item.status !== filterStatus) return false;
-                if (filterPlatform !== 'all' && item.platform !== filterPlatform) return false;
+                const itemPlatforms = item.platforms?.length > 0 ? item.platforms : (item.platform ? [item.platform] : []);
+                if (filterPlatform !== 'all' && !itemPlatforms.includes(filterPlatform)) return false;
                 return true;
               });
               const isToday = day.date.toDateString() === new Date().toDateString();
@@ -445,7 +448,8 @@ export default function ContentCalendarPage() {
                   {/* Content items */}
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                     {dayContent.slice(0, 3).map((item) => {
-                      const platform = PLATFORM_COLORS[item.platform] || PLATFORM_COLORS.instagram;
+                      const itemPlatforms = item.platforms?.length > 0 ? item.platforms : (item.platform ? [item.platform] : ['instagram']);
+                      const firstPlatform = PLATFORM_COLORS[itemPlatforms[0]] || PLATFORM_COLORS.instagram;
                       const status = STATUS_STYLES[item.status] || STATUS_STYLES.pending;
 
                       return (
@@ -457,11 +461,11 @@ export default function ContentCalendarPage() {
                             alignItems: 'center',
                             gap: '4px',
                             padding: '4px 6px',
-                            background: platform.bg,
+                            background: firstPlatform.bg,
                             borderRadius: '6px',
                             fontSize: '0.7rem',
                             fontWeight: '600',
-                            color: platform.color,
+                            color: firstPlatform.color,
                             textDecoration: 'none',
                             borderLeft: `3px solid ${status.color}`,
                           }}
@@ -471,7 +475,9 @@ export default function ContentCalendarPage() {
                             textOverflow: 'ellipsis',
                             whiteSpace: 'nowrap',
                           }}>
-                            {platform.label}
+                            {itemPlatforms.length > 1
+                              ? `${itemPlatforms.length} platforme`
+                              : firstPlatform.label}
                           </span>
                         </Link>
                       );
@@ -519,7 +525,8 @@ export default function ContentCalendarPage() {
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {filteredContent.map((item) => {
-                const platform = PLATFORM_COLORS[item.platform] || PLATFORM_COLORS.instagram;
+                const itemPlatforms = item.platforms?.length > 0 ? item.platforms : (item.platform ? [item.platform] : ['instagram']);
+                const firstPlatform = PLATFORM_COLORS[itemPlatforms[0]] || PLATFORM_COLORS.instagram;
                 const status = STATUS_STYLES[item.status] || STATUS_STYLES.pending;
                 const StatusIcon = status.icon;
 
@@ -538,7 +545,7 @@ export default function ContentCalendarPage() {
                       borderRadius: '12px',
                       transition: 'all 0.2s ease',
                       cursor: 'pointer',
-                      borderLeft: `4px solid ${platform.color}`,
+                      borderLeft: `4px solid ${firstPlatform.color}`,
                     }}
                       onMouseEnter={(e) => e.currentTarget.style.background = '#F3F4F6'}
                       onMouseLeave={(e) => e.currentTarget.style.background = '#F9FAFB'}
@@ -569,7 +576,7 @@ export default function ContentCalendarPage() {
                           width: '64px',
                           height: '64px',
                           borderRadius: '10px',
-                          background: platform.bg,
+                          background: firstPlatform.bg,
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
@@ -578,9 +585,9 @@ export default function ContentCalendarPage() {
                           <span style={{
                             fontSize: '0.8rem',
                             fontWeight: '700',
-                            color: platform.color,
+                            color: firstPlatform.color,
                           }}>
-                            {platform.label.slice(0, 2)}
+                            {firstPlatform.label.slice(0, 2)}
                           </span>
                         </div>
                       )}
@@ -590,19 +597,28 @@ export default function ContentCalendarPage() {
                         <div style={{
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '8px',
+                          gap: '6px',
                           marginBottom: '6px',
+                          flexWrap: 'wrap',
                         }}>
-                          <span style={{
-                            fontSize: '0.75rem',
-                            fontWeight: '600',
-                            color: platform.color,
-                            background: platform.bg,
-                            padding: '2px 8px',
-                            borderRadius: '6px',
-                          }}>
-                            {platform.label}
-                          </span>
+                          {itemPlatforms.map((p) => {
+                            const pConfig = PLATFORM_COLORS[p] || PLATFORM_COLORS.instagram;
+                            return (
+                              <span
+                                key={p}
+                                style={{
+                                  fontSize: '0.75rem',
+                                  fontWeight: '600',
+                                  color: pConfig.color,
+                                  background: pConfig.bg,
+                                  padding: '2px 8px',
+                                  borderRadius: '6px',
+                                }}
+                              >
+                                {pConfig.label}
+                              </span>
+                            );
+                          })}
                           <span style={{
                             fontSize: '0.75rem',
                             color: '#6B7280',

@@ -227,7 +227,10 @@ export default function ContentDetailPage() {
     );
   }
 
-  const platform = PLATFORM_CONFIG[content.platform] || PLATFORM_CONFIG.instagram;
+  // Support both platforms array and legacy platform field
+  const contentPlatforms = content.platforms?.length > 0
+    ? content.platforms
+    : (content.platform ? [content.platform] : ['instagram']);
   const status = STATUS_CONFIG[content.status] || STATUS_CONFIG.pending;
   const StatusIcon = status.icon;
 
@@ -267,19 +270,28 @@ export default function ContentDetailPage() {
             <div style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '12px',
+              gap: '8px',
               marginBottom: '8px',
+              flexWrap: 'wrap',
             }}>
-              <span style={{
-                background: platform.bg,
-                color: platform.color,
-                padding: '6px 12px',
-                borderRadius: '8px',
-                fontSize: '0.85rem',
-                fontWeight: '700',
-              }}>
-                {platform.label}
-              </span>
+              {contentPlatforms.map((p) => {
+                const pConfig = PLATFORM_CONFIG[p] || PLATFORM_CONFIG.instagram;
+                return (
+                  <span
+                    key={p}
+                    style={{
+                      background: pConfig.bg,
+                      color: pConfig.color,
+                      padding: '6px 12px',
+                      borderRadius: '8px',
+                      fontSize: '0.85rem',
+                      fontWeight: '700',
+                    }}
+                  >
+                    {pConfig.label}
+                  </span>
+                );
+              })}
               <span style={{
                 color: '#6B7280',
                 fontSize: '0.9rem',
@@ -333,11 +345,17 @@ export default function ContentDetailPage() {
             color: '#111827',
             marginBottom: '16px',
           }}>
-            Pregled na {platform.label}
+            {contentPlatforms.length > 1 ? 'Pregledi po platformama' : `Pregled na ${PLATFORM_CONFIG[contentPlatforms[0]]?.label || 'platformi'}`}
           </h3>
 
           {/* Instagram Style Mockup */}
-          {content.platform === 'instagram' && (
+          {contentPlatforms.includes('instagram') && (
+            <>
+            {contentPlatforms.length > 1 && (
+              <div style={{ textAlign: 'center', marginBottom: '12px', marginTop: '8px' }}>
+                <span style={{ background: '#FCE4EC', color: '#E4405F', padding: '4px 12px', borderRadius: '6px', fontSize: '0.8rem', fontWeight: '600' }}>Instagram</span>
+              </div>
+            )}
             <div style={{
               maxWidth: '340px',
               margin: '0 auto',
@@ -466,10 +484,17 @@ export default function ContentDetailPage() {
                 )}
               </div>
             </div>
+            </>
           )}
 
           {/* Facebook Style Mockup */}
-          {content.platform === 'facebook' && (
+          {contentPlatforms.includes('facebook') && (
+            <>
+            {contentPlatforms.length > 1 && (
+              <div style={{ textAlign: 'center', marginBottom: '12px', marginTop: '24px' }}>
+                <span style={{ background: '#E3F2FD', color: '#1877F2', padding: '4px 12px', borderRadius: '6px', fontSize: '0.8rem', fontWeight: '600' }}>Facebook</span>
+              </div>
+            )}
             <div style={{
               maxWidth: '500px',
               margin: '0 auto',
@@ -568,10 +593,17 @@ export default function ContentDetailPage() {
                 <div>5 komentara · 2 dijeljenja</div>
               </div>
             </div>
+            </>
           )}
 
           {/* LinkedIn Style Mockup */}
-          {content.platform === 'linkedin' && (
+          {contentPlatforms.includes('linkedin') && (
+            <>
+            {contentPlatforms.length > 1 && (
+              <div style={{ textAlign: 'center', marginBottom: '12px', marginTop: '24px' }}>
+                <span style={{ background: '#E8EAF6', color: '#0A66C2', padding: '4px 12px', borderRadius: '6px', fontSize: '0.8rem', fontWeight: '600' }}>LinkedIn</span>
+              </div>
+            )}
             <div style={{
               maxWidth: '500px',
               margin: '0 auto',
@@ -668,10 +700,17 @@ export default function ContentDetailPage() {
                 👍 ❤️ 🎉 28 · 4 komentara
               </div>
             </div>
+            </>
           )}
 
           {/* TikTok Style Mockup */}
-          {content.platform === 'tiktok' && (
+          {contentPlatforms.includes('tiktok') && (
+            <>
+            {contentPlatforms.length > 1 && (
+              <div style={{ textAlign: 'center', marginBottom: '12px', marginTop: '24px' }}>
+                <span style={{ background: '#F5F5F5', color: '#000000', padding: '4px 12px', borderRadius: '6px', fontSize: '0.8rem', fontWeight: '600' }}>TikTok</span>
+              </div>
+            )}
             <div style={{
               maxWidth: '300px',
               margin: '0 auto',
@@ -777,6 +816,7 @@ export default function ContentDetailPage() {
                 </div>
               </div>
             </div>
+            </>
           )}
         </div>
 

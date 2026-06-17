@@ -90,7 +90,7 @@ export default function NewContentPage() {
   const [formData, setFormData] = useState({
     client_id: '',
     contract_id: '',
-    platform: 'instagram',
+    platforms: ['instagram'],
     content_type: 'post',
     scheduled_date: new Date().toISOString().split('T')[0],
     scheduled_time: '12:00',
@@ -166,12 +166,19 @@ export default function NewContentPage() {
       return;
     }
 
+    if (formData.platforms.length === 0) {
+      alert('Molimo odaberite barem jednu platformu');
+      setSaving(false);
+      return;
+    }
+
     const { error } = await supabase
       .from('content_items')
       .insert({
         client_id: formData.client_id,
         contract_id: formData.contract_id || null,
-        platform: formData.platform,
+        platforms: formData.platforms,
+        platform: formData.platforms[0], // Keep for backwards compatibility
         content_type: formData.content_type,
         scheduled_date: formData.scheduled_date,
         scheduled_time: formData.scheduled_time || null,
@@ -260,23 +267,31 @@ export default function NewContentPage() {
           <div className="grid grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-semibold text-gray-400 mb-2">
-                Platforma *
+                Platforme * <span className="text-xs text-gray-500 font-normal">(možeš odabrati više)</span>
               </label>
               <div className="grid grid-cols-2 gap-2">
-                {PLATFORMS.map((platform) => (
-                  <button
-                    key={platform.id}
-                    type="button"
-                    onClick={() => setFormData({ ...formData, platform: platform.id })}
-                    className={`px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
-                      formData.platform === platform.id
-                        ? 'bg-[#00FF94] text-black'
-                        : 'bg-[#0a0a0a] border border-[#2A2A2A] text-gray-400 hover:border-[#00FF94]'
-                    }`}
-                  >
-                    {platform.label}
-                  </button>
-                ))}
+                {PLATFORMS.map((platform) => {
+                  const isSelected = formData.platforms.includes(platform.id);
+                  return (
+                    <button
+                      key={platform.id}
+                      type="button"
+                      onClick={() => {
+                        const newPlatforms = isSelected
+                          ? formData.platforms.filter((p) => p !== platform.id)
+                          : [...formData.platforms, platform.id];
+                        setFormData({ ...formData, platforms: newPlatforms });
+                      }}
+                      className={`px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
+                        isSelected
+                          ? 'bg-[#00FF94] text-black'
+                          : 'bg-[#0a0a0a] border border-[#2A2A2A] text-gray-400 hover:border-[#00FF94]'
+                      }`}
+                    >
+                      {platform.label}
+                    </button>
+                  );
+                })}
               </div>
             </div>
 

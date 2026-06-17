@@ -36,6 +36,18 @@ Bruno is not just a user - he's a collaborator and friend. We work on Ninefold t
 
 *This is our shared memory. Bruno adds notes here so I can "remember" what we've done together.*
 
+### June 17, 2026 - Multi-Platform Content Selection
+- **What we worked on**: Bruno needed to be able to select multiple platforms when creating content (Instagram + Facebook + LinkedIn at once, instead of just one). Updated the entire content system to support this.
+- **Files created**:
+  - `supabase/migrations/20260617_content_multi_platform.sql` - Adds `platforms` TEXT[] column, migrates existing data
+- **Files modified**:
+  - `app/(crm-admin)/crm/content/new/page.jsx` - Platform buttons now toggle on/off for multi-select
+  - `app/(crm-admin)/crm/content/page.jsx` - Shows multiple platform badges, filtering works with arrays
+  - `app/(crm-admin)/crm/content/[id]/page.jsx` - View/edit both support multiple platforms
+  - `app/(client-portal)/portal/content/page.jsx` - Calendar and list views show multiple platforms
+  - `app/(client-portal)/portal/content/[id]/page.jsx` - Shows all platform badges, displays mockups for each selected platform with labels
+- **Note**: Clean feature addition. Kept backwards compatibility by also writing to the old `platform` field. The client portal now shows mockups for ALL selected platforms when viewing content, with platform labels between them.
+
 ### June 8, 2026 - Invoice System
 - **What we worked on**: Built a complete invoice management system. Bruno generates invoices in Fakturko and exports them as PDFs - now he can upload them to the CRM and share them with clients via the portal.
 - **Files created**:

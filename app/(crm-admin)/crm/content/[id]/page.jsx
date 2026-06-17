@@ -128,8 +128,13 @@ export default function ContentDetailPage() {
       if (contentError) throw contentError;
       setContent(contentData);
       setClient(contentData.client);
+      // Support both platforms array and legacy platform field
+      const platforms = contentData.platforms?.length > 0
+        ? contentData.platforms
+        : (contentData.platform ? [contentData.platform] : ['instagram']);
       setFormData({
         ...contentData,
+        platforms,
         hashtags: contentData.hashtags || [],
         media_urls: contentData.media_urls || [],
       });
@@ -178,11 +183,18 @@ export default function ContentDetailPage() {
     setSaving(true);
 
     try {
+      if (formData.platforms.length === 0) {
+        alert('Molimo odaberite barem jednu platformu');
+        setSaving(false);
+        return;
+      }
+
       const { error } = await supabase
         .from('content_items')
         .update({
           client_id: formData.client_id,
-          platform: formData.platform,
+          platforms: formData.platforms,
+          platform: formData.platforms[0], // Keep for backwards compatibility
           content_type: formData.content_type,
           scheduled_date: formData.scheduled_date,
           scheduled_time: formData.scheduled_time || null,
@@ -256,7 +268,10 @@ export default function ContentDetailPage() {
     );
   }
 
-  const platform = PLATFORMS.find((p) => p.id === content.platform) || PLATFORMS[0];
+  // Support both platforms array and legacy platform field
+  const contentPlatforms = content.platforms?.length > 0
+    ? content.platforms
+    : (content.platform ? [content.platform] : ['instagram']);
   const status = STATUS_CONFIG[content.status] || STATUS_CONFIG.pending;
   const StatusIcon = status.icon;
 
@@ -274,10 +289,15 @@ export default function ContentDetailPage() {
       {/* Header */}
       <div className="flex flex-col lg:flex-row justify-between items-start gap-6 mb-8">
         <div className="flex-1">
-          <div className="flex items-center gap-3 mb-3">
-            <span className={`px-3 py-1.5 rounded-lg text-sm font-bold ${platform.bg} ${platform.text}`}>
-              {platform.label}
-            </span>
+          <div className="flex items-center gap-2 mb-3 flex-wrap">
+            {contentPlatforms.map((p) => {
+              const pConfig = PLATFORMS.find((pl) => pl.id === p) || PLATFORMS[0];
+              return (
+                <span key={p} className={`px-3 py-1.5 rounded-lg text-sm font-bold ${pConfig.bg} ${pConfig.text}`}>
+                  {pConfig.label}
+                </span>
+              );
+            })}
             <span className="text-gray-400 capitalize">{content.content_type}</span>
           </div>
           <h1 className="text-3xl font-black text-white mb-2">
@@ -361,22 +381,33 @@ export default function ContentDetailPage() {
             {/* Platform & Type */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">Platforma *</label>
+                <label className="block text-sm font-semibold text-gray-400 mb-2">
+                  Platforme * <span className="text-xs text-gray-500 font-normal">(možeš odabrati više)</span>
+                </label>
                 <div className="grid grid-cols-2 gap-2">
-                  {PLATFORMS.map((p) => (
-                    <button
-                      key={p.id}
-                      type="button"
-                      onClick={() => setFormData({ ...formData, platform: p.id })}
-                      className={`px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
-                        formData.platform === p.id
-                          ? 'bg-[#00FF94] text-black'
-                          : 'bg-[#0a0a0a] border border-[#2A2A2A] text-gray-400 hover:border-[#00FF94]'
-                      }`}
-                    >
-                      {p.label}
-                    </button>
-                  ))}
+                  {PLATFORMS.map((p) => {
+                    const isSelected = formData.platforms?.includes(p.id);
+                    return (
+                      <button
+                        key={p.id}
+                        type="button"
+                        onClick={() => {
+                          const currentPlatforms = formData.platforms || [];
+                          const newPlatforms = isSelected
+                            ? currentPlatforms.filter((pl) => pl !== p.id)
+                            : [...currentPlatforms, p.id];
+                          setFormData({ ...formData, platforms: newPlatforms });
+                        }}
+                        className={`px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
+                          isSelected
+                            ? 'bg-[#00FF94] text-black'
+                            : 'bg-[#0a0a0a] border border-[#2A2A2A] text-gray-400 hover:border-[#00FF94]'
+                        }`}
+                      >
+                        {p.label}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -572,8 +603,12 @@ export default function ContentDetailPage() {
                 type="button"
                 onClick={() => {
                   setEditing(false);
+                  const platforms = content.platforms?.length > 0
+                    ? content.platforms
+                    : (content.platform ? [content.platform] : ['instagram']);
                   setFormData({
                     ...content,
+                    platforms,
                     hashtags: content.hashtags || [],
                     media_urls: content.media_urls || [],
                   });
@@ -619,8 +654,19 @@ export default function ContentDetailPage() {
                 </div>
               )}
               <div className="bg-[#0a0a0a] rounded-xl p-5">
-                <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">Platforma</div>
-                <div className={`text-sm font-bold ${platform.text}`}>{platform.label}</div>
+                <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">
+                  {contentPlatforms.length > 1 ? 'Platforme' : 'Platforma'}
+                </div>
+                <div className="flex flex-wrap gap-1">
+                  {contentPlatforms.map((p) => {
+                    const pConfig = PLATFORMS.find((pl) => pl.id === p) || PLATFORMS[0];
+                    return (
+                      <span key={p} className={`text-sm font-bold ${pConfig.text}`}>
+                        {pConfig.label}{contentPlatforms.indexOf(p) < contentPlatforms.length - 1 ? ',' : ''}
+                      </span>
+                    );
+                  })}
+                </div>
               </div>
               <div className="bg-[#0a0a0a] rounded-xl p-5">
                 <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">Tip</div>
