@@ -473,7 +473,7 @@ export default function QuotePdfTemplate() {
         {/* Header */}
         <div style={styles.header}>
           <div style={styles.logo}>
-            <img src="/favicon.ico" alt="Ninefold" width="40" height="40" style={{ borderRadius: '8px' }} />
+            <img src="/ninefold-icon.svg" alt="Ninefold" width="40" height="40" style={{ borderRadius: '8px' }} />
           </div>
           <div style={styles.companyInfo}>
             <div style={styles.companyName}>{company.name}</div>

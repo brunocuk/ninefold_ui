@@ -67,10 +67,14 @@ export default function ThankYouPage() {
         }
 
         .logo {
-          font-size: 1.5rem;
-          font-weight: 700;
-          color: #fff;
+          display: flex;
+          justify-content: center;
           margin-bottom: 60px;
+        }
+
+        .logo img {
+          height: 24px;
+          width: auto;
         }
 
         .success-icon {
@@ -250,7 +254,7 @@ export default function ThankYouPage() {
         }
       `}</style>
 
-      <div className="logo">NineFold</div>
+      <div className="logo"><img src="/ninefold-logo.svg" alt="Ninefold" /></div>
 
       <div className="success-icon">
         <CheckCircle size={48} />

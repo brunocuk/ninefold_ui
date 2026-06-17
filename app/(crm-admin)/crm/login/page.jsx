@@ -55,6 +55,18 @@ export default function LoginPage() {
           margin-bottom: 48px;
         }
 
+        .logo-icon {
+          width: 56px;
+          height: 56px;
+          margin: 0 auto 16px;
+        }
+
+        .logo-icon img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+        }
+
         .logo-text {
           font-size: 2.5rem;
           font-weight: 900;
@@ -173,7 +185,10 @@ export default function LoginPage() {
       <div className="login-page">
         <div className="login-card">
           <div className="logo">
-            <div className="logo-text">NineFold</div>
+            <div className="logo-icon">
+              <img src="/ninefold-icon.svg" alt="Ninefold" />
+            </div>
+            <div className="logo-text">Ninefold</div>
             <div className="subtitle">CRM Login</div>
           </div>
 

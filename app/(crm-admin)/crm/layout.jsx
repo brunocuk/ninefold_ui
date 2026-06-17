@@ -755,7 +755,7 @@ export default function CRMLayout({ children }) {
       <div className="crm-container">
         {/* Mobile Header */}
         <header className="mobile-header">
-          <div className="mobile-logo">NineFold</div>
+          <div className="mobile-logo">Ninefold</div>
           <button
             className="mobile-menu-btn"
             onClick={toggleMobileMenu}
@@ -776,9 +776,9 @@ export default function CRMLayout({ children }) {
           <div className="sidebar-header">
             <div className="logo-container">
               <div className="logo-icon">
-                <img src="/favicon.ico" alt="NineFold" />
+                <img src="/ninefold-icon.svg" alt="Ninefold" />
               </div>
-              <div className="logo-text">NineFold</div>
+              <div className="logo-text">Ninefold</div>
             </div>
             <button
               className="collapse-btn"

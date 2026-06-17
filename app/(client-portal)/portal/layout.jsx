@@ -398,7 +398,7 @@ function PortalLayoutInner({ children }) {
         <aside className="sidebar">
           <div className="sidebar-header">
             <div className="logo-icon">
-              <img src="/favicon.ico" alt="Ninefold" />
+              <img src="/ninefold-icon.svg" alt="Ninefold" />
             </div>
             <div className="logo-text">Ninefold</div>
           </div>

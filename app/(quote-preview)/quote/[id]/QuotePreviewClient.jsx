@@ -231,9 +231,13 @@ export default function QuotePreviewClient() {
         }
 
         .logo {
-          font-size: 1.5rem;
-          font-weight: 700;
-          color: #fff;
+          display: flex;
+          align-items: center;
+        }
+
+        .logo img {
+          height: 20px;
+          width: auto;
         }
 
         .nav-actions {
@@ -1168,8 +1172,8 @@ export default function QuotePreviewClient() {
             padding: 16px;
           }
 
-          .logo {
-            font-size: 1.25rem;
+          .logo img {
+            height: 16px;
           }
 
           .nav-actions {
@@ -1216,7 +1220,7 @@ export default function QuotePreviewClient() {
         {/* Top Navigation */}
         <nav className="top-nav">
           <div className="nav-container">
-            <div className="logo">NineFold</div>
+            <div className="logo"><img src="/ninefold-logo.svg" alt="Ninefold" /></div>
             <div className="nav-actions">
               {!isPdfMode && (
                 <button

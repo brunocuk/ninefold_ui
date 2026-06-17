@@ -328,7 +328,7 @@ export default function QuestionnairePage() {
       <header className="fixed top-0 left-0 right-0 z-40 bg-black/90 backdrop-blur-sm border-b border-[#111]">
         <div className="max-w-5xl mx-auto px-6 py-5">
           <div className="flex items-center justify-between">
-            <Image src="/ninefold.svg" alt="Ninefold" width={120} height={20} />
+            <Image src="/ninefold-logo.svg" alt="Ninefold" width={120} height={17} />
             <div className="flex items-center gap-6">
               <span className="text-sm text-[#666]">Korak {currentStep + 1}/{steps.length}</span>
               <button

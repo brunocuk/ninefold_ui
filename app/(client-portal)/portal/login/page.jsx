@@ -71,7 +71,7 @@ export default function PortalLoginPage() {
         <div className="form-container">
           {/* Logo */}
           <div className="logo">
-            <img src="/favicon.ico" alt="Ninefold" />
+            <img src="/ninefold-icon.svg" alt="Ninefold" />
           </div>
 
           <h1 className="title">Logiraj se</h1>
@@ -212,17 +212,21 @@ const styles = `
   }
 
   .logo {
-    width: 48px;
-    height: 48px;
+    width: 56px;
+    height: 56px;
     margin-bottom: 40px;
-    border-radius: 12px;
-    overflow: hidden;
+    border-radius: 14px;
+    background: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
   }
 
   .logo img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
   }
 
   .title {

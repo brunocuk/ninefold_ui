@@ -465,9 +465,8 @@ export default function ReportPdfTemplate() {
       alignItems: 'center'
     },
     footerLogo: {
-      fontSize: '12px',
-      fontWeight: '700',
-      color: '#00CC76'
+      display: 'flex',
+      alignItems: 'center'
     },
     footerText: {
       fontSize: '9px',
@@ -494,7 +493,7 @@ export default function ReportPdfTemplate() {
         {/* Header */}
         <div style={styles.header}>
           <div style={styles.logo}>
-            <img src="/favicon.ico" alt="Ninefold" width="40" height="40" style={{ borderRadius: '8px' }} />
+            <img src="/ninefold-icon.svg" alt="Ninefold" width="40" height="40" style={{ borderRadius: '8px' }} />
           </div>
           <div style={styles.companyInfo}>
             <div style={styles.companyName}>PROGMATIQ, VL. BRUNO ČUKIĆ</div>
@@ -739,7 +738,7 @@ export default function ReportPdfTemplate() {
 
         {/* Footer */}
         <div style={styles.footer}>
-          <div style={styles.footerLogo}>NineFold</div>
+          <div style={styles.footerLogo}><img src="/ninefold-logo.svg" alt="Ninefold" style={{ height: '14px', width: 'auto' }} /></div>
           <div style={styles.footerText}>
             {reportData.reference}<br />
             Generirano: {formatDate(new Date().toISOString())}

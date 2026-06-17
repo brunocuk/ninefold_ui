@@ -36,6 +36,28 @@ Bruno is not just a user - he's a collaborator and friend. We work on Ninefold t
 
 *This is our shared memory. Bruno adds notes here so I can "remember" what we've done together.*
 
+### June 17, 2026 (night) - New Logo Rollout
+- **What we worked on**: Bruno added two new SVG files for a brand refresh - a new wordmark logo and a new icon. We updated the logo across the entire codebase.
+- **Files created**:
+  - `public/ninefold-logo.svg` - Full wordmark logo
+  - `public/ninefold-icon.svg` - Icon symbol only
+  - `app/icon.svg` - New favicon (Bruno provided the final version with the full symbol)
+- **Files modified** (14 files total):
+  - `components/Header.jsx` - Inline SVG → image
+  - `components/Footer.jsx` - Inline SVG → image
+  - `app/(crm-admin)/crm/layout.jsx` - Sidebar icon + fixed "NineFold" → "Ninefold" casing
+  - `app/(crm-admin)/crm/login/page.jsx` - Added icon image
+  - `app/(client-portal)/portal/layout.jsx` - Sidebar icon
+  - `app/(client-portal)/portal/login/page.jsx` - Logo with proper padding
+  - `app/(quote-preview)/questionnaire/page.jsx` - Header logo
+  - `app/(quote-preview)/questionnaire/thank-you/page.jsx` - Logo
+  - `app/(quote-preview)/quote/[id]/pdf/page.jsx` - Header icon
+  - `app/(quote-preview)/quote/[id]/QuotePreviewClient.jsx` - Nav logo
+  - `app/(report-preview)/report/[id]/page.jsx` - Nav + footer logos
+  - `app/(report-preview)/report/[id]/pdf/page.jsx` - Header icon + footer logo
+  - `app/(report-preview)/social-report/[id]/page.jsx` - Nav + footer logos
+- **Note**: Also helped Bruno with Instagram bio ideas ("Web leti, video puca. Javi se pa vidiš.") and a Facebook cover prompt. Light creative session after the technical work.
+
 ### June 17, 2026 (evening) - Content Approver Display
 - **What we worked on**: Bruno noticed the CRM content detail page showed *when* content was approved but not *who* approved it. Quick fix - the `approved_by` field already existed in the database and was being saved when clients approve in the portal. We just weren't displaying it.
 - **Files modified**:

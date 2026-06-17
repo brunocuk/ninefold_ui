@@ -264,9 +264,13 @@ export default function ReportPreview() {
         }
 
         .logo {
-          font-size: 1.5rem;
-          font-weight: 700;
-          color: #fff;
+          display: flex;
+          align-items: center;
+        }
+
+        .logo img {
+          height: 20px;
+          width: auto;
         }
 
         .nav-actions {
@@ -733,10 +737,12 @@ export default function ReportPreview() {
         }
 
         .footer-logo {
-          font-size: 1.5rem;
-          font-weight: 700;
-          color: #00FF94;
           margin-bottom: 16px;
+        }
+
+        .footer-logo img {
+          height: 24px;
+          width: auto;
         }
 
         .footer-text {
@@ -806,7 +812,7 @@ export default function ReportPreview() {
         {/* Top Navigation */}
         <nav className="top-nav">
           <div className="nav-container">
-            <div className="logo">NineFold</div>
+            <div className="logo"><img src="/ninefold-logo.svg" alt="Ninefold" /></div>
             <div className="nav-actions">
               {!isPdfMode && (
                 <button
@@ -1104,7 +1110,7 @@ export default function ReportPreview() {
 
         {/* Footer */}
         <footer className="report-footer">
-          <div className="footer-logo">NineFold</div>
+          <div className="footer-logo"><img src="/ninefold-logo.svg" alt="Ninefold" /></div>
           <div className="footer-text">
             Hvala Vam na povjerenju.<br />
             Za sva pitanja i dodatne informacije, slobodno nas kontaktirajte.
