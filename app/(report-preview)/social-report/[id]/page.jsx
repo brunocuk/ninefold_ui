@@ -12,6 +12,16 @@ const CROATIAN_MONTHS = [
   'Srpanj', 'Kolovoz', 'Rujan', 'Listopad', 'Studeni', 'Prosinac'
 ];
 
+const HR_SHORT_MONTHS = ['sij', 'velj', 'ožu', 'tra', 'svi', 'lip', 'srp', 'kol', 'ruj', 'lis', 'stu', 'pro'];
+const formatPeriodRange = (start, end) => {
+  if (!start || !end) return '';
+  const [sy, sm, sd] = start.split('-').map(Number);
+  const [ey, em, ed] = end.split('-').map(Number);
+  const left = `${sd}. ${HR_SHORT_MONTHS[sm - 1]}${sy !== ey ? ' ' + sy + '.' : ''}`;
+  const right = `${ed}. ${HR_SHORT_MONTHS[em - 1]} ${ey}.`;
+  return `${left} – ${right}`;
+};
+
 const PLATFORM_CONFIG = {
   instagram: { label: 'Instagram', color: '#E4405F', gradient: 'linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)' },
   facebook: { label: 'Facebook', color: '#1877F2', gradient: 'linear-gradient(45deg, #1877F2, #3b5998)' },
@@ -104,7 +114,8 @@ export default function SocialReportPreview() {
             data.recurring_contracts?.clients?.name || 'Klijent',
           contractName: data.recurring_contracts?.name || '',
           monthName: CROATIAN_MONTHS[data.report_month - 1],
-          periodDisplay: `${CROATIAN_MONTHS[data.report_month - 1]} ${data.report_year}`
+          periodDisplay: formatPeriodRange(data.period_start, data.period_end) ||
+            `${CROATIAN_MONTHS[data.report_month - 1]} ${data.report_year}`
         });
       }
     } catch (error) {

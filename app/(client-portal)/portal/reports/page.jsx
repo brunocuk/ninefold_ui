@@ -54,12 +54,12 @@ export default function ReportsPage() {
 
       setMaintenanceReports(maintenanceData || []);
 
-      // Fetch social media reports
+      // Fetch social media reports (visible once published to portal or sent)
       const { data: socialData } = await supabase
         .from('social_media_reports')
         .select('*')
         .in('contract_id', contractIds)
-        .eq('status', 'sent')
+        .in('status', ['generated', 'sent'])
         .order('report_year', { ascending: false })
         .order('report_month', { ascending: false });
 
@@ -76,6 +76,20 @@ export default function ReportsPage() {
     ];
     return months[month - 1];
   };
+
+  const HR_SHORT_MONTHS = ['sij', 'velj', 'ožu', 'tra', 'svi', 'lip', 'srp', 'kol', 'ruj', 'lis', 'stu', 'pro'];
+  const formatPeriodRange = (start, end) => {
+    if (!start || !end) return '';
+    const [sy, sm, sd] = start.split('-').map(Number);
+    const [ey, em, ed] = end.split('-').map(Number);
+    const left = `${sd}. ${HR_SHORT_MONTHS[sm - 1]}${sy !== ey ? ' ' + sy + '.' : ''}`;
+    return `${left} – ${ed}. ${HR_SHORT_MONTHS[em - 1]} ${ey}.`;
+  };
+
+  const periodLabel = (report) =>
+    report.type === 'social'
+      ? (formatPeriodRange(report.period_start, report.period_end) || `${getMonthName(report.report_month)} ${report.report_year}`)
+      : `${getMonthName(report.report_month)} ${report.report_year}`;
 
   const allReports = [
     ...maintenanceReports.map((r) => ({ ...r, type: 'maintenance' })),
@@ -252,7 +266,7 @@ export default function ReportsPage() {
                   color: '#111827',
                   marginBottom: '8px',
                 }}>
-                  {getMonthName(report.report_month)} {report.report_year}
+                  {periodLabel(report)}
                 </h3>
 
                 <div style={{

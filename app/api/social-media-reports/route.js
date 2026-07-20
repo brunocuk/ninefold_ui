@@ -70,8 +70,8 @@ export async function POST(request) {
     const body = await request.json();
     const {
       contract_id,
-      report_month,
-      report_year,
+      period_start,
+      period_end,
       content_delivered,
       content_planned,
       posts_published,
@@ -96,12 +96,18 @@ export async function POST(request) {
     } = body;
 
     // Validate required fields
-    if (!contract_id || !report_month || !report_year) {
+    if (!contract_id || !period_start || !period_end) {
       return Response.json(
-        { error: 'contract_id, report_month, and report_year are required' },
+        { error: 'contract_id, period_start, and period_end are required' },
         { status: 400 }
       );
     }
+
+    // Derive month/year from the period end date (reports are a rolling window,
+    // but we keep report_month/report_year for the reference + uniqueness rule)
+    const [endYear, endMonth] = period_end.split('-').map(Number);
+    const report_year = endYear;
+    const report_month = endMonth;
 
     // Get contract info for reference generation
     const { data: contract, error: contractError } = await supabase
@@ -130,10 +136,6 @@ export async function POST(request) {
     const monthStr = String(report_month).padStart(2, '0');
     const reference = `SMR-${report_year}${monthStr}-${clientName}`;
 
-    // Calculate period dates
-    const periodStart = new Date(report_year, report_month - 1, 1);
-    const periodEnd = new Date(report_year, report_month, 0); // Last day of month
-
     // Create the report
     const { data, error } = await supabase
       .from('social_media_reports')
@@ -142,8 +144,8 @@ export async function POST(request) {
         report_month,
         report_year,
         reference,
-        period_start: periodStart.toISOString().split('T')[0],
-        period_end: periodEnd.toISOString().split('T')[0],
+        period_start,
+        period_end,
         content_delivered: content_delivered || {},
         content_planned: content_planned || {},
         posts_published: posts_published || 0,

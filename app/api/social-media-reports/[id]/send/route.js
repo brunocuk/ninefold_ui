@@ -56,9 +56,15 @@ export async function POST(request, { params }) {
     const reportUrl = `${baseUrl}/social-report/${id}`;
     const pdfUrl = `${baseUrl}/api/social-media-reports/${id}/pdf`;
 
-    // Format period for display
-    const monthName = CROATIAN_MONTHS[report.report_month - 1];
-    const periodDisplay = `${monthName} ${report.report_year}`;
+    // Format period for display (rolling date range, e.g. "20. lip – 19. srp 2026.")
+    const HR_SHORT_MONTHS = ['sij', 'velj', 'ožu', 'tra', 'svi', 'lip', 'srp', 'kol', 'ruj', 'lis', 'stu', 'pro'];
+    let periodDisplay = `${CROATIAN_MONTHS[report.report_month - 1]} ${report.report_year}`;
+    if (report.period_start && report.period_end) {
+      const [sy, sm, sd] = report.period_start.split('-').map(Number);
+      const [ey, em, ed] = report.period_end.split('-').map(Number);
+      const left = `${sd}. ${HR_SHORT_MONTHS[sm - 1]}${sy !== ey ? ' ' + sy + '.' : ''}`;
+      periodDisplay = `${left} – ${ed}. ${HR_SHORT_MONTHS[em - 1]} ${ey}.`;
+    }
 
     // Get client info
     const clientName = recipientName ||
@@ -70,7 +76,7 @@ export async function POST(request, { params }) {
     const { data, error } = await resend.emails.send({
       from: 'Bruno at NineFold <bruno@ninefold.eu>',
       to: recipientEmail,
-      subject: `Mjesečni izvještaj društvenih mreža - ${periodDisplay} | ${report.reference}`,
+      subject: `Izvještaj društvenih mreža - ${periodDisplay} | ${report.reference}`,
       react: SocialMediaReportEmail({
         clientName,
         reportReference: report.reference,

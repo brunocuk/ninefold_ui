@@ -12,9 +12,19 @@ const CROATIAN_MONTHS = [
   'Srpanj', 'Kolovoz', 'Rujan', 'Listopad', 'Studeni', 'Prosinac'
 ];
 
+const HR_SHORT_MONTHS = ['sij', 'velj', 'ožu', 'tra', 'svi', 'lip', 'srp', 'kol', 'ruj', 'lis', 'stu', 'pro'];
+const formatPeriodRange = (start, end) => {
+  if (!start || !end) return '';
+  const [sy, sm, sd] = start.split('-').map(Number);
+  const [ey, em, ed] = end.split('-').map(Number);
+  const left = `${sd}. ${HR_SHORT_MONTHS[sm - 1]}${sy !== ey ? ' ' + sy + '.' : ''}`;
+  const right = `${ed}. ${HR_SHORT_MONTHS[em - 1]} ${ey}.`;
+  return `${left} – ${right}`;
+};
+
 const STATUS_BADGES = {
   draft: { label: 'Nacrt', bg: '#6b7280', color: '#fff' },
-  generated: { label: 'Generiran', bg: '#3b82f6', color: '#fff' },
+  generated: { label: 'Objavljen', bg: '#3b82f6', color: '#fff' },
   sent: { label: 'Poslan', bg: '#00FF94', color: '#000' }
 };
 
@@ -464,7 +474,7 @@ export default function SocialReportsPage() {
             className={`stat-card ${filter === 'generated' ? 'active' : ''}`}
             onClick={() => setFilter('generated')}
           >
-            <div className="stat-label">Generirani</div>
+            <div className="stat-label">Objavljeni</div>
             <div className="stat-value">{statusStats.generated}</div>
           </div>
 
@@ -520,7 +530,7 @@ export default function SocialReportsPage() {
                 <div key={report.id} className="report-card">
                   <div className="report-header">
                     <div className="report-info">
-                      <h3>{CROATIAN_MONTHS[report.report_month - 1]} {report.report_year}</h3>
+                      <h3>{formatPeriodRange(report.period_start, report.period_end) || `${CROATIAN_MONTHS[report.report_month - 1]} ${report.report_year}`}</h3>
                       <div className="report-reference">{report.reference}</div>
                       <div className="report-client">{clientName} - {contractName}</div>
                     </div>

@@ -15,7 +15,7 @@ const CROATIAN_MONTHS = [
 
 const STATUS_BADGES = {
   draft: { label: 'Nacrt', bg: '#6b7280', color: '#fff' },
-  generated: { label: 'Generiran', bg: '#3b82f6', color: '#fff' },
+  generated: { label: 'Objavljen', bg: '#3b82f6', color: '#fff' },
   sent: { label: 'Poslan', bg: '#00FF94', color: '#000' }
 };
 
@@ -35,6 +35,32 @@ const CONTENT_LABELS = {
   story: 'Story'
 };
 
+const CONTENT_TYPE_KEYS = [
+  { key: 'fotografija', label: 'Fotografija', icon: '📷' },
+  { key: 'talkingHead', label: 'Talking Head', icon: '🎤' },
+  { key: 'videoCarousel', label: 'Video Carousel', icon: '🎬' },
+  { key: 'staticCarousel', label: 'Static Carousel', icon: '🖼️' },
+  { key: 'reel', label: 'Reel/Short', icon: '📱' },
+  { key: 'story', label: 'Story', icon: '⏱️' },
+];
+
+const PLATFORM_LIST = [
+  { key: 'instagram', label: 'Instagram', color: '#E4405F', icon: '📸' },
+  { key: 'facebook', label: 'Facebook', color: '#1877F2', icon: '👍' },
+  { key: 'linkedin', label: 'LinkedIn', color: '#0A66C2', icon: '💼' },
+  { key: 'tiktok', label: 'TikTok', color: '#000000', icon: '🎵' },
+];
+
+const HR_SHORT_MONTHS = ['sij', 'velj', 'ožu', 'tra', 'svi', 'lip', 'srp', 'kol', 'ruj', 'lis', 'stu', 'pro'];
+const formatPeriodRange = (start, end) => {
+  if (!start || !end) return '';
+  const [sy, sm, sd] = start.split('-').map(Number);
+  const [ey, em, ed] = end.split('-').map(Number);
+  const left = `${sd}. ${HR_SHORT_MONTHS[sm - 1]}${sy !== ey ? ' ' + sy + '.' : ''}`;
+  const right = `${ed}. ${HR_SHORT_MONTHS[em - 1]} ${ey}.`;
+  return `${left} – ${right}`;
+};
+
 export default function SocialReportDetailPage() {
   const router = useRouter();
   const params = useParams();
@@ -45,6 +71,8 @@ export default function SocialReportDetailPage() {
   const [sending, setSending] = useState(false);
   const [showSendModal, setShowSendModal] = useState(searchParams.get('send') === 'true');
   const [sendEmail, setSendEmail] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
+  const [publishing, setPublishing] = useState(false);
 
   useEffect(() => {
     loadReport();
@@ -110,6 +138,30 @@ export default function SocialReportDetailPage() {
     }
   };
 
+  const handlePublishToggle = async () => {
+    const newStatus = report.status === 'generated' ? 'draft' : 'generated';
+    setPublishing(true);
+    try {
+      const response = await fetch(`/api/social-media-reports/${params.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus })
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || 'Greška');
+      setReport(result.data);
+      showToast(
+        newStatus === 'generated' ? 'Objavljeno u portalu' : 'Uklonjeno iz portala',
+        'success'
+      );
+    } catch (error) {
+      console.error('Error publishing report:', error);
+      showToast(error.message, 'error');
+    } finally {
+      setPublishing(false);
+    }
+  };
+
   const formatDate = (dateString) => {
     if (!dateString) return '-';
     const date = new Date(dateString);
@@ -135,6 +187,20 @@ export default function SocialReportDetailPage() {
       <div style={{ padding: '60px', textAlign: 'center', color: '#ef4444' }}>
         Izvještaj nije pronađen
       </div>
+    );
+  }
+
+  if (isEditing) {
+    return (
+      <SocialReportEditForm
+        report={report}
+        onCancel={() => setIsEditing(false)}
+        onSaved={(updated) => {
+          setReport(updated);
+          setIsEditing(false);
+          showToast('Izvještaj ažuriran', 'success');
+        }}
+      />
     );
   }
 
@@ -641,7 +707,7 @@ export default function SocialReportDetailPage() {
 
           <div className="header-content">
             <div>
-              <h1>{CROATIAN_MONTHS[report.report_month - 1]} {report.report_year}</h1>
+              <h1>{formatPeriodRange(report.period_start, report.period_end) || `${CROATIAN_MONTHS[report.report_month - 1]} ${report.report_year}`}</h1>
               <div className="report-reference">{report.reference}</div>
               <p style={{ color: '#888', marginTop: '8px' }}>{clientName}</p>
             </div>
@@ -655,6 +721,16 @@ export default function SocialReportDetailPage() {
               </span>
 
               <div className="header-actions">
+                <button
+                  onClick={() => setIsEditing(true)}
+                  className="btn btn-secondary"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                  </svg>
+                  Uredi
+                </button>
                 <a
                   href={`/social-report/${report.id}`}
                   target="_blank"
@@ -679,6 +755,30 @@ export default function SocialReportDetailPage() {
                   </svg>
                   PDF
                 </a>
+                {report.status !== 'sent' && (
+                  <button
+                    onClick={handlePublishToggle}
+                    className="btn btn-secondary"
+                    disabled={publishing}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      {report.status === 'generated' ? (
+                        <>
+                          <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                          <line x1="1" y1="1" x2="23" y2="23" />
+                        </>
+                      ) : (
+                        <>
+                          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                          <circle cx="12" cy="12" r="3" />
+                        </>
+                      )}
+                    </svg>
+                    {publishing
+                      ? '...'
+                      : report.status === 'generated' ? 'Sakrij iz portala' : 'Objavi u portalu'}
+                  </button>
+                )}
                 <button
                   onClick={() => setShowSendModal(true)}
                   className="btn btn-primary"
@@ -988,7 +1088,7 @@ export default function SocialReportDetailPage() {
               <div className="info-row">
                 <span className="info-label">Razdoblje</span>
                 <span className="info-value">
-                  {report.period_start} - {report.period_end}
+                  {formatPeriodRange(report.period_start, report.period_end)}
                 </span>
               </div>
 
@@ -1086,5 +1186,482 @@ export default function SocialReportDetailPage() {
         </div>
       )}
     </>
+  );
+}
+
+// Edit form for an existing social media report
+function SocialReportEditForm({ report, onCancel, onSaved }) {
+  const { showToast } = useToast();
+  const [saving, setSaving] = useState(false);
+
+  const toStr = (v) => (v === null || v === undefined ? '' : String(v));
+  const initContent = (obj) => {
+    const r = {};
+    for (const ct of CONTENT_TYPE_KEYS) r[ct.key] = toStr(obj?.[ct.key]);
+    return r;
+  };
+  const initPlatforms = () => {
+    const base = {};
+    for (const p of PLATFORM_LIST) {
+      const d = report.platforms?.[p.key] || {};
+      base[p.key] = {
+        followers: toStr(d.followers),
+        follower_change: toStr(d.follower_change),
+        posts: toStr(d.posts),
+        reach: toStr(d.reach),
+        impressions: toStr(d.impressions),
+        views: toStr(d.views),
+        engagement: toStr(d.engagement),
+        engagement_rate: toStr(d.engagement_rate),
+      };
+    }
+    return base;
+  };
+
+  const [form, setForm] = useState({
+    status: report.status || 'draft',
+    content_planned: initContent(report.content_planned),
+    content_delivered: initContent(report.content_delivered),
+    posts_published: toStr(report.posts_published),
+    platforms: initPlatforms(),
+    top_posts: (report.top_posts || []).map(tp => ({
+      platform: tp.platform || 'instagram',
+      type: tp.type || 'post',
+      reach: toStr(tp.reach),
+      engagement: toStr(tp.engagement),
+      description: tp.description || '',
+    })),
+    paid_ads_enabled: report.paid_ads_enabled || false,
+    paid_ads_spend: toStr(report.paid_ads_spend),
+    paid_ads_impressions: toStr(report.paid_ads_impressions),
+    paid_ads_clicks: toStr(report.paid_ads_clicks),
+    paid_ads_conversions: toStr(report.paid_ads_conversions),
+    summary_text: report.summary_text || '',
+    highlights: report.highlights?.length ? [...report.highlights] : ['', '', ''],
+    recommendations: report.recommendations?.length ? [...report.recommendations] : ['', '', ''],
+  });
+
+  const setField = (name, value) => setForm(p => ({ ...p, [name]: value }));
+  const setContent = (section, key, value) =>
+    setForm(p => ({ ...p, [section]: { ...p[section], [key]: value } }));
+  const setPlatform = (pk, field, value) =>
+    setForm(p => ({ ...p, platforms: { ...p.platforms, [pk]: { ...p.platforms[pk], [field]: value } } }));
+  const setTopPost = (i, field, value) =>
+    setForm(p => {
+      const arr = [...p.top_posts];
+      arr[i] = { ...arr[i], [field]: value };
+      return { ...p, top_posts: arr };
+    });
+  const addTopPost = () =>
+    setForm(p => ({ ...p, top_posts: [...p.top_posts, { platform: 'instagram', type: 'post', reach: '', engagement: '', description: '' }] }));
+  const removeTopPost = (i) =>
+    setForm(p => ({ ...p, top_posts: p.top_posts.filter((_, idx) => idx !== i) }));
+  const setListItem = (field, i, value) =>
+    setForm(p => {
+      const arr = [...p[field]];
+      arr[i] = value;
+      return { ...p, [field]: arr };
+    });
+  const addListItem = (field) => setForm(p => ({ ...p, [field]: [...p[field], ''] }));
+  const removeListItem = (field, i) =>
+    setForm(p => ({ ...p, [field]: p[field].filter((_, idx) => idx !== i) }));
+
+  const num = (v) => (v === '' || v === null || v === undefined ? null : (parseInt(v) || 0));
+  const fnum = (v) => (v === '' || v === null || v === undefined ? null : (parseFloat(v) || 0));
+
+  const calculateTotals = () => {
+    let totalReach = 0, totalImpressions = 0, totalEngagement = 0, followerGrowth = 0;
+    const rates = [];
+    for (const p of PLATFORM_LIST) {
+      const d = form.platforms[p.key];
+      if (d) {
+        totalReach += parseInt(d.reach) || 0;
+        totalImpressions += parseInt(d.impressions) || parseInt(d.views) || 0;
+        totalEngagement += parseInt(d.engagement) || 0;
+        followerGrowth += parseInt(d.follower_change) || 0;
+        if (d.engagement_rate) rates.push(parseFloat(d.engagement_rate));
+      }
+    }
+    const avg = rates.length ? (rates.reduce((a, b) => a + b, 0) / rates.length).toFixed(2) : null;
+    return { totalReach, totalImpressions, totalEngagement, followerGrowth, avgEngagementRate: avg };
+  };
+
+  const handleSave = async () => {
+    setSaving(true);
+    try {
+      const totals = calculateTotals();
+
+      const contentDelivered = {};
+      const contentPlanned = {};
+      for (const ct of CONTENT_TYPE_KEYS) {
+        if (form.content_delivered[ct.key] !== '') contentDelivered[ct.key] = parseInt(form.content_delivered[ct.key]) || 0;
+        if (form.content_planned[ct.key] !== '') contentPlanned[ct.key] = parseInt(form.content_planned[ct.key]) || 0;
+      }
+
+      const platforms = {};
+      for (const p of PLATFORM_LIST) {
+        const d = form.platforms[p.key];
+        const hasData = Object.values(d).some(v => v !== '');
+        if (hasData) {
+          platforms[p.key] = {
+            followers: num(d.followers),
+            follower_change: num(d.follower_change),
+            posts: num(d.posts),
+            reach: num(d.reach),
+            impressions: num(d.impressions),
+            views: num(d.views),
+            engagement: num(d.engagement),
+            engagement_rate: fnum(d.engagement_rate),
+          };
+        }
+      }
+
+      const topPosts = form.top_posts
+        .filter(tp => tp.description || tp.reach || tp.engagement)
+        .map(tp => ({
+          platform: tp.platform,
+          type: tp.type,
+          reach: num(tp.reach),
+          engagement: num(tp.engagement),
+          description: tp.description || null,
+        }));
+
+      const payload = {
+        status: form.status,
+        content_planned: contentPlanned,
+        content_delivered: contentDelivered,
+        posts_published: form.posts_published ? parseInt(form.posts_published) : 0,
+        platforms,
+        total_reach: totals.totalReach,
+        total_impressions: totals.totalImpressions,
+        total_engagement: totals.totalEngagement,
+        avg_engagement_rate: totals.avgEngagementRate ? parseFloat(totals.avgEngagementRate) : null,
+        follower_growth: totals.followerGrowth,
+        top_posts: topPosts,
+        paid_ads_enabled: form.paid_ads_enabled,
+        paid_ads_spend: form.paid_ads_spend ? parseFloat(form.paid_ads_spend) : null,
+        paid_ads_impressions: form.paid_ads_impressions ? parseInt(form.paid_ads_impressions) : null,
+        paid_ads_clicks: form.paid_ads_clicks ? parseInt(form.paid_ads_clicks) : null,
+        paid_ads_conversions: form.paid_ads_conversions ? parseInt(form.paid_ads_conversions) : null,
+        summary_text: form.summary_text || null,
+        highlights: form.highlights.filter(h => h.trim()),
+        recommendations: form.recommendations.filter(r => r.trim()),
+      };
+
+      const response = await fetch(`/api/social-media-reports/${report.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || 'Greška pri spremanju');
+
+      onSaved(result.data);
+    } catch (error) {
+      console.error('Error saving report:', error);
+      showToast(error.message, 'error');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <div className="edit-report">
+      <style jsx>{`
+        .edit-report { animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .edit-header {
+          display: flex; justify-content: space-between; align-items: flex-end;
+          flex-wrap: wrap; gap: 16px; margin-bottom: 24px;
+        }
+        .edit-header h1 { font-size: 1.8rem; font-weight: 900; color: #fff; margin-bottom: 6px; }
+        .edit-header .ref { color: #E4405F; font-family: monospace; font-weight: 600; }
+        .actions { display: flex; gap: 12px; }
+        .card {
+          background: #1a1a1a; border: 1px solid #333; border-radius: 12px;
+          padding: 24px; margin-bottom: 20px;
+        }
+        .section-title {
+          font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 20px;
+          padding-bottom: 12px; border-bottom: 1px solid #333;
+        }
+        .form-group { margin-bottom: 20px; }
+        .form-label {
+          display: block; font-size: 0.85rem; font-weight: 600; color: #999;
+          margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .form-input, .form-select, .form-textarea {
+          width: 100%; padding: 12px 16px; background: #0a0a0a; border: 1px solid #333;
+          border-radius: 8px; color: #fff; font-size: 1rem; transition: border-color 0.2s;
+        }
+        .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: #00FF94; }
+        .form-textarea { min-height: 120px; resize: vertical; }
+        .form-row-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        @media (max-width: 640px) { .form-row-2 { grid-template-columns: 1fr; } }
+        .content-grid-inputs {
+          display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px;
+        }
+        .content-item { background: #0a0a0a; border: 1px solid #333; border-radius: 8px; padding: 12px; }
+        .content-item-header {
+          display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
+          font-size: 0.85rem; color: #fff;
+        }
+        .content-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .content-input {
+          padding: 8px; background: #1a1a1a; border: 1px solid #333; border-radius: 6px;
+          color: #fff; font-size: 0.85rem; width: 100%;
+        }
+        .content-input:focus { outline: none; border-color: #00FF94; }
+        .content-input-label { font-size: 0.7rem; color: #666; text-align: center; margin-top: 4px; }
+        .platform-block { border-top: 1px solid #222; padding-top: 16px; margin-top: 16px; }
+        .platform-block:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
+        .platform-block-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+        .platform-icon {
+          width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center;
+          justify-content: center; font-size: 1.1rem; flex-shrink: 0;
+        }
+        .platform-name { font-weight: 600; color: #fff; }
+        .platform-metrics {
+          display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px;
+        }
+        .platform-metrics .form-group { margin-bottom: 0; }
+        .top-post-card {
+          background: #0a0a0a; border: 1px solid #333; border-radius: 8px; padding: 16px; margin-bottom: 12px;
+        }
+        .top-post-header { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+        .top-post-header .form-group { margin-bottom: 0; }
+        @media (max-width: 640px) { .top-post-header { grid-template-columns: 1fr 1fr; } }
+        .checkbox-wrapper {
+          display: flex; align-items: center; gap: 12px; padding: 16px; background: #0a0a0a;
+          border: 1px solid #333; border-radius: 8px; cursor: pointer;
+        }
+        .checkbox-wrapper input { width: 20px; height: 20px; accent-color: #00FF94; }
+        .checkbox-label { color: #fff; font-weight: 500; }
+        .list-inputs { display: flex; flex-direction: column; gap: 10px; }
+        .list-input-row { display: flex; align-items: center; gap: 10px; }
+        .list-input-row > span {
+          width: 24px; height: 24px; background: #00FF94; color: #000; border-radius: 50%;
+          display: flex; align-items: center; justify-content: center; font-size: 0.8rem;
+          font-weight: 700; flex-shrink: 0;
+        }
+        .list-input-row > span.blue-num { background: #3b82f6; color: #fff; }
+        .sub { font-size: 0.95rem; margin: 24px 0 16px; }
+        .sub.green { color: #00FF94; }
+        .sub.blue { color: #3b82f6; }
+        .icon-btn {
+          width: 32px; height: 32px; flex-shrink: 0; background: #2a1a1a; border: 1px solid #4a2a2a;
+          border-radius: 8px; color: #ef4444; font-size: 1.2rem; cursor: pointer; line-height: 1;
+        }
+        .icon-btn:hover { background: #3a1a1a; }
+        .add-btn {
+          margin-top: 12px; padding: 8px 16px; background: transparent; border: 1px dashed #444;
+          border-radius: 8px; color: #888; font-size: 0.85rem; font-weight: 600; cursor: pointer;
+        }
+        .add-btn:hover { border-color: #00FF94; color: #00FF94; }
+        .remove-btn {
+          margin-top: 4px; padding: 6px 12px; background: transparent; border: 1px solid #4a2a2a;
+          border-radius: 6px; color: #ef4444; font-size: 0.8rem; cursor: pointer;
+        }
+        .remove-btn:hover { background: #2a1a1a; }
+        .edit-footer {
+          display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px;
+          padding-top: 20px; border-top: 1px solid #333;
+        }
+        .btn {
+          padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 1rem; cursor: pointer;
+          transition: all 0.3s; border: none; display: inline-flex; align-items: center; gap: 8px;
+        }
+        .btn-primary { background: #00FF94; color: #000; }
+        .btn-primary:hover { box-shadow: 0 0 20px rgba(0, 255, 148, 0.4); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; }
+        .btn-secondary { background: #333; color: #fff; }
+        .btn-secondary:hover { background: #444; }
+      `}</style>
+
+      <div className="edit-header">
+        <div>
+          <h1>Uredi izvještaj</h1>
+          <div className="ref">{report.reference}</div>
+        </div>
+        <div className="actions">
+          <button className="btn btn-secondary" onClick={onCancel} disabled={saving}>Odustani</button>
+          <button className="btn btn-primary" onClick={handleSave} disabled={saving}>
+            {saving ? 'Spremanje...' : 'Spremi izmjene'}
+          </button>
+        </div>
+      </div>
+
+      {/* Status */}
+      <div className="card">
+        <h3 className="section-title">Status</h3>
+        <select className="form-select" value={form.status} onChange={(e) => setField('status', e.target.value)}>
+          <option value="draft">Nacrt</option>
+          <option value="generated">Generiran</option>
+          <option value="sent">Poslan</option>
+        </select>
+      </div>
+
+      {/* Content */}
+      <div className="card">
+        <h3 className="section-title">Isporučeni Sadržaj</h3>
+        <div className="content-grid-inputs">
+          {CONTENT_TYPE_KEYS.map((ct) => (
+            <div key={ct.key} className="content-item">
+              <div className="content-item-header"><span>{ct.icon}</span>{ct.label}</div>
+              <div className="content-inputs">
+                <div>
+                  <input type="number" min="0" className="content-input" value={form.content_planned[ct.key]}
+                    onChange={(e) => setContent('content_planned', ct.key, e.target.value)} placeholder="0" />
+                  <div className="content-input-label">Plan</div>
+                </div>
+                <div>
+                  <input type="number" min="0" className="content-input" value={form.content_delivered[ct.key]}
+                    onChange={(e) => setContent('content_delivered', ct.key, e.target.value)} placeholder="0" />
+                  <div className="content-input-label">Isporučeno</div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="form-group" style={{ marginTop: '20px', marginBottom: 0 }}>
+          <label className="form-label">Ukupno Objavljenih Postova</label>
+          <input type="number" min="0" className="form-input" value={form.posts_published}
+            onChange={(e) => setField('posts_published', e.target.value)} placeholder="npr. 24" />
+        </div>
+      </div>
+
+      {/* Platforms */}
+      <div className="card">
+        <h3 className="section-title">Metrike Po Platformi</h3>
+        {PLATFORM_LIST.map((p) => {
+          const d = form.platforms[p.key];
+          const isTikTok = p.key === 'tiktok';
+          return (
+            <div key={p.key} className="platform-block">
+              <div className="platform-block-header">
+                <div className="platform-icon" style={{ background: p.color }}>{p.icon}</div>
+                <span className="platform-name">{p.label}</span>
+              </div>
+              <div className="platform-metrics">
+                <div className="form-group"><label className="form-label">Pratitelji</label>
+                  <input type="number" min="0" className="form-input" value={d.followers} onChange={(e) => setPlatform(p.key, 'followers', e.target.value)} placeholder="0" /></div>
+                <div className="form-group"><label className="form-label">Promjena</label>
+                  <input type="number" className="form-input" value={d.follower_change} onChange={(e) => setPlatform(p.key, 'follower_change', e.target.value)} placeholder="+/-" /></div>
+                <div className="form-group"><label className="form-label">Objave</label>
+                  <input type="number" min="0" className="form-input" value={d.posts} onChange={(e) => setPlatform(p.key, 'posts', e.target.value)} placeholder="0" /></div>
+                {!isTikTok ? (
+                  <>
+                    <div className="form-group"><label className="form-label">Doseg</label>
+                      <input type="number" min="0" className="form-input" value={d.reach} onChange={(e) => setPlatform(p.key, 'reach', e.target.value)} placeholder="0" /></div>
+                    <div className="form-group"><label className="form-label">Impresije</label>
+                      <input type="number" min="0" className="form-input" value={d.impressions} onChange={(e) => setPlatform(p.key, 'impressions', e.target.value)} placeholder="0" /></div>
+                  </>
+                ) : (
+                  <div className="form-group"><label className="form-label">Pregledi</label>
+                    <input type="number" min="0" className="form-input" value={d.views} onChange={(e) => setPlatform(p.key, 'views', e.target.value)} placeholder="0" /></div>
+                )}
+                <div className="form-group"><label className="form-label">Engagement</label>
+                  <input type="number" min="0" className="form-input" value={d.engagement} onChange={(e) => setPlatform(p.key, 'engagement', e.target.value)} placeholder="0" /></div>
+                <div className="form-group"><label className="form-label">Eng. Rate %</label>
+                  <input type="number" step="0.01" min="0" className="form-input" value={d.engagement_rate} onChange={(e) => setPlatform(p.key, 'engagement_rate', e.target.value)} placeholder="0.00" /></div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Top Posts */}
+      <div className="card">
+        <h3 className="section-title">Top Objave</h3>
+        {form.top_posts.map((post, i) => (
+          <div key={i} className="top-post-card">
+            <div className="top-post-header">
+              <div className="form-group"><label className="form-label">Platforma</label>
+                <select className="form-select" value={post.platform} onChange={(e) => setTopPost(i, 'platform', e.target.value)}>
+                  {PLATFORM_LIST.map((pp) => <option key={pp.key} value={pp.key}>{pp.label}</option>)}
+                </select></div>
+              <div className="form-group"><label className="form-label">Tip</label>
+                <select className="form-select" value={post.type} onChange={(e) => setTopPost(i, 'type', e.target.value)}>
+                  <option value="post">Post</option>
+                  <option value="reel">Reel</option>
+                  <option value="story">Story</option>
+                  <option value="carousel">Carousel</option>
+                  <option value="video">Video</option>
+                </select></div>
+              <div className="form-group"><label className="form-label">Doseg</label>
+                <input type="number" min="0" className="form-input" value={post.reach} onChange={(e) => setTopPost(i, 'reach', e.target.value)} placeholder="0" /></div>
+              <div className="form-group"><label className="form-label">Engagement</label>
+                <input type="number" min="0" className="form-input" value={post.engagement} onChange={(e) => setTopPost(i, 'engagement', e.target.value)} placeholder="0" /></div>
+            </div>
+            <div className="form-group" style={{ marginBottom: 0 }}><label className="form-label">Opis</label>
+              <input type="text" className="form-input" value={post.description} onChange={(e) => setTopPost(i, 'description', e.target.value)} placeholder="Kratki opis sadržaja..." /></div>
+            <button type="button" className="remove-btn" onClick={() => removeTopPost(i)}>Ukloni</button>
+          </div>
+        ))}
+        <button type="button" className="add-btn" onClick={addTopPost}>+ Dodaj objavu</button>
+      </div>
+
+      {/* Paid Ads */}
+      <div className="card">
+        <h3 className="section-title">Plaćeni Oglasi</h3>
+        <label className="checkbox-wrapper">
+          <input type="checkbox" checked={form.paid_ads_enabled} onChange={(e) => setField('paid_ads_enabled', e.target.checked)} />
+          <span className="checkbox-label">Uključi sekciju plaćenih oglasa</span>
+        </label>
+        {form.paid_ads_enabled && (
+          <div className="form-row-2" style={{ marginTop: '20px' }}>
+            <div className="form-group"><label className="form-label">Potrošnja (EUR)</label>
+              <input type="number" min="0" step="0.01" className="form-input" value={form.paid_ads_spend} onChange={(e) => setField('paid_ads_spend', e.target.value)} placeholder="npr. 500" /></div>
+            <div className="form-group"><label className="form-label">Impresije</label>
+              <input type="number" min="0" className="form-input" value={form.paid_ads_impressions} onChange={(e) => setField('paid_ads_impressions', e.target.value)} placeholder="npr. 50000" /></div>
+            <div className="form-group"><label className="form-label">Klikovi</label>
+              <input type="number" min="0" className="form-input" value={form.paid_ads_clicks} onChange={(e) => setField('paid_ads_clicks', e.target.value)} placeholder="npr. 1500" /></div>
+            <div className="form-group"><label className="form-label">Konverzije</label>
+              <input type="number" min="0" className="form-input" value={form.paid_ads_conversions} onChange={(e) => setField('paid_ads_conversions', e.target.value)} placeholder="npr. 50" /></div>
+          </div>
+        )}
+      </div>
+
+      {/* Summary */}
+      <div className="card">
+        <h3 className="section-title">Sažetak</h3>
+        <div className="form-group">
+          <label className="form-label">Pregled Aktivnosti</label>
+          <textarea className="form-textarea" rows={5} value={form.summary_text}
+            onChange={(e) => setField('summary_text', e.target.value)} placeholder="Kratki sažetak social media aktivnosti tijekom mjeseca..." />
+        </div>
+
+        <h4 className="sub green">✨ Istaknuto</h4>
+        <div className="list-inputs">
+          {form.highlights.map((h, i) => (
+            <div key={i} className="list-input-row">
+              <span>{i + 1}</span>
+              <input type="text" className="form-input" value={h} onChange={(e) => setListItem('highlights', i, e.target.value)} placeholder={`Istaknuta stavka ${i + 1}...`} />
+              <button type="button" className="icon-btn" onClick={() => removeListItem('highlights', i)}>×</button>
+            </div>
+          ))}
+        </div>
+        <button type="button" className="add-btn" onClick={() => addListItem('highlights')}>+ Dodaj</button>
+
+        <h4 className="sub blue" style={{ marginTop: '24px' }}>💡 Preporuke</h4>
+        <div className="list-inputs">
+          {form.recommendations.map((r, i) => (
+            <div key={i} className="list-input-row">
+              <span className="blue-num">{i + 1}</span>
+              <input type="text" className="form-input" value={r} onChange={(e) => setListItem('recommendations', i, e.target.value)} placeholder={`Preporuka ${i + 1}...`} />
+              <button type="button" className="icon-btn" onClick={() => removeListItem('recommendations', i)}>×</button>
+            </div>
+          ))}
+        </div>
+        <button type="button" className="add-btn" onClick={() => addListItem('recommendations')}>+ Dodaj</button>
+      </div>
+
+      <div className="edit-footer">
+        <button className="btn btn-secondary" onClick={onCancel} disabled={saving}>Odustani</button>
+        <button className="btn btn-primary" onClick={handleSave} disabled={saving}>
+          {saving ? 'Spremanje...' : 'Spremi izmjene'}
+        </button>
+      </div>
+    </div>
   );
 }

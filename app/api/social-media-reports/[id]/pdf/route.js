@@ -13,11 +13,6 @@ const A4_WIDTH = 794;
 const A4_HEIGHT = 1123;
 
 // Croatian month names
-const CROATIAN_MONTHS = [
-  'Siječanj', 'Veljača', 'Ožujak', 'Travanj', 'Svibanj', 'Lipanj',
-  'Srpanj', 'Kolovoz', 'Rujan', 'Listopad', 'Studeni', 'Prosinac'
-];
-
 async function getBrowser() {
   // Check if we're in production (Vercel)
   if (process.env.VERCEL) {
@@ -119,15 +114,11 @@ export async function GET(request, { params }) {
       .replace(/[^a-zA-Z0-9\u00C0-\u017F\s-]/g, '')
       .replace(/\s+/g, '_')
       .substring(0, 30);
-    const monthName = CROATIAN_MONTHS[report.report_month - 1];
     const filename = `SocialMedia_${report.reference}_${clientName}.pdf`;
 
-    // Update status to generated if it was draft
-    await supabase
-      .from('social_media_reports')
-      .update({ status: 'generated' })
-      .eq('id', id)
-      .eq('status', 'draft');
+    // Note: generating a PDF does NOT change status. The 'generated' status
+    // means "published to the client portal" and is set deliberately via the
+    // "Objavi u portalu" action, so downloading a draft PDF stays private.
 
     // Return PDF
     return new Response(pdf, {

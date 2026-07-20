@@ -8,11 +8,6 @@ import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
 
-const CROATIAN_MONTHS = [
-  'Siječanj', 'Veljača', 'Ožujak', 'Travanj', 'Svibanj', 'Lipanj',
-  'Srpanj', 'Kolovoz', 'Rujan', 'Listopad', 'Studeni', 'Prosinac'
-];
-
 const CONTENT_TYPES = [
   { key: 'fotografija', label: 'Fotografija', icon: '📷' },
   { key: 'talkingHead', label: 'Talking Head', icon: '🎤' },
@@ -29,11 +24,24 @@ const PLATFORMS = [
   { key: 'tiktok', label: 'TikTok', color: '#000000', icon: '🎵' },
 ];
 
+const fmtDateInput = (d) =>
+  `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+
+const HR_SHORT_MONTHS = ['sij', 'velj', 'ožu', 'tra', 'svi', 'lip', 'srp', 'kol', 'ruj', 'lis', 'stu', 'pro'];
+const formatPeriodRange = (start, end) => {
+  if (!start || !end) return '';
+  const [sy, sm, sd] = start.split('-').map(Number);
+  const [ey, em, ed] = end.split('-').map(Number);
+  const left = `${sd}. ${HR_SHORT_MONTHS[sm - 1]}${sy !== ey ? ' ' + sy + '.' : ''}`;
+  const right = `${ed}. ${HR_SHORT_MONTHS[em - 1]} ${ey}.`;
+  return `${left} – ${right}`;
+};
+
 export default function NewSocialReportPage() {
   const router = useRouter();
-  const now = new Date();
-  const lastMonth = now.getMonth() === 0 ? 11 : now.getMonth() - 1;
-  const lastMonthYear = now.getMonth() === 0 ? now.getFullYear() - 1 : now.getFullYear();
+  const defaultEnd = new Date();
+  const defaultStart = new Date();
+  defaultStart.setDate(defaultStart.getDate() - 29);
 
   const [contracts, setContracts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -42,8 +50,8 @@ export default function NewSocialReportPage() {
 
   const [formData, setFormData] = useState({
     contract_id: '',
-    report_month: lastMonth + 1,
-    report_year: lastMonthYear,
+    period_start: fmtDateInput(defaultStart),
+    period_end: fmtDateInput(defaultEnd),
     // Content tracking
     content_delivered: {},
     content_planned: {},
@@ -178,8 +186,13 @@ export default function NewSocialReportPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.contract_id || !formData.report_month || !formData.report_year) {
+    if (!formData.contract_id || !formData.period_start || !formData.period_end) {
       alert('Molimo odaberite ugovor i razdoblje');
+      return;
+    }
+
+    if (formData.period_end < formData.period_start) {
+      alert('Datum "do" ne može biti prije datuma "od"');
       return;
     }
 
@@ -235,8 +248,8 @@ export default function NewSocialReportPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           contract_id: formData.contract_id,
-          report_month: parseInt(formData.report_month),
-          report_year: parseInt(formData.report_year),
+          period_start: formData.period_start,
+          period_end: formData.period_end,
           content_delivered: contentDelivered,
           content_planned: contentPlanned,
           posts_published: formData.posts_published ? parseInt(formData.posts_published) : 0,
@@ -274,8 +287,6 @@ export default function NewSocialReportPage() {
   };
 
   const selectedContract = contracts.find(c => c.id === formData.contract_id);
-  const months = CROATIAN_MONTHS.map((name, i) => ({ value: i + 1, label: name }));
-  const years = [2024, 2025, 2026, 2027];
   const totals = calculateTotals();
 
   if (loading) {
@@ -839,39 +850,32 @@ export default function NewSocialReportPage() {
 
               <div className="form-row">
                 <div className="form-group">
-                  <label className="form-label required">Mjesec</label>
-                  <select
-                    name="report_month"
-                    value={formData.report_month}
+                  <label className="form-label required">Razdoblje od</label>
+                  <input
+                    type="date"
+                    name="period_start"
+                    value={formData.period_start}
                     onChange={handleChange}
-                    className="form-select"
+                    className="form-input"
                     required
-                  >
-                    {months.map(month => (
-                      <option key={month.value} value={month.value}>
-                        {month.label}
-                      </option>
-                    ))}
-                  </select>
+                  />
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label required">Godina</label>
-                  <select
-                    name="report_year"
-                    value={formData.report_year}
+                  <label className="form-label required">Razdoblje do</label>
+                  <input
+                    type="date"
+                    name="period_end"
+                    value={formData.period_end}
                     onChange={handleChange}
-                    className="form-select"
+                    className="form-input"
                     required
-                  >
-                    {years.map(year => (
-                      <option key={year} value={year}>
-                        {year}
-                      </option>
-                    ))}
-                  </select>
+                  />
                 </div>
               </div>
+              <p className="section-subtitle" style={{ marginTop: '-8px' }}>
+                Zadano: zadnjih 30 dana ({formatPeriodRange(formData.period_start, formData.period_end)})
+              </p>
             </div>
 
             {/* Content Section */}
@@ -1161,7 +1165,7 @@ export default function NewSocialReportPage() {
                   <h4>{selectedContract?.clients?.company || selectedContract?.clients?.name}</h4>
                   <p>{selectedContract?.name}</p>
                   <p style={{ marginTop: '8px' }}>
-                    {CROATIAN_MONTHS[formData.report_month - 1]} {formData.report_year}
+                    {formatPeriodRange(formData.period_start, formData.period_end)}
                   </p>
                 </div>
 
