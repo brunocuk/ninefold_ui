@@ -23,7 +23,6 @@ export async function GET(request, { params }) {
           id,
           name,
           contract_type,
-          metadata,
           clients (
             id,
             name,

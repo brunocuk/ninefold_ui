@@ -1213,6 +1213,99 @@ function PlatformCard({ platform, data, onChange }) {
 
   return (
     <div className="platform-card">
+      <style jsx>{`
+        .platform-card {
+          background: #0a0a0a;
+          border: 1px solid #333;
+          border-radius: 12px;
+          margin-bottom: 16px;
+          overflow: hidden;
+        }
+
+        .platform-header {
+          padding: 16px;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          cursor: pointer;
+          transition: background 0.2s;
+        }
+
+        .platform-header:hover {
+          background: #1a1a1a;
+        }
+
+        .platform-icon {
+          width: 40px;
+          height: 40px;
+          border-radius: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1.2rem;
+          flex-shrink: 0;
+        }
+
+        .platform-name {
+          font-weight: 600;
+          color: #fff;
+          flex: 1;
+        }
+
+        .platform-toggle {
+          color: #666;
+          transition: transform 0.2s;
+        }
+
+        .platform-toggle.open {
+          transform: rotate(180deg);
+        }
+
+        .platform-content {
+          padding: 0 16px 16px;
+          display: none;
+        }
+
+        .platform-content.open {
+          display: block;
+        }
+
+        .platform-metrics {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+          gap: 12px;
+        }
+
+        .form-group {
+          margin-bottom: 20px;
+        }
+
+        .form-label {
+          display: block;
+          font-size: 0.85rem;
+          font-weight: 600;
+          color: #999;
+          margin-bottom: 8px;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+
+        .form-input {
+          width: 100%;
+          padding: 12px 16px;
+          background: #0a0a0a;
+          border: 1px solid #333;
+          border-radius: 8px;
+          color: #fff;
+          font-size: 1rem;
+          transition: border-color 0.2s;
+        }
+
+        .form-input:focus {
+          outline: none;
+          border-color: #00FF94;
+        }
+      `}</style>
       <div className="platform-header" onClick={() => setIsOpen(!isOpen)}>
         <div className="platform-icon" style={{ background: platform.color }}>
           {platform.icon}
