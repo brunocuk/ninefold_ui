@@ -295,7 +295,7 @@ export default function ReportsPage() {
                       <div style={{ fontSize: '1.1rem', fontWeight: '700', color: '#111827' }}>
                         {report.total_reach?.toLocaleString() || 0}
                       </div>
-                      <div style={{ fontSize: '0.75rem', color: '#6B7280' }}>Doseg</div>
+                      <div style={{ fontSize: '0.75rem', color: '#6B7280' }}>Pregledi</div>
                     </div>
                     <div>
                       <div style={{ fontSize: '1.1rem', fontWeight: '700', color: '#111827' }}>

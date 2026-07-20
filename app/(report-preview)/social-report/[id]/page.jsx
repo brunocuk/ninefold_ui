@@ -910,7 +910,7 @@ export default function SocialReportPreview() {
             </div>
             <div className="stat-hero-card">
               <div className="stat-hero-value">{(reportData.total_reach || 0).toLocaleString()}</div>
-              <div className="stat-hero-label">Ukupni Doseg</div>
+              <div className="stat-hero-label">Ukupni Pregledi</div>
             </div>
             <div className="stat-hero-card">
               <div className="stat-hero-value">{(reportData.total_engagement || 0).toLocaleString()}</div>

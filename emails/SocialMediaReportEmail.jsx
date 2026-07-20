@@ -132,7 +132,7 @@ export default function SocialMediaReportEmail({
                   </td>
                   <td style={metricBox}>
                     <Text style={metricValue}>{totalReach.toLocaleString()}</Text>
-                    <Text style={metricLabel}>Doseg</Text>
+                    <Text style={metricLabel}>Pregledi</Text>
                   </td>
                   <td style={metricBox}>
                     <Text style={metricValue}>{totalEngagement.toLocaleString()}</Text>

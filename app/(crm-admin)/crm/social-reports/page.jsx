@@ -548,7 +548,7 @@ export default function SocialReportsPage() {
                       <span className="detail-value highlight">{report.posts_published || 0}</span>
                     </div>
                     <div className="detail-item">
-                      <span className="detail-label">Doseg</span>
+                      <span className="detail-label">Pregledi</span>
                       <span className="detail-value">{(report.total_reach || 0).toLocaleString()}</span>
                     </div>
                     <div className="detail-item">

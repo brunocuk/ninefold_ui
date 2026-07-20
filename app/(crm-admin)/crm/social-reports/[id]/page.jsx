@@ -802,7 +802,7 @@ export default function SocialReportDetailPage() {
           </div>
           <div className="stat-card">
             <div className="stat-value">{(report.total_reach || 0).toLocaleString()}</div>
-            <div className="stat-label">Ukupni Doseg</div>
+            <div className="stat-label">Ukupni Pregledi</div>
           </div>
           <div className="stat-card">
             <div className="stat-value">{(report.total_engagement || 0).toLocaleString()}</div>
@@ -1275,8 +1275,9 @@ function SocialReportEditForm({ report, onCancel, onSaved }) {
     for (const p of PLATFORM_LIST) {
       const d = form.platforms[p.key];
       if (d) {
-        totalReach += parseInt(d.reach) || 0;
-        totalImpressions += parseInt(d.impressions) || parseInt(d.views) || 0;
+        // Overall views = reach (Instagram/Facebook) + views (TikTok)
+        totalReach += parseInt(d.reach) || parseInt(d.views) || 0;
+        totalImpressions += parseInt(d.impressions) || 0;
         totalEngagement += parseInt(d.engagement) || 0;
         followerGrowth += parseInt(d.follower_change) || 0;
         if (d.engagement_rate) rates.push(parseFloat(d.engagement_rate));

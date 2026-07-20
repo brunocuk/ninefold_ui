@@ -168,8 +168,9 @@ export default function NewSocialReportPage() {
     for (const platform of PLATFORMS) {
       const p = formData.platforms[platform.key];
       if (p) {
-        totalReach += parseInt(p.reach) || 0;
-        totalImpressions += parseInt(p.impressions) || parseInt(p.views) || 0;
+        // Overall views = reach (Instagram/Facebook) + views (TikTok)
+        totalReach += parseInt(p.reach) || parseInt(p.views) || 0;
+        totalImpressions += parseInt(p.impressions) || 0;
         totalEngagement += parseInt(p.engagement) || 0;
         followerGrowth += parseInt(p.follower_change) || 0;
         if (p.engagement_rate) engagementRates.push(parseFloat(p.engagement_rate));
@@ -1176,7 +1177,7 @@ export default function NewSocialReportPage() {
                   </div>
                   <div className="preview-stat">
                     <div className="preview-stat-value">{totals.totalReach.toLocaleString()}</div>
-                    <div className="preview-stat-label">Doseg</div>
+                    <div className="preview-stat-label">Pregledi</div>
                   </div>
                   <div className="preview-stat">
                     <div className="preview-stat-value">{totals.totalEngagement.toLocaleString()}</div>
