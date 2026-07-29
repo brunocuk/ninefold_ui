@@ -6,8 +6,18 @@ import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import Link from 'next/link'
 import Image from 'next/image'
-import { getFeaturedProjects } from '@/content/projects'
+import { useState, useEffect } from 'react'
+import { supabase } from '@/lib/supabase'
 import { useMobileOptimization } from '@/lib/useMobileOptimization'
+
+// Map project_type to display labels
+const PROJECT_TYPE_LABELS = {
+  video_production: 'Video',
+  social_media: 'Social Media',
+  web_development: 'Web',
+  web_app: 'Web App',
+  mobile_app: 'Mobile App'
+}
 
 export default function WorkSection() {
   const {
@@ -15,14 +25,36 @@ export default function WorkSection() {
     shouldDisableHover,
     prefersReducedMotion
   } = useMobileOptimization()
-  
+
   const [ref, inView] = useInView({
     threshold: 0.1,
     triggerOnce: true,
   })
 
-  // Get featured projects (limited to 4 for homepage)
-  const projects = getFeaturedProjects().slice(0, 4)
+  const [projects, setProjects] = useState([])
+
+  // Fetch featured projects from Supabase (limited to 4 for homepage)
+  useEffect(() => {
+    async function fetchProjects() {
+      try {
+        const { data, error } = await supabase
+          .from('portfolio_projects')
+          .select('id, slug, title, tagline, year, project_type, services, featured_image')
+          .eq('published', true)
+          .eq('featured', true)
+          .order('display_order', { ascending: true })
+          .order('created_at', { ascending: false })
+          .limit(4)
+
+        if (error) throw error
+        setProjects(data || [])
+      } catch (error) {
+        console.error('Error fetching projects:', error)
+      }
+    }
+
+    fetchProjects()
+  }, [])
 
   return (
     <section ref={ref} className="relative py-24 lg:py-32 bg-[#0F0F0F] overflow-hidden">
@@ -91,9 +123,9 @@ export default function WorkSection() {
                   <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-6 bg-[#1A1A1A] border-2 border-[#88939D]/20 group-hover:border-[#00FF94] transition-all duration-500">
 
                     {/* Image or Placeholder */}
-                    {project.thumbnail ? (
+                    {project.featured_image ? (
                       <Image
-                        src={project.thumbnail}
+                        src={project.featured_image}
                         alt={project.title}
                         fill
                         className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -127,7 +159,7 @@ export default function WorkSection() {
                   <div className="space-y-3">
                     {/* Category */}
                     <p className="text-sm uppercase tracking-wider text-[#88939D] font-medium transition-colors duration-300 group-hover:text-[#00FF94]">
-                      {project.category}
+                      {PROJECT_TYPE_LABELS[project.project_type] || project.project_type}
                     </p>
 
                     {/* Title */}
@@ -142,7 +174,7 @@ export default function WorkSection() {
 
                     {/* Services (as tags) */}
                     <div className="flex flex-wrap gap-2 pt-2">
-                      {project.services.slice(0, 3).map((service, i) => (
+                      {(project.services || []).slice(0, 3).map((service, i) => (
                         <span
                           key={i}
                           className="px-3 py-1.5 bg-transparent border border-[#88939D]/30 rounded-lg text-xs text-[#88939D] font-medium hover:border-[#00FF94] hover:text-[#00FF94] transition-all duration-300"

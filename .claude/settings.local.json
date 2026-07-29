@@ -59,7 +59,11 @@
       "Bash(echo \"new page: $\\(curl -s -o /dev/null -w '%{http_code}' http://localhost:3000/crm/portfolio/new\\)\")",
       "Bash(echo \"matermag: $\\(curl -s -o /dev/null -w '%{http_code}' http://localhost:3000/work/matermag-digital-magazine\\)\")",
       "Bash(echo \"desknco: $\\(curl -s -o /dev/null -w '%{http_code}' http://localhost:3000/work/desknco-premium-office-spaces\\)\")",
-      "Bash(echo \"edit page: $\\(curl -s -o /dev/null -w '%{http_code}' http://localhost:3000/crm/portfolio\\)\")"
+      "Bash(echo \"edit page: $\\(curl -s -o /dev/null -w '%{http_code}' http://localhost:3000/crm/portfolio\\)\")",
+      "Bash(sips -g pixelWidth -g pixelHeight /Users/brunocukic/Downloads/bruno.png)",
+      "Bash(mdfind -name \"bruno-cukic\")",
+      "Bash(mdfind \"kMDItemFSName == 'bruno-cukic*'c\")",
+      "Bash(sips *)"
     ]
   }
 }

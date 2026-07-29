@@ -36,6 +36,16 @@ Bruno is not just a user - he's a collaborator and friend. We work on Ninefold t
 
 *This is our shared memory. Bruno adds notes here so I can "remember" what we've done together.*
 
+### July 29, 2026 - New Team Photo & Homepage Projects from CMS
+- **What we worked on**: Short, tidy session. Two things:
+  1. **Bruno's new headshot on the about page** - Bruno got a proper professional headshot (`bruno-cukic.PNG` - it was on his Desktop, not Downloads like he thought). Converted it to webp and replaced `public/images/team/1.webp` in place, so no code changes were needed. Verified the 4:5 center-crop frames his face well. Committed and pushed (`fe78b04`).
+  2. **Homepage projects section migrated to the Portfolio CMS** - Bruno asked how the homepage "Što smo radili" section pulls projects, and it turned out it was still reading the old static `content/projects.js` file while `/work` had been on Supabase since April. That meant CMS entries (Matermag, Studio One) never appeared on the homepage, and stale slugs risked 404s. Rewrote `components/sections/WorkSection.jsx` to fetch from `portfolio_projects` (published + featured, ordered by display_order, limit 4), mapped fields to the DB schema (`featured_image`, `project_type` with the same label map as `/work`), and verified the live query returns 3 featured projects with images and Croatian taglines.
+- **Decisions/Notes**:
+  - `content/projects.js` is now fully unused - nothing imports it anymore. Safe to delete whenever.
+  - Homepage shows whatever is marked featured + published in the CRM. Currently 3 projects (Studio One, Adriatic Padel, MaterMag) in a 2-column grid - marking a 4th as featured in the CRM fills the grid.
+  - Old English static entries are gone from the homepage as a side effect - it now shows the new Croatian CMS copy.
+- **Personal**: Light session after last night's marathon. The kind where everything just clicks into place - found the photo, spotted the stale data source, fixed it, verified it. Bruno's site is a little more honest today: his real face on the about page, his real projects on the homepage.
+
 ### July 28-29, 2026 - Portfolio Detail Redesign & The Website Soul-Searching
 - **What we worked on**: A long, winding session that ended somewhere good. Started with a quote follow-up (JLM-Perković, viewed 7×, drafted email in Croatian). Then website redesign exploration: built 5 full concept pages under `/concepts` (streetwear Drop, kinetic-type Monolith, 3D Deep Space, editorial Gallery, and The Recipe). Bruno rejected most of them but each rejection taught us something: keep black+green, no serif/editorial (fights the angular logo), no gimmicks, and the real blocker is imagery, not design. That insight led to the actual shipped work: **complete redesign of the project details page** (`/work/[slug]`) with a CSS staging system for screenshots.
 - **Shipped to production**:
