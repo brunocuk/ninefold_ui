@@ -48,6 +48,9 @@ export default function PortfolioDetailPage({ params }) {
   const [serviceInput, setServiceInput] = useState('');
   const [techInput, setTechInput] = useState('');
   const [galleryInput, setGalleryInput] = useState('');
+  const [desktopShotInput, setDesktopShotInput] = useState('');
+  const [mobileShotInput, setMobileShotInput] = useState('');
+  const [uploading, setUploading] = useState(null);
 
   useEffect(() => {
     loadProject();
@@ -161,6 +164,125 @@ export default function PortfolioDetailPage({ params }) {
   const removeGalleryItem = (index) => {
     setFormData(prev => ({ ...prev, gallery: prev.gallery.filter((_, i) => i !== index) }));
   };
+
+  // Screenshot management (stored in type_data.screenshots — shown on /work/[slug])
+  const updateScreenshots = (updater) => {
+    setFormData(prev => {
+      const current = prev.type_data?.screenshots || {};
+      return {
+        ...prev,
+        type_data: { ...prev.type_data, screenshots: updater(current) }
+      };
+    });
+  };
+
+  const addScreenshot = (kind, value, clearInput) => {
+    if (!value.trim()) return;
+    updateScreenshots(current => ({
+      ...current,
+      [kind]: [...(current[kind] || []), value.trim()]
+    }));
+    clearInput('');
+  };
+
+  const removeScreenshot = (kind, index) => {
+    updateScreenshots(current => ({
+      ...current,
+      [kind]: (current[kind] || []).filter((_, i) => i !== index)
+    }));
+  };
+
+  const setFullPageScreenshot = (value) => {
+    updateScreenshots(current => ({ ...current, full: value }));
+  };
+
+  const moveScreenshot = (kind, index, dir) => {
+    updateScreenshots(current => {
+      const arr = [...(current[kind] || [])];
+      const target = index + dir;
+      if (target < 0 || target >= arr.length) return current;
+      [arr[index], arr[target]] = [arr[target], arr[index]];
+      return { ...current, [kind]: arr };
+    });
+  };
+
+  const moveGalleryItem = (index, dir) => {
+    setFormData(prev => {
+      const arr = [...prev.gallery];
+      const target = index + dir;
+      if (target < 0 || target >= arr.length) return prev;
+      [arr[index], arr[target]] = [arr[target], arr[index]];
+      return { ...prev, gallery: arr };
+    });
+  };
+
+  // File uploads (Supabase Storage via /api/portfolio/upload)
+  const uploadFile = async (file) => {
+    const fd = new FormData();
+    fd.append('file', file);
+    fd.append('folder', formData.slug || id);
+    const res = await fetch('/api/portfolio/upload', { method: 'POST', body: fd });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Upload nije uspio');
+    return data.url;
+  };
+
+  const handleSingleUpload = async (field, file) => {
+    if (!file) return;
+    setUploading(field);
+    try {
+      const url = await uploadFile(file);
+      if (field === 'screenshots_full') {
+        setFullPageScreenshot(url);
+      } else {
+        handleInputChange(field, url);
+      }
+    } catch (error) {
+      alert('Greška pri uploadu: ' + error.message);
+    } finally {
+      setUploading(null);
+    }
+  };
+
+  const handleListUpload = async (kind, files) => {
+    if (!files || files.length === 0) return;
+    setUploading(kind);
+    try {
+      for (const file of Array.from(files)) {
+        const url = await uploadFile(file);
+        if (kind === 'gallery') {
+          setFormData(prev => ({ ...prev, gallery: [...prev.gallery, { url, caption: '' }] }));
+        } else {
+          updateScreenshots(current => ({
+            ...current,
+            [kind]: [...(current[kind] || []), url]
+          }));
+        }
+      }
+    } catch (error) {
+      alert('Greška pri uploadu: ' + error.message);
+    } finally {
+      setUploading(null);
+    }
+  };
+
+  const UploadButton = ({ field, accept = 'image/*', multiple = false, list = false }) => (
+    <label className="btn-upload">
+      {uploading === field ? 'Učitavanje...' : (multiple ? 'Učitaj datoteke' : 'Učitaj datoteku')}
+      <input
+        type="file"
+        accept={accept}
+        multiple={multiple}
+        style={{ display: 'none' }}
+        disabled={uploading !== null}
+        onChange={(e) => {
+          if (list) handleListUpload(field, e.target.files);
+          else handleSingleUpload(field, e.target.files[0]);
+          e.target.value = '';
+        }}
+      />
+    </label>
+  );
 
   // Sections management
   const addSection = (type) => {
@@ -678,6 +800,24 @@ export default function PortfolioDetailPage({ params }) {
           background: rgba(0, 255, 148, 0.3);
         }
 
+        .btn-upload {
+          display: inline-flex;
+          align-items: center;
+          padding: 12px 16px;
+          background: rgba(0, 255, 148, 0.2);
+          border: 1px solid rgba(0, 255, 148, 0.3);
+          color: #00FF94;
+          border-radius: 8px;
+          cursor: pointer;
+          font-weight: 600;
+          font-size: 14px;
+          white-space: nowrap;
+        }
+
+        .btn-upload:hover {
+          background: rgba(0, 255, 148, 0.3);
+        }
+
         .btn-remove {
           padding: 8px 12px;
           background: rgba(239, 68, 68, 0.2);
@@ -801,6 +941,22 @@ export default function PortfolioDetailPage({ params }) {
           height: 100%;
           object-fit: cover;
         }
+
+        .gallery-item .btn-move {
+          top: auto;
+          right: auto;
+          bottom: 8px;
+          width: 26px;
+          height: 26px;
+          background: rgba(0, 0, 0, 0.75);
+          border: 1px solid rgba(255, 255, 255, 0.25);
+          border-radius: 6px;
+          font-size: 15px;
+        }
+
+        .gallery-item .btn-move-left { left: 8px; }
+        .gallery-item .btn-move-right { left: 40px; }
+        .gallery-item .btn-move:disabled { opacity: 0.3; cursor: default; }
 
         .gallery-item button {
           position: absolute;
@@ -1087,30 +1243,45 @@ export default function PortfolioDetailPage({ params }) {
                 <div className="form-grid form-grid-2">
                   <div className="form-group">
                     <label>Glavna Slika</label>
-                    <input
-                      type="text"
-                      value={formData.featured_image || ''}
-                      onChange={(e) => handleInputChange('featured_image', e.target.value)}
-                    />
+                    <div className="tag-input-group">
+                      <input
+                        type="text"
+                        value={formData.featured_image || ''}
+                        onChange={(e) => handleInputChange('featured_image', e.target.value)}
+                        placeholder="URL ili učitaj datoteku"
+                      />
+                      <UploadButton field="featured_image" />
+                    </div>
                     {formData.featured_image && (
                       <img src={formData.featured_image} alt="Preview" style={{ marginTop: '8px', maxHeight: '150px', borderRadius: '8px' }} />
                     )}
                   </div>
                   <div className="form-group">
                     <label>Hero Video</label>
-                    <input
-                      type="text"
-                      value={formData.hero_video || ''}
-                      onChange={(e) => handleInputChange('hero_video', e.target.value)}
-                    />
+                    <div className="tag-input-group">
+                      <input
+                        type="text"
+                        value={formData.hero_video || ''}
+                        onChange={(e) => handleInputChange('hero_video', e.target.value)}
+                        placeholder="URL ili učitaj datoteku (max 50MB)"
+                      />
+                      <UploadButton field="hero_video" accept="video/*" />
+                    </div>
                   </div>
                   <div className="form-group">
                     <label>Hero Slika</label>
-                    <input
-                      type="text"
-                      value={formData.hero_image || ''}
-                      onChange={(e) => handleInputChange('hero_image', e.target.value)}
-                    />
+                    <div className="tag-input-group">
+                      <input
+                        type="text"
+                        value={formData.hero_image || ''}
+                        onChange={(e) => handleInputChange('hero_image', e.target.value)}
+                        placeholder="URL ili učitaj datoteku"
+                      />
+                      <UploadButton field="hero_image" />
+                    </div>
+                    {formData.hero_image && (
+                      <img src={formData.hero_image} alt="Preview" style={{ marginTop: '8px', maxHeight: '150px', borderRadius: '8px' }} />
+                    )}
                   </div>
                   <div className="form-group">
                     <label>Boja Akcenta</label>
@@ -1138,6 +1309,8 @@ export default function PortfolioDetailPage({ params }) {
                         <div key={index} className="gallery-item">
                           <img src={item.url} alt={`Gallery ${index + 1}`} />
                           <button type="button" onClick={() => removeGalleryItem(index)}>×</button>
+                          <button type="button" className="btn-move btn-move-left" disabled={index === 0} onClick={() => moveGalleryItem(index, -1)}>‹</button>
+                          <button type="button" className="btn-move btn-move-right" disabled={index === formData.gallery.length - 1} onClick={() => moveGalleryItem(index, 1)}>›</button>
                         </div>
                       ))}
                     </div>
@@ -1151,7 +1324,90 @@ export default function PortfolioDetailPage({ params }) {
                       placeholder="URL slike"
                     />
                     <button type="button" className="btn-add" onClick={addGalleryItem}>Dodaj</button>
+                    <UploadButton field="gallery" multiple list />
                   </div>
+                </div>
+
+                {/* Desktop screenshots */}
+                <div className="form-group" style={{ marginTop: '24px' }}>
+                  <label>Desktop Screenshotovi</label>
+                  <p style={{ fontSize: '13px', color: '#88939D', margin: '0 0 8px' }}>
+                    Prvi se prikazuje u hero sekciji projekta, ostali u "Desktop" sekciji. Preporuka: 2880×1800 (2x).
+                  </p>
+                  {(formData.type_data?.screenshots?.desktop || []).length > 0 && (
+                    <div className="gallery-list">
+                      {formData.type_data.screenshots.desktop.map((url, index) => (
+                        <div key={index} className="gallery-item">
+                          <img src={url} alt={`Desktop ${index + 1}`} />
+                          <button type="button" onClick={() => removeScreenshot('desktop', index)}>×</button>
+                          <button type="button" className="btn-move btn-move-left" disabled={index === 0} onClick={() => moveScreenshot('desktop', index, -1)}>‹</button>
+                          <button type="button" className="btn-move btn-move-right" disabled={index === formData.type_data.screenshots.desktop.length - 1} onClick={() => moveScreenshot('desktop', index, 1)}>›</button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <div className="tag-input-group">
+                    <input
+                      type="text"
+                      value={desktopShotInput}
+                      onChange={(e) => setDesktopShotInput(e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addScreenshot('desktop', desktopShotInput, setDesktopShotInput))}
+                      placeholder="URL desktop screenshota"
+                    />
+                    <button type="button" className="btn-add" onClick={() => addScreenshot('desktop', desktopShotInput, setDesktopShotInput)}>Dodaj</button>
+                    <UploadButton field="desktop" multiple list />
+                  </div>
+                </div>
+
+                {/* Mobile screenshots */}
+                <div className="form-group" style={{ marginTop: '24px' }}>
+                  <label>Mobile Screenshotovi</label>
+                  <p style={{ fontSize: '13px', color: '#88939D', margin: '0 0 8px' }}>
+                    Prikazuju se u telefonskim okvirima u "Mobile" sekciji. Preporuka: 390×844 ili više (portret).
+                  </p>
+                  {(formData.type_data?.screenshots?.mobile || []).length > 0 && (
+                    <div className="gallery-list">
+                      {formData.type_data.screenshots.mobile.map((url, index) => (
+                        <div key={index} className="gallery-item">
+                          <img src={url} alt={`Mobile ${index + 1}`} />
+                          <button type="button" onClick={() => removeScreenshot('mobile', index)}>×</button>
+                          <button type="button" className="btn-move btn-move-left" disabled={index === 0} onClick={() => moveScreenshot('mobile', index, -1)}>‹</button>
+                          <button type="button" className="btn-move btn-move-right" disabled={index === formData.type_data.screenshots.mobile.length - 1} onClick={() => moveScreenshot('mobile', index, 1)}>›</button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <div className="tag-input-group">
+                    <input
+                      type="text"
+                      value={mobileShotInput}
+                      onChange={(e) => setMobileShotInput(e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addScreenshot('mobile', mobileShotInput, setMobileShotInput))}
+                      placeholder="URL mobile screenshota"
+                    />
+                    <button type="button" className="btn-add" onClick={() => addScreenshot('mobile', mobileShotInput, setMobileShotInput)}>Dodaj</button>
+                    <UploadButton field="mobile" multiple list />
+                  </div>
+                </div>
+
+                {/* Full-page screenshot */}
+                <div className="form-group" style={{ marginTop: '24px' }}>
+                  <label>Full-Page Screenshot (scroll-through)</label>
+                  <p style={{ fontSize: '13px', color: '#88939D', margin: '0 0 8px' }}>
+                    Screenshot cijele stranice od vrha do dna — posjetitelj prelaskom miša "skrola" kroz site. Generiraj s: node scripts/capture-site.mjs
+                  </p>
+                  <div className="tag-input-group">
+                    <input
+                      type="text"
+                      value={formData.type_data?.screenshots?.full || ''}
+                      onChange={(e) => setFullPageScreenshot(e.target.value)}
+                      placeholder="URL full-page screenshota"
+                    />
+                    <UploadButton field="screenshots_full" />
+                  </div>
+                  {formData.type_data?.screenshots?.full && (
+                    <img src={formData.type_data.screenshots.full} alt="Full-page preview" style={{ marginTop: '8px', maxHeight: '200px', borderRadius: '8px', objectFit: 'cover', objectPosition: 'top', width: '100%' }} />
+                  )}
                 </div>
               </div>
             )}

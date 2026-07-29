@@ -11,12 +11,46 @@ import ProjectTypeRenderer from "@/components/portfolio/ProjectTypeRenderer";
 
 // Map project_type to display labels
 const PROJECT_TYPE_LABELS = {
-  video_production: 'Video Production',
-  social_media: 'Social Media',
-  web_development: 'Web Development',
-  web_app: 'Web App',
-  mobile_app: 'Mobile App'
+  video_production: 'Video produkcija',
+  social_media: 'Social media',
+  web_development: 'Web razvoj',
+  web_app: 'Web aplikacija',
+  mobile_app: 'Mobilna aplikacija'
 };
+
+function getDomain(url) {
+  try {
+    return new URL(url).host.replace('www.', '');
+  } catch {
+    return '';
+  }
+}
+
+// Minimal dark browser chrome around a screenshot — dots only, no URL bar
+function BrowserFrame({ url, children }) {
+  return (
+    <div className="rounded-xl overflow-hidden bg-[#0C0C0C] ring-1 ring-white/[0.06] shadow-[0_60px_120px_-30px_rgba(0,0,0,0.95)]">
+      <div className="flex items-center gap-2 px-5 py-3.5 bg-[#0C0C0C]">
+        <span className="w-2.5 h-2.5 rounded-full bg-[#2A2A2A]" />
+        <span className="w-2.5 h-2.5 rounded-full bg-[#2A2A2A]" />
+        <span className="w-2.5 h-2.5 rounded-full bg-[#2A2A2A]" />
+      </div>
+      {children}
+    </div>
+  );
+}
+
+// Minimal phone frame around a mobile screenshot
+function PhoneFrame({ src, alt, className = '' }) {
+  return (
+    <div className={`w-[230px] md:w-[260px] shrink-0 rounded-[2.2rem] border border-white/12 bg-[#131313] p-2.5 shadow-[0_40px_70px_-15px_rgba(0,0,0,0.85)] ${className}`}>
+      <div className="rounded-[1.7rem] overflow-hidden relative">
+        <div className="absolute top-2 left-1/2 -translate-x-1/2 w-16 h-4 rounded-full bg-black/80 z-10" />
+        <img src={src} alt={alt} className="w-full block" loading="lazy" />
+      </div>
+    </div>
+  );
+}
 
 export default function ProjectDetailsClient({ project, relatedProjects = [] }) {
   const {
@@ -54,6 +88,24 @@ export default function ProjectDetailsClient({ project, relatedProjects = [] }) 
 
   // Get lighthouse data from type_data if it's a web project
   const lighthouse = project.type_data?.lighthouse || null;
+
+  // Screenshot sets captured from the live site (scripts/capture-site.mjs)
+  // featured_image is reserved for cards on /work — never shown here.
+  const shots = project.type_data?.screenshots || null;
+  const heroShot = shots?.desktop?.[0] || null;
+  const extraDesktopShots = (shots?.desktop || []).slice(1);
+  const mobileShots = shots?.mobile || [];
+  const siteDomain = getDomain(project.live_site_url);
+  const hasHeroMedia = Boolean(project.hero_video || heroShot || project.hero_image);
+
+  // Accent-aware backgrounds — every project gets panels in its own color
+  const accent = project.accent_color || '#00FF94';
+  const ribbedStyle = {
+    backgroundImage: `repeating-linear-gradient(90deg, rgba(255,255,255,0.12) 0px, rgba(255,255,255,0.02) 5px, rgba(0,0,0,0.30) 13px, rgba(255,255,255,0.05) 21px, rgba(0,0,0,0.12) 26px), linear-gradient(115deg, ${accent} 0%, color-mix(in srgb, ${accent} 45%, #000) 38%, #0D0D0D 78%, #050505 100%)`,
+  };
+  const stageStyle = {
+    background: `radial-gradient(ellipse at 72% 25%, ${accent}1A 0%, transparent 55%), linear-gradient(160deg, #141414 0%, #0F0F0F 100%)`,
+  };
 
   const renderSection = (section, index) => {
     if (section.type === "text") {
@@ -107,6 +159,23 @@ export default function ProjectDetailsClient({ project, relatedProjects = [] }) 
 
   return (
     <div className="min-h-screen bg-[#0F0F0F] overflow-x-hidden">
+      <style>{`
+        .nfpd-cut { clip-path: polygon(0 0, calc(100% - 28px) 0, 100% 28px, 100% 100%, 0 100%); }
+        .nfpd-scrollshot { position: relative; aspect-ratio: 16/9.6; overflow: hidden; }
+        .nfpd-scrollshot img {
+          width: 100%; display: block;
+          transform: translateY(0);
+          transition: transform 1.2s ease;
+        }
+        .nfpd-scrollgroup:hover .nfpd-scrollshot img {
+          transform: translateY(calc(-100% + 320px));
+          transition: transform 25s linear;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .nfpd-scrollshot img { transition: none; }
+        }
+      `}</style>
+
       {/* Hero Section */}
       <section
         ref={heroRef}
@@ -136,7 +205,7 @@ export default function ProjectDetailsClient({ project, relatedProjects = [] }) 
                 href="/work"
                 className="hover:text-[#00FF94] transition-colors duration-300"
               >
-                Work
+                Radovi
               </Link>
               <span>/</span>
               <span className="text-white">{project.title}</span>
@@ -194,18 +263,18 @@ export default function ProjectDetailsClient({ project, relatedProjects = [] }) 
               className="flex flex-wrap gap-8 text-[#88939D]"
             >
               <div>
-                <div className="text-sm mb-1">Client</div>
+                <div className="text-sm mb-1">Klijent</div>
                 <div className="text-white font-semibold">{project.client_name}</div>
               </div>
               {project.year && (
                 <div>
-                  <div className="text-sm mb-1">Year</div>
+                  <div className="text-sm mb-1">Godina</div>
                   <div className="text-white font-semibold">{project.year}</div>
                 </div>
               )}
               {project.duration && (
                 <div>
-                  <div className="text-sm mb-1">Duration</div>
+                  <div className="text-sm mb-1">Trajanje</div>
                   <div className="text-white font-semibold">
                     {project.duration}
                   </div>
@@ -234,7 +303,7 @@ export default function ProjectDetailsClient({ project, relatedProjects = [] }) 
                 }}
                 className="flex items-center gap-2 text-[#00FF94] font-medium pt-4 group cursor-pointer"
               >
-                View Live Website
+                Pogledaj live stranicu
                 <svg
                   className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"
                   fill="none"
@@ -258,7 +327,8 @@ export default function ProjectDetailsClient({ project, relatedProjects = [] }) 
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00FF94] to-transparent opacity-30" />
       </section>
 
-      {/* Hero Media (Video or Image) */}
+      {/* Hero Media — staged showcase */}
+      {hasHeroMedia && (
       <section className="relative py-12 lg:py-16 bg-[#0F0F0F]">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <motion.div
@@ -266,20 +336,10 @@ export default function ProjectDetailsClient({ project, relatedProjects = [] }) 
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: shouldReduceAnimations ? 0 : 1, ease: [0.16, 1, 0.3, 1] }}
-            whileHover={shouldDisableHover ? undefined : {
-              y: -5,
-              transition: {
-                type: "spring",
-                stiffness: 300,
-                damping: 25
-              }
-            }}
-            className="relative rounded-2xl overflow-hidden border-2 border-[#88939D]/20 hover:border-[#00FF94]/50 transition-colors duration-500"
           >
-            {project.hero_video ? (
-              // Video with mobile optimization
-              <div className="relative aspect-video">
-                {/* On mobile/slow connection: show thumbnail with play button */}
+            {project.hero_video && (
+              // Video — full-width, cinematic, no border box
+              <div className="relative aspect-video rounded-2xl overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.9)]">
                 {(shouldDisableVideos && !showVideo) ? (
                   <div className="relative w-full h-full">
                     <Image
@@ -289,7 +349,6 @@ export default function ProjectDetailsClient({ project, relatedProjects = [] }) 
                       className="object-cover"
                       priority
                     />
-                    {/* Play button overlay */}
                     <button
                       onClick={() => setShowVideo(true)}
                       className="absolute inset-0 flex items-center justify-center bg-black/40 hover:bg-black/30 transition-colors"
@@ -303,7 +362,6 @@ export default function ProjectDetailsClient({ project, relatedProjects = [] }) 
                     </button>
                   </div>
                 ) : (
-                  // Desktop or user opted to play - defer loading
                   isPageReady ? (
                     <video
                       ref={videoRef}
@@ -318,7 +376,6 @@ export default function ProjectDetailsClient({ project, relatedProjects = [] }) 
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    // Show poster while page loads
                     <Image
                       src={project.featured_image || project.hero_image || '/images/placeholder.jpg'}
                       alt={project.title}
@@ -329,34 +386,30 @@ export default function ProjectDetailsClient({ project, relatedProjects = [] }) 
                   )
                 )}
               </div>
-            ) : project.hero_image ? (
-              <div className="relative aspect-video">
-                <Image
-                  src={project.hero_image}
-                  alt={project.title}
-                  fill
-                  className="object-cover"
-                  priority
-                />
-              </div>
-            ) : project.featured_image ? (
-              <div className="relative aspect-video">
-                <Image
-                  src={project.featured_image}
-                  alt={project.title}
-                  fill
-                  className="object-cover"
-                  priority
-                />
-              </div>
-            ) : (
-              <div className="aspect-video bg-gradient-to-br from-[#00FF94]/20 to-[#00CC78]/10 flex items-center justify-center">
-                <span className="text-[#88939D]">Project Hero Media</span>
-              </div>
             )}
+
+            {heroShot ? (
+              // Raw desktop capture — flat, centered on a ribbed accent-colored panel
+              <div
+                className={`nfpd-cut relative px-5 md:px-16 py-12 md:py-20 overflow-hidden ${project.hero_video ? 'mt-8 lg:mt-12' : ''}`}
+                style={ribbedStyle}
+              >
+                <div className="relative max-w-4xl mx-auto">
+                  <BrowserFrame url={siteDomain}>
+                    <img src={heroShot} alt={project.title} className="w-full block" />
+                  </BrowserFrame>
+                </div>
+              </div>
+            ) : project.hero_image ? (
+              // Hero Slika — finished artwork, shown clean without extra framing
+              <div className={`relative rounded-2xl overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.9)] ${project.hero_video ? 'mt-8 lg:mt-12' : ''}`}>
+                <img src={project.hero_image} alt={project.title} className="w-full block" />
+              </div>
+            ) : null}
           </motion.div>
         </div>
       </section>
+      )}
 
       {/* Overview Section */}
       <section
@@ -384,7 +437,7 @@ export default function ProjectDetailsClient({ project, relatedProjects = [] }) 
               {/* Description */}
               <div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-                  Overview
+                  O projektu
                 </h2>
                 <p className="text-lg text-[#88939D] leading-relaxed">
                   {project.description}
@@ -394,7 +447,7 @@ export default function ProjectDetailsClient({ project, relatedProjects = [] }) 
               {/* Challenge */}
               <div>
                 <h3 className="text-2xl font-bold text-white mb-4">
-                  The Challenge
+                  Izazov
                 </h3>
                 <p className="text-lg text-[#88939D] leading-relaxed">
                   {project.challenge}
@@ -404,7 +457,7 @@ export default function ProjectDetailsClient({ project, relatedProjects = [] }) 
               {/* Solution */}
               <div>
                 <h3 className="text-2xl font-bold text-white mb-4">
-                  Our Solution
+                  Rješenje
                 </h3>
                 <p className="text-lg text-[#88939D] leading-relaxed">
                   {project.solution}
@@ -435,7 +488,7 @@ export default function ProjectDetailsClient({ project, relatedProjects = [] }) 
                   }
                 }}
               >
-                <h3 className="text-xl font-bold text-white mb-4">Services</h3>
+                <h3 className="text-xl font-bold text-white mb-4">Usluge</h3>
                 <div className="flex flex-wrap gap-2">
                   {project.services.map((service, index) => (
                     <span
@@ -461,7 +514,7 @@ export default function ProjectDetailsClient({ project, relatedProjects = [] }) 
                 }}
               >
                 <h3 className="text-xl font-bold text-white mb-4">
-                  Technologies
+                  Tehnologije
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {project.technologies.map((tech, index) => (
@@ -478,6 +531,113 @@ export default function ProjectDetailsClient({ project, relatedProjects = [] }) 
           </div>
         </div>
       </section>
+
+      {/* Desktop Screenshots Section */}
+      {(shots?.full || extraDesktopShots.length > 0) && (
+        <section className="relative py-24 lg:py-32 bg-[#0F0F0F] overflow-hidden">
+          <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
+            <motion.div
+              initial={shouldReduceAnimations ? { opacity: 1 } : { opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: shouldReduceAnimations ? 0 : 1, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-col md:flex-row md:items-end md:justify-between gap-3 mb-12"
+            >
+              <div>
+                <h2 className="text-4xl md:text-5xl font-bold text-white mb-3">Desktop</h2>
+                <p className="text-lg text-[#88939D]">Stranica kakvu vide posjetitelji — puna širina, pravi pikseli</p>
+              </div>
+              {shots?.full && (
+                <span className="text-sm text-[#00FF94] hidden md:block">
+                  Pređi mišem preko prvog okvira za scroll kroz cijeli site
+                </span>
+              )}
+            </motion.div>
+
+            <div className="space-y-10">
+              {shots?.full && (
+                <motion.div
+                  initial={shouldReduceAnimations ? { opacity: 1 } : { opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: shouldReduceAnimations ? 0 : 1, ease: [0.16, 1, 0.3, 1] }}
+                  className="nfpd-scrollgroup nfpd-cut p-5 md:p-10"
+                  style={stageStyle}
+                >
+                  <BrowserFrame url={siteDomain}>
+                    <div className="nfpd-scrollshot">
+                      <img src={shots.full} alt={`${project.title} — full page`} loading="lazy" />
+                    </div>
+                  </BrowserFrame>
+                </motion.div>
+              )}
+
+              {extraDesktopShots.length > 0 && (
+                <div className="grid md:grid-cols-2 gap-8">
+                  {extraDesktopShots.map((shot, index) => (
+                    <motion.div
+                      key={index}
+                      initial={shouldReduceAnimations ? { opacity: 1 } : { opacity: 0, y: 40 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{
+                        duration: shouldReduceAnimations ? 0 : 1,
+                        delay: shouldReduceAnimations ? 0 : index * 0.1,
+                        ease: [0.16, 1, 0.3, 1],
+                      }}
+                      className="nfpd-cut p-5 md:p-8"
+                      style={stageStyle}
+                    >
+                      <BrowserFrame url={siteDomain}>
+                        <img src={shot} alt={`${project.title} — screenshot ${index + 2}`} className="w-full block" loading="lazy" />
+                      </BrowserFrame>
+                    </motion.div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Mobile Screenshots Section */}
+      {mobileShots.length > 0 && (
+        <section className="relative py-24 lg:py-32 bg-[#0F0F0F] overflow-hidden">
+          <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
+            <motion.div
+              initial={shouldReduceAnimations ? { opacity: 1 } : { opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: shouldReduceAnimations ? 0 : 1, ease: [0.16, 1, 0.3, 1] }}
+              className="mb-12"
+            >
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-3">Mobile</h2>
+              <p className="text-lg text-[#88939D]">Gdje je većina posjetitelja zapravo</p>
+            </motion.div>
+
+            <div className="nfpd-cut px-6 py-14 md:py-20" style={stageStyle}>
+              <div className="flex flex-wrap justify-center items-start gap-8 md:gap-14">
+                {mobileShots.map((shot, index) => (
+                  <motion.div
+                    key={index}
+                    initial={shouldReduceAnimations ? { opacity: 1 } : { opacity: 0, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{
+                      duration: shouldReduceAnimations ? 0 : 1,
+                      delay: shouldReduceAnimations ? 0 : index * 0.15,
+                      ease: [0.16, 1, 0.3, 1],
+                    }}
+                    className={index % 2 === 1 ? 'md:mt-16' : ''}
+                  >
+                    <PhoneFrame src={shot} alt={`${project.title} — mobile ${index + 1}`} />
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Results Section */}
       <section
@@ -502,10 +662,10 @@ export default function ProjectDetailsClient({ project, relatedProjects = [] }) 
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-              Results & Impact
+              Rezultati
             </h2>
             <p className="text-xl text-[#88939D] max-w-3xl mx-auto">
-              Measurable outcomes that demonstrate the value delivered
+              Brojke koje pokazuju da je posao odrađen kako treba
             </p>
           </motion.div>
 
@@ -536,7 +696,7 @@ export default function ProjectDetailsClient({ project, relatedProjects = [] }) 
                 <div className="absolute inset-0 bg-gradient-to-br from-[#00FF94]/5 via-[#00CC78]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                 <div className="relative z-10">
-                  <div className="text-5xl md:text-6xl font-bold text-[#00FF94] mb-3">
+                  <div className="text-4xl lg:text-5xl font-bold tracking-tight leading-none text-[#00FF94] mb-3">
                     {result.metric}
                   </div>
                   <div className="text-[#88939D] group-hover:text-white/70 transition-colors duration-300">{result.label}</div>
@@ -572,10 +732,10 @@ export default function ProjectDetailsClient({ project, relatedProjects = [] }) 
               className="text-center mb-16"
             >
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                Performance Metrics
+                Performanse
               </h2>
               <p className="text-xl text-[#88939D] max-w-3xl mx-auto">
-                Built for speed and optimized for search engines
+                Izgrađeno za brzinu i optimizirano za tražilice
               </p>
             </motion.div>
 
@@ -686,7 +846,7 @@ export default function ProjectDetailsClient({ project, relatedProjects = [] }) 
               className="mt-12 text-center"
             >
               <p className="text-sm text-[#88939D]">
-                Tested with{" "}
+                Testirano alatom{" "}
                 <span className="text-white font-semibold">
                   Google Lighthouse
                 </span>
@@ -777,9 +937,9 @@ export default function ProjectDetailsClient({ project, relatedProjects = [] }) 
               className="text-center mb-16"
             >
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-                Related Projects
+                Povezani projekti
               </h2>
-              <p className="text-xl text-[#88939D]">Explore more of our work</p>
+              <p className="text-xl text-[#88939D]">Pogledaj još naših radova</p>
             </motion.div>
 
             {/* Related projects grid */}
@@ -866,7 +1026,7 @@ export default function ProjectDetailsClient({ project, relatedProjects = [] }) 
                           {/* View Project */}
                           <div className="pt-3 border-t border-[#88939D]/10">
                             <span className="text-xs text-[#00FF94] font-medium group-hover:gap-1 flex items-center transition-all">
-                              View project
+                              Pogledaj projekt
                               <svg
                                 className="w-4 h-4 ml-0 group-hover:ml-1 transition-all duration-300"
                                 fill="none"
@@ -906,11 +1066,11 @@ export default function ProjectDetailsClient({ project, relatedProjects = [] }) 
             transition={{ duration: shouldReduceAnimations ? 0 : 1, ease: [0.16, 1, 0.3, 1] }}
           >
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Ready to start your project?
+              Imaš projekt?
             </h2>
             <p className="text-xl text-[#88939D] mb-12 max-w-2xl mx-auto">
-              Let's create something amazing together. Get in touch to discuss
-              your next big idea.
+              Javi se pa vidimo što možemo napraviti zajedno.
+              Bez prodajnog pitcha, bez obaveza.
             </p>
             <Link href="/contact">
               <motion.button
@@ -929,7 +1089,7 @@ export default function ProjectDetailsClient({ project, relatedProjects = [] }) 
                 className="group relative px-8 py-5 bg-gradient-to-r from-[#00FF94] to-[#00CC78] text-black font-bold rounded-xl text-lg overflow-hidden transition-all shadow-lg shadow-[#00FF94]/20 hover:shadow-xl hover:shadow-[#00FF94]/30"
               >
                 <span className="relative z-10 flex items-center gap-2">
-                  Get in touch
+                  Čujemo se
                   <svg
                     className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300"
                     fill="none"

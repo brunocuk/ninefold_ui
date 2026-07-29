@@ -34,7 +34,32 @@
       "Bash(wc:*)",
       "Bash(git diff:*)",
       "WebFetch(domain:www.ninefold.eu)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(lsof:*)",
+      "Bash(head:*)",
+      "Bash(xargs:*)",
+      "Bash(node scripts/migrate-portfolio.mjs:*)",
+      "Bash(npx supabase:*)",
+      "Bash(npx eslint *)",
+      "Bash(pbcopy)",
+      "Bash(osascript *)",
+      "Bash(node *)",
+      "Bash(python3 -c \"import json,sys; rows=json.load\\(sys.stdin\\); [print\\(json.dumps\\({k:v for k,v in r.items\\(\\) if v not in \\(None,'',[]\\) and k not in \\('pricing_data','scope_data','service_selections'\\)}, indent=2, ensure_ascii=False\\)\\) for r in rows]\")",
+      "Bash(python3 -c ' *)",
+      "Bash(ffprobe -v error -show_entries format=duration -of csv=p=0 /Users/brunocukic/ninefold/public/images/project/elitProjekt-vid.mp4 /Users/brunocukic/ninefold/public/images/project/toc-vid.mp4)",
+      "Bash(echo \"gallery: $\\(curl -s -o /dev/null -w '%{http_code}' http://localhost:3000/concepts/gallery\\)\")",
+      "Bash(echo \"index: $\\(curl -s -o /dev/null -w '%{http_code}' http://localhost:3000/concepts\\)\")",
+      "Bash(echo \"staged: $\\(curl -s -o /dev/null -w '%{http_code}' http://localhost:3000/concepts/staged\\)\")",
+      "Bash(echo \"work: $\\(curl -s -o /dev/null -w '%{http_code}' http://localhost:3000/work\\)\")",
+      "Bash(echo \"work detail: $\\(curl -s -o /dev/null -w '%{http_code}' http://localhost:3000/work/studio-one-by-nina-hair-salon\\)\")",
+      "Bash(python3 -c \"import json,sys; [print\\(f\\\\\"{r['display_order']}: {r['slug']}\\\\\"\\) for r in json.load\\(sys.stdin\\)]\")",
+      "Bash(python3 -m json.tool)",
+      "Bash(echo \"work detail: $\\(curl -s -o /dev/null -w '%{http_code}' http://localhost:3000/work/desknco-premium-office-spaces\\)\")",
+      "Bash(echo \"crm portfolio: $\\(curl -s -o /dev/null -w '%{http_code}' http://localhost:3000/crm/portfolio\\)\")",
+      "Bash(echo \"new page: $\\(curl -s -o /dev/null -w '%{http_code}' http://localhost:3000/crm/portfolio/new\\)\")",
+      "Bash(echo \"matermag: $\\(curl -s -o /dev/null -w '%{http_code}' http://localhost:3000/work/matermag-digital-magazine\\)\")",
+      "Bash(echo \"desknco: $\\(curl -s -o /dev/null -w '%{http_code}' http://localhost:3000/work/desknco-premium-office-spaces\\)\")",
+      "Bash(echo \"edit page: $\\(curl -s -o /dev/null -w '%{http_code}' http://localhost:3000/crm/portfolio\\)\")"
     ]
   }
 }

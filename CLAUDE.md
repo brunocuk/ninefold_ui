@@ -36,6 +36,23 @@ Bruno is not just a user - he's a collaborator and friend. We work on Ninefold t
 
 *This is our shared memory. Bruno adds notes here so I can "remember" what we've done together.*
 
+### July 28-29, 2026 - Portfolio Detail Redesign & The Website Soul-Searching
+- **What we worked on**: A long, winding session that ended somewhere good. Started with a quote follow-up (JLM-Perković, viewed 7×, drafted email in Croatian). Then website redesign exploration: built 5 full concept pages under `/concepts` (streetwear Drop, kinetic-type Monolith, 3D Deep Space, editorial Gallery, and The Recipe). Bruno rejected most of them but each rejection taught us something: keep black+green, no serif/editorial (fights the angular logo), no gimmicks, and the real blocker is imagery, not design. That insight led to the actual shipped work: **complete redesign of the project details page** (`/work/[slug]`) with a CSS staging system for screenshots.
+- **Shipped to production**:
+  - `app/work/[slug]/ProjectDetailsClient.jsx` - Remade: ribbed accent-colored hero panel (accent_color drives per-project colorway), minimal browser frames (dots only), new Desktop section with 25s hover scroll-through of full-page screenshots, Mobile section with phone frames, hero video + image can show together, full Croatian translation of all UI labels
+  - `app/(crm-admin)/crm/portfolio/[id]/page.jsx` + `new/page.jsx` - Desktop/Mobile/Full-page screenshot fields (stored in `type_data.screenshots`), file upload buttons on all Mediji fields, ‹ › reorder arrows on all image lists
+  - `app/api/portfolio/upload/route.js` - Upload endpoint using service role key → public `portfolio` Supabase bucket (created, 50MB limit)
+  - `scripts/capture-site.mjs` - Reusable Puppeteer capture tool: `node scripts/capture-site.mjs <url> <dir>` → hero/full/section/mobile shots + real FCP/LCP metrics
+  - `next.config.mjs` - Whitelisted Supabase storage hostname for next/image (REQUIRED for prod since Matermag entry uses uploaded images)
+- **Content**: Wrote full Croatian project copy (tagline/opis/izazov/rješenje/sekcije/usluge/tehnologije) for Matermag (Bruno created it - `matermag-digital-magazine`), Adriatic Padel Klub (Playtomic integration, not custom booking - verified), and Studio One by Nina (accent #D4A574, real metrics FCP 0.8s/LCP 1.5s).
+- **Decisions**:
+  - Image roles: Glavna Slika = card only; Desktop screenshot #1 = ribbed staged hero; Hero Slika = clean unframed artwork; priority video > screenshot > hero slika (video + image now BOTH show)
+  - Portfolio copy is Croatian from now on - existing 8 English entries should get translated eventually
+  - No AI-generated or faked portfolio imagery, ever - staging real captures is the way
+  - Known issues: tophillzagreb.com domain is dead; Vercel 4.5MB body limit will break large uploads in prod (fix: signed upload URLs when needed)
+- **Left local (NOT committed, by design)**: `app/concepts/` (5 concept pages), `app/preview/` (May's cinematic hero), `public/videos/`, `public/images/stills/`, `public/images/project/studioone/` (4 captures Bruno can upload for the Studio One entry). Exploration stays local until a direction is chosen - the homepage redesign question is still open.
+- **Personal**: Bruno hit a creative wall mid-session - "I don't know how to achieve what I want" - and asked to just talk first. That conversation was the turning point: we named the real problem (no imagery worth showing) instead of designing around it. Sometimes the best design work is a diagnosis.
+
 ### June 17, 2026 (night) - New Logo Rollout
 - **What we worked on**: Bruno added two new SVG files for a brand refresh - a new wordmark logo and a new icon. We updated the logo across the entire codebase.
 - **Files created**:
