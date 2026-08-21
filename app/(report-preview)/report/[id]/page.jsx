@@ -1116,7 +1116,7 @@ export default function ReportPreview() {
             Za sva pitanja i dodatne informacije, slobodno nas kontaktirajte.
           </div>
           <div className="footer-contact">
-            <a href="mailto:hello@ninefold.eu">hello@ninefold.eu</a> · <a href="https://ninefold.eu">ninefold.eu</a>
+            <a href="mailto:hello@ninefold.eu">hello@ninefold.eu</a> · <a href="https://www.ninefold.eu">ninefold.eu</a>
           </div>
         </footer>
       </div>

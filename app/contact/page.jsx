@@ -1,22 +1,15 @@
 // app/contact/page.jsx
 
-import { Suspense } from 'react'
-import ContactContent from './ContactContent'
+import ContactMono from '@/components/mono/ContactMono'
 
 export const metadata = {
-  title: 'Kontakt | NineFold - Kreativna Agencija Zagreb',
-  description: 'Imate projekt na umu? Kontaktirajte naš kreativni tim u Zagrebu. Odgovaramo unutar 24 sata. Izgradimo nešto sjajno zajedno.',
-  openGraph: {
-    title: 'Kontakt | NineFold - Kreativna Agencija Zagreb',
-    description: 'Imate projekt na umu? Kontaktirajte naš kreativni tim u Zagrebu. Odgovaramo unutar 24 sata.',
-    type: 'website',
+  title: 'Kontakt | Ninefold',
+  description: 'Javi se. Odgovaramo unutar 24 sata, i to netko od nas dvojice, ne autoresponder.',
+  alternates: {
+    canonical: 'https://www.ninefold.eu/contact',
   },
 }
 
 export default function ContactPage() {
-  return (
-    <Suspense fallback={<div className="min-h-screen bg-[#0F0F0F]" />}>
-      <ContactContent />
-    </Suspense>
-  )
+  return <ContactMono />
 }

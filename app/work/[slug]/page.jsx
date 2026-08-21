@@ -3,7 +3,7 @@
 
 import { notFound } from 'next/navigation';
 import { createClient } from '@supabase/supabase-js';
-import ProjectDetailsClient from './ProjectDetailsClient';
+import ProjectMono from '@/components/mono/ProjectMono';
 
 // Create Supabase client for server component
 const supabase = createClient(
@@ -62,7 +62,7 @@ export async function generateMetadata({ params }) {
   const heroImage = project.hero_image || project.featured_image;
 
   return {
-    title: `${project.title} - ${project.client_name} | NineFold Work`,
+    title: `${project.title} | Ninefold Radovi`,
     description: project.description,
 
     // Open Graph for social sharing
@@ -97,7 +97,7 @@ export async function generateMetadata({ params }) {
 
     // Canonical URL
     alternates: {
-      canonical: `https://ninefold.agency/work/${project.slug}`,
+      canonical: `https://www.ninefold.eu/work/${project.slug}`,
     },
   };
 }
@@ -134,14 +134,14 @@ export default async function ProjectPage({ params }) {
     image: project.hero_image || project.featured_image,
     author: {
       '@type': 'Organization',
-      name: 'NineFold',
+      name: 'Ninefold',
     },
     publisher: {
       '@type': 'Organization',
-      name: 'NineFold',
+      name: 'Ninefold',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://ninefold.agency/logo.png',
+        url: 'https://www.ninefold.eu/ninefold-logo.svg',
       },
     },
     datePublished: project.year,
@@ -164,7 +164,7 @@ export default async function ProjectPage({ params }) {
       />
 
       {/* Client Component for Interactivity */}
-      <ProjectDetailsClient project={project} relatedProjects={relatedProjects} />
+      <ProjectMono project={project} relatedProjects={relatedProjects} />
     </>
   );
 }

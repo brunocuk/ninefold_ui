@@ -18,18 +18,18 @@ import {
 } from 'lucide-react';
 
 const STATUS_CONFIG = {
-  pending: { bg: '#FEF3C7', color: '#D97706', label: 'Čeka početak' },
-  active: { bg: '#DBEAFE', color: '#2563EB', label: 'U tijeku' },
-  in_progress: { bg: '#DBEAFE', color: '#2563EB', label: 'U tijeku' },
-  review: { bg: '#E0E7FF', color: '#4F46E5', label: 'Na pregledu' },
-  completed: { bg: '#D1FAE5', color: '#059669', label: 'Završeno' },
-  on_hold: { bg: '#F3F4F6', color: '#6B7280', label: 'Na čekanju' },
+  pending: { bg: '#2A230F', color: '#FBBF24', label: 'Čeka početak' },
+  active: { bg: '#14202E', color: '#60A5FA', label: 'U tijeku' },
+  in_progress: { bg: '#14202E', color: '#60A5FA', label: 'U tijeku' },
+  review: { bg: '#191D33', color: '#818CF8', label: 'Na pregledu' },
+  completed: { bg: '#10291D', color: '#34D399', label: 'Završeno' },
+  on_hold: { bg: '#151514', color: '#8E8E8E', label: 'Na čekanju' },
 };
 
 const MILESTONE_STATUS_CONFIG = {
-  pending: { icon: Circle, color: '#9CA3AF' },
-  in_progress: { icon: Clock, color: '#2563EB' },
-  completed: { icon: CheckCircle2, color: '#059669' },
+  pending: { icon: Circle, color: '#8E8E8E' },
+  in_progress: { icon: Clock, color: '#60A5FA' },
+  completed: { icon: CheckCircle2, color: '#34D399' },
 };
 
 export default function ProjectDetailPage() {
@@ -93,7 +93,7 @@ export default function ProjectDetailPage() {
   if (loading) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', padding: '60px 0' }}>
-        <div style={{ color: '#6B7280' }}>Učitavanje...</div>
+        <div style={{ color: '#8E8E8E' }}>Učitavanje...</div>
       </div>
     );
   }
@@ -101,7 +101,7 @@ export default function ProjectDetailPage() {
   if (!project) {
     return (
       <div style={{ textAlign: 'center', padding: '60px 20px' }}>
-        <h2 style={{ fontSize: '1.5rem', color: '#111827', marginBottom: '12px' }}>
+        <h2 style={{ fontSize: '1.5rem', color: '#F2F2F2', marginBottom: '12px' }}>
           Projekt nije pronađen
         </h2>
         <Link href="/portal/projects" style={{ color: '#00cc76', fontWeight: '600' }}>
@@ -123,7 +123,7 @@ export default function ProjectDetailPage() {
             display: 'inline-flex',
             alignItems: 'center',
             gap: '8px',
-            color: '#6B7280',
+            color: '#8E8E8E',
             textDecoration: 'none',
             fontSize: '0.9rem',
             fontWeight: '500',
@@ -145,14 +145,14 @@ export default function ProjectDetailPage() {
             <h1 style={{
               fontSize: '1.75rem',
               fontWeight: '800',
-              color: '#111827',
+              color: '#F2F2F2',
               marginBottom: '8px',
             }}>
               {project.name}
             </h1>
             {project.description && (
               <p style={{
-                color: '#6B7280',
+                color: '#8E8E8E',
                 fontSize: '0.95rem',
                 maxWidth: '600px',
                 lineHeight: '1.5',
@@ -183,7 +183,7 @@ export default function ProjectDetailPage() {
         marginBottom: '24px',
       }}>
         <div style={{
-          background: '#fff',
+          background: '#0F0F0F',
           borderRadius: '14px',
           padding: '20px',
           boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
@@ -209,19 +209,19 @@ export default function ProjectDetailPage() {
           <div style={{
             fontSize: '1.75rem',
             fontWeight: '800',
-            color: '#111827',
+            color: '#F2F2F2',
             lineHeight: '1',
             marginBottom: '4px',
           }}>
             {Math.round(progress)}%
           </div>
-          <div style={{ fontSize: '0.85rem', color: '#6B7280' }}>
+          <div style={{ fontSize: '0.85rem', color: '#8E8E8E' }}>
             Napredak
           </div>
         </div>
 
         <div style={{
-          background: '#fff',
+          background: '#0F0F0F',
           borderRadius: '14px',
           padding: '20px',
           boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
@@ -236,30 +236,30 @@ export default function ProjectDetailPage() {
               width: '40px',
               height: '40px',
               borderRadius: '10px',
-              background: '#DBEAFE',
+              background: '#14202E',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-              <FolderKanban size={20} style={{ color: '#2563EB' }} />
+              <FolderKanban size={20} style={{ color: '#60A5FA' }} />
             </div>
           </div>
           <div style={{
             fontSize: '1.75rem',
             fontWeight: '800',
-            color: '#111827',
+            color: '#F2F2F2',
             lineHeight: '1',
             marginBottom: '4px',
           }}>
             {completedMilestones}/{milestones.length}
           </div>
-          <div style={{ fontSize: '0.85rem', color: '#6B7280' }}>
+          <div style={{ fontSize: '0.85rem', color: '#8E8E8E' }}>
             Koraka završeno
           </div>
         </div>
 
         <div style={{
-          background: '#fff',
+          background: '#0F0F0F',
           borderRadius: '14px',
           padding: '20px',
           boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
@@ -274,18 +274,18 @@ export default function ProjectDetailPage() {
               width: '40px',
               height: '40px',
               borderRadius: '10px',
-              background: '#E0E7FF',
+              background: '#191D33',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-              <Calendar size={20} style={{ color: '#4F46E5' }} />
+              <Calendar size={20} style={{ color: '#818CF8' }} />
             </div>
           </div>
           <div style={{
             fontSize: '1rem',
             fontWeight: '700',
-            color: '#111827',
+            color: '#F2F2F2',
             lineHeight: '1.3',
             marginBottom: '4px',
           }}>
@@ -295,7 +295,7 @@ export default function ProjectDetailPage() {
               year: 'numeric',
             })}
           </div>
-          <div style={{ fontSize: '0.85rem', color: '#6B7280' }}>
+          <div style={{ fontSize: '0.85rem', color: '#8E8E8E' }}>
             Početak projekta
           </div>
         </div>
@@ -309,7 +309,7 @@ export default function ProjectDetailPage() {
       }}>
         {/* Milestones */}
         <div style={{
-          background: '#fff',
+          background: '#0F0F0F',
           borderRadius: '16px',
           padding: '24px',
           boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
@@ -317,7 +317,7 @@ export default function ProjectDetailPage() {
           <h2 style={{
             fontSize: '1.1rem',
             fontWeight: '700',
-            color: '#111827',
+            color: '#F2F2F2',
             marginBottom: '20px',
             display: 'flex',
             alignItems: 'center',
@@ -331,7 +331,7 @@ export default function ProjectDetailPage() {
             <div style={{
               padding: '40px 20px',
               textAlign: 'center',
-              color: '#9CA3AF',
+              color: '#8E8E8E',
             }}>
               <FolderKanban size={32} style={{ marginBottom: '12px', opacity: 0.5 }} />
               <p style={{ fontSize: '0.9rem' }}>
@@ -357,7 +357,7 @@ export default function ProjectDetailPage() {
                         width: '32px',
                         height: '32px',
                         borderRadius: '50%',
-                        background: milestone.status === 'completed' ? '#D1FAE5' : '#F3F4F6',
+                        background: milestone.status === 'completed' ? '#10291D' : '#151514',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -370,7 +370,7 @@ export default function ProjectDetailPage() {
                           width: '2px',
                           flex: 1,
                           minHeight: '24px',
-                          background: milestone.status === 'completed' ? '#00ff94' : '#E5E7EB',
+                          background: milestone.status === 'completed' ? '#00ff94' : '#262625',
                           margin: '6px 0',
                         }} />
                       )}
@@ -384,7 +384,7 @@ export default function ProjectDetailPage() {
                       <div style={{
                         fontSize: '0.95rem',
                         fontWeight: '600',
-                        color: milestone.status === 'completed' ? '#059669' : '#111827',
+                        color: milestone.status === 'completed' ? '#34D399' : '#F2F2F2',
                         marginBottom: '4px',
                         textDecoration: milestone.status === 'completed' ? 'line-through' : 'none',
                       }}>
@@ -393,7 +393,7 @@ export default function ProjectDetailPage() {
                       {milestone.description && (
                         <p style={{
                           fontSize: '0.85rem',
-                          color: '#6B7280',
+                          color: '#8E8E8E',
                           lineHeight: '1.4',
                           marginBottom: '6px',
                         }}>
@@ -405,7 +405,7 @@ export default function ProjectDetailPage() {
                         alignItems: 'center',
                         gap: '12px',
                         fontSize: '0.8rem',
-                        color: '#9CA3AF',
+                        color: '#8E8E8E',
                       }}>
                         {milestone.due_date && (
                           <span style={{
@@ -425,7 +425,7 @@ export default function ProjectDetailPage() {
                             display: 'flex',
                             alignItems: 'center',
                             gap: '4px',
-                            color: '#059669',
+                            color: '#34D399',
                           }}>
                             <CheckCircle2 size={14} />
                             Završeno {new Date(milestone.completed_at).toLocaleDateString('hr-HR')}
@@ -449,7 +449,7 @@ export default function ProjectDetailPage() {
           {/* Project Info */}
           {(project.start_date || project.end_date || project.total_value) && (
             <div style={{
-              background: '#fff',
+              background: '#0F0F0F',
               borderRadius: '16px',
               padding: '24px',
               boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
@@ -457,7 +457,7 @@ export default function ProjectDetailPage() {
               <h2 style={{
                 fontSize: '1.1rem',
                 fontWeight: '700',
-                color: '#111827',
+                color: '#F2F2F2',
                 marginBottom: '16px',
               }}>
                 Informacije
@@ -470,11 +470,11 @@ export default function ProjectDetailPage() {
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     padding: '12px',
-                    background: '#F9FAFB',
+                    background: '#111110',
                     borderRadius: '10px',
                   }}>
-                    <span style={{ fontSize: '0.9rem', color: '#6B7280' }}>Početak</span>
-                    <span style={{ fontSize: '0.9rem', fontWeight: '600', color: '#111827' }}>
+                    <span style={{ fontSize: '0.9rem', color: '#8E8E8E' }}>Početak</span>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '600', color: '#F2F2F2' }}>
                       {new Date(project.start_date).toLocaleDateString('hr-HR')}
                     </span>
                   </div>
@@ -485,11 +485,11 @@ export default function ProjectDetailPage() {
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     padding: '12px',
-                    background: '#F9FAFB',
+                    background: '#111110',
                     borderRadius: '10px',
                   }}>
-                    <span style={{ fontSize: '0.9rem', color: '#6B7280' }}>Očekivani završetak</span>
-                    <span style={{ fontSize: '0.9rem', fontWeight: '600', color: '#111827' }}>
+                    <span style={{ fontSize: '0.9rem', color: '#8E8E8E' }}>Očekivani završetak</span>
+                    <span style={{ fontSize: '0.9rem', fontWeight: '600', color: '#F2F2F2' }}>
                       {new Date(project.end_date).toLocaleDateString('hr-HR')}
                     </span>
                   </div>
@@ -501,7 +501,7 @@ export default function ProjectDetailPage() {
           {/* Related Requests */}
           {changeRequests.length > 0 && (
             <div style={{
-              background: '#fff',
+              background: '#0F0F0F',
               borderRadius: '16px',
               padding: '24px',
               boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
@@ -515,7 +515,7 @@ export default function ProjectDetailPage() {
                 <h2 style={{
                   fontSize: '1.1rem',
                   fontWeight: '700',
-                  color: '#111827',
+                  color: '#F2F2F2',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '10px',
@@ -541,7 +541,7 @@ export default function ProjectDetailPage() {
                     style={{
                       display: 'block',
                       padding: '12px',
-                      background: '#F9FAFB',
+                      background: '#111110',
                       borderRadius: '10px',
                       textDecoration: 'none',
                     }}
@@ -549,14 +549,14 @@ export default function ProjectDetailPage() {
                     <div style={{
                       fontSize: '0.9rem',
                       fontWeight: '600',
-                      color: '#111827',
+                      color: '#F2F2F2',
                       marginBottom: '4px',
                     }}>
                       {request.title}
                     </div>
                     <div style={{
                       fontSize: '0.8rem',
-                      color: '#6B7280',
+                      color: '#8E8E8E',
                     }}>
                       {new Date(request.created_at).toLocaleDateString('hr-HR')}
                     </div>
@@ -576,14 +576,14 @@ export default function ProjectDetailPage() {
             <h3 style={{
               fontSize: '1rem',
               fontWeight: '700',
-              color: '#111827',
+              color: '#F2F2F2',
               marginBottom: '8px',
             }}>
               Trebate izmjenu?
             </h3>
             <p style={{
               fontSize: '0.9rem',
-              color: '#6B7280',
+              color: '#8E8E8E',
               marginBottom: '16px',
               lineHeight: '1.5',
             }}>

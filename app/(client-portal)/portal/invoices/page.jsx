@@ -17,19 +17,19 @@ import {
 } from 'lucide-react';
 
 const QUOTE_STATUS_CONFIG = {
-  draft: { bg: '#F3F4F6', color: '#6B7280', label: 'Nacrt' },
-  sent: { bg: '#DBEAFE', color: '#2563EB', label: 'Poslano' },
-  viewed: { bg: '#E0E7FF', color: '#4F46E5', label: 'Pregledano' },
-  accepted: { bg: '#D1FAE5', color: '#059669', label: 'Prihvaćeno' },
-  paid: { bg: '#D1FAE5', color: '#059669', label: 'Plaćeno' },
-  rejected: { bg: '#FEE2E2', color: '#DC2626', label: 'Odbijeno' },
-  expired: { bg: '#F3F4F6', color: '#6B7280', label: 'Isteklo' },
+  draft: { bg: '#151514', color: '#8E8E8E', label: 'Nacrt' },
+  sent: { bg: '#14202E', color: '#60A5FA', label: 'Poslano' },
+  viewed: { bg: '#191D33', color: '#818CF8', label: 'Pregledano' },
+  accepted: { bg: '#10291D', color: '#34D399', label: 'Prihvaćeno' },
+  paid: { bg: '#10291D', color: '#34D399', label: 'Plaćeno' },
+  rejected: { bg: '#2C1515', color: '#F87171', label: 'Odbijeno' },
+  expired: { bg: '#151514', color: '#8E8E8E', label: 'Isteklo' },
 };
 
 const INVOICE_STATUS_CONFIG = {
-  unpaid: { bg: '#FEF3C7', color: '#D97706', label: 'Neplaćeno', icon: Clock },
-  paid: { bg: '#D1FAE5', color: '#059669', label: 'Plaćeno', icon: CheckCircle2 },
-  overdue: { bg: '#FEE2E2', color: '#DC2626', label: 'Dospjelo', icon: AlertCircle },
+  unpaid: { bg: '#2A230F', color: '#FBBF24', label: 'Neplaćeno', icon: Clock },
+  paid: { bg: '#10291D', color: '#34D399', label: 'Plaćeno', icon: CheckCircle2 },
+  overdue: { bg: '#2C1515', color: '#F87171', label: 'Dospjelo', icon: AlertCircle },
 };
 
 export default function InvoicesPage() {
@@ -115,7 +115,7 @@ export default function InvoicesPage() {
   if (loading) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', padding: '60px 0' }}>
-        <div style={{ color: '#6B7280' }}>Učitavanje...</div>
+        <div style={{ color: '#8E8E8E' }}>Učitavanje...</div>
       </div>
     );
   }
@@ -127,12 +127,12 @@ export default function InvoicesPage() {
         <h1 style={{
           fontSize: '1.75rem',
           fontWeight: '800',
-          color: '#111827',
+          color: '#F2F2F2',
           marginBottom: '4px',
         }}>
           Ponude i fakture
         </h1>
-        <p style={{ color: '#6B7280', fontSize: '0.95rem' }}>
+        <p style={{ color: '#8E8E8E', fontSize: '0.95rem' }}>
           Pregledajte ponude, fakture i status plaćanja
         </p>
       </div>
@@ -145,7 +145,7 @@ export default function InvoicesPage() {
         marginBottom: '32px',
       }}>
         <div style={{
-          background: '#fff',
+          background: '#0F0F0F',
           borderRadius: '16px',
           padding: '24px',
           boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
@@ -160,29 +160,29 @@ export default function InvoicesPage() {
               width: '48px',
               height: '48px',
               borderRadius: '12px',
-              background: '#D1FAE5',
+              background: '#10291D',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-              <CheckCircle2 size={24} style={{ color: '#059669' }} />
+              <CheckCircle2 size={24} style={{ color: '#34D399' }} />
             </div>
           </div>
           <div style={{
             fontSize: '2rem',
             fontWeight: '800',
-            color: '#059669',
+            color: '#34D399',
             marginBottom: '4px',
           }}>
             €{totalPaid.toLocaleString()}
           </div>
-          <div style={{ fontSize: '0.9rem', color: '#6B7280' }}>
+          <div style={{ fontSize: '0.9rem', color: '#8E8E8E' }}>
             Plaćene ponude
           </div>
         </div>
 
         <div style={{
-          background: '#fff',
+          background: '#0F0F0F',
           borderRadius: '16px',
           padding: '24px',
           boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
@@ -197,30 +197,30 @@ export default function InvoicesPage() {
               width: '48px',
               height: '48px',
               borderRadius: '12px',
-              background: '#FEF3C7',
+              background: '#2A230F',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-              <Clock size={24} style={{ color: '#D97706' }} />
+              <Clock size={24} style={{ color: '#FBBF24' }} />
             </div>
           </div>
           <div style={{
             fontSize: '2rem',
             fontWeight: '800',
-            color: '#D97706',
+            color: '#FBBF24',
             marginBottom: '4px',
           }}>
             €{unpaidInvoiceAmount.toLocaleString()}
           </div>
-          <div style={{ fontSize: '0.9rem', color: '#6B7280' }}>
+          <div style={{ fontSize: '0.9rem', color: '#8E8E8E' }}>
             Neplaćene fakture
           </div>
         </div>
 
         {overdueInvoiceAmount > 0 && (
           <div style={{
-            background: '#fff',
+            background: '#0F0F0F',
             borderRadius: '16px',
             padding: '24px',
             boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
@@ -235,30 +235,30 @@ export default function InvoicesPage() {
                 width: '48px',
                 height: '48px',
                 borderRadius: '12px',
-                background: '#FEE2E2',
+                background: '#2C1515',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
-                <AlertCircle size={24} style={{ color: '#DC2626' }} />
+                <AlertCircle size={24} style={{ color: '#F87171' }} />
               </div>
             </div>
             <div style={{
               fontSize: '2rem',
               fontWeight: '800',
-              color: '#DC2626',
+              color: '#F87171',
               marginBottom: '4px',
             }}>
               €{overdueInvoiceAmount.toLocaleString()}
             </div>
-            <div style={{ fontSize: '0.9rem', color: '#6B7280' }}>
+            <div style={{ fontSize: '0.9rem', color: '#8E8E8E' }}>
               Dospjele fakture
             </div>
           </div>
         )}
 
         <div style={{
-          background: '#fff',
+          background: '#0F0F0F',
           borderRadius: '16px',
           padding: '24px',
           boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
@@ -273,23 +273,23 @@ export default function InvoicesPage() {
               width: '48px',
               height: '48px',
               borderRadius: '12px',
-              background: '#E0E7FF',
+              background: '#191D33',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-              <Receipt size={24} style={{ color: '#4F46E5' }} />
+              <Receipt size={24} style={{ color: '#818CF8' }} />
             </div>
           </div>
           <div style={{
             fontSize: '2rem',
             fontWeight: '800',
-            color: '#4F46E5',
+            color: '#818CF8',
             marginBottom: '4px',
           }}>
             {quotes.length + invoices.length}
           </div>
-          <div style={{ fontSize: '0.9rem', color: '#6B7280' }}>
+          <div style={{ fontSize: '0.9rem', color: '#8E8E8E' }}>
             Ukupno dokumenata
           </div>
         </div>
@@ -300,7 +300,7 @@ export default function InvoicesPage() {
         <h2 style={{
           fontSize: '1.25rem',
           fontWeight: '700',
-          color: '#111827',
+          color: '#F2F2F2',
           marginBottom: '16px',
           display: 'flex',
           alignItems: 'center',
@@ -312,28 +312,28 @@ export default function InvoicesPage() {
 
         {invoices.length === 0 ? (
           <div style={{
-            background: '#fff',
+            background: '#0F0F0F',
             borderRadius: '16px',
             padding: '48px 20px',
             textAlign: 'center',
             boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
           }}>
-            <FileText size={40} style={{ color: '#D1D5DB', marginBottom: '12px' }} />
+            <FileText size={40} style={{ color: '#33332F', marginBottom: '12px' }} />
             <h3 style={{
               fontSize: '1rem',
               fontWeight: '600',
-              color: '#111827',
+              color: '#F2F2F2',
               marginBottom: '6px',
             }}>
               Nema faktura
             </h3>
-            <p style={{ color: '#6B7280', fontSize: '0.9rem' }}>
+            <p style={{ color: '#8E8E8E', fontSize: '0.9rem' }}>
               Vaše fakture će se pojaviti ovdje
             </p>
           </div>
         ) : (
           <div style={{
-            background: '#fff',
+            background: '#0F0F0F',
             borderRadius: '16px',
             boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
             overflow: 'hidden',
@@ -350,10 +350,10 @@ export default function InvoicesPage() {
                     alignItems: 'center',
                     gap: '16px',
                     padding: '20px 24px',
-                    borderBottom: index < invoices.length - 1 ? '1px solid #F3F4F6' : 'none',
+                    borderBottom: index < invoices.length - 1 ? '1px solid #151514' : 'none',
                     transition: 'background 0.2s ease',
                   }}
-                  onMouseEnter={(e) => e.currentTarget.style.background = '#F9FAFB'}
+                  onMouseEnter={(e) => e.currentTarget.style.background = '#111110'}
                   onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
                 >
                   {/* Icon */}
@@ -381,7 +381,7 @@ export default function InvoicesPage() {
                       <h3 style={{
                         fontSize: '1rem',
                         fontWeight: '600',
-                        color: '#111827',
+                        color: '#F2F2F2',
                       }}>
                         {invoice.invoice_number}
                       </h3>
@@ -412,7 +412,7 @@ export default function InvoicesPage() {
                         alignItems: 'center',
                         gap: '4px',
                         fontSize: '0.85rem',
-                        color: '#9CA3AF',
+                        color: '#8E8E8E',
                       }}>
                         <Calendar size={14} />
                         {new Date(invoice.issue_date).toLocaleDateString('hr-HR')}
@@ -421,7 +421,7 @@ export default function InvoicesPage() {
                       {invoice.status !== 'paid' && invoice.due_date && (
                         <span style={{
                           fontSize: '0.85rem',
-                          color: invoice.status === 'overdue' ? '#DC2626' : '#9CA3AF',
+                          color: invoice.status === 'overdue' ? '#F87171' : '#8E8E8E',
                         }}>
                           Dospijeće: {new Date(invoice.due_date).toLocaleDateString('hr-HR')}
                         </span>
@@ -437,7 +437,7 @@ export default function InvoicesPage() {
                     <div style={{
                       fontSize: '1.25rem',
                       fontWeight: '800',
-                      color: '#111827',
+                      color: '#F2F2F2',
                     }}>
                       €{Number(invoice.amount).toLocaleString()}
                     </div>
@@ -452,8 +452,8 @@ export default function InvoicesPage() {
                       justifyContent: 'center',
                       width: '44px',
                       height: '44px',
-                      background: '#F3F4F6',
-                      color: '#374151',
+                      background: '#151514',
+                      color: '#C9C9C9',
                       borderRadius: '10px',
                       border: 'none',
                       cursor: 'pointer',
@@ -465,8 +465,8 @@ export default function InvoicesPage() {
                       e.currentTarget.style.color = '#000';
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.background = '#F3F4F6';
-                      e.currentTarget.style.color = '#374151';
+                      e.currentTarget.style.background = '#151514';
+                      e.currentTarget.style.color = '#C9C9C9';
                     }}
                   >
                     <Download size={18} />
@@ -483,7 +483,7 @@ export default function InvoicesPage() {
         <h2 style={{
           fontSize: '1.25rem',
           fontWeight: '700',
-          color: '#111827',
+          color: '#F2F2F2',
           marginBottom: '16px',
           display: 'flex',
           alignItems: 'center',
@@ -495,28 +495,28 @@ export default function InvoicesPage() {
 
         {quotes.length === 0 ? (
           <div style={{
-            background: '#fff',
+            background: '#0F0F0F',
             borderRadius: '16px',
             padding: '48px 20px',
             textAlign: 'center',
             boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
           }}>
-            <Receipt size={40} style={{ color: '#D1D5DB', marginBottom: '12px' }} />
+            <Receipt size={40} style={{ color: '#33332F', marginBottom: '12px' }} />
             <h3 style={{
               fontSize: '1rem',
               fontWeight: '600',
-              color: '#111827',
+              color: '#F2F2F2',
               marginBottom: '6px',
             }}>
               Nema ponuda
             </h3>
-            <p style={{ color: '#6B7280', fontSize: '0.9rem' }}>
+            <p style={{ color: '#8E8E8E', fontSize: '0.9rem' }}>
               Vaše ponude će se pojaviti ovdje
             </p>
           </div>
         ) : (
           <div style={{
-            background: '#fff',
+            background: '#0F0F0F',
             borderRadius: '16px',
             boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
             overflow: 'hidden',
@@ -533,10 +533,10 @@ export default function InvoicesPage() {
                     alignItems: 'center',
                     gap: '16px',
                     padding: '20px 24px',
-                    borderBottom: index < quotes.length - 1 ? '1px solid #F3F4F6' : 'none',
+                    borderBottom: index < quotes.length - 1 ? '1px solid #151514' : 'none',
                     transition: 'background 0.2s ease',
                   }}
-                  onMouseEnter={(e) => e.currentTarget.style.background = '#F9FAFB'}
+                  onMouseEnter={(e) => e.currentTarget.style.background = '#111110'}
                   onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
                 >
                   {/* Icon */}
@@ -564,7 +564,7 @@ export default function InvoicesPage() {
                       <h3 style={{
                         fontSize: '1rem',
                         fontWeight: '600',
-                        color: '#111827',
+                        color: '#F2F2F2',
                       }}>
                         {quote.title || quote.reference || `Ponuda ${quote.id.slice(0, 8)}`}
                       </h3>
@@ -595,7 +595,7 @@ export default function InvoicesPage() {
                         alignItems: 'center',
                         gap: '4px',
                         fontSize: '0.85rem',
-                        color: '#9CA3AF',
+                        color: '#8E8E8E',
                       }}>
                         <Calendar size={14} />
                         {new Date(quote.created_at).toLocaleDateString('hr-HR')}
@@ -611,7 +611,7 @@ export default function InvoicesPage() {
                     <div style={{
                       fontSize: '1.25rem',
                       fontWeight: '800',
-                      color: '#111827',
+                      color: '#F2F2F2',
                       marginBottom: '4px',
                     }}>
                       €{(quote.pricing?.total || 0).toLocaleString()}
@@ -619,7 +619,7 @@ export default function InvoicesPage() {
                     {quote.pricing?.monthly_total > 0 && (
                       <div style={{
                         fontSize: '0.8rem',
-                        color: '#6B7280',
+                        color: '#8E8E8E',
                       }}>
                         + €{quote.pricing.monthly_total}/mj
                       </div>
@@ -636,8 +636,8 @@ export default function InvoicesPage() {
                       justifyContent: 'center',
                       width: '44px',
                       height: '44px',
-                      background: '#F3F4F6',
-                      color: '#374151',
+                      background: '#151514',
+                      color: '#C9C9C9',
                       borderRadius: '10px',
                       textDecoration: 'none',
                       flexShrink: 0,
@@ -648,8 +648,8 @@ export default function InvoicesPage() {
                       e.currentTarget.style.color = '#000';
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.background = '#F3F4F6';
-                      e.currentTarget.style.color = '#374151';
+                      e.currentTarget.style.background = '#151514';
+                      e.currentTarget.style.color = '#C9C9C9';
                     }}
                   >
                     <ExternalLink size={18} />

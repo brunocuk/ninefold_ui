@@ -1,75 +1,55 @@
 // app/sitemap.js
+// Dynamic sitemap: pages from code, projects from the CMS, posts from content.
 
-export default function sitemap() {
-    const baseUrl = 'https://www.ninefold.eu' // Replace with your actual domain
-  
-    // Static pages
-    const routes = [
-      '',
-      '/about',
-      '/services',
-      '/work',
-      '/contact',
-      '/blog',
-    ].map((route) => ({
-      url: `${baseUrl}${route}`,
-      lastModified: new Date().toISOString(),
-      changeFrequency: 'monthly',
-      priority: route === '' ? 1.0 : 0.8,
-    }))
-  
-    // Service pages
-    const services = [
-      '/services/web-design',
-      '/services/web-development',
-      '/services/web-applications',
-      '/services/e-commerce',
-      '/services/search-engine-optimization',
-      '/services/content-creation',
-    ].map((route) => ({
-      url: `${baseUrl}${route}`,
-      lastModified: new Date().toISOString(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    }))
-  
-    // Add your work/project pages here when you have them
-    const projects = [
-       '/work/desknco-premium-office-spaces',
-       '/work/theofficecompany-corporate-website',
-       '/work/elitprojekt-construction-platform',
-       '/work/di-plan-engineering-website',
-       '/work/pizzeria-14-restaurant-website',
-       '/work/radijona-tattoo-studio',
-       '/work/otkup-auta-car-buying',
-       '/work/tophill-vacation-rental'
-    ].map((route) => ({
-      url: `${baseUrl}${route}`,
-      lastModified: new Date().toISOString(),
+import { createClient } from '@supabase/supabase-js'
+import { blogPosts } from '@/content/blog'
+import { SERVICES } from '@/components/mono/serviceData'
+
+const baseUrl = 'https://www.ninefold.eu'
+
+export default async function sitemap() {
+  const now = new Date().toISOString()
+
+  const staticRoutes = ['', '/about', '/usluge', '/work', '/contact', '/blog'].map((route) => ({
+    url: `${baseUrl}${route}`,
+    lastModified: now,
+    changeFrequency: 'monthly',
+    priority: route === '' ? 1.0 : 0.8,
+  }))
+
+  const serviceRoutes = SERVICES.map((s) => ({
+    url: `${baseUrl}/usluge/${s.slug}`,
+    lastModified: now,
+    changeFrequency: 'monthly',
+    priority: 0.7,
+  }))
+
+  let projectRoutes = []
+  try {
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    )
+    const { data } = await supabase
+      .from('portfolio_projects')
+      .select('slug, updated_at')
+      .eq('published', true)
+    projectRoutes = (data || []).map((p) => ({
+      url: `${baseUrl}/work/${p.slug}`,
+      lastModified: p.updated_at || now,
       changeFrequency: 'monthly',
       priority: 0.6,
     }))
-  
-    // Add your blog posts here when you have them
-    const blogPosts = [
-      '/blog/web-design-trends-shaping-2026',
-      '/blog/ecommerce-conversion-optimization-2025',
-      '/blog/ai-development-tools-practical-guide',
-      '/blog/web-performance-optimization-guide',
-      '/blog/minimalist-design-principles',
-      '/blog/web-accessibility-essentials',
-      '/blog/color-psychology-branding',
-      '/blog/scaling-saas-practical-lessons',
-      '/blog/design-systems-modern-teams',
-      '/blog/serverless-architecture-practical-guide',
-      '/blog/optimize-website-speed-2026',
-      '/blog/web-design-trends-boost-engagement-2026'
-    ].map((route) => ({
-      url: `${baseUrl}${route}`,
-      lastModified: new Date().toISOString(),
-      changeFrequency: 'weekly',
-      priority: 0.5,
-    }))
-  
-    return [...routes, ...services, ...projects, ...blogPosts]
+  } catch {
+    // CMS unreachable at build time: ship the sitemap without project URLs.
   }
+
+  const blogRoutes = blogPosts.map((p) => ({
+    url: `${baseUrl}/blog/${p.slug}`,
+    lastModified: p.publishedAt || now,
+    changeFrequency: 'weekly',
+    priority: 0.5,
+  }))
+
+  return [...staticRoutes, ...serviceRoutes, ...projectRoutes, ...blogRoutes]
+}

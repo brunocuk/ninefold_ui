@@ -15,17 +15,17 @@ import {
 } from 'lucide-react';
 
 const PLATFORM_COLORS = {
-  instagram: { bg: '#FCE4EC', color: '#E4405F', label: 'Instagram' },
-  facebook: { bg: '#E3F2FD', color: '#1877F2', label: 'Facebook' },
-  linkedin: { bg: '#E8EAF6', color: '#0A66C2', label: 'LinkedIn' },
-  tiktok: { bg: '#F5F5F5', color: '#000000', label: 'TikTok' },
+  instagram: { bg: '#2A1622', color: '#E4405F', label: 'Instagram' },
+  facebook: { bg: '#14202E', color: '#1877F2', label: 'Facebook' },
+  linkedin: { bg: '#191D33', color: '#0A66C2', label: 'LinkedIn' },
+  tiktok: { bg: '#1C1C1B', color: '#F2F2F2', label: 'TikTok' },
 };
 
 const STATUS_STYLES = {
-  pending: { bg: '#FEF3C7', color: '#D97706', label: 'Čeka odobrenje', icon: Clock },
-  approved: { bg: '#D1FAE5', color: '#059669', label: 'Odobreno', icon: CheckCircle2 },
-  revision_requested: { bg: '#FEE2E2', color: '#DC2626', label: 'Treba izmjene', icon: AlertCircle },
-  published: { bg: '#E0E7FF', color: '#4F46E5', label: 'Objavljeno', icon: CheckCircle2 },
+  pending: { bg: '#2A230F', color: '#FBBF24', label: 'Čeka odobrenje', icon: Clock },
+  approved: { bg: '#10291D', color: '#34D399', label: 'Odobreno', icon: CheckCircle2 },
+  revision_requested: { bg: '#2C1515', color: '#F87171', label: 'Treba izmjene', icon: AlertCircle },
+  published: { bg: '#191D33', color: '#818CF8', label: 'Objavljeno', icon: CheckCircle2 },
 };
 
 const CONTENT_TYPE_LABELS = {
@@ -158,7 +158,7 @@ export default function ContentCalendarPage() {
   if (loading) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', padding: '60px 0' }}>
-        <div style={{ color: '#6B7280' }}>Učitavanje...</div>
+        <div style={{ color: '#8E8E8E' }}>Učitavanje...</div>
       </div>
     );
   }
@@ -178,20 +178,20 @@ export default function ContentCalendarPage() {
           <h1 style={{
             fontSize: '1.75rem',
             fontWeight: '800',
-            color: '#111827',
+            color: '#F2F2F2',
             marginBottom: '4px',
           }}>
             Sadržaj
           </h1>
-          <p style={{ color: '#6B7280', fontSize: '0.95rem' }}>
+          <p style={{ color: '#8E8E8E', fontSize: '0.95rem' }}>
             Pregledajte i odobrite planirani sadržaj za društvene mreže
           </p>
         </div>
 
         {pendingCount > 0 && (
           <div style={{
-            background: '#FEF3C7',
-            color: '#D97706',
+            background: '#2A230F',
+            color: '#FBBF24',
             padding: '10px 16px',
             borderRadius: '10px',
             fontSize: '0.9rem',
@@ -229,11 +229,11 @@ export default function ContentCalendarPage() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              background: '#fff',
-              border: '1px solid #E5E7EB',
+              background: '#0F0F0F',
+              border: '1px solid #262625',
               borderRadius: '10px',
               cursor: 'pointer',
-              color: '#374151',
+              color: '#C9C9C9',
               transition: 'all 0.2s ease',
             }}
           >
@@ -242,7 +242,7 @@ export default function ContentCalendarPage() {
           <div style={{
             fontSize: '1.1rem',
             fontWeight: '700',
-            color: '#111827',
+            color: '#F2F2F2',
             minWidth: '160px',
             textAlign: 'center',
           }}>
@@ -256,11 +256,11 @@ export default function ContentCalendarPage() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              background: '#fff',
-              border: '1px solid #E5E7EB',
+              background: '#0F0F0F',
+              border: '1px solid #262625',
               borderRadius: '10px',
               cursor: 'pointer',
-              color: '#374151',
+              color: '#C9C9C9',
               transition: 'all 0.2s ease',
             }}
           >
@@ -270,11 +270,11 @@ export default function ContentCalendarPage() {
             onClick={() => setCurrentMonth(new Date())}
             style={{
               padding: '10px 16px',
-              background: '#F3F4F6',
+              background: '#151514',
               border: 'none',
               borderRadius: '10px',
               cursor: 'pointer',
-              color: '#374151',
+              color: '#C9C9C9',
               fontSize: '0.9rem',
               fontWeight: '600',
             }}
@@ -294,11 +294,11 @@ export default function ContentCalendarPage() {
             onChange={(e) => setFilterPlatform(e.target.value)}
             style={{
               padding: '10px 14px',
-              background: '#fff',
-              border: '1px solid #E5E7EB',
+              background: '#0F0F0F',
+              border: '1px solid #262625',
               borderRadius: '10px',
               fontSize: '0.9rem',
-              color: '#374151',
+              color: '#C9C9C9',
               cursor: 'pointer',
             }}
           >
@@ -314,11 +314,11 @@ export default function ContentCalendarPage() {
             onChange={(e) => setFilterStatus(e.target.value)}
             style={{
               padding: '10px 14px',
-              background: '#fff',
-              border: '1px solid #E5E7EB',
+              background: '#0F0F0F',
+              border: '1px solid #262625',
               borderRadius: '10px',
               fontSize: '0.9rem',
-              color: '#374151',
+              color: '#C9C9C9',
               cursor: 'pointer',
             }}
           >
@@ -332,7 +332,7 @@ export default function ContentCalendarPage() {
           {/* View Toggle */}
           <div style={{
             display: 'flex',
-            background: '#F3F4F6',
+            background: '#151514',
             borderRadius: '10px',
             padding: '4px',
           }}>
@@ -340,13 +340,13 @@ export default function ContentCalendarPage() {
               onClick={() => setViewMode('calendar')}
               style={{
                 padding: '8px 14px',
-                background: viewMode === 'calendar' ? '#fff' : 'transparent',
+                background: viewMode === 'calendar' ? 'rgba(255,255,255,0.1)' : 'transparent',
                 border: 'none',
                 borderRadius: '8px',
                 cursor: 'pointer',
                 fontSize: '0.85rem',
                 fontWeight: '600',
-                color: viewMode === 'calendar' ? '#111827' : '#6B7280',
+                color: viewMode === 'calendar' ? '#F2F2F2' : '#8E8E8E',
                 boxShadow: viewMode === 'calendar' ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
               }}
             >
@@ -356,13 +356,13 @@ export default function ContentCalendarPage() {
               onClick={() => setViewMode('list')}
               style={{
                 padding: '8px 14px',
-                background: viewMode === 'list' ? '#fff' : 'transparent',
+                background: viewMode === 'list' ? 'rgba(255,255,255,0.1)' : 'transparent',
                 border: 'none',
                 borderRadius: '8px',
                 cursor: 'pointer',
                 fontSize: '0.85rem',
                 fontWeight: '600',
-                color: viewMode === 'list' ? '#111827' : '#6B7280',
+                color: viewMode === 'list' ? '#F2F2F2' : '#8E8E8E',
                 boxShadow: viewMode === 'list' ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
               }}
             >
@@ -375,7 +375,7 @@ export default function ContentCalendarPage() {
       {/* Calendar View */}
       {viewMode === 'calendar' && (
         <div style={{
-          background: '#fff',
+          background: '#0F0F0F',
           borderRadius: '16px',
           padding: '24px',
           boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
@@ -393,7 +393,7 @@ export default function ContentCalendarPage() {
                 textAlign: 'center',
                 fontSize: '0.8rem',
                 fontWeight: '700',
-                color: '#6B7280',
+                color: '#8E8E8E',
                 textTransform: 'uppercase',
                 letterSpacing: '0.05em',
               }}>
@@ -407,7 +407,7 @@ export default function ContentCalendarPage() {
             display: 'grid',
             gridTemplateColumns: 'repeat(7, 1fr)',
             gap: '1px',
-            background: '#E5E7EB',
+            background: '#262625',
             borderRadius: '12px',
             overflow: 'hidden',
           }}>
@@ -424,7 +424,7 @@ export default function ContentCalendarPage() {
                 <div
                   key={index}
                   style={{
-                    background: day.isCurrentMonth ? '#fff' : '#F9FAFB',
+                    background: day.isCurrentMonth ? '#0F0F0F' : '#0B0B0A',
                     minHeight: '120px',
                     padding: '8px',
                   }}
@@ -432,7 +432,7 @@ export default function ContentCalendarPage() {
                   <div style={{
                     fontSize: '0.85rem',
                     fontWeight: isToday ? '700' : '500',
-                    color: day.isCurrentMonth ? (isToday ? '#00cc76' : '#111827') : '#9CA3AF',
+                    color: day.isCurrentMonth ? (isToday ? '#00cc76' : '#F2F2F2') : '#8E8E8E',
                     marginBottom: '6px',
                     display: 'flex',
                     alignItems: 'center',
@@ -485,7 +485,7 @@ export default function ContentCalendarPage() {
                     {dayContent.length > 3 && (
                       <div style={{
                         fontSize: '0.7rem',
-                        color: '#6B7280',
+                        color: '#8E8E8E',
                         fontWeight: '600',
                         paddingLeft: '6px',
                       }}>
@@ -503,7 +503,7 @@ export default function ContentCalendarPage() {
       {/* List View */}
       {viewMode === 'list' && (
         <div style={{
-          background: '#fff',
+          background: '#0F0F0F',
           borderRadius: '16px',
           padding: '24px',
           boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
@@ -512,7 +512,7 @@ export default function ContentCalendarPage() {
             <div style={{
               padding: '60px 20px',
               textAlign: 'center',
-              color: '#9CA3AF',
+              color: '#8E8E8E',
             }}>
               <Calendar size={48} style={{ marginBottom: '16px', opacity: 0.5 }} />
               <p style={{ fontSize: '1rem', marginBottom: '8px' }}>
@@ -541,14 +541,14 @@ export default function ContentCalendarPage() {
                       alignItems: 'center',
                       gap: '16px',
                       padding: '16px',
-                      background: '#F9FAFB',
+                      background: '#111110',
                       borderRadius: '12px',
                       transition: 'all 0.2s ease',
                       cursor: 'pointer',
                       borderLeft: `4px solid ${firstPlatform.color}`,
                     }}
-                      onMouseEnter={(e) => e.currentTarget.style.background = '#F3F4F6'}
-                      onMouseLeave={(e) => e.currentTarget.style.background = '#F9FAFB'}
+                      onMouseEnter={(e) => e.currentTarget.style.background = '#151514'}
+                      onMouseLeave={(e) => e.currentTarget.style.background = '#111110'}
                     >
                       {/* Thumbnail */}
                       {item.media_urls?.[0] ? (
@@ -558,7 +558,7 @@ export default function ContentCalendarPage() {
                           borderRadius: '10px',
                           overflow: 'hidden',
                           flexShrink: 0,
-                          background: '#E5E7EB',
+                          background: '#262625',
                         }}>
                           <img
                             src={getThumbnailUrl(item.media_urls[0])}
@@ -621,7 +621,7 @@ export default function ContentCalendarPage() {
                           })}
                           <span style={{
                             fontSize: '0.75rem',
-                            color: '#6B7280',
+                            color: '#8E8E8E',
                           }}>
                             {CONTENT_TYPE_LABELS[item.content_type] || item.content_type}
                           </span>
@@ -629,7 +629,7 @@ export default function ContentCalendarPage() {
                         <div style={{
                           fontSize: '0.95rem',
                           fontWeight: '600',
-                          color: '#111827',
+                          color: '#F2F2F2',
                           marginBottom: '4px',
                           overflow: 'hidden',
                           textOverflow: 'ellipsis',
@@ -640,7 +640,7 @@ export default function ContentCalendarPage() {
                         </div>
                         <div style={{
                           fontSize: '0.85rem',
-                          color: '#6B7280',
+                          color: '#8E8E8E',
                         }}>
                           {new Date(item.scheduled_date).toLocaleDateString('hr-HR', {
                             weekday: 'short',
@@ -669,7 +669,7 @@ export default function ContentCalendarPage() {
                       </div>
 
                       {/* View Icon */}
-                      <Eye size={20} style={{ color: '#9CA3AF', flexShrink: 0 }} />
+                      <Eye size={20} style={{ color: '#8E8E8E', flexShrink: 0 }} />
                     </div>
                   </Link>
                 );
@@ -693,7 +693,7 @@ export default function ContentCalendarPage() {
             alignItems: 'center',
             gap: '6px',
             fontSize: '0.8rem',
-            color: '#6B7280',
+            color: '#8E8E8E',
           }}>
             <div style={{
               width: '12px',

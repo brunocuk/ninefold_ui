@@ -39,7 +39,7 @@ export async function POST(request, { params }) {
     });
 
     // Build quote URL
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://ninefold.eu';
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.ninefold.eu';
     const quoteUrl = `${baseUrl}/quote/${id}`;
 
     // Send email using Resend

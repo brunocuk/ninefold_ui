@@ -17,14 +17,12 @@ import {
   LogOut,
   Menu,
   X,
-  Sun,
-  Moon,
 } from 'lucide-react';
 
 function PortalLayoutInner({ children }) {
   const router = useRouter();
   const pathname = usePathname();
-  const { theme, toggleTheme } = usePortalTheme();
+  const { theme } = usePortalTheme();
   const t = themes[theme];
 
   const [user, setUser] = useState(null);
@@ -106,7 +104,7 @@ function PortalLayoutInner({ children }) {
   return (
     <>
       <style jsx global>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -121,7 +119,7 @@ function PortalLayoutInner({ children }) {
         body {
           background: ${t.bg} !important;
           color: ${t.text} !important;
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+          font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif !important;
           -webkit-font-smoothing: antialiased;
         }
 
@@ -162,7 +160,7 @@ function PortalLayoutInner({ children }) {
           left: 0;
           right: 0;
           height: 56px;
-          background: ${theme === 'light' ? 'rgba(245, 245, 247, 0.9)' : 'rgba(0, 0, 0, 0.9)'};
+          background: rgba(8, 8, 8, 0.9);
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
           border-bottom: 1px solid ${t.border};
@@ -204,7 +202,8 @@ function PortalLayoutInner({ children }) {
         /* Sidebar */
         .sidebar {
           width: 240px;
-          background: #1c1c1e;
+          background: #0F0F0F;
+          border-right: 1px solid rgba(255, 255, 255, 0.07);
           position: fixed;
           height: 100vh;
           overflow: hidden;
@@ -231,7 +230,7 @@ function PortalLayoutInner({ children }) {
         .logo-text {
           font-size: 1.1rem;
           font-weight: 600;
-          color: #f5f5f7;
+          color: #F2F2F2;
         }
 
         .sidebar-nav {
@@ -246,7 +245,7 @@ function PortalLayoutInner({ children }) {
           gap: 12px;
           padding: 10px 12px;
           margin: 2px 0;
-          color: #86868b;
+          color: #8E8E8E;
           text-decoration: none;
           font-size: 0.9rem;
           font-weight: 400;
@@ -255,11 +254,11 @@ function PortalLayoutInner({ children }) {
         }
         .nav-link:hover {
           background: rgba(255, 255, 255, 0.05);
-          color: #f5f5f7;
+          color: #F2F2F2;
         }
         .nav-link.active {
           background: rgba(255, 255, 255, 0.08);
-          color: #f5f5f7;
+          color: #F2F2F2;
         }
         .nav-link.active .nav-icon { color: #00FF94; }
 
@@ -283,18 +282,18 @@ function PortalLayoutInner({ children }) {
           width: 36px;
           height: 36px;
           border-radius: 50%;
-          background: #2c2c2e;
+          background: rgba(255, 255, 255, 0.08);
           display: flex;
           align-items: center;
           justify-content: center;
           font-weight: 500;
           font-size: 0.85rem;
-          color: #f5f5f7;
+          color: #F2F2F2;
         }
 
         .user-info { display: flex; flex-direction: column; }
-        .user-name { font-size: 0.85rem; font-weight: 500; color: #f5f5f7; }
-        .user-company { font-size: 0.7rem; color: #48484a; }
+        .user-name { font-size: 0.85rem; font-weight: 500; color: #F2F2F2; }
+        .user-company { font-size: 0.7rem; color: #8E8E8E; }
 
         .logout-btn {
           display: flex;
@@ -305,12 +304,12 @@ function PortalLayoutInner({ children }) {
           background: transparent;
           border: none;
           border-radius: 10px;
-          color: #86868b;
+          color: #8E8E8E;
           font-size: 0.85rem;
           cursor: pointer;
           transition: all 0.15s ease;
         }
-        .logout-btn:hover { background: rgba(255, 255, 255, 0.05); color: #f5f5f7; }
+        .logout-btn:hover { background: rgba(255, 255, 255, 0.05); color: #F2F2F2; }
 
         /* Main Content */
         .main-content {
@@ -320,36 +319,7 @@ function PortalLayoutInner({ children }) {
           background: ${t.bg};
         }
 
-        .content-topbar {
-          display: flex;
-          align-items: center;
-          justify-content: flex-end;
-          gap: 8px;
-          padding: 16px 48px;
-          position: sticky;
-          top: 0;
-          z-index: 100;
-          background: ${theme === 'light' ? 'rgba(245, 245, 247, 0.8)' : 'rgba(0, 0, 0, 0.8)'};
-          backdrop-filter: blur(20px);
-        }
 
-        .theme-toggle {
-          width: 40px;
-          height: 40px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: ${t.bgCard};
-          border: 1px solid ${t.border};
-          border-radius: 50%;
-          color: ${t.textSecondary};
-          cursor: pointer;
-          transition: all 0.2s ease;
-        }
-        .theme-toggle:hover {
-          border-color: ${t.accent};
-          color: ${t.accent};
-        }
 
         .content-body {
           padding: 24px 48px 48px;
@@ -369,7 +339,6 @@ function PortalLayoutInner({ children }) {
             transition: transform 0.3s ease;
           }
           .main-content { margin-left: 0; padding-top: 56px; }
-          .content-topbar { padding: 12px 20px; }
           .content-body { padding: 24px 20px; }
         }
 
@@ -397,10 +366,7 @@ function PortalLayoutInner({ children }) {
         {/* Sidebar */}
         <aside className="sidebar">
           <div className="sidebar-header">
-            <div className="logo-icon">
-              <img src="/ninefold-icon.svg" alt="Ninefold" />
-            </div>
-            <div className="logo-text">Ninefold</div>
+            <img src="/ninefold-logo.svg" alt="Ninefold" style={{ height: 15, width: 'auto' }} />
           </div>
 
           <nav className="sidebar-nav portal-nav">
@@ -432,12 +398,7 @@ function PortalLayoutInner({ children }) {
 
         {/* Main Content */}
         <main className="main-content">
-          <header className="content-topbar">
-            <button className="theme-toggle" onClick={toggleTheme} title={theme === 'light' ? 'Tamni način' : 'Svijetli način'}>
-              {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
-            </button>
-          </header>
-          <div className="content-body">
+          <div className="content-body" style={{ paddingTop: 40 }}>
             {children}
           </div>
         </main>

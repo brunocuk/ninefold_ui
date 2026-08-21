@@ -106,7 +106,7 @@ export default function ReportsPage() {
   if (loading) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', padding: '60px 0' }}>
-        <div style={{ color: '#6B7280' }}>Učitavanje...</div>
+        <div style={{ color: '#8E8E8E' }}>Učitavanje...</div>
       </div>
     );
   }
@@ -118,12 +118,12 @@ export default function ReportsPage() {
         <h1 style={{
           fontSize: '1.75rem',
           fontWeight: '800',
-          color: '#111827',
+          color: '#F2F2F2',
           marginBottom: '4px',
         }}>
           Izvještaji
         </h1>
-        <p style={{ color: '#6B7280', fontSize: '0.95rem' }}>
+        <p style={{ color: '#8E8E8E', fontSize: '0.95rem' }}>
           Pregledajte mjesečne izvještaje o održavanju i društvenim mrežama
         </p>
       </div>
@@ -133,7 +133,7 @@ export default function ReportsPage() {
         display: 'flex',
         gap: '8px',
         marginBottom: '24px',
-        background: '#fff',
+        background: '#0F0F0F',
         padding: '6px',
         borderRadius: '12px',
         width: 'fit-content',
@@ -153,7 +153,7 @@ export default function ReportsPage() {
               gap: '8px',
               padding: '10px 16px',
               background: activeTab === tab.id ? 'linear-gradient(135deg, #00ff94 0%, #00cc76 100%)' : 'transparent',
-              color: activeTab === tab.id ? '#000' : '#6B7280',
+              color: activeTab === tab.id ? '#000' : '#8E8E8E',
               border: 'none',
               borderRadius: '8px',
               fontSize: '0.9rem',
@@ -171,22 +171,22 @@ export default function ReportsPage() {
       {/* Reports List */}
       {filteredReports.length === 0 ? (
         <div style={{
-          background: '#fff',
+          background: '#0F0F0F',
           borderRadius: '16px',
           padding: '60px 20px',
           textAlign: 'center',
           boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
         }}>
-          <FileBarChart size={48} style={{ color: '#D1D5DB', marginBottom: '16px' }} />
+          <FileBarChart size={48} style={{ color: '#33332F', marginBottom: '16px' }} />
           <h3 style={{
             fontSize: '1.1rem',
             fontWeight: '700',
-            color: '#111827',
+            color: '#F2F2F2',
             marginBottom: '8px',
           }}>
             Nema izvještaja
           </h3>
-          <p style={{ color: '#6B7280', fontSize: '0.9rem' }}>
+          <p style={{ color: '#8E8E8E', fontSize: '0.9rem' }}>
             Mjesečni izvještaji će se pojaviti ovdje
           </p>
         </div>
@@ -209,7 +209,7 @@ export default function ReportsPage() {
               <div
                 key={report.id}
                 style={{
-                  background: '#fff',
+                  background: '#0F0F0F',
                   borderRadius: '16px',
                   padding: '24px',
                   boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
@@ -236,21 +236,21 @@ export default function ReportsPage() {
                     width: '48px',
                     height: '48px',
                     borderRadius: '12px',
-                    background: isMaintenance ? '#DBEAFE' : '#FCE7F3',
+                    background: isMaintenance ? '#14202E' : '#2A1622',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}>
                     {isMaintenance ? (
-                      <Wrench size={24} style={{ color: '#2563EB' }} />
+                      <Wrench size={24} style={{ color: '#60A5FA' }} />
                     ) : (
-                      <Share2 size={24} style={{ color: '#DB2777' }} />
+                      <Share2 size={24} style={{ color: '#F472B6' }} />
                     )}
                   </div>
                   <span style={{
                     padding: '6px 12px',
-                    background: isMaintenance ? '#DBEAFE' : '#FCE7F3',
-                    color: isMaintenance ? '#2563EB' : '#DB2777',
+                    background: isMaintenance ? '#14202E' : '#2A1622',
+                    color: isMaintenance ? '#60A5FA' : '#F472B6',
                     borderRadius: '20px',
                     fontSize: '0.75rem',
                     fontWeight: '600',
@@ -263,7 +263,7 @@ export default function ReportsPage() {
                 <h3 style={{
                   fontSize: '1.2rem',
                   fontWeight: '700',
-                  color: '#111827',
+                  color: '#F2F2F2',
                   marginBottom: '8px',
                 }}>
                   {periodLabel(report)}
@@ -274,7 +274,7 @@ export default function ReportsPage() {
                   alignItems: 'center',
                   gap: '6px',
                   fontSize: '0.85rem',
-                  color: '#9CA3AF',
+                  color: '#8E8E8E',
                   marginBottom: '20px',
                 }}>
                   <Calendar size={16} />
@@ -288,20 +288,20 @@ export default function ReportsPage() {
                     gap: '16px',
                     marginBottom: '20px',
                     padding: '12px',
-                    background: '#F9FAFB',
+                    background: '#111110',
                     borderRadius: '10px',
                   }}>
                     <div>
-                      <div style={{ fontSize: '1.1rem', fontWeight: '700', color: '#111827' }}>
+                      <div style={{ fontSize: '1.1rem', fontWeight: '700', color: '#F2F2F2' }}>
                         {report.total_reach?.toLocaleString() || 0}
                       </div>
-                      <div style={{ fontSize: '0.75rem', color: '#6B7280' }}>Pregledi</div>
+                      <div style={{ fontSize: '0.75rem', color: '#8E8E8E' }}>Pregledi</div>
                     </div>
                     <div>
-                      <div style={{ fontSize: '1.1rem', fontWeight: '700', color: '#111827' }}>
+                      <div style={{ fontSize: '1.1rem', fontWeight: '700', color: '#F2F2F2' }}>
                         {report.total_engagement?.toLocaleString() || 0}
                       </div>
-                      <div style={{ fontSize: '0.75rem', color: '#6B7280' }}>Interakcije</div>
+                      <div style={{ fontSize: '0.75rem', color: '#8E8E8E' }}>Interakcije</div>
                     </div>
                   </div>
                 )}
@@ -340,8 +340,8 @@ export default function ReportsPage() {
                       alignItems: 'center',
                       justifyContent: 'center',
                       width: '48px',
-                      background: '#F3F4F6',
-                      color: '#374151',
+                      background: '#151514',
+                      color: '#C9C9C9',
                       borderRadius: '10px',
                       textDecoration: 'none',
                     }}

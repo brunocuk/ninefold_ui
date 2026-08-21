@@ -213,7 +213,7 @@ export default async function Image({ params }) {
           }}
         >
           <span style={{ fontSize: '16px', color: '#8F8F8F' }}>
-            ninefold.agency
+            ninefold.eu
           </span>
           <span style={{ fontSize: '16px', color: '#8F8F8F' }}>
             Kliknite za pregled ponude →

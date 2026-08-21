@@ -63,7 +63,24 @@
       "Bash(sips -g pixelWidth -g pixelHeight /Users/brunocukic/Downloads/bruno.png)",
       "Bash(mdfind -name \"bruno-cukic\")",
       "Bash(mdfind \"kMDItemFSName == 'bruno-cukic*'c\")",
-      "Bash(sips *)"
+      "Bash(sips *)",
+      "Skill(claude-in-chrome)",
+      "Bash(break)",
+      "Read(//Users/brunocukic/Downloads/**)",
+      "Bash(python3 -c \"import PIL; print\\('PIL', PIL.__version__\\)\")",
+      "Bash(python3 *)",
+      "Bash(mkdir -p /Users/brunocukic/ninefold/public/images/clients)",
+      "Bash(cp 14.svg /Users/brunocukic/ninefold/public/images/clients/pizzeria-14.svg)",
+      "Bash(cp ElitProjektLogo.svg /Users/brunocukic/ninefold/public/images/clients/elit-projekt.svg)",
+      "Bash(cp MATER_Logotip-01.svg /Users/brunocukic/ninefold/public/images/clients/matermag.svg)",
+      "Bash(cp adriaticpadelklub.svg /Users/brunocukic/ninefold/public/images/clients/adriatic-padel-klub.svg)",
+      "Read(//Users/brunocukic/Desktop/hero-images/**)",
+      "Bash(mdfind 'kMDItemDateAdded >= $time.today' -onlyin ~/Downloads)",
+      "Bash(ffprobe -v quiet -show_entries \"stream=width,height,duration\" -of csv ~/Downloads/IMG_6778.mov)",
+      "Bash(ffprobe -v quiet -show_entries \"stream=width,height,duration\" -of csv ~/Downloads/8964c14c-6316-4208-8b0c-46f0320d8eb1.mov)",
+      "Bash(read f *)",
+      "Bash(awk -F: '{print $3}')",
+      "Bash(git reset *)"
     ]
   }
 }

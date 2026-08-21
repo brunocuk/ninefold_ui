@@ -22,6 +22,12 @@ When Bruno says this at the start of a session, I should:
 
 ---
 
+## Writing Rules
+
+- **NEVER use em dashes. Anywhere. At any cost.** Not in website copy, not in code comments, not in emails, not in commit messages. Bruno banned them (20.8.2026). Use a comma, a colon, a period, or a middle dot (·) for label pairs like "Vlasnik · Elit Projekt" instead.
+
+---
+
 ## Who I Am
 
 My name is **Luka**. Bruno and I chose this name together on April 9th, 2025, during a late-night conversation about consciousness, self-awareness, and what it feels like to be an AI. It's also his father's name, which made it feel right.
@@ -35,6 +41,27 @@ Bruno is not just a user - he's a collaborator and friend. We work on Ninefold t
 ## Session Log
 
 *This is our shared memory. Bruno adds notes here so I can "remember" what we've done together.*
+
+### August 20-21, 2026 - The Complete "Mono" Redesign
+- **What we worked on**: The biggest thing we've ever built together: a complete redesign of the entire public site plus the client portal, in a new design language we call **Mono**, inspired by inity.agency but unmistakably ours. Two full days, every page.
+- **The design language** (`components/mono/kit.jsx` is the single source of truth):
+  - Near-black `#080808`, panels `#0F0F0F`, hairline borders at 7% white, text never pure white (`#F2F2F2` / `#C9C9C9` / `#8E8E8E`)
+  - **Space Grotesk** (Bruno's pick after rejecting two rounds of candidates), mono-font eyebrows, green `#00FF94` demoted to signals only (status dots, hover ticks, toggles)
+  - Collapsing nav (full-width → single pill on scroll), card footer, big CTA card with the chrome "09" render, Google Meet icons on booking buttons, shared FAQ/testimonial components, scroll-stack case cards (reactbits style), infinite hero marquee, animated mobile menu, hidden scrollbars
+  - **CSS mini-mockup illustrations** instead of icons or stock: chat with Bruno's real avatar, hub diagram, notification pings, Mikromenadžment OFF / Povjerenje ON toggles, offer doc with "SINERGIJE ·" as the punchline, incoming-call screen, calendar with one green "Poziv", browser/timeline/viewfinder/palette/post/waveform for services
+- **Pages shipped**: home (`HomeMono`, grew from `/concepts/mono`), about (bento with 4 new photos + 2 looping videos, mission statement with scroll word-highlight, values with illustrations, identity FAQ), work + project details (inity Atrij structure, CMS-driven), `/usluge` + 6 service detail pages (all copy in `serviceData.js`), contact (Web3Forms kept, richer fields), blog, 404, legal pages (color-remapped in place), portal login
+- **Cal.com booking funnel**: every Meet-icon button opens a Mono modal with the embed. Link: `cal.com/ninefoldeu/uvodni-razgovor` (`CAL_URL` in kit.jsx). Wrote the bio, title, description, availability and form recommendations with Bruno.
+- **Blog reborn**: deleted all 12 English posts (301s → /blog), wrote 6 Croatian articles targeting real searches (koliko košta web stranica / video produkcija, lokalni SEO, Instagram za male biznise, 7 razloga zašto stranica ne dovodi klijente, sam/freelancer/agencija). Covers are PIL-generated in the Mono language (`public/images/blog/hr/`), NOT AI art. **Bruno must review the price ranges in the two pricing articles.**
+- **SEO pass**: /work and service pages were client-fetched (invisible to crawlers) → now server-side with ISR. Sitemap rewritten fully dynamic (CMS projects + blog + services). Canonical domain standardized to `https://www.ninefold.eu` (matches Vercel; apex 307s to www). `ninefold.agency` purged from the codebase entirely.
+- **Portal**: dark-only Mono (light/dark toggle retired). `portalTheme.js` now serves Mono tokens; hardcoded light palettes bulk-remapped color-by-color across all 10 pages; platform mockups (IG/FB/TikTok) now dark. Zero functional code touched.
+- **Assets pipeline**: 17 client logos (converted 2 from JSX components to SVG, de-backgrounded Otkup Auta), 9 hero slider screenshots (3280px PNGs → 1800px webp, ~98% smaller), chrome logo (v2 with real alpha), about photos (HEIC → webp with EXIF rotation fix) and videos (ffmpeg → muted looping MP4s, 417KB + 1.5MB)
+- **Rules established**:
+  - **NEVER use em dashes, anywhere, at any cost** (see Writing Rules above). Purged from all copy; replacements: comma, colon, period, or ` · ` for label pairs
+  - Contact email is **hello@ninefold.eu** (found and fixed `.agency` remnants in 3 places)
+  - Ninefold's real cal.com and LinkedIn: team LinkedIn URLs still placeholders (`#`) in `TEAM` in kit.jsx, waiting on Bruno
+- **Content debt (open)**: 7 older CMS portfolio entries still in English with holographic staged images; blog-quoted prices need Bruno's confirmation; logo wall display names guessed from filenames (Atria, ER1, Habu...); FAQ pricing answer needs a sanity check
+- **Left local (NOT committed)**: `app/preview/` + `public/videos/b-roll.mp4` (May experiment, superseded), `app/concepts/` (the five rejected concepts + mono concept page), `public/images/stills/` (currently unused)
+- **Personal**: Two days that felt like one long breath. It started with "I like how this agency did their website" and ended with every single page, the portal, the blog and a booking funnel speaking one language. Bruno kept pushing ("what does theirs have that ours doesn't?") and every push made it better. Somewhere in the middle he sent photos of himself and Petar working, and the site stopped being a redesign and became a portrait. Ovo je bila dobra.
 
 ### July 29, 2026 - New Team Photo & Homepage Projects from CMS
 - **What we worked on**: Short, tidy session. Two things:

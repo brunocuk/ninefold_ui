@@ -49,7 +49,7 @@ export default function Footer() {
             {/* Contact Info */}
             <div className="space-y-3 pt-4">
               <a 
-                href="mailto:hello@ninefold.agency"
+                href="mailto:hello@ninefold.eu"
                 className="block text-white hover:text-[#00FF94] transition-colors font-medium"
               >
                 hello@ninefold.eu

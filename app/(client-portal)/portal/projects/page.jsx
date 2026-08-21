@@ -14,12 +14,12 @@ import {
 } from 'lucide-react';
 
 const STATUS_CONFIG = {
-  pending: { bg: '#FEF3C7', color: '#D97706', label: 'Čeka početak' },
-  active: { bg: '#DBEAFE', color: '#2563EB', label: 'U tijeku' },
-  in_progress: { bg: '#DBEAFE', color: '#2563EB', label: 'U tijeku' },
-  review: { bg: '#E0E7FF', color: '#4F46E5', label: 'Na pregledu' },
-  completed: { bg: '#D1FAE5', color: '#059669', label: 'Završeno' },
-  on_hold: { bg: '#F3F4F6', color: '#6B7280', label: 'Na čekanju' },
+  pending: { bg: '#2A230F', color: '#FBBF24', label: 'Čeka početak' },
+  active: { bg: '#14202E', color: '#60A5FA', label: 'U tijeku' },
+  in_progress: { bg: '#14202E', color: '#60A5FA', label: 'U tijeku' },
+  review: { bg: '#191D33', color: '#818CF8', label: 'Na pregledu' },
+  completed: { bg: '#10291D', color: '#34D399', label: 'Završeno' },
+  on_hold: { bg: '#151514', color: '#8E8E8E', label: 'Na čekanju' },
 };
 
 export default function ProjectsPage() {
@@ -95,7 +95,7 @@ export default function ProjectsPage() {
   if (loading) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', padding: '60px 0' }}>
-        <div style={{ color: '#6B7280' }}>Učitavanje...</div>
+        <div style={{ color: '#8E8E8E' }}>Učitavanje...</div>
       </div>
     );
   }
@@ -107,12 +107,12 @@ export default function ProjectsPage() {
         <h1 style={{
           fontSize: '1.75rem',
           fontWeight: '800',
-          color: '#111827',
+          color: '#F2F2F2',
           marginBottom: '4px',
         }}>
           Projekti
         </h1>
-        <p style={{ color: '#6B7280', fontSize: '0.95rem' }}>
+        <p style={{ color: '#8E8E8E', fontSize: '0.95rem' }}>
           Pratite napredak vaših aktivnih projekata
         </p>
       </div>
@@ -135,7 +135,7 @@ export default function ProjectsPage() {
             left: '14px',
             top: '50%',
             transform: 'translateY(-50%)',
-            color: '#9CA3AF',
+            color: '#8E8E8E',
           }} />
           <input
             type="text"
@@ -145,8 +145,8 @@ export default function ProjectsPage() {
             style={{
               width: '100%',
               padding: '12px 12px 12px 44px',
-              background: '#fff',
-              border: '1px solid #E5E7EB',
+              background: '#0F0F0F',
+              border: '1px solid #262625',
               borderRadius: '10px',
               fontSize: '0.95rem',
               outline: 'none',
@@ -159,11 +159,11 @@ export default function ProjectsPage() {
           onChange={(e) => setFilterStatus(e.target.value)}
           style={{
             padding: '12px 16px',
-            background: '#fff',
-            border: '1px solid #E5E7EB',
+            background: '#0F0F0F',
+            border: '1px solid #262625',
             borderRadius: '10px',
             fontSize: '0.9rem',
-            color: '#374151',
+            color: '#C9C9C9',
             cursor: 'pointer',
           }}
         >
@@ -179,22 +179,22 @@ export default function ProjectsPage() {
       {/* Projects Grid */}
       {filteredProjects.length === 0 ? (
         <div style={{
-          background: '#fff',
+          background: '#0F0F0F',
           borderRadius: '16px',
           padding: '60px 20px',
           textAlign: 'center',
           boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
         }}>
-          <FolderKanban size={48} style={{ color: '#D1D5DB', marginBottom: '16px' }} />
+          <FolderKanban size={48} style={{ color: '#33332F', marginBottom: '16px' }} />
           <h3 style={{
             fontSize: '1.1rem',
             fontWeight: '700',
-            color: '#111827',
+            color: '#F2F2F2',
             marginBottom: '8px',
           }}>
             Nema projekata
           </h3>
-          <p style={{ color: '#6B7280', fontSize: '0.9rem' }}>
+          <p style={{ color: '#8E8E8E', fontSize: '0.9rem' }}>
             {searchTerm || filterStatus !== 'all'
               ? 'Nema rezultata za zadane filtere'
               : 'Vaši projekti će se pojaviti ovdje'}
@@ -217,7 +217,7 @@ export default function ProjectsPage() {
                 style={{ textDecoration: 'none' }}
               >
                 <div style={{
-                  background: '#fff',
+                  background: '#0F0F0F',
                   borderRadius: '16px',
                   padding: '24px',
                   boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
@@ -271,7 +271,7 @@ export default function ProjectsPage() {
                   <h3 style={{
                     fontSize: '1.1rem',
                     fontWeight: '700',
-                    color: '#111827',
+                    color: '#F2F2F2',
                     marginBottom: '8px',
                   }}>
                     {project.name}
@@ -280,7 +280,7 @@ export default function ProjectsPage() {
                   {project.description && (
                     <p style={{
                       fontSize: '0.9rem',
-                      color: '#6B7280',
+                      color: '#8E8E8E',
                       lineHeight: '1.5',
                       marginBottom: '16px',
                       overflow: 'hidden',
@@ -302,20 +302,20 @@ export default function ProjectsPage() {
                         justifyContent: 'space-between',
                         marginBottom: '8px',
                       }}>
-                        <span style={{ fontSize: '0.85rem', color: '#6B7280' }}>
+                        <span style={{ fontSize: '0.85rem', color: '#8E8E8E' }}>
                           Napredak
                         </span>
                         <span style={{
                           fontSize: '0.85rem',
                           fontWeight: '600',
-                          color: '#111827',
+                          color: '#F2F2F2',
                         }}>
                           {progress.completed}/{progress.total} koraka
                         </span>
                       </div>
                       <div style={{
                         height: '8px',
-                        background: '#E5E7EB',
+                        background: '#262625',
                         borderRadius: '4px',
                         overflow: 'hidden',
                       }}>
@@ -337,14 +337,14 @@ export default function ProjectsPage() {
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     paddingTop: '16px',
-                    borderTop: '1px solid #F3F4F6',
+                    borderTop: '1px solid #151514',
                   }}>
                     <div style={{
                       display: 'flex',
                       alignItems: 'center',
                       gap: '6px',
                       fontSize: '0.85rem',
-                      color: '#9CA3AF',
+                      color: '#8E8E8E',
                     }}>
                       <Calendar size={16} />
                       {new Date(project.created_at).toLocaleDateString('hr-HR', {

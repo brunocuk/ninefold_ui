@@ -52,7 +52,7 @@ export async function POST(request, { params }) {
     }
 
     // Build report URL
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://ninefold.eu';
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.ninefold.eu';
     const reportUrl = `${baseUrl}/social-report/${id}`;
     const pdfUrl = `${baseUrl}/api/social-media-reports/${id}/pdf`;
 

@@ -2,6 +2,7 @@
 
 import { Suspense } from 'react'
 import CookiePolicyContent from './CookiePolicyContent'
+import { MonoPage } from '@/components/mono/kit'
 
 export const metadata = {
   title: 'Cookie Policy | NineFold - Progmatiq v.l. Bruno Čukić',
@@ -15,8 +16,10 @@ export const metadata = {
 
 export default function CookiePolicyPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#0F0F0F]" />}>
-      <CookiePolicyContent />
+    <Suspense fallback={<div className="min-h-screen" />}>
+      <MonoPage>
+        <CookiePolicyContent />
+      </MonoPage>
     </Suspense>
   )
 }

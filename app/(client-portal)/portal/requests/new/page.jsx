@@ -97,23 +97,23 @@ export default function NewRequestPage() {
           height: '80px',
           margin: '0 auto 24px',
           borderRadius: '50%',
-          background: '#D1FAE5',
+          background: '#10291D',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-          <CheckCircle2 size={40} style={{ color: '#059669' }} />
+          <CheckCircle2 size={40} style={{ color: '#34D399' }} />
         </div>
         <h2 style={{
           fontSize: '1.5rem',
           fontWeight: '700',
-          color: '#111827',
+          color: '#F2F2F2',
           marginBottom: '8px',
         }}>
           Zahtjev poslan!
         </h2>
         <p style={{
-          color: '#6B7280',
+          color: '#8E8E8E',
           fontSize: '0.95rem',
           marginBottom: '24px',
         }}>
@@ -140,7 +140,7 @@ export default function NewRequestPage() {
             display: 'inline-flex',
             alignItems: 'center',
             gap: '8px',
-            color: '#6B7280',
+            color: '#8E8E8E',
             textDecoration: 'none',
             fontSize: '0.9rem',
             fontWeight: '500',
@@ -154,12 +154,12 @@ export default function NewRequestPage() {
         <h1 style={{
           fontSize: '1.75rem',
           fontWeight: '800',
-          color: '#111827',
+          color: '#F2F2F2',
           marginBottom: '8px',
         }}>
           Novi zahtjev za izmjenu
         </h1>
-        <p style={{ color: '#6B7280', fontSize: '0.95rem' }}>
+        <p style={{ color: '#8E8E8E', fontSize: '0.95rem' }}>
           Opišite što trebate promijeniti na vašoj stranici
         </p>
       </div>
@@ -167,7 +167,7 @@ export default function NewRequestPage() {
       {/* Form */}
       <form onSubmit={handleSubmit}>
         <div style={{
-          background: '#fff',
+          background: '#0F0F0F',
           borderRadius: '16px',
           padding: '32px',
           boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
@@ -178,11 +178,11 @@ export default function NewRequestPage() {
               alignItems: 'center',
               gap: '10px',
               padding: '14px 16px',
-              background: '#FEF2F2',
+              background: '#2C1515',
               border: '1px solid #FECACA',
               borderRadius: '12px',
               marginBottom: '24px',
-              color: '#DC2626',
+              color: '#F87171',
               fontSize: '0.9rem',
             }}>
               <AlertCircle size={18} />
@@ -196,7 +196,7 @@ export default function NewRequestPage() {
               display: 'block',
               fontSize: '0.9rem',
               fontWeight: '600',
-              color: '#374151',
+              color: '#C9C9C9',
               marginBottom: '8px',
             }}>
               Naslov zahtjeva *
@@ -210,14 +210,14 @@ export default function NewRequestPage() {
               style={{
                 width: '100%',
                 padding: '14px 16px',
-                border: '2px solid #E5E7EB',
+                border: '2px solid #262625',
                 borderRadius: '12px',
                 fontSize: '1rem',
                 outline: 'none',
                 transition: 'border-color 0.2s ease',
               }}
               onFocus={(e) => e.target.style.borderColor = '#00ff94'}
-              onBlur={(e) => e.target.style.borderColor = '#E5E7EB'}
+              onBlur={(e) => e.target.style.borderColor = '#262625'}
             />
           </div>
 
@@ -227,7 +227,7 @@ export default function NewRequestPage() {
               display: 'block',
               fontSize: '0.9rem',
               fontWeight: '600',
-              color: '#374151',
+              color: '#C9C9C9',
               marginBottom: '8px',
             }}>
               Opis izmjene *
@@ -241,7 +241,7 @@ export default function NewRequestPage() {
               style={{
                 width: '100%',
                 padding: '14px 16px',
-                border: '2px solid #E5E7EB',
+                border: '2px solid #262625',
                 borderRadius: '12px',
                 fontSize: '1rem',
                 outline: 'none',
@@ -250,11 +250,11 @@ export default function NewRequestPage() {
                 transition: 'border-color 0.2s ease',
               }}
               onFocus={(e) => e.target.style.borderColor = '#00ff94'}
-              onBlur={(e) => e.target.style.borderColor = '#E5E7EB'}
+              onBlur={(e) => e.target.style.borderColor = '#262625'}
             />
             <p style={{
               fontSize: '0.8rem',
-              color: '#9CA3AF',
+              color: '#8E8E8E',
               marginTop: '8px',
             }}>
               Što više detalja date, to ćemo brže obraditi vaš zahtjev
@@ -267,7 +267,7 @@ export default function NewRequestPage() {
               display: 'block',
               fontSize: '0.9rem',
               fontWeight: '600',
-              color: '#374151',
+              color: '#C9C9C9',
               marginBottom: '8px',
             }}>
               Link na stranicu (opcionalno)
@@ -278,7 +278,7 @@ export default function NewRequestPage() {
                 left: '14px',
                 top: '50%',
                 transform: 'translateY(-50%)',
-                color: '#9CA3AF',
+                color: '#8E8E8E',
               }} />
               <input
                 type="url"
@@ -288,14 +288,14 @@ export default function NewRequestPage() {
                 style={{
                   width: '100%',
                   padding: '14px 14px 14px 44px',
-                  border: '2px solid #E5E7EB',
+                  border: '2px solid #262625',
                   borderRadius: '12px',
                   fontSize: '1rem',
                   outline: 'none',
                   transition: 'border-color 0.2s ease',
                 }}
                 onFocus={(e) => e.target.style.borderColor = '#00ff94'}
-                onBlur={(e) => e.target.style.borderColor = '#E5E7EB'}
+                onBlur={(e) => e.target.style.borderColor = '#262625'}
               />
             </div>
           </div>
@@ -306,7 +306,7 @@ export default function NewRequestPage() {
               display: 'block',
               fontSize: '0.9rem',
               fontWeight: '600',
-              color: '#374151',
+              color: '#C9C9C9',
               marginBottom: '12px',
             }}>
               Prioritet
@@ -323,8 +323,8 @@ export default function NewRequestPage() {
                   onClick={() => setFormData({ ...formData, priority: option.value })}
                   style={{
                     padding: '14px',
-                    background: formData.priority === option.value ? '#F0FDF4' : '#F9FAFB',
-                    border: `2px solid ${formData.priority === option.value ? '#00ff94' : '#E5E7EB'}`,
+                    background: formData.priority === option.value ? '#0E2318' : '#111110',
+                    border: `2px solid ${formData.priority === option.value ? '#00ff94' : '#262625'}`,
                     borderRadius: '12px',
                     cursor: 'pointer',
                     textAlign: 'left',
@@ -334,14 +334,14 @@ export default function NewRequestPage() {
                   <div style={{
                     fontSize: '0.9rem',
                     fontWeight: '600',
-                    color: formData.priority === option.value ? '#059669' : '#374151',
+                    color: formData.priority === option.value ? '#34D399' : '#C9C9C9',
                     marginBottom: '4px',
                   }}>
                     {option.label}
                   </div>
                   <div style={{
                     fontSize: '0.75rem',
-                    color: '#9CA3AF',
+                    color: '#8E8E8E',
                   }}>
                     {option.description}
                   </div>
@@ -355,7 +355,7 @@ export default function NewRequestPage() {
             display: 'flex',
             gap: '12px',
             paddingTop: '16px',
-            borderTop: '1px solid #F3F4F6',
+            borderTop: '1px solid #151514',
           }}>
             <Link href="/portal/requests" style={{
               flex: 1,
@@ -363,8 +363,8 @@ export default function NewRequestPage() {
               alignItems: 'center',
               justifyContent: 'center',
               padding: '14px',
-              background: '#F3F4F6',
-              color: '#374151',
+              background: '#151514',
+              color: '#C9C9C9',
               border: 'none',
               borderRadius: '12px',
               fontSize: '0.95rem',
@@ -385,7 +385,7 @@ export default function NewRequestPage() {
                 gap: '8px',
                 padding: '14px',
                 background: loading
-                  ? '#9CA3AF'
+                  ? '#8E8E8E'
                   : 'linear-gradient(135deg, #00ff94 0%, #00cc76 100%)',
                 color: '#000',
                 border: 'none',

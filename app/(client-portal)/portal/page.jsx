@@ -106,7 +106,7 @@ export default function PortalDashboard() {
 
   const getPlatformColor = (platform) => {
     const colors = { instagram: '#E4405F', facebook: '#1877F2', linkedin: '#0A66C2', tiktok: '#000' };
-    return colors[platform] || '#6e6e73';
+    return colors[platform] || '#8E8E8E';
   };
 
   const formatDate = (dateStr) => {
@@ -288,7 +288,7 @@ export default function PortalDashboard() {
           width: 64px;
           height: 64px;
           border-radius: 16px;
-          background: ${theme === 'light' ? '#f5f5f7' : '#2c2c2e'};
+          background: ${theme === 'light' ? '#111110' : '#2c2c2e'};
           display: flex;
           align-items: center;
           justify-content: center;
@@ -504,7 +504,7 @@ export default function PortalDashboard() {
 
         /* All Good State */
         .all-good {
-          background: linear-gradient(135deg, ${theme === 'light' ? '#f0fdf4' : 'rgba(0, 255, 148, 0.05)'} 0%, ${t.bgCard} 100%);
+          background: linear-gradient(135deg, ${theme === 'light' ? '#0E2318' : 'rgba(0, 255, 148, 0.05)'} 0%, ${t.bgCard} 100%);
           border: 1px solid ${theme === 'light' ? '#bbf7d0' : 'rgba(0, 255, 148, 0.2)'};
           border-radius: 16px;
           padding: 32px;
@@ -670,7 +670,7 @@ export default function PortalDashboard() {
                   </div>
                   <span className="status-badge" style={{
                     background: item.status === 'pending' ? 'rgba(251, 191, 36, 0.15)' : 'rgba(52, 199, 89, 0.15)',
-                    color: item.status === 'pending' ? '#d97706' : '#059669'
+                    color: item.status === 'pending' ? '#d97706' : '#34D399'
                   }}>
                     {item.status === 'pending' ? 'Čeka' : 'Odobreno'}
                   </span>

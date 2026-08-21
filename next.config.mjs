@@ -11,7 +11,27 @@ const nextConfig = {
     ],
   },
   async redirects() {
+    const oldBlogSlugs = [
+      'ai-development-tools-practical-guide',
+      'color-psychology-branding',
+      'design-systems-modern-teams',
+      'ecommerce-conversion-optimization-2025',
+      'minimalist-design-principles',
+      'optimize-website-speed-2026',
+      'scaling-saas-practical-lessons',
+      'serverless-architecture-practical-guide',
+      'web-accessibility-essentials',
+      'web-design-trends-2026',
+      'web-design-trends-boost-engagement-2026',
+      'web-performance-optimization-guide',
+      'web-design-trends-shaping-2026',
+    ]
     return [
+      ...oldBlogSlugs.map((slug) => ({
+        source: `/blog/${slug}`,
+        destination: '/blog',
+        permanent: true,
+      })),
       {
         source: '/services',
         destination: '/usluge',

@@ -25,31 +25,31 @@ import {
 const PLATFORM_CONFIG = {
   instagram: {
     color: '#E4405F',
-    bg: '#FCE4EC',
+    bg: '#2A1622',
     label: 'Instagram',
   },
   facebook: {
     color: '#1877F2',
-    bg: '#E3F2FD',
+    bg: '#14202E',
     label: 'Facebook',
   },
   linkedin: {
     color: '#0A66C2',
-    bg: '#E8EAF6',
+    bg: '#191D33',
     label: 'LinkedIn',
   },
   tiktok: {
     color: '#000000',
-    bg: '#F5F5F5',
+    bg: '#1C1C1B',
     label: 'TikTok',
   },
 };
 
 const STATUS_CONFIG = {
-  pending: { bg: '#FEF3C7', color: '#D97706', label: 'Čeka odobrenje', icon: Clock },
-  approved: { bg: '#D1FAE5', color: '#059669', label: 'Odobreno', icon: CheckCircle2 },
-  revision_requested: { bg: '#FEE2E2', color: '#DC2626', label: 'Treba izmjene', icon: AlertCircle },
-  published: { bg: '#E0E7FF', color: '#4F46E5', label: 'Objavljeno', icon: CheckCircle2 },
+  pending: { bg: '#2A230F', color: '#FBBF24', label: 'Čeka odobrenje', icon: Clock },
+  approved: { bg: '#10291D', color: '#34D399', label: 'Odobreno', icon: CheckCircle2 },
+  revision_requested: { bg: '#2C1515', color: '#F87171', label: 'Treba izmjene', icon: AlertCircle },
+  published: { bg: '#191D33', color: '#818CF8', label: 'Objavljeno', icon: CheckCircle2 },
 };
 
 // Helper to parse media URLs (Google Drive, YouTube, Vimeo, direct)
@@ -209,7 +209,7 @@ export default function ContentDetailPage() {
   if (loading) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', padding: '60px 0' }}>
-        <div style={{ color: '#6B7280' }}>Učitavanje...</div>
+        <div style={{ color: '#8E8E8E' }}>Učitavanje...</div>
       </div>
     );
   }
@@ -217,7 +217,7 @@ export default function ContentDetailPage() {
   if (!content) {
     return (
       <div style={{ textAlign: 'center', padding: '60px 20px' }}>
-        <h2 style={{ fontSize: '1.5rem', color: '#111827', marginBottom: '12px' }}>
+        <h2 style={{ fontSize: '1.5rem', color: '#F2F2F2', marginBottom: '12px' }}>
           Sadržaj nije pronađen
         </h2>
         <Link href="/portal/content" style={{ color: '#00cc76', fontWeight: '600' }}>
@@ -248,7 +248,7 @@ export default function ContentDetailPage() {
             display: 'inline-flex',
             alignItems: 'center',
             gap: '8px',
-            color: '#6B7280',
+            color: '#8E8E8E',
             textDecoration: 'none',
             fontSize: '0.9rem',
             fontWeight: '500',
@@ -293,7 +293,7 @@ export default function ContentDetailPage() {
                 );
               })}
               <span style={{
-                color: '#6B7280',
+                color: '#8E8E8E',
                 fontSize: '0.9rem',
                 textTransform: 'capitalize',
               }}>
@@ -303,7 +303,7 @@ export default function ContentDetailPage() {
             <h1 style={{
               fontSize: '1.5rem',
               fontWeight: '700',
-              color: '#111827',
+              color: '#F2F2F2',
             }}>
               Pregled sadržaja
             </h1>
@@ -334,7 +334,7 @@ export default function ContentDetailPage() {
       }}>
         {/* Platform Mockup */}
         <div style={{
-          background: '#fff',
+          background: '#0F0F0F',
           borderRadius: '16px',
           padding: '24px',
           boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
@@ -342,7 +342,7 @@ export default function ContentDetailPage() {
           <h3 style={{
             fontSize: '1rem',
             fontWeight: '700',
-            color: '#111827',
+            color: '#F2F2F2',
             marginBottom: '16px',
           }}>
             {contentPlatforms.length > 1 ? 'Pregledi po platformama' : `Pregled na ${PLATFORM_CONFIG[contentPlatforms[0]]?.label || 'platformi'}`}
@@ -353,13 +353,13 @@ export default function ContentDetailPage() {
             <>
             {contentPlatforms.length > 1 && (
               <div style={{ textAlign: 'center', marginBottom: '12px', marginTop: '8px' }}>
-                <span style={{ background: '#FCE4EC', color: '#E4405F', padding: '4px 12px', borderRadius: '6px', fontSize: '0.8rem', fontWeight: '600' }}>Instagram</span>
+                <span style={{ background: '#2A1622', color: '#E4405F', padding: '4px 12px', borderRadius: '6px', fontSize: '0.8rem', fontWeight: '600' }}>Instagram</span>
               </div>
             )}
             <div style={{
               maxWidth: '340px',
               margin: '0 auto',
-              background: '#fff',
+              background: '#0F0F0F',
               border: '1px solid #DBDBDB',
               borderRadius: '8px',
               overflow: 'hidden',
@@ -431,8 +431,8 @@ export default function ContentDetailPage() {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    background: '#F5F5F5',
-                    color: '#9CA3AF',
+                    background: '#1C1C1B',
+                    color: '#8E8E8E',
                   }}>
                     Nema medija
                   </div>
@@ -492,13 +492,13 @@ export default function ContentDetailPage() {
             <>
             {contentPlatforms.length > 1 && (
               <div style={{ textAlign: 'center', marginBottom: '12px', marginTop: '24px' }}>
-                <span style={{ background: '#E3F2FD', color: '#1877F2', padding: '4px 12px', borderRadius: '6px', fontSize: '0.8rem', fontWeight: '600' }}>Facebook</span>
+                <span style={{ background: '#14202E', color: '#1877F2', padding: '4px 12px', borderRadius: '6px', fontSize: '0.8rem', fontWeight: '600' }}>Facebook</span>
               </div>
             )}
             <div style={{
               maxWidth: '500px',
               margin: '0 auto',
-              background: '#fff',
+              background: '#0F0F0F',
               border: '1px solid #E4E6EB',
               borderRadius: '8px',
               overflow: 'hidden',
@@ -601,13 +601,13 @@ export default function ContentDetailPage() {
             <>
             {contentPlatforms.length > 1 && (
               <div style={{ textAlign: 'center', marginBottom: '12px', marginTop: '24px' }}>
-                <span style={{ background: '#E8EAF6', color: '#0A66C2', padding: '4px 12px', borderRadius: '6px', fontSize: '0.8rem', fontWeight: '600' }}>LinkedIn</span>
+                <span style={{ background: '#191D33', color: '#0A66C2', padding: '4px 12px', borderRadius: '6px', fontSize: '0.8rem', fontWeight: '600' }}>LinkedIn</span>
               </div>
             )}
             <div style={{
               maxWidth: '500px',
               margin: '0 auto',
-              background: '#fff',
+              background: '#0F0F0F',
               border: '1px solid #E0E0E0',
               borderRadius: '8px',
               overflow: 'hidden',
@@ -708,7 +708,7 @@ export default function ContentDetailPage() {
             <>
             {contentPlatforms.length > 1 && (
               <div style={{ textAlign: 'center', marginBottom: '12px', marginTop: '24px' }}>
-                <span style={{ background: '#F5F5F5', color: '#000000', padding: '4px 12px', borderRadius: '6px', fontSize: '0.8rem', fontWeight: '600' }}>TikTok</span>
+                <span style={{ background: '#1C1C1B', color: '#000000', padding: '4px 12px', borderRadius: '6px', fontSize: '0.8rem', fontWeight: '600' }}>TikTok</span>
               </div>
             )}
             <div style={{
@@ -828,7 +828,7 @@ export default function ContentDetailPage() {
         }}>
           {/* Schedule Info */}
           <div style={{
-            background: '#fff',
+            background: '#0F0F0F',
             borderRadius: '16px',
             padding: '24px',
             boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
@@ -836,7 +836,7 @@ export default function ContentDetailPage() {
             <h3 style={{
               fontSize: '1rem',
               fontWeight: '700',
-              color: '#111827',
+              color: '#F2F2F2',
               marginBottom: '16px',
             }}>
               Detalji objave
@@ -848,13 +848,13 @@ export default function ContentDetailPage() {
                 alignItems: 'center',
                 gap: '12px',
                 padding: '12px',
-                background: '#F9FAFB',
+                background: '#111110',
                 borderRadius: '10px',
               }}>
                 <Calendar size={20} style={{ color: '#00cc76' }} />
                 <div>
-                  <div style={{ fontSize: '0.8rem', color: '#6B7280' }}>Datum objave</div>
-                  <div style={{ fontSize: '0.95rem', fontWeight: '600', color: '#111827' }}>
+                  <div style={{ fontSize: '0.8rem', color: '#8E8E8E' }}>Datum objave</div>
+                  <div style={{ fontSize: '0.95rem', fontWeight: '600', color: '#F2F2F2' }}>
                     {new Date(content.scheduled_date).toLocaleDateString('hr-HR', {
                       weekday: 'long',
                       day: 'numeric',
@@ -871,13 +871,13 @@ export default function ContentDetailPage() {
                   alignItems: 'center',
                   gap: '12px',
                   padding: '12px',
-                  background: '#F9FAFB',
+                  background: '#111110',
                   borderRadius: '10px',
                 }}>
                   <Clock size={20} style={{ color: '#00cc76' }} />
                   <div>
-                    <div style={{ fontSize: '0.8rem', color: '#6B7280' }}>Vrijeme</div>
-                    <div style={{ fontSize: '0.95rem', fontWeight: '600', color: '#111827' }}>
+                    <div style={{ fontSize: '0.8rem', color: '#8E8E8E' }}>Vrijeme</div>
+                    <div style={{ fontSize: '0.95rem', fontWeight: '600', color: '#F2F2F2' }}>
                       {content.scheduled_time.slice(0, 5)}
                     </div>
                   </div>
@@ -889,7 +889,7 @@ export default function ContentDetailPage() {
           {/* Caption */}
           {content.caption && (
             <div style={{
-              background: '#fff',
+              background: '#0F0F0F',
               borderRadius: '16px',
               padding: '24px',
               boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
@@ -897,7 +897,7 @@ export default function ContentDetailPage() {
               <h3 style={{
                 fontSize: '1rem',
                 fontWeight: '700',
-                color: '#111827',
+                color: '#F2F2F2',
                 marginBottom: '12px',
               }}>
                 Tekst objave
@@ -905,7 +905,7 @@ export default function ContentDetailPage() {
               <p style={{
                 fontSize: '0.95rem',
                 lineHeight: '1.6',
-                color: '#374151',
+                color: '#C9C9C9',
                 whiteSpace: 'pre-wrap',
               }}>
                 {content.caption}
@@ -921,8 +921,8 @@ export default function ContentDetailPage() {
                   {content.hashtags.map((tag, i) => (
                     <span key={i} style={{
                       padding: '4px 10px',
-                      background: '#E0E7FF',
-                      color: '#4F46E5',
+                      background: '#191D33',
+                      color: '#818CF8',
                       borderRadius: '20px',
                       fontSize: '0.8rem',
                       fontWeight: '500',
@@ -938,7 +938,7 @@ export default function ContentDetailPage() {
           {/* Previous Feedback */}
           {content.client_feedback && content.status !== 'pending' && (
             <div style={{
-              background: content.status === 'revision_requested' ? '#FEF2F2' : '#F0FDF4',
+              background: content.status === 'revision_requested' ? '#2C1515' : '#0E2318',
               borderRadius: '16px',
               padding: '24px',
               border: `1px solid ${content.status === 'revision_requested' ? '#FECACA' : '#BBF7D0'}`,
@@ -946,7 +946,7 @@ export default function ContentDetailPage() {
               <h3 style={{
                 fontSize: '1rem',
                 fontWeight: '700',
-                color: '#111827',
+                color: '#F2F2F2',
                 marginBottom: '12px',
               }}>
                 {content.status === 'revision_requested' ? 'Vaš feedback' : 'Vaš komentar'}
@@ -954,7 +954,7 @@ export default function ContentDetailPage() {
               <p style={{
                 fontSize: '0.95rem',
                 lineHeight: '1.6',
-                color: '#374151',
+                color: '#C9C9C9',
               }}>
                 {content.client_feedback}
               </p>
@@ -964,7 +964,7 @@ export default function ContentDetailPage() {
           {/* Action Buttons */}
           {content.status === 'pending' && (
             <div style={{
-              background: '#fff',
+              background: '#0F0F0F',
               borderRadius: '16px',
               padding: '24px',
               boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
@@ -972,7 +972,7 @@ export default function ContentDetailPage() {
               <h3 style={{
                 fontSize: '1rem',
                 fontWeight: '700',
-                color: '#111827',
+                color: '#F2F2F2',
                 marginBottom: '12px',
               }}>
                 Odobrenje
@@ -983,7 +983,7 @@ export default function ContentDetailPage() {
                   display: 'block',
                   fontSize: '0.85rem',
                   fontWeight: '500',
-                  color: '#6B7280',
+                  color: '#8E8E8E',
                   marginBottom: '8px',
                 }}>
                   Komentar (opcionalno)
@@ -996,14 +996,14 @@ export default function ContentDetailPage() {
                   style={{
                     width: '100%',
                     padding: '12px',
-                    border: '2px solid #E5E7EB',
+                    border: '2px solid #262625',
                     borderRadius: '10px',
                     fontSize: '0.95rem',
                     resize: 'vertical',
                     outline: 'none',
                   }}
                   onFocus={(e) => e.target.style.borderColor = '#00ff94'}
-                  onBlur={(e) => e.target.style.borderColor = '#E5E7EB'}
+                  onBlur={(e) => e.target.style.borderColor = '#262625'}
                 />
               </div>
 
@@ -1050,8 +1050,8 @@ export default function ContentDetailPage() {
                     justifyContent: 'center',
                     gap: '8px',
                     padding: '14px 20px',
-                    background: '#FEF2F2',
-                    color: '#DC2626',
+                    background: '#2C1515',
+                    color: '#F87171',
                     border: '2px solid #FECACA',
                     borderRadius: '10px',
                     fontSize: '0.95rem',
@@ -1070,22 +1070,22 @@ export default function ContentDetailPage() {
           {/* Already approved/rejected message */}
           {content.status === 'approved' && (
             <div style={{
-              background: '#F0FDF4',
+              background: '#0E2318',
               borderRadius: '16px',
               padding: '24px',
               border: '1px solid #BBF7D0',
               textAlign: 'center',
             }}>
-              <CheckCircle2 size={40} style={{ color: '#059669', marginBottom: '12px' }} />
+              <CheckCircle2 size={40} style={{ color: '#34D399', marginBottom: '12px' }} />
               <h3 style={{
                 fontSize: '1.1rem',
                 fontWeight: '700',
-                color: '#059669',
+                color: '#34D399',
                 marginBottom: '8px',
               }}>
                 Sadržaj odobren
               </h3>
-              <p style={{ color: '#6B7280', fontSize: '0.9rem' }}>
+              <p style={{ color: '#8E8E8E', fontSize: '0.9rem' }}>
                 Odobreno {content.approved_at && new Date(content.approved_at).toLocaleDateString('hr-HR')}
               </p>
             </div>
@@ -1106,7 +1106,7 @@ export default function ContentDetailPage() {
           zIndex: 1000,
         }}>
           <div style={{
-            background: '#fff',
+            background: '#0F0F0F',
             borderRadius: '20px',
             padding: '32px',
             maxWidth: '500px',
@@ -1122,7 +1122,7 @@ export default function ContentDetailPage() {
               <h3 style={{
                 fontSize: '1.25rem',
                 fontWeight: '700',
-                color: '#111827',
+                color: '#F2F2F2',
               }}>
                 Zatraži izmjene
               </h3>
@@ -1132,7 +1132,7 @@ export default function ContentDetailPage() {
                   background: 'none',
                   border: 'none',
                   cursor: 'pointer',
-                  color: '#9CA3AF',
+                  color: '#8E8E8E',
                   padding: '4px',
                 }}
               >
@@ -1142,7 +1142,7 @@ export default function ContentDetailPage() {
 
             <p style={{
               fontSize: '0.95rem',
-              color: '#6B7280',
+              color: '#8E8E8E',
               marginBottom: '20px',
             }}>
               Opišite što treba promijeniti kako bismo mogli brzo ažurirati sadržaj.
@@ -1156,15 +1156,15 @@ export default function ContentDetailPage() {
               style={{
                 width: '100%',
                 padding: '14px',
-                border: '2px solid #E5E7EB',
+                border: '2px solid #262625',
                 borderRadius: '12px',
                 fontSize: '0.95rem',
                 resize: 'vertical',
                 outline: 'none',
                 marginBottom: '20px',
               }}
-              onFocus={(e) => e.target.style.borderColor = '#DC2626'}
-              onBlur={(e) => e.target.style.borderColor = '#E5E7EB'}
+              onFocus={(e) => e.target.style.borderColor = '#F87171'}
+              onBlur={(e) => e.target.style.borderColor = '#262625'}
             />
 
             <div style={{
@@ -1176,8 +1176,8 @@ export default function ContentDetailPage() {
                 style={{
                   flex: 1,
                   padding: '14px',
-                  background: '#F3F4F6',
-                  color: '#374151',
+                  background: '#151514',
+                  color: '#C9C9C9',
                   border: 'none',
                   borderRadius: '10px',
                   fontSize: '0.95rem',
@@ -1197,7 +1197,7 @@ export default function ContentDetailPage() {
                   justifyContent: 'center',
                   gap: '8px',
                   padding: '14px',
-                  background: '#DC2626',
+                  background: '#F87171',
                   color: '#fff',
                   border: 'none',
                   borderRadius: '10px',

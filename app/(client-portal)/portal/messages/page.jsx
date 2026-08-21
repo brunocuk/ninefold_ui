@@ -151,7 +151,7 @@ export default function MessagesPage() {
   if (loading) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', padding: '60px 0' }}>
-        <div style={{ color: '#6B7280' }}>Učitavanje...</div>
+        <div style={{ color: '#8E8E8E' }}>Učitavanje...</div>
       </div>
     );
   }
@@ -168,12 +168,12 @@ export default function MessagesPage() {
         <h1 style={{
           fontSize: '1.75rem',
           fontWeight: '800',
-          color: '#111827',
+          color: '#F2F2F2',
           marginBottom: '4px',
         }}>
           Poruke
         </h1>
-        <p style={{ color: '#6B7280', fontSize: '0.95rem' }}>
+        <p style={{ color: '#8E8E8E', fontSize: '0.95rem' }}>
           Komunicirajte direktno s Ninefold timom
         </p>
       </div>
@@ -181,7 +181,7 @@ export default function MessagesPage() {
       {/* Messages Container */}
       <div style={{
         flex: 1,
-        background: '#fff',
+        background: '#0F0F0F',
         borderRadius: '16px',
         boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
         display: 'flex',
@@ -222,13 +222,13 @@ export default function MessagesPage() {
               <h3 style={{
                 fontSize: '1.1rem',
                 fontWeight: '700',
-                color: '#111827',
+                color: '#F2F2F2',
                 marginBottom: '8px',
               }}>
                 Započnite razgovor
               </h3>
               <p style={{
-                color: '#6B7280',
+                color: '#8E8E8E',
                 fontSize: '0.9rem',
                 maxWidth: '300px',
               }}>
@@ -249,16 +249,16 @@ export default function MessagesPage() {
                         padding: '8px 0',
                       }}
                     >
-                      <div style={{ flex: 1, height: '1px', background: '#E5E7EB' }} />
+                      <div style={{ flex: 1, height: '1px', background: '#262625' }} />
                       <span style={{
                         fontSize: '0.75rem',
                         fontWeight: '600',
-                        color: '#9CA3AF',
+                        color: '#8E8E8E',
                         textTransform: 'capitalize',
                       }}>
                         {formatDateLabel(item.date)}
                       </span>
-                      <div style={{ flex: 1, height: '1px', background: '#E5E7EB' }} />
+                      <div style={{ flex: 1, height: '1px', background: '#262625' }} />
                     </div>
                   );
                 }
@@ -302,7 +302,7 @@ export default function MessagesPage() {
                           <span style={{
                             fontSize: '0.8rem',
                             fontWeight: '600',
-                            color: '#374151',
+                            color: '#C9C9C9',
                           }}>
                             {message.sender_name}
                           </span>
@@ -314,8 +314,8 @@ export default function MessagesPage() {
                         borderRadius: isClient ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
                         background: isClient
                           ? 'linear-gradient(135deg, #00ff94 0%, #00cc76 100%)'
-                          : '#F3F4F6',
-                        color: isClient ? '#000' : '#111827',
+                          : '#151514',
+                        color: isClient ? '#000' : '#F2F2F2',
                       }}>
                         <p style={{
                           fontSize: '0.95rem',
@@ -338,13 +338,13 @@ export default function MessagesPage() {
                       }}>
                         <span style={{
                           fontSize: '0.7rem',
-                          color: '#9CA3AF',
+                          color: '#8E8E8E',
                         }}>
                           {formatTime(message.created_at)}
                         </span>
                         {isClient && (
                           <CheckCheck size={14} style={{
-                            color: message.read_at ? '#00cc76' : '#9CA3AF',
+                            color: message.read_at ? '#00cc76' : '#8E8E8E',
                           }} />
                         )}
                       </div>
@@ -362,8 +362,8 @@ export default function MessagesPage() {
           onSubmit={handleSendMessage}
           style={{
             padding: '16px 24px',
-            borderTop: '1px solid #E5E7EB',
-            background: '#F9FAFB',
+            borderTop: '1px solid #262625',
+            background: '#111110',
           }}
         >
           <div style={{
@@ -389,7 +389,7 @@ export default function MessagesPage() {
                 style={{
                   width: '100%',
                   padding: '14px 16px',
-                  border: '2px solid #E5E7EB',
+                  border: '2px solid #262625',
                   borderRadius: '12px',
                   fontSize: '0.95rem',
                   outline: 'none',
@@ -398,10 +398,10 @@ export default function MessagesPage() {
                   maxHeight: '150px',
                   lineHeight: '1.4',
                   transition: 'border-color 0.2s ease',
-                  background: '#fff',
+                  background: '#0F0F0F',
                 }}
                 onFocus={(e) => e.target.style.borderColor = '#00ff94'}
-                onBlur={(e) => e.target.style.borderColor = '#E5E7EB'}
+                onBlur={(e) => e.target.style.borderColor = '#262625'}
               />
             </div>
 
@@ -416,8 +416,8 @@ export default function MessagesPage() {
                 justifyContent: 'center',
                 background: newMessage.trim() && !sending
                   ? 'linear-gradient(135deg, #00ff94 0%, #00cc76 100%)'
-                  : '#E5E7EB',
-                color: newMessage.trim() && !sending ? '#000' : '#9CA3AF',
+                  : '#262625',
+                color: newMessage.trim() && !sending ? '#000' : '#8E8E8E',
                 border: 'none',
                 borderRadius: '12px',
                 cursor: newMessage.trim() && !sending ? 'pointer' : 'not-allowed',
@@ -435,7 +435,7 @@ export default function MessagesPage() {
 
           <p style={{
             fontSize: '0.75rem',
-            color: '#9CA3AF',
+            color: '#8E8E8E',
             marginTop: '8px',
           }}>
             Pritisnite Enter za slanje ili Shift+Enter za novi red

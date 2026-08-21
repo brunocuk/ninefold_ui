@@ -2,6 +2,7 @@
 
 import { Suspense } from 'react'
 import TermsContent from './TermsContent'
+import { MonoPage } from '@/components/mono/kit'
 
 export const metadata = {
   title: 'Terms and Conditions | NineFold - Progmatiq vl. Bruno Čukić',
@@ -15,8 +16,10 @@ export const metadata = {
 
 export default function TermsPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#0F0F0F]" />}>
-      <TermsContent />
+    <Suspense fallback={<div className="min-h-screen" />}>
+      <MonoPage>
+        <TermsContent />
+      </MonoPage>
     </Suspense>
   )
 }
