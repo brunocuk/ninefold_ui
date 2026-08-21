@@ -42,6 +42,32 @@ Bruno is not just a user - he's a collaborator and friend. We work on Ninefold t
 
 *This is our shared memory. Bruno adds notes here so I can "remember" what we've done together.*
 
+### August 21, 2026 - Custom Cookie Consent, GA4 + Google Ads, First Campaign
+- **What we worked on**: Killed CookieYes and replaced it with our own consent system, wired up Google Analytics and Google Ads with conversion tracking, then built and published Ninefold's first Google Ads campaign, all in one session.
+- **Cookie consent** (`components/CookieConsent.jsx`, new):
+  - Mono-language banner (panel, mono eyebrow with green dot, toggles like the kit mockups), bottom-left desktop / full-width mobile, z-[1250]
+  - Buttons: Prihvati sve / Samo nužni / Prilagodi (inline settings with Nužni · Analitika · Oglašavanje toggles)
+  - Google Consent Mode v2: gtag queues `consent default` all-denied before the library loads, updates on choice; `ads_data_redaction` + `url_passthrough` on. Choice saved in localStorage `nf-consent` (v1)
+  - Hidden on internal routes (/crm, /portal, /quote, /report, /social-report, /questionnaire) - no banner, no tracking there
+  - Footer bottom bar in kit.jsx now has Privatnost / Uvjeti / Kolačići links + "Postavke kolačića" button (dispatches `nf:cookie-settings` to reopen the banner with saved state)
+- **Analytics & Ads IDs** (constants at top of CookieConsent.jsx):
+  - GA4: `G-3ECD2LY9M0`, Google Ads: `AW-18402494529`
+  - Conversion labels: booking `PyseCPTWteUcEMGQ_8ZE` (Rezerviran poziv Cal.com), contact `UvXtCPfWteUcEMGQ_8ZE` (Poslana kontakt forma)
+  - `trackConversion(key)` exported from CookieConsent; fires once per page load per key
+  - Cal.com booking conversion: MonoPage listens for postMessage from cal.com containing `bookingSuccessful`
+  - Contact conversion: fires in ContactMono only after Web3Forms confirms success
+- **Google Ads setup** (I drove Bruno's browser, account 795-732-4013):
+  - Created 2 website conversion actions (manual code, Count: One, same-value 1 EUR, data-driven attribution): Book appointment + Submit lead form. Bruno clicked "Agree and finish" himself (enhanced conversions ON)
+  - Campaign **"Search - Izrada web stranica"** (ID 24162427340) published: Leads goal, Search only (search partners OFF, Display OFF, AI Max OFF), Croatia presence-only, HR+EN, 9 phrase-match keywords (izrada web stranica/stranice/internet stranice/web shopa/web trgovine, web dizajn, web agencija, izrada web stranica cijena, koliko kosta izrada web stranice), 1 RSA (7 headlines, 3 descriptions, path ninefold.eu/usluge/web), 4 sitelinks, landing /usluge/web-digitalno
+  - Budget **5 €/dan** (Bruno's pick), Maximize clicks with **1,50 € max CPC** - watch out: Croatian locale ate my "1.50" and saved it as **150 €**; caught it in review and fixed with "1,50" (comma!)
+  - Google confirmed the tag detected on ninefold.eu right after the Vercel deploy
+- **Open items**:
+  - **Bruno must add a payment method in Naplata** - campaign is published but cannot spend until billing exists; ads then go through review (~few hours)
+  - In ~1-2 weeks: check search terms report, add negatives; after ~15 conversions switch bidding to Maximize conversions
+  - Later nice-to-have: enhanced conversions user_data (hashed email) on the contact form conversion; cookie-policy page is still English
+  - Google Ads account also shows a GA property "di-plan.hr" (Bruno's other project), not linked - left alone
+- **Personal**: From "ajmo izbaciti CookieYes" to a live ad campaign in one sitting. Bruno passed the Google identity check and the enhanced-conversions terms himself, I did the rest through his browser: conversions, campaign, copy, keywords. The 150 € CPC near-miss was the reminder why review steps exist. Prva kampanja, mala ali čista.
+
 ### August 20-21, 2026 - The Complete "Mono" Redesign
 - **What we worked on**: The biggest thing we've ever built together: a complete redesign of the entire public site plus the client portal, in a new design language we call **Mono**, inspired by inity.agency but unmistakably ours. Two full days, every page.
 - **The design language** (`components/mono/kit.jsx` is the single source of truth):
