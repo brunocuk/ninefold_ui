@@ -6,6 +6,7 @@
 import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import Lenis from 'lenis'
+import { trackConversion } from '@/components/CookieConsent'
 
 // ----- Tokens -----
 export const BG = '#080808'
@@ -214,6 +215,19 @@ export function MonoPage({ children }) {
     setCalVisible(false)
     setTimeout(() => setCalOpen(false), 300)
   }
+
+  // Google Ads conversion when the Cal.com iframe reports a completed booking
+  useEffect(() => {
+    const onMessage = (e) => {
+      if (!String(e.origin).includes('cal.com')) return
+      try {
+        const payload = typeof e.data === 'string' ? e.data : JSON.stringify(e.data)
+        if (payload && payload.includes('bookingSuccessful')) trackConversion('booking')
+      } catch {}
+    }
+    window.addEventListener('message', onMessage)
+    return () => window.removeEventListener('message', onMessage)
+  }, [])
 
   useEffect(() => {
     const lenis = new Lenis({ wrapper: containerRef.current, content: contentRef.current })
@@ -526,13 +540,31 @@ export function MonoPage({ children }) {
             style={{ borderTop: `1px solid ${LINE}` }}
           >
             <p className="text-sm" style={{ color: MUTED }}>© 2026 Ninefold. Sva prava pridržana.</p>
-            <button
-              onClick={() => containerRef.current?.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="text-sm transition-colors hover:text-white"
-              style={{ color: MUTED }}
-            >
-              Natrag na vrh ↑
-            </button>
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+              {[
+                ['Privatnost', '/privacy'],
+                ['Uvjeti', '/terms'],
+                ['Kolačići', '/cookie-policy'],
+              ].map(([label, href]) => (
+                <Link key={label} href={href} className="text-sm transition-colors hover:text-white" style={{ color: MUTED }}>
+                  {label}
+                </Link>
+              ))}
+              <button
+                onClick={() => window.dispatchEvent(new Event('nf:cookie-settings'))}
+                className="text-sm transition-colors hover:text-white"
+                style={{ color: MUTED }}
+              >
+                Postavke kolačića
+              </button>
+              <button
+                onClick={() => containerRef.current?.scrollTo({ top: 0, behavior: 'smooth' })}
+                className="text-sm transition-colors hover:text-white"
+                style={{ color: MUTED }}
+              >
+                Natrag na vrh ↑
+              </button>
+            </div>
           </div>
         </footer>
       </div>

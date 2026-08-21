@@ -132,9 +132,9 @@ export default function CookiePolicyContent() {
                   </thead>
                   <tbody>
                     <tr className="border-b border-white/10">
-                      <td className="p-4 text-[#8E8E8E]">cookie_consent</td>
-                      <td className="p-4 text-[#8E8E8E]">Stores your cookie preferences</td>
-                      <td className="p-4 text-[#8E8E8E]">1 year</td>
+                      <td className="p-4 text-[#8E8E8E]">nf-consent</td>
+                      <td className="p-4 text-[#8E8E8E]">Stores your cookie preferences (local storage)</td>
+                      <td className="p-4 text-[#8E8E8E]">Persistent</td>
                     </tr>
                     <tr className="border-b border-white/10">
                       <td className="p-4 text-[#8E8E8E]">session_id</td>

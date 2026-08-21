@@ -6,7 +6,7 @@ import Footer from '@/components/Footer'
 import SmoothScroll from '@/components/SmoothScroll'
 import GradualBlur from '@/components/GradualBlur'
 import ScrollToTop from '@/components/ScrollToTop'
-import Script from 'next/script'
+import CookieConsent from '@/components/CookieConsent'
 import { Analytics } from '@vercel/analytics/react'
 
 export const metadata = {
@@ -20,12 +20,6 @@ export default function RootLayout({ children }) {
     <html lang="en" className="dark">
       <head>
         <meta charSet="utf-8" />
-        {/* CookieYes Banner */}
-        <Script
-          id="cookieyes"
-          src="https://cdn-cookieyes.com/client_data/2be5e4cbd1c23f337d9871196dfe9816/script.js"
-          strategy="afterInteractive"
-        />
       </head>
       <body>
         <ScrollToTop />
@@ -45,6 +39,7 @@ export default function RootLayout({ children }) {
           exponential={true}
           opacity={1}
         />
+        <CookieConsent />
         <Analytics />
       </body>
     </html>

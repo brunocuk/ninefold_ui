@@ -10,6 +10,7 @@ import {
   PANEL, BG, FG, BODY, MUTED, LINE, SIGNAL, MONO,
   Reveal, Eyebrow, MeetIcon, MonoPage, MonoFAQ, SERVICE_FAQS, useCalPopup,
 } from '@/components/mono/kit'
+import { trackConversion } from '@/components/CookieConsent'
 
 const SERVICES = ['Web', 'Video', 'Fotografija', 'Branding', 'Društvene mreže', 'Studio', 'Nešto drugo']
 const PROJECT_TYPES = ['Jednokratni projekt', 'Kontinuirana suradnja']
@@ -76,6 +77,7 @@ function ContactContent() {
       })
       const data = await res.json()
       if (data.success) {
+        trackConversion('contact')
         setStatus('success')
         setForm({ name: '', company: '', email: '', message: '' })
         setServices([])
