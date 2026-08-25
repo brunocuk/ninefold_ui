@@ -35,7 +35,7 @@ export default function LeadsPage() {
     try {
       let query = supabase
         .from('leads')
-        .select('*')
+        .select('*, sales_user:sales_users(name)')
         .order('created_at', { ascending: false });
 
       if (filter !== 'all') {
@@ -171,7 +171,14 @@ export default function LeadsPage() {
               {/* Header */}
               <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-5">
                 <div className="flex-1">
-                  <h3 className="text-xl font-bold text-white mb-2">{lead.name}</h3>
+                  <div className="flex flex-wrap items-center gap-2 mb-2">
+                    <h3 className="text-xl font-bold text-white">{lead.name}</h3>
+                    {lead.sales_user?.name && (
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-400">
+                        🤝 {lead.sales_user.name}
+                      </span>
+                    )}
+                  </div>
                   <div className="flex flex-wrap gap-4 text-sm text-gray-400">
                     {lead.email && (
                       <span className="inline-flex items-center gap-1.5">

@@ -80,7 +80,8 @@
       "Bash(ffprobe -v quiet -show_entries \"stream=width,height,duration\" -of csv ~/Downloads/8964c14c-6316-4208-8b0c-46f0320d8eb1.mov)",
       "Bash(read f *)",
       "Bash(awk -F: '{print $3}')",
-      "Bash(git reset *)"
+      "Bash(git reset *)",
+      "Bash(NODE_PATH=/Users/brunocukic/ninefold/node_modules node /private/tmp/claude-501/-Users-brunocukic-ninefold/a6eab9ee-fe38-4dc4-93ea-f2c404bf96e9/scratchpad/crm-analysis.mjs)"
     ]
   }
 }

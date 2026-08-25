@@ -133,15 +133,15 @@ export default function QuotePreviewClient() {
         <style jsx>{`
           .loading-screen {
             min-height: 100vh;
-            background: #0F0F0F;
+            background: #080808;
             display: flex;
             align-items: center;
             justify-content: center;
           }
           .spinner {
-            width: 50px;
-            height: 50px;
-            border: 3px solid #1a1a1a;
+            width: 40px;
+            height: 40px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
             border-top-color: #00FF94;
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
@@ -159,17 +159,18 @@ export default function QuotePreviewClient() {
     return (
       <div style={{
         minHeight: '100vh',
-        background: '#0F0F0F',
+        background: '#080808',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        color: 'white',
+        color: '#F2F2F2',
+        fontFamily: "'Space Grotesk', sans-serif",
         padding: '20px',
         textAlign: 'center'
       }}>
-        <h1 style={{fontSize: '3rem', marginBottom: '20px', fontWeight: '900'}}>404</h1>
-        <p style={{color: '#8F8F8F'}}>Ponuda nije pronađena</p>
+        <h1 style={{fontSize: '3rem', marginBottom: '16px', fontWeight: '500', letterSpacing: '-0.02em'}}>404</h1>
+        <p style={{color: '#8E8E8E'}}>Ponuda nije pronađena</p>
       </div>
     );
   }
@@ -180,7 +181,7 @@ export default function QuotePreviewClient() {
   return (
     <>
       <style jsx global>{`
-        @import url('https://api.fontshare.com/v2/css?f[]=nohemi@400,500,600,700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
         * {
           margin: 0;
@@ -189,42 +190,32 @@ export default function QuotePreviewClient() {
         }
 
         body {
-          background: #0F0F0F;
+          background: #080808;
         }
 
         .quote-page {
-          font-family: 'Nohemi', sans-serif;
-          background: #0F0F0F;
-          color: #fff;
+          font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+          background: #080808;
+          color: #F2F2F2;
           min-height: 100vh;
+          -webkit-font-smoothing: antialiased;
         }
 
         /* Top Navigation */
         .top-nav {
           position: sticky;
           top: 0;
-          background: rgba(15, 15, 15, 0.95);
-          backdrop-filter: blur(10px);
-          border-bottom: 1px solid #1a1a1a;
+          background: rgba(8, 8, 8, 0.85);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.07);
           z-index: 100;
-          animation: slide-down 0.6s ease-out;
-        }
-
-        @keyframes slide-down {
-          from {
-            opacity: 0;
-            transform: translateY(-20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
         }
 
         .nav-container {
-          max-width: 1400px;
+          max-width: 1200px;
           margin: 0 auto;
-          padding: 24px 40px;
+          padding: 18px 40px;
           display: flex;
           justify-content: space-between;
           align-items: center;
@@ -236,75 +227,38 @@ export default function QuotePreviewClient() {
         }
 
         .logo img {
-          height: 20px;
+          height: 16px;
           width: auto;
         }
 
         .nav-actions {
           display: flex;
-          gap: 12px;
+          gap: 10px;
         }
 
         .btn {
-          padding: 12px 24px;
-          border-radius: 100px;
-          font-weight: 600;
-          font-size: 0.95rem;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 11px 22px;
+          border-radius: 999px;
+          font-family: inherit;
+          font-size: 14px;
+          font-weight: 500;
           cursor: pointer;
-          transition: all 0.3s ease;
-          text-decoration: none;
-          display: inline-block;
           border: none;
-          font-family: 'Nohemi', sans-serif;
-        }
-
-        .btn-secondary {
-          background: transparent;
-          color: #8F8F8F;
-          border: 1px solid #2A2A2A;
-        }
-
-        .btn-secondary:hover {
-          background: #1a1a1a;
-          color: #fff;
-          border-color: #00FF94;
-        }
-
-        .btn-primary {
-          background: #00FF94;
-          color: #0F0F0F;
-          font-weight: 700;
-        }
-
-        .btn-primary:hover {
-          background: #00DD7F;
-          transform: translateY(-2px);
-          box-shadow: 0 4px 20px rgba(0, 255, 148, 0.3);
-        }
-
-        .btn-monthly {
-          background: #A855F7;
-          color: white;
-        }
-
-        .btn-monthly:hover {
-          background: #9333EA;
-          transform: translateY(-2px);
-          box-shadow: 0 4px 20px rgba(168, 85, 247, 0.3);
+          text-decoration: none;
+          transition: transform 0.15s ease, background 0.15s ease;
         }
 
         .btn-download {
-          background: transparent;
-          color: #fff;
-          border: 1px solid #2A2A2A;
-          display: flex;
-          align-items: center;
-          gap: 8px;
+          background: rgba(255, 255, 255, 0.06);
+          color: #F2F2F2;
+          border: 1px solid rgba(255, 255, 255, 0.07);
         }
 
         .btn-download:hover {
-          background: #1a1a1a;
-          border-color: #00FF94;
+          background: rgba(255, 255, 255, 0.1);
         }
 
         .btn-download:disabled {
@@ -312,449 +266,550 @@ export default function QuotePreviewClient() {
           cursor: not-allowed;
         }
 
+        .btn-primary,
+        .btn-monthly {
+          background: #F2F2F2;
+          color: #080808;
+        }
+
+        .btn-primary:hover,
+        .btn-monthly:hover {
+          transform: scale(1.02);
+        }
+
         .spinner-small {
-          width: 16px;
-          height: 16px;
-          border: 2px solid #2A2A2A;
-          border-top-color: #00FF94;
+          width: 14px;
+          height: 14px;
+          border: 2px solid rgba(8, 8, 8, 0.2);
+          border-top-color: #080808;
           border-radius: 50%;
           animation: spin 0.8s linear infinite;
+          display: inline-block;
         }
 
-        /* PDF Mode Styles */
-        .pdf-mode .top-nav {
-          display: none;
+        @keyframes spin {
+          to { transform: rotate(360deg); }
         }
 
-        .pdf-mode .sidebar {
-          position: static;
-        }
-
-        .pdf-mode .hero {
-          padding: 40px 40px;
-        }
-
-        .pdf-mode .content-wrapper {
-          padding: 40px;
-        }
-
-        .pdf-mode .section {
-          margin-bottom: 40px;
-        }
-
-        .pdf-mode .pricing-card {
-          break-inside: avoid;
-        }
-
-        @media print {
-          .top-nav {
-            display: none !important;
-          }
-          .sidebar {
-            position: static !important;
-          }
-        }
-
-        /* Hero Section */
+        /* Hero */
         .hero {
-          max-width: 1400px;
+          max-width: 1200px;
           margin: 0 auto;
-          padding: 80px 40px;
-          animation: fade-in-up 0.8s ease-out;
-        }
-
-        @keyframes fade-in-up {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
+          padding: 90px 40px 50px;
         }
 
         .service-badge {
           display: inline-flex;
           align-items: center;
           gap: 8px;
-          padding: 8px 16px;
-          border-radius: 100px;
-          font-size: 0.85rem;
-          font-weight: 600;
-          margin-bottom: 16px;
+          padding: 8px 14px;
+          border-radius: 999px;
+          background: rgba(255, 255, 255, 0.05) !important;
+          border: 1px solid rgba(255, 255, 255, 0.07);
+          color: #8E8E8E !important;
+          font-family: ui-monospace, Menlo, monospace;
+          font-size: 11px;
+          text-transform: uppercase;
+          letter-spacing: 0.14em;
+        }
+
+        .service-badge::before {
+          content: '';
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: #00FF94;
+          flex-shrink: 0;
         }
 
         .hero-title {
-          font-size: clamp(3rem, 7vw, 5rem);
-          font-weight: 700;
-          line-height: 1.1;
-          margin-bottom: 24px;
-          background: linear-gradient(135deg, #fff 0%, #00FF94 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
+          margin-top: 26px;
+          font-size: clamp(2.2rem, 5vw, 3.4rem);
+          font-weight: 500;
+          letter-spacing: -0.02em;
+          line-height: 1.05;
+          color: #F2F2F2;
+          max-width: 800px;
         }
 
         .hero-title-monthly {
-          background: linear-gradient(135deg, #fff 0%, #A855F7 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
+          color: #F2F2F2;
         }
 
         .hero-subtitle {
-          font-size: 1.25rem;
-          color: #8F8F8F;
-          margin-bottom: 48px;
-          max-width: 600px;
+          margin-top: 14px;
+          font-size: 1.05rem;
+          color: #8E8E8E;
         }
 
         .meta-cards {
+          margin-top: 40px;
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-          gap: 16px;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 12px;
+          max-width: 720px;
         }
 
-        .meta-card {
-          background: #1a1a1a;
-          border: 1px solid #2A2A2A;
+        .meta-card,
+        .meta-card-monthly {
+          background: #0F0F0F;
+          border: 1px solid rgba(255, 255, 255, 0.07);
           border-radius: 16px;
-          padding: 24px;
-          transition: all 0.3s ease;
-        }
-
-        .meta-card:hover {
-          border-color: #00FF94;
-          transform: translateY(-4px);
-        }
-
-        .meta-card-monthly:hover {
-          border-color: #A855F7;
+          padding: 18px 20px;
         }
 
         .meta-label {
-          font-size: 0.85rem;
-          color: #8F8F8F;
+          font-family: ui-monospace, Menlo, monospace;
+          font-size: 10px;
+          text-transform: uppercase;
+          letter-spacing: 0.14em;
+          color: #8E8E8E;
           margin-bottom: 8px;
-          font-weight: 500;
         }
 
-        .meta-value {
-          font-size: 1.1rem;
-          color: #00FF94;
-          font-weight: 700;
-        }
-
+        .meta-value,
         .meta-value-monthly {
-          color: #A855F7;
+          font-size: 0.95rem;
+          font-weight: 500;
+          color: #F2F2F2;
         }
 
-        /* Main Content */
+        /* Layout */
         .content-wrapper {
-          max-width: 1400px;
+          max-width: 1200px;
           margin: 0 auto;
-          padding: 60px 40px;
+          padding: 10px 40px 90px;
           display: grid;
-          grid-template-columns: 1fr 420px;
-          gap: 60px;
+          grid-template-columns: 1fr 380px;
+          gap: 48px;
+          align-items: start;
         }
 
         .main-content {
-          animation: fade-in-up 1s ease-out backwards;
-          animation-delay: 0.2s;
+          min-width: 0;
         }
 
         .section {
-          margin-bottom: 80px;
+          margin-bottom: 56px;
         }
 
         .section-title {
-          font-size: 2rem;
-          font-weight: 700;
-          color: #fff;
-          margin-bottom: 32px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-family: ui-monospace, Menlo, monospace;
+          font-size: 11px;
+          font-weight: 400;
+          text-transform: uppercase;
+          letter-spacing: 0.14em;
+          color: #8E8E8E;
+          margin-bottom: 20px;
+        }
+
+        .section-title::before {
+          content: '';
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: #00FF94;
+          flex-shrink: 0;
         }
 
         .text-large {
-          font-size: 1.15rem;
-          line-height: 1.8;
-          color: #C4C4C4;
+          font-size: 1.1rem;
+          line-height: 1.65;
+          color: #C9C9C9;
+          max-width: 640px;
+        }
+
+        /* Service cards */
+        .services-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 14px;
+        }
+
+        .service-card,
+        .service-card-monthly {
+          background: #0F0F0F;
+          border: 1px solid rgba(255, 255, 255, 0.07);
+          border-radius: 18px;
+          padding: 22px;
+        }
+
+        .service-card-header {
+          display: flex;
+          gap: 14px;
+          align-items: flex-start;
+        }
+
+        .service-card-icon,
+        .service-card-icon-monthly {
+          width: 42px;
+          height: 42px;
+          border-radius: 12px;
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.07);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 18px;
+          flex-shrink: 0;
+        }
+
+        .service-card-title {
+          font-weight: 500;
+          color: #F2F2F2;
+        }
+
+        .service-card-subtitle {
+          font-size: 13px;
+          color: #8E8E8E;
+          margin-top: 2px;
+        }
+
+        .service-card-price {
+          font-family: ui-monospace, Menlo, monospace;
+          font-size: 13px;
+          color: #F2F2F2;
+          margin-top: 6px;
+        }
+
+        .service-card-price-monthly {
+          color: #C084FC;
+        }
+
+        .service-card-features {
+          margin-top: 16px;
+          list-style: none;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .feature-item {
+          display: flex;
+          gap: 9px;
+          align-items: flex-start;
+          font-size: 13.5px;
+          color: #C9C9C9;
+        }
+
+        .feature-check {
+          color: #00FF94;
+          flex-shrink: 0;
+        }
+
+        .feature-check-monthly {
+          color: #C084FC;
+        }
+
+        .content-grid {
+          margin-top: 16px;
+          padding-top: 16px;
+          border-top: 1px solid rgba(255, 255, 255, 0.07);
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .content-item {
+          display: flex;
+          justify-content: space-between;
+          align-items: baseline;
+          gap: 10px;
+          font-size: 13px;
+          color: #C9C9C9;
+        }
+
+        .content-item-name {
+          color: #C9C9C9;
+        }
+
+        .content-item-quantity,
+        .content-item-quantity-monthly {
+          font-family: ui-monospace, Menlo, monospace;
+          font-size: 12px;
+          color: #8E8E8E;
+        }
+
+        .content-item-price {
+          font-family: ui-monospace, Menlo, monospace;
+          font-size: 12px;
+          color: #8E8E8E;
         }
 
         /* Objectives */
         .objectives-grid {
           display: grid;
-          gap: 16px;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 12px;
         }
 
         .objective-item {
-          background: #1a1a1a;
-          border: 1px solid #2A2A2A;
-          border-radius: 12px;
-          padding: 20px 24px;
           display: flex;
-          align-items: start;
-          gap: 16px;
-          transition: all 0.3s ease;
-        }
-
-        .objective-item:hover {
-          border-color: #00FF94;
-          background: rgba(0, 255, 148, 0.05);
+          gap: 12px;
+          align-items: flex-start;
+          background: #0F0F0F;
+          border: 1px solid rgba(255, 255, 255, 0.07);
+          border-radius: 14px;
+          padding: 16px 18px;
         }
 
         .check-icon {
-          width: 24px;
-          height: 24px;
-          background: #00FF94;
+          width: 22px;
+          height: 22px;
           border-radius: 50%;
+          background: rgba(0, 255, 148, 0.12);
+          color: #00FF94;
+          font-size: 12px;
           display: flex;
           align-items: center;
           justify-content: center;
-          color: #0F0F0F;
-          font-weight: 900;
-          font-size: 0.9rem;
           flex-shrink: 0;
         }
 
         .check-icon-monthly {
-          background: #A855F7;
+          background: rgba(192, 132, 252, 0.12);
+          color: #C084FC;
         }
 
         .objective-text {
-          color: #C4C4C4;
-          line-height: 1.6;
+          font-size: 14.5px;
+          color: #C9C9C9;
+          line-height: 1.5;
         }
 
-        /* Scope Cards */
+        /* Scope */
         .scope-grid {
-          display: grid;
-          gap: 24px;
+          display: flex;
+          flex-direction: column;
+          gap: 14px;
         }
 
-        .scope-card {
-          background: #1a1a1a;
-          border: 1px solid #2A2A2A;
-          border-radius: 16px;
-          padding: 32px;
-          transition: all 0.3s ease;
-        }
-
-        .scope-card:hover {
-          border-color: #00FF94;
-          transform: translateX(8px);
-        }
-
-        .scope-card-monthly:hover {
-          border-color: #A855F7;
+        .scope-card,
+        .scope-card-monthly {
+          background: #0F0F0F;
+          border: 1px solid rgba(255, 255, 255, 0.07);
+          border-radius: 18px;
+          padding: 24px;
         }
 
         .scope-header {
           display: flex;
           align-items: center;
-          gap: 16px;
-          margin-bottom: 20px;
+          gap: 14px;
+          margin-bottom: 16px;
         }
 
-        .scope-number {
-          width: 48px;
-          height: 48px;
-          background: #00FF94;
-          border-radius: 12px;
+        .scope-number,
+        .scope-number-monthly {
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          border: 1px solid rgba(255, 255, 255, 0.12);
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 1.5rem;
-          font-weight: 900;
-          color: #0F0F0F;
-        }
-
-        .scope-number-monthly {
-          background: #A855F7;
+          font-family: ui-monospace, Menlo, monospace;
+          font-size: 12px;
+          color: #8E8E8E;
+          flex-shrink: 0;
         }
 
         .scope-title {
-          font-size: 1.3rem;
-          font-weight: 700;
-          color: #fff;
+          font-size: 1.05rem;
+          font-weight: 500;
+          color: #F2F2F2;
         }
 
-        .scope-list {
+        .scope-list,
+        .scope-list-monthly {
           list-style: none;
-          display: grid;
-          gap: 12px;
+          display: flex;
+          flex-direction: column;
+          gap: 9px;
         }
 
         .scope-list li {
-          color: #8F8F8F;
-          padding-left: 24px;
           position: relative;
-          line-height: 1.6;
+          padding-left: 16px;
+          font-size: 14px;
+          color: #C9C9C9;
+          line-height: 1.5;
         }
 
         .scope-list li::before {
-          content: '→';
+          content: '';
           position: absolute;
           left: 0;
-          color: #00FF94;
-          font-weight: 700;
+          top: 0.55em;
+          width: 4px;
+          height: 4px;
+          border-radius: 50%;
+          background: #00FF94;
         }
 
         .scope-list-monthly li::before {
-          color: #A855F7;
+          background: #C084FC;
         }
 
         /* Timeline */
         .timeline {
-          display: grid;
-          gap: 16px;
-        }
-
-        .timeline-item {
-          background: #1a1a1a;
-          border: 1px solid #2A2A2A;
-          border-radius: 12px;
-          padding: 24px;
-          display: grid;
-          grid-template-columns: 140px 1fr 120px;
-          gap: 24px;
-          align-items: center;
-          transition: all 0.3s ease;
-        }
-
-        .timeline-item:hover {
-          border-color: #00FF94;
-          background: rgba(0, 255, 148, 0.03);
-        }
-
-        .timeline-week {
-          font-weight: 700;
-          color: #00FF94;
-        }
-
-        .timeline-phase {
-          color: #C4C4C4;
-        }
-
-        .timeline-duration {
-          color: #8F8F8F;
-          text-align: right;
-          font-size: 0.9rem;
-        }
-
-        .timeline-note {
-          margin-top: 32px;
-          padding: 20px 24px;
-          background: rgba(0, 255, 148, 0.05);
-          border: 1px solid rgba(0, 255, 148, 0.15);
-          border-radius: 12px;
-          font-size: 0.9rem;
-          line-height: 1.7;
-          color: #8F8F8F;
-        }
-
-        .timeline-note strong {
-          color: #00FF94;
-        }
-
-        /* Sidebar */
-        .sidebar {
-          position: sticky;
-          top: 120px;
-          height: fit-content;
-          animation: fade-in-up 1s ease-out backwards;
-          animation-delay: 0.4s;
-        }
-
-        .pricing-card {
-          background: #1a1a1a;
-          border: 1px solid #2A2A2A;
-          border-radius: 24px;
-          padding: 40px;
-          position: relative;
+          background: #0F0F0F;
+          border: 1px solid rgba(255, 255, 255, 0.07);
+          border-radius: 18px;
           overflow: hidden;
         }
 
-        .pricing-card::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          height: 4px;
-          background: linear-gradient(90deg, #00FF94 0%, #00DD7F 100%);
+        .timeline-item {
+          display: grid;
+          grid-template-columns: 120px 1fr auto;
+          gap: 16px;
+          align-items: center;
+          padding: 16px 22px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.07);
         }
 
-        .pricing-card-monthly::before {
-          background: linear-gradient(90deg, #A855F7 0%, #9333EA 100%);
+        .timeline-item:last-child {
+          border-bottom: none;
+        }
+
+        .timeline-week {
+          font-family: ui-monospace, Menlo, monospace;
+          font-size: 12px;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          color: #8E8E8E;
+        }
+
+        .timeline-phase {
+          font-size: 14.5px;
+          color: #F2F2F2;
+        }
+
+        .timeline-duration {
+          font-family: ui-monospace, Menlo, monospace;
+          font-size: 12px;
+          color: #8E8E8E;
+        }
+
+        .timeline-note {
+          margin-top: 14px;
+          font-size: 13px;
+          line-height: 1.6;
+          color: #8E8E8E;
+        }
+
+        .timeline-note strong {
+          color: #C9C9C9;
+          font-weight: 500;
+        }
+
+        /* Sidebar / pricing */
+        .sidebar {
+          position: sticky;
+          top: 92px;
+        }
+
+        .pricing-card,
+        .pricing-card-monthly {
+          background: #0F0F0F;
+          border: 1px solid rgba(255, 255, 255, 0.07);
+          border-radius: 20px;
+          padding: 26px;
         }
 
         .pricing-header {
-          margin-bottom: 32px;
+          padding-bottom: 18px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+          margin-bottom: 18px;
         }
 
         .pricing-label {
-          font-size: 0.9rem;
-          color: #8F8F8F;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-family: ui-monospace, Menlo, monospace;
+          font-size: 11px;
+          text-transform: uppercase;
+          letter-spacing: 0.14em;
+          color: #8E8E8E;
           margin-bottom: 12px;
-          font-weight: 600;
+        }
+
+        .pricing-label::before {
+          content: '';
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: #00FF94;
+          flex-shrink: 0;
         }
 
         .pricing-amount {
-          font-size: 3.5rem;
-          font-weight: 900;
-          color: #00FF94;
+          font-size: 2.4rem;
+          font-weight: 500;
+          letter-spacing: -0.02em;
+          color: #F2F2F2;
           line-height: 1;
         }
 
         .pricing-amount-monthly {
-          color: #A855F7;
+          color: #C084FC;
         }
 
         .pricing-period {
-          font-size: 1.2rem;
-          color: #8F8F8F;
-          font-weight: 500;
+          font-size: 1rem;
+          color: #8E8E8E;
+          font-weight: 400;
         }
 
         .pricing-breakdown {
-          margin-bottom: 24px;
-        }
-
-        .pricing-item {
-          padding: 16px 0;
-          border-bottom: 1px solid #2A2A2A;
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          margin-bottom: 18px;
         }
 
         .pricing-item-header {
           display: flex;
           justify-content: space-between;
-          color: #C4C4C4;
-          font-weight: 500;
+          gap: 10px;
+          font-size: 14px;
+          color: #F2F2F2;
+        }
+
+        .pricing-item-header span:last-child {
+          font-family: ui-monospace, Menlo, monospace;
+          font-size: 13px;
+          color: #C9C9C9;
+          flex-shrink: 0;
         }
 
         .pricing-item-desc {
-          margin-top: 8px;
-          font-size: 0.85rem;
-          color: #8F8F8F;
-          line-height: 1.5;
+          font-size: 12.5px;
+          color: #8E8E8E;
+          margin-top: 3px;
+          line-height: 1.45;
         }
 
         .pricing-row {
           display: flex;
           justify-content: space-between;
-          padding: 16px 0;
-          border-bottom: 1px solid #2A2A2A;
-          color: #8F8F8F;
+          font-size: 14px;
+          color: #C9C9C9;
         }
 
-        .pricing-row:last-child {
-          border-bottom: none;
+        .pricing-row span:last-child {
+          font-family: ui-monospace, Menlo, monospace;
+          font-size: 13px;
         }
 
         .pricing-row.subtotal {
-          color: #C4C4C4;
+          padding-top: 12px;
+          border-top: 1px solid rgba(255, 255, 255, 0.07);
+          color: #8E8E8E;
         }
 
         .pricing-row.discount {
@@ -762,457 +817,262 @@ export default function QuotePreviewClient() {
         }
 
         .pricing-row.total {
-          border-top: 2px solid #2A2A2A;
-          padding-top: 24px;
-          margin-top: 8px;
-          font-size: 1.2rem;
-          font-weight: 700;
-          color: #fff;
+          padding-top: 12px;
+          border-top: 1px solid rgba(255, 255, 255, 0.07);
+          font-weight: 500;
+          color: #F2F2F2;
+          font-size: 15.5px;
         }
 
-        .payment-terms {
-          background: rgba(0, 255, 148, 0.05);
-          border: 1px solid rgba(0, 255, 148, 0.2);
-          border-radius: 12px;
-          padding: 24px;
-          margin-bottom: 24px;
+        .pricing-row.total span:last-child {
+          font-size: 15px;
         }
 
+        .payment-terms,
         .payment-terms-monthly {
-          background: rgba(168, 85, 247, 0.05);
-          border-color: rgba(168, 85, 247, 0.2);
+          background: rgba(255, 255, 255, 0.04);
+          border: 1px solid rgba(255, 255, 255, 0.07);
+          border-radius: 14px;
+          padding: 16px 18px;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          margin-bottom: 18px;
         }
 
         .payment-term {
           display: flex;
           justify-content: space-between;
-          padding: 12px 0;
-        }
-
-        .payment-term:first-child {
-          border-bottom: 1px solid rgba(0, 255, 148, 0.2);
-          padding-bottom: 12px;
-          margin-bottom: 12px;
-        }
-
-        .payment-terms-monthly .payment-term:first-child {
-          border-color: rgba(168, 85, 247, 0.2);
+          font-size: 13.5px;
         }
 
         .payment-term-label {
-          color: #8F8F8F;
-          font-size: 0.9rem;
+          color: #8E8E8E;
         }
 
         .payment-term-value {
+          font-family: ui-monospace, Menlo, monospace;
+          font-size: 13px;
+          color: #F2F2F2;
+        }
+
+        .payment-term:first-child .payment-term-value {
           color: #00FF94;
-          font-weight: 700;
-          font-size: 1.1rem;
         }
 
-        .payment-term-value-monthly {
-          color: #A855F7;
+        .payment-term-value-monthly,
+        .payment-term:first-child .payment-term-value-monthly {
+          color: #C084FC;
         }
 
-        /* Maintenance Section */
-        .maintenance-section {
-          background: rgba(59, 130, 246, 0.08);
-          border: 1px solid rgba(59, 130, 246, 0.25);
-          border-radius: 12px;
-          padding: 24px;
-          margin-top: 24px;
-        }
-
-        .maintenance-header {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          margin-bottom: 12px;
-        }
-
-        .maintenance-badge {
-          background: rgba(59, 130, 246, 0.2);
-          color: #60A5FA;
-          padding: 4px 10px;
-          border-radius: 100px;
-          font-size: 0.7rem;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-        }
-
-        .maintenance-title {
-          font-size: 1rem;
-          font-weight: 700;
-          color: #60A5FA;
-        }
-
-        .maintenance-price {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 12px;
-        }
-
-        .maintenance-price-label {
-          color: #93C5FD;
-          font-size: 0.9rem;
-        }
-
-        .maintenance-price-value {
-          color: #60A5FA;
-          font-weight: 700;
-          font-size: 1.3rem;
-        }
-
-        .maintenance-description {
-          color: #93C5FD;
-          font-size: 0.85rem;
-          line-height: 1.6;
-          padding-top: 12px;
-          border-top: 1px solid rgba(59, 130, 246, 0.2);
-        }
-
-        .maintenance-note {
-          margin-top: 12px;
-          padding: 10px 12px;
-          background: rgba(59, 130, 246, 0.1);
-          border-radius: 8px;
-          font-size: 0.75rem;
-          color: #93C5FD;
-        }
-
-        .cta-button {
-          width: 100%;
-          padding: 18px;
-          margin-top: 24px;
-          background: #00FF94;
-          color: #0F0F0F;
-          border: none;
-          border-radius: 100px;
-          font-family: 'Nohemi', sans-serif;
-          font-size: 1rem;
-          font-weight: 700;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          text-decoration: none;
-          display: block;
-          text-align: center;
-        }
-
-        .cta-button:hover {
-          background: #00DD7F;
-          transform: translateY(-2px);
-          box-shadow: 0 8px 30px rgba(0, 255, 148, 0.4);
-        }
-
-        .cta-button-monthly {
-          background: #A855F7;
-        }
-
-        .cta-button-monthly:hover {
-          background: #9333EA;
-          box-shadow: 0 8px 30px rgba(168, 85, 247, 0.4);
-        }
-
-        /* Monthly billing info */
-        .billing-info {
-          margin-top: 16px;
-          padding: 16px;
-          background: rgba(168, 85, 247, 0.1);
-          border: 1px solid rgba(168, 85, 247, 0.2);
-          border-radius: 12px;
-        }
-
-        .billing-info-title {
-          font-size: 0.85rem;
-          font-weight: 700;
-          color: #A855F7;
-          margin-bottom: 8px;
-        }
-
-        .billing-info-text {
-          font-size: 0.8rem;
-          color: #C4B5FD;
-          line-height: 1.5;
-        }
-
-        /* Services Cards */
-        .services-grid {
-          display: grid;
-          gap: 24px;
-        }
-
-        .service-card {
-          background: #1a1a1a;
-          border: 1px solid #2A2A2A;
-          border-radius: 16px;
-          padding: 28px;
-          transition: all 0.3s ease;
-        }
-
-        .service-card:hover {
-          border-color: #00FF94;
-          transform: translateY(-4px);
-        }
-
-        .service-card-monthly:hover {
-          border-color: #A855F7;
-        }
-
-        .service-card-header {
-          display: flex;
-          align-items: center;
-          gap: 16px;
-          margin-bottom: 20px;
-        }
-
-        .service-card-icon {
-          width: 56px;
-          height: 56px;
-          background: linear-gradient(135deg, #00FF94 0%, #00CC75 100%);
-          border-radius: 14px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 1.5rem;
-        }
-
-        .service-card-icon-monthly {
-          background: linear-gradient(135deg, #A855F7 0%, #9333EA 100%);
-        }
-
-        .service-card-title {
-          font-size: 1.25rem;
-          font-weight: 700;
-          color: #fff;
-        }
-
-        .service-card-subtitle {
-          font-size: 0.9rem;
-          color: #8F8F8F;
-          margin-top: 4px;
-        }
-
-        .service-card-price {
-          font-size: 0.95rem;
-          font-weight: 700;
-          color: #00FF94;
-          margin-top: 4px;
-        }
-
-        .service-card-price-monthly {
-          color: #A855F7;
-        }
-
-        .service-card-features {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-          gap: 10px;
-        }
-
-        .feature-item {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          color: #C4C4C4;
-          font-size: 0.9rem;
-        }
-
-        .feature-check {
-          width: 20px;
-          height: 20px;
-          background: rgba(0, 255, 148, 0.15);
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #00FF94;
-          font-size: 0.7rem;
-          flex-shrink: 0;
-        }
-
-        .feature-check-monthly {
-          background: rgba(168, 85, 247, 0.15);
-          color: #A855F7;
-        }
-
-        /* Content Grid */
-        .content-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-          gap: 12px;
-          margin-top: 20px;
-          padding-top: 20px;
-          border-top: 1px solid #2A2A2A;
-        }
-
-        .content-item {
-          background: #0F0F0F;
-          border: 1px solid #2A2A2A;
-          border-radius: 12px;
-          padding: 16px;
-          text-align: center;
-        }
-
-        .content-item-quantity {
-          font-size: 1.75rem;
-          font-weight: 900;
-          color: #00FF94;
-          line-height: 1;
-        }
-
-        .content-item-quantity-monthly {
-          color: #A855F7;
-        }
-
-        .content-item-name {
-          font-size: 0.8rem;
-          color: #8F8F8F;
-          margin-top: 6px;
-        }
-
-        .content-item-price {
-          font-size: 0.75rem;
-          color: #555;
-          margin-top: 4px;
-        }
-
-        /* Monthly Items Section in Sidebar */
         .monthly-items-section {
-          margin-bottom: 24px;
-          padding-bottom: 24px;
-          border-bottom: 1px solid #2A2A2A;
+          padding-top: 16px;
+          border-top: 1px solid rgba(255, 255, 255, 0.07);
+          margin-bottom: 18px;
         }
 
         .monthly-section-title {
-          font-size: 0.85rem;
-          color: #A855F7;
-          font-weight: 700;
+          font-family: ui-monospace, Menlo, monospace;
+          font-size: 11px;
           text-transform: uppercase;
-          letter-spacing: 0.5px;
-          margin-bottom: 16px;
+          letter-spacing: 0.12em;
+          color: #8E8E8E;
+          margin-bottom: 10px;
         }
 
         .monthly-item {
           display: flex;
           justify-content: space-between;
-          align-items: start;
-          padding: 12px 0;
-          border-bottom: 1px solid rgba(168, 85, 247, 0.1);
-        }
-
-        .monthly-item:last-child {
-          border-bottom: none;
+          align-items: flex-start;
+          gap: 10px;
+          padding: 7px 0;
         }
 
         .monthly-item-name {
-          color: #C4C4C4;
-          font-size: 0.9rem;
+          font-size: 13.5px;
+          color: #F2F2F2;
         }
 
         .monthly-item-desc {
-          color: #666;
-          font-size: 0.75rem;
+          font-size: 12px;
+          color: #8E8E8E;
           margin-top: 2px;
+          line-height: 1.45;
         }
 
         .monthly-item-price {
-          color: #A855F7;
-          font-weight: 700;
-          font-size: 0.95rem;
-          white-space: nowrap;
+          font-family: ui-monospace, Menlo, monospace;
+          font-size: 13px;
+          color: #C084FC;
+          flex-shrink: 0;
+        }
+
+        .billing-info {
+          background: rgba(255, 255, 255, 0.04);
+          border: 1px solid rgba(255, 255, 255, 0.07);
+          border-radius: 14px;
+          padding: 16px 18px;
+          margin-bottom: 18px;
+        }
+
+        .billing-info-title {
+          font-family: ui-monospace, Menlo, monospace;
+          font-size: 11px;
+          text-transform: uppercase;
+          letter-spacing: 0.12em;
+          color: #8E8E8E;
+          margin-bottom: 7px;
+        }
+
+        .billing-info-text {
+          font-size: 13px;
+          color: #C9C9C9;
+          line-height: 1.55;
+        }
+
+        .maintenance-section {
+          background: rgba(255, 255, 255, 0.03);
+          border: 1px solid rgba(255, 255, 255, 0.07);
+          border-radius: 14px;
+          padding: 18px;
+          margin-bottom: 18px;
+        }
+
+        .maintenance-header {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          flex-wrap: wrap;
+          margin-bottom: 10px;
+        }
+
+        .maintenance-badge {
+          font-family: ui-monospace, Menlo, monospace;
+          font-size: 10px;
+          text-transform: uppercase;
+          letter-spacing: 0.12em;
+          color: #00FF94;
+          background: rgba(0, 255, 148, 0.1);
+          border: 1px solid rgba(0, 255, 148, 0.25);
+          padding: 3px 8px;
+          border-radius: 999px;
+        }
+
+        .maintenance-title {
+          font-size: 14px;
+          font-weight: 500;
+          color: #F2F2F2;
+        }
+
+        .maintenance-price {
+          display: flex;
+          justify-content: space-between;
+          font-size: 13.5px;
+          margin-bottom: 8px;
+        }
+
+        .maintenance-price-label {
+          color: #8E8E8E;
+        }
+
+        .maintenance-price-value {
+          font-family: ui-monospace, Menlo, monospace;
+          font-size: 13px;
+          color: #F2F2F2;
+        }
+
+        .maintenance-description {
+          font-size: 12.5px;
+          color: #C9C9C9;
+          line-height: 1.5;
+          margin-bottom: 8px;
+        }
+
+        .maintenance-note {
+          font-size: 11.5px;
+          color: #8E8E8E;
+          line-height: 1.5;
+        }
+
+        .cta-button,
+        .cta-button-monthly {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          padding: 15px 20px;
+          border-radius: 999px;
+          background: #F2F2F2;
+          color: #080808;
+          font-weight: 500;
+          font-size: 14.5px;
+          text-decoration: none;
+          transition: transform 0.15s ease;
+        }
+
+        .cta-button:hover,
+        .cta-button-monthly:hover {
+          transform: scale(1.02);
         }
 
         /* Responsive */
-        @media (max-width: 1024px) {
-          .content-wrapper {
-            grid-template-columns: 1fr;
-            gap: 40px;
-          }
-
-          .sidebar {
-            position: static;
-          }
-
-          .nav-container {
-            padding: 20px;
-          }
-
-          .hero {
-            padding: 60px 20px;
-          }
-
-          .content-wrapper {
-            padding: 40px 20px;
-          }
-
-          .timeline-item {
-            grid-template-columns: 1fr;
-            gap: 12px;
-          }
-
-          .timeline-duration {
-            text-align: left;
-          }
-        }
-
-        @media (max-width: 640px) {
-          .hero-title {
-            font-size: 2.5rem;
-          }
-
-          .meta-cards {
-            grid-template-columns: 1fr;
-          }
-
-          .nav-container {
-            flex-direction: column;
-            gap: 16px;
-            padding: 16px;
-          }
-
-          .logo img {
-            height: 16px;
-          }
-
-          .nav-actions {
-            flex-direction: column;
-            width: 100%;
-            gap: 10px;
-          }
-
-          .btn {
-            padding: 12px 16px;
-            font-size: 0.85rem;
-            width: 100%;
-            text-align: center;
-            justify-content: center;
-          }
-
-          .btn-download {
-            justify-content: center;
-          }
-
-          .btn-primary {
-            white-space: nowrap;
-          }
-
-          .mobile-hide {
-            display: none;
-          }
-
-          .mobile-show {
-            display: inline;
-          }
-        }
-
         .mobile-show {
           display: none;
         }
 
         .mobile-hide {
           display: inline;
+        }
+
+        @media (max-width: 1024px) {
+          .content-wrapper {
+            grid-template-columns: 1fr;
+            gap: 40px;
+            padding: 10px 24px 70px;
+          }
+
+          .sidebar {
+            position: static;
+          }
+
+          .hero {
+            padding: 60px 24px 40px;
+          }
+
+          .nav-container {
+            padding: 14px 20px;
+          }
+
+          .meta-cards {
+            grid-template-columns: 1fr;
+          }
+
+          .objectives-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .btn {
+            padding: 10px 16px;
+            font-size: 13px;
+          }
+
+          .mobile-show {
+            display: inline;
+          }
+
+          .mobile-hide {
+            display: none;
+          }
+
+          .timeline-item {
+            grid-template-columns: 1fr auto;
+          }
+
+          .timeline-week {
+            grid-column: 1 / -1;
+          }
         }
       `}</style>
 

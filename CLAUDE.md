@@ -42,6 +42,25 @@ Bruno is not just a user - he's a collaborator and friend. We work on Ninefold t
 
 *This is our shared memory. Bruno adds notes here so I can "remember" what we've done together.*
 
+### August 25, 2026 - Sales Module for Karlo & Mono Quote Page
+- **What we worked on**: Bruno's friend **Karlo** joins as Ninefold's first salesperson (websites only). Built him a complete restricted sales panel at `/sales`, fully separate from `/crm`, plus commission tracking and a Mono redesign of the public quote page.
+- **The sales module** (`app/(sales)/sales/*`, all Croatian, Mono design):
+  - **Auth**: `lib/salesAuth.js` (clone of portalAuth against new `sales_users` table, bcrypt, localStorage session `sales.auth.session`). Login at `/sales/login`. Karlo can change his own password at `/sales/settings`; Bruno can reset it from the CRM
+  - **Pages**: Pregled (pipeline stats + "Za isplatu"), Leadovi (quick-add, "Zvao sam" call logging into `contact_log` JSONB + `last_contacted_at`, status chips), lead detail (activity timeline, poziv/bilješka), Ponude (package picker → quote → action hub: otvori/pošalji/link za plaćanje), Zarada (commission rows + totals), Prezentacija (printable pitch one-pager, window.print)
+  - **Packages** (`lib/salesPackages.js`): Start **897 €** / Standard **1.997 €** / Premium **3.997 €** + 10 add-ons (extra stranica 90, copywriting 250, logo 220, GBP 120, SEO starter 290, rezervacije 240, mini shop 490, dodatni jezik 350, fotografiranje 250, održavanje 60/mj recurring). `generateSalesQuoteData()` emits a standard quotes row (issuer PROGMATIQ, depositRate 0.5, maintenance add-on maps to `pricing.maintenance` so deposit never includes recurring). **Bruno still needs to review prices/features**
+  - **Payment link before quote**: quote creation first calls `/api/quotes/create-payment-link-preview` (same as CRM builder) and saves `quote_data.paymentLink` + `revolut_*` at insert, so the public quote page shows the pay button immediately. Fallback button on quote detail if Revolut fails
+  - **Commissions**: 20% flat (per-user `commission_rate`, editable in CRM). Rows in `sales_commissions` created only when money lands: webhook inserts `kind='deposit'` on ORDER_COMPLETED (idempotent via UNIQUE(quote_id, kind) + upsert ignoreDuplicates), Bruno clicks "Označi konačnu uplatu" in `/crm/sales` for `kind='final'`. Rate snapshotted per row
+  - **CRM side**: new `/crm/sales` (Sales Team in sidebar): create salesperson with generated one-time password, edit commission %, activate/deactivate, reset password, per-user pipeline stats, "Čeka konačnu uplatu" list, mark commissions paid. 🤝 Karlo badge on `/crm/leads` and `/crm/quotes` via `sales_user:sales_users(name)` join
+- **Migration** (`supabase/migrations/20260825_sales_module.sql`, RAN in Supabase): `sales_users`, `sales_commissions`, `leads.sales_user_id/last_contacted_at/contact_log`, `quotes.sales_user_id`. Two gotchas: **quotes.id is TEXT** (pre-migrations table), so `quote_id` FK is TEXT; and RLS is enabled with permissive anon+authenticated policies (portal_users convention), NOT Supabase's bare "enable RLS" which would brick the anon-key app
+- **Mono quote page**: `/quote/[id]` (`QuotePreviewClient.jsx`) restyled to Mono by swapping the entire scoped CSS block (Nohemi → Space Grotesk, #080808/#0F0F0F/hairlines, green demoted to signals, white pill CTAs, monthly quotes get muted purple #C084FC). Zero logic touched; PDF unaffected (renders from separate `/quote/[id]/pdf`). Verified in browser on 2 real quotes
+- **Open items**:
+  - Bruno: review package prices/features and pitch copy in `lib/salesPackages.js`
+  - Create Karlo's account in `/crm/sales` after deploy, send him password + `/sales/login`
+  - Watch the first real payment: commission row should appear automatically
+  - Careful with test quotes: every created quote opens a real Revolut order now
+  - Security note: sales isolation is app-level filtering with the anon key (same trade-off as portal); revisit RLS if the sales team grows beyond trusted people
+- **Personal**: "My friend Karlo will be selling the websites" turned into a whole third wing of the product in one session: own login, own pipeline, own earnings page. The team photo is getting crowded: Bruno builds, Petar shoots, Karlo sells. Ekipa raste.
+
 ### August 21, 2026 - Custom Cookie Consent, GA4 + Google Ads, First Campaign
 - **What we worked on**: Killed CookieYes and replaced it with our own consent system, wired up Google Analytics and Google Ads with conversion tracking, then built and published Ninefold's first Google Ads campaign, all in one session.
 - **Cookie consent** (`components/CookieConsent.jsx`, new):

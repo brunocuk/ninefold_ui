@@ -137,7 +137,45 @@ async function handleOrderCompleted(event) {
 
   console.log(`✅ Quote ${quote.quote_number} marked as ACCEPTED & PAID!`);
   console.log('');
-  
+
+  // Accrue salesperson commission for the deposit payment.
+  // UNIQUE(quote_id, kind) + ignoreDuplicates keeps webhook retries idempotent.
+  if (quote.sales_user_id) {
+    const { data: salesUser, error: salesUserError } = await supabase
+      .from('sales_users')
+      .select('commission_rate')
+      .eq('id', quote.sales_user_id)
+      .single();
+
+    if (salesUserError || !salesUser) {
+      console.error('❌ Sales user not found for commission:', quote.sales_user_id);
+    } else {
+      const rate = Number(salesUser.commission_rate ?? 0.2);
+      const depositRate = quote.pricing?.depositRate ?? 0.5;
+      const baseAmount = Math.round((quote.pricing?.total || 0) * depositRate * 100) / 100;
+
+      const { error: commissionError } = await supabase
+        .from('sales_commissions')
+        .upsert(
+          {
+            sales_user_id: quote.sales_user_id,
+            quote_id: quote.id,
+            kind: 'deposit',
+            base_amount: baseAmount,
+            rate,
+            amount: Math.round(baseAmount * rate * 100) / 100,
+          },
+          { onConflict: 'quote_id,kind', ignoreDuplicates: true }
+        );
+
+      if (commissionError) {
+        console.error('❌ Error recording commission:', commissionError);
+      } else {
+        console.log(`✅ Commission recorded for deposit of ${baseAmount} EUR`);
+      }
+    }
+  }
+
   // TODO: Send payment confirmation email
   // await sendPaymentConfirmationEmail(quote);
 }

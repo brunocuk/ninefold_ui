@@ -30,6 +30,7 @@ import {
   FileEdit,
   CheckSquare,
   Receipt,
+  Handshake,
 } from 'lucide-react';
 import { ToastProvider } from '@/components/Toast';
 
@@ -859,6 +860,14 @@ export default function CRMLayout({ children }) {
               >
                 <span className="nav-icon-wrapper"><FileText size={18} /></span>
                 <span className="nav-text">Quotes</span>
+              </Link>
+              <Link
+                href="/crm/sales"
+                className={`nav-link ${isActive("/crm/sales") ? "active" : ""}`}
+                title={isCollapsed ? "Sales Team" : ""}
+              >
+                <span className="nav-icon-wrapper"><Handshake size={18} /></span>
+                <span className="nav-text">Sales Team</span>
               </Link>
             </div>
 

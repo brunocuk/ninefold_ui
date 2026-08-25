@@ -48,6 +48,9 @@ export default function QuotesPage() {
           leads (
             name,
             company
+          ),
+          sales_user:sales_users (
+            name
           )
         `)
         .order('created_at', { ascending: false });
@@ -288,6 +291,11 @@ export default function QuotesPage() {
                       <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-[#2A2A2A] text-gray-300`}>
                         {serviceInfo.icon} {serviceInfo.nameHr}
                       </span>
+                      {quote.sales_user?.name && (
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-400">
+                          🤝 {quote.sales_user.name}
+                        </span>
+                      )}
                     </div>
 
                     <h3 className="text-xl font-bold text-white mb-2">
