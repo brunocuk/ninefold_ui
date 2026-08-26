@@ -168,40 +168,50 @@ function SalesQuoteNewInner() {
         {/* Packages */}
         <div>
           <p className="mb-3 text-sm font-medium" style={{ color: BODY }}>1. Paket</p>
-          <div className="grid gap-4 lg:grid-cols-3">
-            {Object.values(SALES_PACKAGES).map((p) => {
-              const active = selectedPackage === p.id;
-              return (
-                <button
-                  key={p.id}
-                  type="button"
-                  onClick={() => setSelectedPackage(p.id)}
-                  className="rounded-2xl p-5 text-left transition-all"
-                  style={{
-                    background: '#0F0F0F',
-                    border: `1px solid ${active ? 'rgba(0,255,148,0.4)' : LINE}`,
-                    boxShadow: active ? '0 0 0 1px rgba(0,255,148,0.2)' : 'none',
-                  }}
-                >
-                  <div className="flex items-center justify-between">
-                    <p className="font-medium" style={{ color: FG }}>{p.name}</p>
-                    {active && <Check size={16} style={{ color: SIGNAL }} />}
-                  </div>
-                  <p className="mt-1 text-2xl font-medium" style={{ color: FG }}>{formatEur(p.price)}</p>
-                  <p className="mt-1 text-[12px]" style={{ fontFamily: MONO, color: MUTED }}>{p.duration}</p>
-                  <p className="mt-3 text-sm" style={{ color: MUTED }}>{p.tagline}</p>
-                  <ul className="mt-4 flex flex-col gap-1.5">
-                    {p.features.map((f) => (
-                      <li key={f} className="flex items-start gap-2 text-[13px]" style={{ color: BODY }}>
-                        <span className="mt-1.5 inline-block h-1 w-1 shrink-0 rounded-full" style={{ background: SIGNAL }} />
-                        {f}
-                      </li>
-                    ))}
-                  </ul>
-                </button>
-              );
-            })}
-          </div>
+          {[
+            ['web', 'Web stranice'],
+            ['shop', 'Web shop'],
+          ].map(([category, label], gi) => (
+            <div key={category} className={gi > 0 ? 'mt-6' : undefined}>
+              <p className="mb-3 text-[11px] uppercase" style={{ fontFamily: MONO, letterSpacing: '0.14em', color: MUTED }}>
+                {label}
+              </p>
+              <div className="grid gap-4 lg:grid-cols-3">
+                {Object.values(SALES_PACKAGES).filter((p) => p.category === category).map((p) => {
+                  const active = selectedPackage === p.id;
+                  return (
+                    <button
+                      key={p.id}
+                      type="button"
+                      onClick={() => setSelectedPackage(p.id)}
+                      className="rounded-2xl p-5 text-left transition-all"
+                      style={{
+                        background: '#0F0F0F',
+                        border: `1px solid ${active ? 'rgba(0,255,148,0.4)' : LINE}`,
+                        boxShadow: active ? '0 0 0 1px rgba(0,255,148,0.2)' : 'none',
+                      }}
+                    >
+                      <div className="flex items-center justify-between">
+                        <p className="font-medium" style={{ color: FG }}>{p.name}</p>
+                        {active && <Check size={16} style={{ color: SIGNAL }} />}
+                      </div>
+                      <p className="mt-1 text-2xl font-medium" style={{ color: FG }}>{formatEur(p.price)}</p>
+                      <p className="mt-1 text-[12px]" style={{ fontFamily: MONO, color: MUTED }}>{p.duration}</p>
+                      <p className="mt-3 text-sm" style={{ color: MUTED }}>{p.tagline}</p>
+                      <ul className="mt-4 flex flex-col gap-1.5">
+                        {p.features.map((f) => (
+                          <li key={f} className="flex items-start gap-2 text-[13px]" style={{ color: BODY }}>
+                            <span className="mt-1.5 inline-block h-1 w-1 shrink-0 rounded-full" style={{ background: SIGNAL }} />
+                            {f}
+                          </li>
+                        ))}
+                      </ul>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
         </div>
 
         {/* Add-ons */}

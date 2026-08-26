@@ -65,35 +65,45 @@ export default function SalesPitchPage() {
           Web stranica koja radi za tebe.
         </h2>
         <p className="pitch-muted mt-2 max-w-2xl" style={{ color: BODY }}>
-          Radimo web stranice koje izgledaju profesionalno i dovode klijente. Tri paketa, jasne
-          cijene, bez skrivenih troškova. Plaća se 50% predujma, ostatak kad je stranica gotova.
+          Radimo web stranice i web shopove koji izgledaju profesionalno i dovode klijente. Jasne
+          cijene, bez skrivenih troškova. Plaća se 50% predujma, ostatak kad je projekt gotov.
         </p>
       </Panel>
 
-      {/* Packages */}
-      <div className="grid gap-4 lg:grid-cols-3">
-        {Object.values(SALES_PACKAGES).map((p) => (
-          <Panel key={p.id} className="pitch-panel flex flex-col p-6">
-            <p className="text-[11px] uppercase pitch-muted" style={{ fontFamily: MONO, letterSpacing: '0.14em', color: MUTED }}>
-              Paket
-            </p>
-            <h2 className="mt-1 text-xl font-medium" style={{ color: FG }}>{p.name}</h2>
-            <p className="mt-2 text-3xl font-medium" style={{ color: FG }}>{formatEur(p.price)}</p>
-            <p className="pitch-muted mt-1 text-[12px]" style={{ fontFamily: MONO, color: MUTED }}>
-              Rok izrade: {p.duration}
-            </p>
-            <p className="pitch-muted mt-3 text-sm" style={{ color: MUTED }}>{p.tagline}</p>
-            <ul className="mt-5 flex flex-col gap-2">
-              {p.features.map((f) => (
-                <li key={f} className="flex items-start gap-2 text-[13px]" style={{ color: BODY }}>
-                  <Check size={14} className="pitch-signal mt-0.5 shrink-0" style={{ color: SIGNAL }} />
-                  {f}
-                </li>
-              ))}
-            </ul>
-          </Panel>
-        ))}
-      </div>
+      {/* Packages: web pa shop */}
+      {[
+        ['web', 'Web stranice'],
+        ['shop', 'Web shop'],
+      ].map(([category, label]) => (
+        <div key={category}>
+          <p className="pitch-muted mb-3 text-[11px] uppercase" style={{ fontFamily: MONO, letterSpacing: '0.14em', color: MUTED }}>
+            {label}
+          </p>
+          <div className="grid gap-4 lg:grid-cols-3">
+            {Object.values(SALES_PACKAGES).filter((p) => p.category === category).map((p) => (
+              <Panel key={p.id} className="pitch-panel flex flex-col p-6">
+                <p className="text-[11px] uppercase pitch-muted" style={{ fontFamily: MONO, letterSpacing: '0.14em', color: MUTED }}>
+                  Paket
+                </p>
+                <h2 className="mt-1 text-xl font-medium" style={{ color: FG }}>{p.name}</h2>
+                <p className="mt-2 text-3xl font-medium" style={{ color: FG }}>{formatEur(p.price)}</p>
+                <p className="pitch-muted mt-1 text-[12px]" style={{ fontFamily: MONO, color: MUTED }}>
+                  Rok izrade: {p.duration}
+                </p>
+                <p className="pitch-muted mt-3 text-sm" style={{ color: MUTED }}>{p.tagline}</p>
+                <ul className="mt-5 flex flex-col gap-2">
+                  {p.features.map((f) => (
+                    <li key={f} className="flex items-start gap-2 text-[13px]" style={{ color: BODY }}>
+                      <Check size={14} className="pitch-signal mt-0.5 shrink-0" style={{ color: SIGNAL }} />
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+              </Panel>
+            ))}
+          </div>
+        </div>
+      ))}
 
       {/* Add-ons */}
       <Panel className="pitch-panel p-6">
