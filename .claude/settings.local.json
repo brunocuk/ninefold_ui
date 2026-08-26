@@ -81,7 +81,8 @@
       "Bash(read f *)",
       "Bash(awk -F: '{print $3}')",
       "Bash(git reset *)",
-      "Bash(NODE_PATH=/Users/brunocukic/ninefold/node_modules node /private/tmp/claude-501/-Users-brunocukic-ninefold/a6eab9ee-fe38-4dc4-93ea-f2c404bf96e9/scratchpad/crm-analysis.mjs)"
+      "Bash(NODE_PATH=/Users/brunocukic/ninefold/node_modules node /private/tmp/claude-501/-Users-brunocukic-ninefold/a6eab9ee-fe38-4dc4-93ea-f2c404bf96e9/scratchpad/crm-analysis.mjs)",
+      "Bash(npx next *)"
     ]
   }
 }

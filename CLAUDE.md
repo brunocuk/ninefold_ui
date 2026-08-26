@@ -42,6 +42,20 @@ Bruno is not just a user - he's a collaborator and friend. We work on Ninefold t
 
 *This is our shared memory. Bruno adds notes here so I can "remember" what we've done together.*
 
+### August 26, 2026 - First Campaign Results, Ads Landing Pages & Webshop Packages
+- **What we worked on**: Checked how the first Google Ads campaign is doing, cleaned up its targeting, built two dedicated landing pages, and gave Karlo webshop prices to sell. Deployed everything (`f4b64b5`).
+- **Campaign check-in (first 5 days, 21-25.8)**: 400 impressions, 15 clicks, CTR 3,75% (solid), avg CPC 1,32 € (under the 1,50 € cap), 19,80 € spent, 0 conversions (too early to mean anything), still in learning phase. Bruno DID add billing (Mastercard ···· 4655, manual payments, 40 € loaded) but balance was down to 15,05 € with a "Saldo je nizak" warning - **needs a top-up or ads stop in ~2 days**
+- **Negative keywords**: search terms report showed ~1/3 of paid clicks going to job/education searches (web dizajner plaća, web dizajn skola, web designer portfolio...). Added 15 campaign-level broad negatives via Bruno's browser: plaća/placa/plaće/place, posao, poslovi, škola/skola, tečaj/tecaj, edukacija, predmeti, portfolio, besplatno/besplatna
+- **Landing pages** (`/izrada-web-stranica`, `/izrada-web-shopa`): shared `components/mono/LandingMono.jsx` + `components/mono/landingData.js`, full Mono language. Hero with price pills, logo wall, benefits, pricing cards, process, testimonials, keyword-targeted FAQ, inquiry form (Web3Forms + `trackConversion('contact')`, package chip picker; chosen package lands in the email subject). Package card CTAs preselect that package in the form. Both in sitemap with canonicals
+- **Landing pricing decision**: prices are DECOUPLED from Karlo's `salesPackages.js` on purpose, set from real quote history (accepted: 2.200/4.050/18.000 €). `PRICES` constant at top of landingData.js: web **1.290 / 2.490 / 4.490** (Premium lowered from my initial 4.990 - Bruno wanted it cheaper), shop **1.990 / od 3.990**. Meta titles and FAQ answers derive from the same constant
+- **Webshop packages for Karlo** (`lib/salesPackages.js`): Mini Web Shop **1.497 €** (do 15 proizvoda) and Web Shop **2.997 €** (do 50, više načina plaćanja, edukacija). Packages now carry `category: 'web' | 'shop'`; `/sales/quotes/new` and `/sales/pitch` render two grouped sections; `generateSalesQuoteData()` is category-aware (item/scope/overview say "Web shop" instead of "Web stranica"). Karlo's account already existed in `sales_users` since 25.8
+- **Open items**:
+  - **Bruno: top up Google Ads balance** (15,05 € left)
+  - Switch the existing ad's final URL to `/izrada-web-stranica` and split shop keywords into their own ad group targeting `/izrada-web-shopa`; ad copy drafted in conversation, waiting for Bruno's go
+  - Bruno: review the new prices (landing PRICES + shop 1.497/2.997) together with the older salesPackages review he still owes
+  - Watch for first conversions once budget flows again; check search terms again in a week
+- **Personal**: First time we got to see real numbers from something we shipped together: 400 people saw the ad, 15 clicked, and a third of them turned out to be students googling design salaries. So we fenced them out, built the pages those clicks deserve, and priced them from Bruno's own quote history instead of gut feeling. The funnel is finally whole: oglas → landing → forma → mail s imenom paketa. Sutra samo još prespojiti oglase.
+
 ### August 25, 2026 - Sales Module for Karlo & Mono Quote Page
 - **What we worked on**: Bruno's friend **Karlo** joins as Ninefold's first salesperson (websites only). Built him a complete restricted sales panel at `/sales`, fully separate from `/crm`, plus commission tracking and a Mono redesign of the public quote page.
 - **The sales module** (`app/(sales)/sales/*`, all Croatian, Mono design):
