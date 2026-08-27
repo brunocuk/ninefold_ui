@@ -6,6 +6,7 @@
 // rezerviran poziv ili poslana forma.
 
 import { useState } from 'react'
+import Link from 'next/link'
 import {
   PANEL, BG, FG, BODY, MUTED, LINE, SIGNAL, MONO,
   Reveal, Eyebrow, MeetIcon, MonoPage, MonoFAQ, MonoTestimonials, MonoCTA,
@@ -137,6 +138,27 @@ function LandingContent({ slug }) {
         </div>
       </section>
 
+      {/* Gradska sekcija (samo na gradskim varijantama) */}
+      {data.citySection && (
+        <section className="mx-auto max-w-[860px] px-5 pb-20 md:pb-28">
+          <Reveal>
+            <Eyebrow>Lokalno</Eyebrow>
+            <h2 className="mt-3 text-3xl font-medium md:text-4xl" style={{ letterSpacing: '-0.02em' }}>
+              {data.citySection.title}
+            </h2>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <div className="mt-6 flex flex-col gap-5">
+              {data.citySection.paragraphs.map((p, i) => (
+                <p key={i} className="text-lg leading-relaxed" style={{ color: BODY }}>
+                  {p}
+                </p>
+              ))}
+            </div>
+          </Reveal>
+        </section>
+      )}
+
       {/* Paketi i cijene */}
       <section className="mx-auto max-w-[1200px] px-5 pb-20 md:pb-28">
         <Reveal>
@@ -231,6 +253,31 @@ function LandingContent({ slug }) {
       <MonoTestimonials />
 
       <MonoFAQ items={data.faqs} />
+
+      {/* Gradovi (interno povezivanje lokalnih varijanti) */}
+      {data.cityLinks && (
+        <section className="mx-auto max-w-[1200px] px-5 pb-20 md:pb-28">
+          <Reveal>
+            <div className="rounded-[24px] p-7 md:p-8" style={{ background: PANEL, border: `1px solid ${LINE}` }}>
+              <p className="text-[11px] uppercase" style={{ fontFamily: MONO, letterSpacing: '0.14em', color: MUTED }}>
+                Izrada web stranica po gradovima
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2.5">
+                {data.cityLinks.map((c) => (
+                  <Link
+                    key={c.href}
+                    href={c.href}
+                    className="rounded-full px-4 py-2 text-sm transition-colors hover:text-white"
+                    style={{ border: `1px solid ${LINE}`, color: BODY }}
+                  >
+                    {c.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </Reveal>
+        </section>
+      )}
 
       {/* Upit forma */}
       <section id="upit" className="mx-auto max-w-[1200px] px-5 pb-24 md:pb-32">

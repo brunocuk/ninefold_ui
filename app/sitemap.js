@@ -4,6 +4,7 @@
 import { createClient } from '@supabase/supabase-js'
 import { blogPosts } from '@/content/blog'
 import { SERVICES } from '@/components/mono/serviceData'
+import { CITIES } from '@/components/mono/landingData'
 
 const baseUrl = 'https://www.ninefold.eu'
 
@@ -15,6 +16,13 @@ export default async function sitemap() {
     lastModified: now,
     changeFrequency: 'monthly',
     priority: route === '' ? 1.0 : 0.8,
+  }))
+
+  const cityRoutes = CITIES.map((c) => ({
+    url: `${baseUrl}/izrada-web-stranica/${c.slug}`,
+    lastModified: now,
+    changeFrequency: 'monthly',
+    priority: 0.7,
   }))
 
   const serviceRoutes = SERVICES.map((s) => ({
@@ -51,5 +59,5 @@ export default async function sitemap() {
     priority: 0.5,
   }))
 
-  return [...staticRoutes, ...serviceRoutes, ...projectRoutes, ...blogRoutes]
+  return [...staticRoutes, ...cityRoutes, ...serviceRoutes, ...projectRoutes, ...blogRoutes]
 }
