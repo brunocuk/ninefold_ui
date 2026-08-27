@@ -30,6 +30,7 @@ export const SERVICE_DETAILS = {
     ],
     includes: ['UI/UX dizajn', 'Copywriting', 'Razvoj (Next.js)', 'SEO', 'Analitika', 'Domena i hosting', 'Održavanje'],
     projectType: 'web_development',
+    blogSlugs: ['koliko-kosta-izrada-web-stranice', 'web-stranica-sam-freelancer-ili-agencija', 'zasto-web-stranica-ne-dovodi-klijente'],
   },
   'video-animacija': {
     title: 'Video i animacija',
@@ -50,6 +51,7 @@ export const SERVICE_DETAILS = {
     ],
     includes: ['Scenarij', 'Snimanje', 'Montaža', 'Color grading', 'Titlovi', 'Glazba', 'Svi formati'],
     projectType: 'video_production',
+    blogSlugs: ['koliko-kosta-video-produkcija', 'instagram-za-male-biznise'],
   },
   'fotografija': {
     title: 'Fotografija',
@@ -70,6 +72,7 @@ export const SERVICE_DETAILS = {
     ],
     includes: ['Priprema i scenografija', 'Snimanje', 'Profesionalna obrada', 'Web-ready export', 'Prava korištenja'],
     projectType: null,
+    blogSlugs: ['koliko-kosta-video-produkcija', 'instagram-za-male-biznise'],
   },
   'strategija-branding': {
     title: 'Strategija i branding',
@@ -110,6 +113,7 @@ export const SERVICE_DETAILS = {
     ],
     includes: ['Kalendar sadržaja', 'Snimanje', 'Dizajn objava', 'Captioni', 'Objavljivanje', 'Mjesečni izvještaji'],
     projectType: 'social_media',
+    blogSlugs: ['instagram-za-male-biznise', 'koliko-kosta-video-produkcija'],
   },
   'studio': {
     title: 'Studio',
@@ -130,5 +134,6 @@ export const SERVICE_DETAILS = {
     ],
     includes: ['4K kamere', 'Rasvjeta', 'Mikrofoni', 'Pozadine', 'Tehničar (opcionalno)', 'Montaža (opcionalno)'],
     projectType: null,
+    blogSlugs: ['koliko-kosta-video-produkcija'],
   },
 }

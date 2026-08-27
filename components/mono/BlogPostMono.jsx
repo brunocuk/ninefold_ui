@@ -16,6 +16,32 @@ function formatDate(iso) {
 
 const CALLOUT_LABELS = { tip: 'Savjet', info: 'Info', warning: 'Pažnja' }
 
+// Renders [text](href) links inside content strings. Internal hrefs (/...) use
+// next/link, external open in a new tab. Plain strings pass through untouched.
+function renderInline(text) {
+  if (typeof text !== 'string' || !text.includes('](')) return text
+  const linkStyle = { color: FG, textDecorationColor: 'rgba(255,255,255,0.3)' }
+  const linkClass = 'underline underline-offset-4 transition-colors hover:text-white'
+  const parts = []
+  const re = /\[([^\]]+)\]\(([^)\s]+)\)/g
+  let last = 0
+  let m
+  while ((m = re.exec(text))) {
+    if (m.index > last) parts.push(text.slice(last, m.index))
+    const [, label, href] = m
+    parts.push(
+      href.startsWith('/') || href.startsWith('#') ? (
+        <Link key={m.index} href={href} className={linkClass} style={linkStyle}>{label}</Link>
+      ) : (
+        <a key={m.index} href={href} target="_blank" rel="noopener noreferrer" className={linkClass} style={linkStyle}>{label}</a>
+      )
+    )
+    last = m.index + m[0].length
+  }
+  if (last < text.length) parts.push(text.slice(last))
+  return parts
+}
+
 function Block({ block }) {
   if (block.type === 'heading') {
     const Tag = block.level === 3 ? 'h3' : 'h2'
@@ -31,7 +57,7 @@ function Block({ block }) {
   if (block.type === 'text') {
     return (
       <p className="mt-5 text-lg leading-relaxed" style={{ color: BODY }}>
-        {block.content}
+        {renderInline(block.content)}
       </p>
     )
   }
@@ -46,7 +72,7 @@ function Block({ block }) {
           {CALLOUT_LABELS[block.style] || 'Info'}
         </p>
         <p className="mt-3 leading-relaxed" style={{ color: BODY }}>
-          {block.content}
+          {renderInline(block.content)}
         </p>
       </div>
     )
@@ -64,7 +90,7 @@ function Block({ block }) {
             ) : (
               <span className="mt-3 h-1 w-1 shrink-0 rounded-full" style={{ background: MUTED }} />
             )}
-            {item}
+            <span>{renderInline(item)}</span>
           </li>
         ))}
       </Tag>

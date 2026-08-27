@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation'
 import { createClient } from '@supabase/supabase-js'
 import ServiceMono from '@/components/mono/ServiceMono'
 import { SERVICE_DETAILS } from '@/components/mono/serviceData'
+import { blogPosts } from '@/content/blog'
 
 export const revalidate = 3600
 
@@ -48,5 +49,10 @@ export default async function ServicePage({ params }) {
     projects = data || []
   }
 
-  return <ServiceMono slug={slug} projects={projects} />
+  const posts = (detail.blogSlugs || [])
+    .map((s) => blogPosts.find((p) => p.slug === s))
+    .filter(Boolean)
+    .map(({ slug: postSlug, title, category, readTime }) => ({ slug: postSlug, title, category, readTime }))
+
+  return <ServiceMono slug={slug} projects={projects} posts={posts} />
 }

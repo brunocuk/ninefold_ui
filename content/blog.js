@@ -49,10 +49,10 @@ export const blogPosts = [
       { type: "heading", level: 2, content: "Zašto su razlike toliko velike?" },
       { type: "text", content: "Jer 'web stranica' znači sto različitih stvari. Predložak od 500 € i custom stranica od 5.000 € izgledaju slično na prvi pogled, ali razlika je u onome što ne vidiš: brzini učitavanja, tome kako stranica stoji na Googleu, kako se ponaša na mobitelu i koliko lako posjetitelja pretvara u upit. Predložak je kupljeno odijelo, custom je šivano po mjeri. Oba pokrivaju golotinju, ali ne stoje isto." },
       { type: "heading", level: 2, content: "Kad je jeftinija opcija pametna" },
-      { type: "text", content: "Iskreno? Ponekad ti ne treba skupa stranica. Ako tek krećeš, testiraš ideju ili ti web služi samo kao digitalna posjetnica uz Instagram, kreni s jednostavnim rješenjem. Bolja je živa stranica od 800 € nego savršena od 6.000 € koju nikad ne naručiš. Nadogradit ćeš kad biznis to opravda." },
+      { type: "text", content: "Iskreno? Ponekad ti ne treba skupa stranica. Ako tek krećeš, testiraš ideju ili ti web služi samo kao digitalna posjetnica uz Instagram, kreni s jednostavnim rješenjem. Bolja je živa stranica od 800 € nego savršena od 6.000 € koju nikad ne naručiš. Nadogradit ćeš kad biznis to opravda. O toj odluci detaljnije pišemo u vodiču [sam, freelancer ili agencija](/blog/web-stranica-sam-freelancer-ili-agencija)." },
       { type: "heading", level: 2, content: "Kad se skuplja stranica isplati" },
       { type: "text", content: "Onog trenutka kad ti stranica treba dovoditi posao, a ne samo postojati. Brža stranica bolje rangira na Googleu i manje ljudi odustane dok se učitava. Jasnija struktura znači više upita. Ako stranica dovede dva klijenta mjesečno koje inače ne bi, razlika u cijeni se vrati za par mjeseci. To je matematika, ne prodajna priča." },
-      { type: "callout", style: "info", content: "Kod nas u Ninefoldu nakon prvog razgovora dobiješ točnu cijenu, fiksnu, bez skrivenih stavki. Ako ti je netko poslao ponudu pa te zanima drugo mišljenje, javi se, besplatno ćemo je pogledati." },
+      { type: "callout", style: "info", content: "Kod nas u Ninefoldu nakon prvog razgovora dobiješ točnu cijenu, fiksnu, bez skrivenih stavki. Pogledaj što sve uključuje naša [izrada weba](/usluge/web-digitalno), a ako ti je netko poslao ponudu pa te zanima drugo mišljenje, [javi se](/contact), besplatno ćemo je pogledati." },
       { type: "heading", level: 2, content: "Za kraj" },
       { type: "text", content: "Ne postoji 'prava cijena' web stranice, ali postoji prava cijena za tvoju situaciju. Definiraj što stranica treba raditi za tvoj biznis, postavi izvođačima ista pitanja i usporedi što stvarno dobivaš, ne samo koliko košta. Najskuplja stranica je ona koju moraš platiti dvaput." }
     ]
@@ -81,7 +81,7 @@ export const blogPosts = [
       { type: "heading", level: 2, content: "3. Spora je" },
       { type: "text", content: "Ako se stranica učitava dulje od tri sekunde, pola ljudi ode prije nego što išta vidi. Google to zna i zato spore stranice gura niže u rezultatima. Provjeri sam: upiši svoju adresu u PageSpeed Insights. Ispod 50 na mobitelu znači da gubiš i posjetitelje i pozicije. Najčešći krivci: prevelike slike, jeftin hosting i predlošci natrpani dodacima." },
       { type: "heading", level: 2, content: "4. Nema je na Googleu" },
-      { type: "text", content: "Upiši u Google 'site:tvojadomena.hr'. Ako se ne pojavi ništa, Google te uopće nije indeksirao. Ako se pojavi, upiši ono što bi tvoj klijent tražio, na primjer 'frizerski salon Trešnjevka'. Nisi na prvoj stranici? Za klijenta ne postojiš. Rješenje se zove SEO i nije magija: dobra struktura, pravi naslovi, brzina i Google Business profil naprave veći dio posla." },
+      { type: "text", content: "Upiši u Google 'site:tvojadomena.hr'. Ako se ne pojavi ništa, Google te uopće nije indeksirao. Ako se pojavi, upiši ono što bi tvoj klijent tražio, na primjer 'frizerski salon Trešnjevka'. Nisi na prvoj stranici? Za klijenta ne postojiš. Rješenje se zove SEO i nije magija: dobra struktura, pravi naslovi, brzina i Google Business profil naprave veći dio posla. Za male biznise smo o tome napisali cijeli [vodič za lokalni SEO](/blog/lokalni-seo-vodic)." },
       { type: "heading", level: 2, content: "5. Nema jasnog poziva na akciju" },
       { type: "text", content: "Posjetitelj je pročitao što radiš i sad bi te kontaktirao. Kako? Ako mora tražiti broj telefona po footeru, izgubio si ga. Na svakoj stranici mora biti očit sljedeći korak: gumb 'Nazovi', 'Pošalji upit' ili 'Rezerviraj termin'. Jedan gumb, jasna radnja, vidljiv bez skrolanja." },
       { type: "heading", level: 2, content: "6. Na mobitelu je katastrofa" },
@@ -90,7 +90,7 @@ export const blogPosts = [
       { type: "text", content: "Zadnja novost iz 2022., copyright 2021., 'uskoro više informacija'. Posjetitelj to čita kao: možda više ne rade. Povjerenje se gubi u sekundi. Ne moraš voditi blog, ali ono što piše mora biti točno i živo: radno vrijeme, cjenik, fotografije koje izgledaju kao tvoj prostor danas, a ne prije pet godina." },
       { type: "callout", style: "tip", content: "Brzi test za pet minuta: otvori PageSpeed Insights (brzina), upiši site:tvojadomena.hr u Google (indeksiranost), otvori stranicu na mobitelu (upotrebljivost) i pokaži naslovnicu nekome tko te ne poznaje na 5 sekundi pa ga pitaj čime se baviš (jasnoća). Ta četiri testa otkriju većinu problema." },
       { type: "heading", level: 2, content: "Odakle krenuti" },
-      { type: "text", content: "Ne moraš popraviti svih sedam odjednom. Kreni od prometa i jasnoće: da te ljudi nađu i da odmah shvate što nudiš. To dvoje riješi 80% problema. Ostalo je fino podešavanje. A ako nakon testova zaključiš da je lakše krenuti ispočetka nego krpati, ponekad je to iskreno i jeftinija opcija." }
+      { type: "text", content: "Ne moraš popraviti svih sedam odjednom. Kreni od prometa i jasnoće: da te ljudi nađu i da odmah shvate što nudiš. To dvoje riješi 80% problema. Ostalo je fino podešavanje. A ako nakon testova zaključiš da je lakše krenuti ispočetka nego krpati, ponekad je to iskreno i jeftinija opcija. U tom slučaju pogledaj kako mi radimo [web stranice](/usluge/web-digitalno) ili se odmah [javi](/contact) pa ćemo zajedno proći kroz testove." }
     ]
   },
 
@@ -123,7 +123,7 @@ export const blogPosts = [
       { type: "text", content: "Broj i svježina recenzija direktno utječu na poziciju u lokalnim rezultatima, a još više na odluku čovjeka koji bira između tebe i konkurenta. Sustavno traži recenzije: nakon svakog dobro odrađenog posla pošalji poruku s direktnim linkom za ostavljanje recenzije. Većina zadovoljnih klijenata rado ostavi zvjezdice, samo ih nitko ne pita." },
       { type: "callout", style: "warning", content: "Nemoj kupovati recenzije ni moliti prijatelje da pišu lažne. Google ih zna prepoznati i kazna je brutalna: profil ti može biti suspendiran, a s njim nestaje i sav trud. Deset pravih recenzija vrijedi više od pedeset kupljenih." },
       { type: "heading", level: 2, content: "Stranica koja govori Googleu gdje si" },
-      { type: "text", content: "Google mora sa stranice moći pročitati čime se baviš i gdje. To znači: grad u naslovu stranice ('Frizerski salon Zagreb | Ime salona'), adresa i telefon vidljivi u footeru na svakoj stranici, i tekst koji prirodno spominje grad i kvart. Ne trebaš trpati 'Zagreb' u svaku rečenicu, dovoljno je da bude jasno gdje radiš." },
+      { type: "text", content: "Google mora sa stranice moći pročitati čime se baviš i gdje. To znači: grad u naslovu stranice ('Frizerski salon Zagreb | Ime salona'), adresa i telefon vidljivi u footeru na svakoj stranici, i tekst koji prirodno spominje grad i kvart. Ne trebaš trpati 'Zagreb' u svaku rečenicu, dovoljno je da bude jasno gdje radiš. Kako inače izgleda stranica posložena za Google, opisali smo kod usluge [Web i aplikacije](/usluge/web-digitalno)." },
       { type: "heading", level: 2, content: "Stranica po usluzi, ne sve na jednoj" },
       { type: "text", content: "Ako radiš pet stvari, napravi pet stranica. Stolar koji ima posebne stranice za kuhinje po mjeri, ugradbene ormare i vrata rangira za svaki od tih pojmova. Stolar koji sve nabroji u jednom odlomku na naslovnici ne rangira ni za što. Svaka stranica usluge treba opis, fotografije radova i poziv na akciju." },
       { type: "heading", level: 2, content: "Konzistentnost podataka" },
@@ -132,7 +132,7 @@ export const blogPosts = [
       { type: "text", content: "Realno: prve pomake vidiš za mjesec do dva, ozbiljne rezultate za tri do šest mjeseci. Lokalni SEO je maraton u kojem većina konkurencije uopće ne trči, pa je dovoljno hodati brže od njih. Jednom kad se popneš, pozicija se drži uz minimalno održavanje." },
       { type: "callout", style: "tip", content: "Mini checklista: verificiran i popunjen Google Business profil, 15+ pravih recenzija na koje odgovaraš, grad u naslovu stranice, zasebna stranica za svaku uslugu, isti podaci svugdje, fotke novije od godinu dana. Pola dana posla, mjeseci rezultata." },
       { type: "heading", level: 2, content: "Za kraj" },
-      { type: "text", content: "Lokalni SEO nije tajna znanost, nego serija dosadnih malih poslova koje većina ne obavi. U tome je prilika: u manjim gradovima i nišama možeš do vrha čistom urednošću. A ako ti se time ne da baviti, to je legitimno, samo nemoj da ti to bude razlog zašto telefon ne zvoni." }
+      { type: "text", content: "Lokalni SEO nije tajna znanost, nego serija dosadnih malih poslova koje većina ne obavi. U tome je prilika: u manjim gradovima i nišama možeš do vrha čistom urednošću. Ako te i uz dobar SEO stranica izdaje, prođi kroz [7 razloga zašto stranica ne dovodi klijente](/blog/zasto-web-stranica-ne-dovodi-klijente). A ako ti se time ne da baviti, to je legitimno, samo nemoj da ti to bude razlog zašto telefon ne zvoni. [Javi se](/contact), preuzet ćemo mi." }
     ]
   },
 
@@ -172,8 +172,8 @@ export const blogPosts = [
         "Formati: isti materijal izrezan za web, Instagram, TikTok i oglase"
       ]},
       { type: "heading", level: 2, content: "Kad je mobitel sasvim dobar" },
-      { type: "text", content: "Iskreno: za dnevni sadržaj na mrežama, storyje i sirove uvide iza kulisa, dobar mobitel u rukama nekog tko zna kadrirati je odličan i besplatan. Nemoj plaćati produkciju za ono što tvoj tim može snimiti sam. Produkcija se isplati tamo gdje video predstavlja firmu: naslovnica weba, reklame u koje ulažeš oglasni budžet, video koji će gledati potencijalni klijent prije nego što ti se javi. Tu razlika u kvaliteti direktno znači razliku u povjerenju." },
-      { type: "callout", style: "tip", content: "Najveća ušteda: batch snimanje. Umjesto četiri odvojena termina kroz godinu, jedan dobro isplaniran dan snimanja iz kojeg izađe promo video, hrpa social klipova i fotografije za web. Predprodukciju i putne troškove platiš jednom, materijala imaš za mjesece." },
+      { type: "text", content: "Iskreno: za dnevni sadržaj na mrežama, storyje i sirove uvide iza kulisa, dobar mobitel u rukama nekog tko zna kadrirati je odličan i besplatan. Nemoj plaćati produkciju za ono što tvoj tim može snimiti sam. Prava [video produkcija](/usluge/video-animacija) se isplati tamo gdje video predstavlja firmu: naslovnica weba, reklame u koje ulažeš oglasni budžet, video koji će gledati potencijalni klijent prije nego što ti se javi. Tu razlika u kvaliteti direktno znači razliku u povjerenju." },
+      { type: "callout", style: "tip", content: "Najveća ušteda: batch snimanje. Umjesto četiri odvojena termina kroz godinu, jedan dobro isplaniran dan snimanja iz kojeg izađe promo video, hrpa social klipova i [fotografije za web](/usluge/fotografija). Predprodukciju i putne troškove platiš jednom, materijala imaš za mjesece." },
       { type: "heading", level: 2, content: "Pitanja za produkciju prije potpisa" },
       { type: "list", ordered: false, items: [
         "Što je uključeno u cijenu: koliko revizija montaže, koliko formata, čija je glazba?",
@@ -183,7 +183,7 @@ export const blogPosts = [
         "Što ako na dan snimanja pada kiša?"
       ]},
       { type: "heading", level: 2, content: "Za kraj" },
-      { type: "text", content: "Video nije trošak nego materijal koji radi mjesecima: na naslovnici, u oglasima, na mrežama. Zato ga gledaj kroz cijenu po mjesecu korištenja, a ne po danu snimanja. Promo video od 2.500 € koji se vrti dvije godine košta te sto eura mjesečno. Za usporedbu, toliko košta i kava dnevno, a kava ti ne dovodi klijente." }
+      { type: "text", content: "Video nije trošak nego materijal koji radi mjesecima: na naslovnici, u oglasima, na mrežama. Zato ga gledaj kroz cijenu po mjesecu korištenja, a ne po danu snimanja. Promo video od 2.500 € koji se vrti dvije godine košta te sto eura mjesečno. Za usporedbu, toliko košta i kava dnevno, a kava ti ne dovodi klijente. Ako razmišljaš o videu, [javi se](/contact), pošteno ćemo ti reći što ti treba, a što ne." }
     ]
   },
 
@@ -215,7 +215,7 @@ export const blogPosts = [
       ]},
       { type: "text", content: "Dobar tjedan izgleda ovako: jedan reels iza kulisa, jedan prije i poslije, jedan savjet. Storyji usput: dnevni posao, anketa, odgovori na pitanja. Nijedna od tih objava ne traži produkciju, traže naviku." },
       { type: "heading", level: 2, content: "Reels, carousel ili obična fotka?" },
-      { type: "text", content: "Reels ima najveći doseg do novih ljudi, jer ga Instagram gura i onima koji te ne prate. Carousel najbolje drži pažnju postojećih pratitelja i odličan je za savjete i prije-poslije. Obična fotka je sasvim legitimna kad je fotka dobra. Ne moraš plesati niti raditi voiceover: reels od 15 sekundi kako nastaje proizvod, ubrzana snimka posla ili prije-poslije s dobrom glazbom rade odlično." },
+      { type: "text", content: "Reels ima najveći doseg do novih ljudi, jer ga Instagram gura i onima koji te ne prate. Carousel najbolje drži pažnju postojećih pratitelja i odličan je za savjete i prije-poslije. Obična fotka je sasvim legitimna kad je fotka dobra. Ne moraš plesati niti raditi voiceover: reels od 15 sekundi kako nastaje proizvod, ubrzana snimka posla ili prije-poslije s dobrom glazbom rade odlično. A kad ti zatreba nešto ozbiljnije od mobitela, evo [koliko košta video produkcija](/blog/koliko-kosta-video-produkcija)." },
       { type: "heading", level: 2, content: "Kada objavljivati? Iskreno, nebitno" },
       { type: "text", content: "Vrijeme objave je najprecjenjenija tema u social medijima. Da, postoje sati kad je tvoja publika aktivnija, i Instagram ti ih pokaže u statistici. Ali razlika između 'dobrog' i 'lošeg' termina je mrvica u usporedbi s razlikom između dobre i loše objave. Objavi kad stigneš, bitno da objaviš." },
       { type: "callout", style: "tip", content: "Batch dan: jednom mjesečno odvoji dva sata, snimi i pripremi 10 do 12 objava unaprijed i posloži ih u raspored. Ostatak mjeseca samo objavljuješ storyje usput. Time se 'vođenje Instagrama' pretvori iz svakodnevne brige u jedan termin u kalendaru." },
@@ -228,7 +228,7 @@ export const blogPosts = [
         "Ne prati brojke svaki dan: gledaj mjesečni trend, dnevno je lutrija"
       ]},
       { type: "heading", level: 2, content: "Kako znati radi li?" },
-      { type: "text", content: "Zaboravi lajkove kao glavnu metriku. Za biznis su bitne tri stvari: javljaju li ti se ljudi u inbox, spominju li Instagram kad te kontaktiraju ('vidjela sam na Instagramu da radite...') i raste li doseg kroz mjesece. Ako se te tri stvari miču, Instagram radi svoj posao, čak i ako lajkova nije puno. Deset pravih upita vrijedi više od tisuću lajkova." }
+      { type: "text", content: "Zaboravi lajkove kao glavnu metriku. Za biznis su bitne tri stvari: javljaju li ti se ljudi u inbox, spominju li Instagram kad te kontaktiraju ('vidjela sam na Instagramu da radite...') i raste li doseg kroz mjesece. Ako se te tri stvari miču, Instagram radi svoj posao, čak i ako lajkova nije puno. Deset pravih upita vrijedi više od tisuću lajkova. A ako želiš da cijeli ovaj sustav, od snimanja do objave, preuzme netko drugi, pogledaj kako vodimo [društvene mreže](/usluge/sadrzaj-drustvene-mreze) ili se [javi](/contact)." }
     ]
   },
 
@@ -266,7 +266,7 @@ export const blogPosts = [
       ]},
       { type: "callout", style: "tip", content: "Biraš li freelancera, traži tri stvari: žive stranice koje je napravio (klikni ih, testiraj na mobitelu), dogovor tko radi izmjene nakon lansiranja, i da sve (domena, hosting, pristupi) glasi na tebe. Zadnje je najvažnije: viđali smo ljude koji su ostali bez vlastite stranice jer je sve bilo na freelancerovom računu." },
       { type: "heading", level: 2, content: "Opcija 3: Agencija" },
-      { type: "text", content: "Od 1.500 € naviše dobivaš tim: dizajn koji nije predložak, razvoj, tekstove, SEO postavke i nekoga tko odgovara i sljedeće godine. Plaćaš više jer više ljudi radi na tvom projektu i jer ostaju dostupni nakon lansiranja." },
+      { type: "text", content: "Od 1.500 € naviše dobivaš tim: dizajn koji nije predložak, razvoj, tekstove, SEO postavke i nekoga tko odgovara i sljedeće godine. Plaćaš više jer više ljudi radi na tvom projektu i jer ostaju dostupni nakon lansiranja. Detaljne raspone cijena po opcijama razložili smo u članku [koliko košta izrada web stranice](/blog/koliko-kosta-izrada-web-stranice), a kako to izgleda kod nas piše na stranici [Web i aplikacije](/usluge/web-digitalno)." },
       { type: "list", ordered: false, items: [
         "Ima smisla kad: stranica ti treba dovoditi posao, a ne samo postojati; želiš jednog partnera za web, a možda i video i mreže",
         "Prednosti: sve na jednom mjestu, kvaliteta i brzina izvedbe, dugoročna podrška, odgovornost",
@@ -281,7 +281,7 @@ export const blogPosts = [
         "U svakom slučaju: domena i pristupi na tvoje ime, uvijek, bez iznimke"
       ]},
       { type: "heading", level: 2, content: "Za kraj, pošteno" },
-      { type: "text", content: "Ne treba svima agencija. Ako ti je web sporedna stvar, kreni jeftinije i nadogradi kasnije, to je pametan put. Ali ako računaš da će ti stranica dovoditi klijente, gledaj je kao ulaganje s povratom, a ne kao trošak koji treba minimizirati. Najskuplji web je onaj koji plaćaš dvaput: prvo jeftino, pa onda opet, ispravno." }
+      { type: "text", content: "Ne treba svima agencija. Ako ti je web sporedna stvar, kreni jeftinije i nadogradi kasnije, to je pametan put. Ali ako računaš da će ti stranica dovoditi klijente, gledaj je kao ulaganje s povratom, a ne kao trošak koji treba minimizirati. Najskuplji web je onaj koji plaćaš dvaput: prvo jeftino, pa onda opet, ispravno. Ako si u fazi odlučivanja, [javi se](/contact), pošteno ćemo ti reći trebaš li nas uopće." }
     ]
   }
 ]

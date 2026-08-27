@@ -13,15 +13,15 @@ import {
 import { SERVICE_VISUALS } from '@/components/mono/serviceVisuals'
 import { SERVICES, SERVICE_DETAILS } from '@/components/mono/serviceData'
 
-export default function ServiceMono({ slug, projects }) {
+export default function ServiceMono({ slug, projects, posts }) {
   return (
     <MonoPage>
-      <ServiceContent slug={slug} projects={projects} />
+      <ServiceContent slug={slug} projects={projects} posts={posts} />
     </MonoPage>
   )
 }
 
-function ServiceContent({ slug, projects = [] }) {
+function ServiceContent({ slug, projects = [], posts = [] }) {
   const openCal = useCalPopup()
   const meta = SERVICES.find((s) => s.slug === slug)
   const detail = SERVICE_DETAILS[slug]
@@ -197,6 +197,48 @@ function ServiceContent({ slug, projects = [] }) {
       )}
 
       <MonoTestimonials />
+
+      {/* Related blog posts */}
+      {posts.length > 0 && (
+        <section className="mx-auto max-w-[1200px] px-5 pb-20 md:pb-28">
+          <Reveal>
+            <div className="mb-10 flex items-end justify-between gap-6">
+              <div>
+                <Eyebrow>Čitaj više</Eyebrow>
+                <h2 className="mt-3 text-3xl font-medium md:text-4xl" style={{ letterSpacing: '-0.02em' }}>
+                  S bloga, bez žargona.
+                </h2>
+              </div>
+              <Link
+                href="/blog"
+                className="hidden shrink-0 rounded-full px-5 py-2.5 text-sm transition-colors hover:text-white md:block"
+                style={{ border: `1px solid ${LINE}`, color: MUTED }}
+              >
+                Svi članci →
+              </Link>
+            </div>
+          </Reveal>
+          <div className="grid gap-4 md:grid-cols-3">
+            {posts.map((p, i) => (
+              <Reveal key={p.slug} delay={(i % 3) * 0.06}>
+                <Link
+                  href={`/blog/${p.slug}`}
+                  className="nf-card flex h-full flex-col rounded-[24px] p-5"
+                  style={{ background: PANEL, border: `1px solid ${LINE}` }}
+                >
+                  <p className="text-[11px] uppercase" style={{ fontFamily: MONO, letterSpacing: '0.14em', color: MUTED }}>
+                    {p.category} · {p.readTime}
+                  </p>
+                  <h3 className="mt-3 text-lg font-medium leading-snug">{p.title}</h3>
+                  <p className="nf-arrow mt-auto pt-5 text-sm" style={{ color: MUTED }}>
+                    Pročitaj →
+                  </p>
+                </Link>
+              </Reveal>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Other services */}
       <section className="mx-auto max-w-[1200px] px-5 pb-20 md:pb-28">

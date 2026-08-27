@@ -19,6 +19,44 @@ const TYPE_LABELS = {
   mobile_app: 'Mobile App',
 }
 
+// Service detail pages related to a project, for SEO cross-linking. Primary
+// match comes from project_type; the rest from keywords in the free-text
+// services list (CMS entries mix Croatian and English naming).
+const TYPE_TO_SERVICE = {
+  web_development: 'web-digitalno',
+  web_app: 'web-digitalno',
+  mobile_app: 'web-digitalno',
+  video_production: 'video-animacija',
+  social_media: 'sadrzaj-drustvene-mreze',
+}
+
+const KEYWORD_SERVICES = [
+  [/photo|fotograf/i, 'fotografija'],
+  [/video|animac/i, 'video-animacija'],
+  [/brand|brend|logo|identitet/i, 'strategija-branding'],
+  [/social|mrež|drustv|društv/i, 'sadrzaj-drustvene-mreze'],
+]
+
+const SERVICE_LABELS = {
+  'web-digitalno': 'Web i aplikacije',
+  'video-animacija': 'Video i animacija',
+  'fotografija': 'Fotografija',
+  'strategija-branding': 'Strategija i branding',
+  'sadrzaj-drustvene-mreze': 'Sadržaj i društvene mreže',
+}
+
+function getRelatedServiceSlugs(project) {
+  const slugs = []
+  const primary = TYPE_TO_SERVICE[project.project_type]
+  if (primary) slugs.push(primary)
+  for (const [re, slug] of KEYWORD_SERVICES) {
+    if (!slugs.includes(slug) && (project.services || []).some((s) => re.test(s))) {
+      slugs.push(slug)
+    }
+  }
+  return slugs
+}
+
 function getDomain(url) {
   if (!url) return null
   try {
@@ -184,6 +222,20 @@ export default function ProjectMono({ project, relatedProjects }) {
                       <Pill key={s}>{s}</Pill>
                     ))}
                   </div>
+                  {getRelatedServiceSlugs(project).length > 0 && (
+                    <div className="mt-4 flex flex-col gap-1.5">
+                      {getRelatedServiceSlugs(project).map((slug) => (
+                        <Link
+                          key={slug}
+                          href={`/usluge/${slug}`}
+                          className="text-sm transition-colors hover:text-white"
+                          style={{ color: BODY }}
+                        >
+                          {SERVICE_LABELS[slug]} →
+                        </Link>
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
 
