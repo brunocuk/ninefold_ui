@@ -54,5 +54,35 @@ export default async function ServicePage({ params }) {
     .filter(Boolean)
     .map(({ slug: postSlug, title, category, readTime }) => ({ slug: postSlug, title, category, readTime }))
 
-  return <ServiceMono slug={slug} projects={projects} posts={posts} />
+  const url = `https://www.ninefold.eu/usluge/${slug}`
+  const jsonLd = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      name: detail.title,
+      description: detail.metaDescription,
+      url,
+      provider: { '@id': 'https://www.ninefold.eu/#organization' },
+      areaServed: { '@type': 'Country', name: 'Hrvatska' },
+      inLanguage: 'hr',
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Usluge', item: 'https://www.ninefold.eu/usluge' },
+        { '@type': 'ListItem', position: 2, name: detail.title, item: url },
+      ],
+    },
+  ]
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <ServiceMono slug={slug} projects={projects} posts={posts} />
+    </>
+  )
 }

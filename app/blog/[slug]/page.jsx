@@ -41,5 +41,40 @@ export default async function BlogPostPage({ params }) {
     .slice(0, 3)
     .map(({ content, ...p }) => p)
 
-  return <BlogPostMono post={post} related={related} />
+  const url = `https://www.ninefold.eu/blog/${slug}`
+  const jsonLd = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      headline: post.title,
+      description: post.metaDescription || post.excerpt,
+      image: post.heroImage ? `https://www.ninefold.eu${post.heroImage}` : undefined,
+      datePublished: post.publishedAt,
+      inLanguage: 'hr',
+      mainEntityOfPage: url,
+      author: {
+        '@type': 'Person',
+        name: post.author?.name === 'Petar' ? 'Petar Zirdum' : 'Bruno Čukić',
+      },
+      publisher: { '@id': 'https://www.ninefold.eu/#organization' },
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Blog', item: 'https://www.ninefold.eu/blog' },
+        { '@type': 'ListItem', position: 2, name: post.title, item: url },
+      ],
+    },
+  ]
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <BlogPostMono post={post} related={related} />
+    </>
+  )
 }

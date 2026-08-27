@@ -10,16 +10,38 @@ import CookieConsent from '@/components/CookieConsent'
 import { Analytics } from '@vercel/analytics/react'
 
 export const metadata = {
-  title: 'Ninefold - Premium Web Development',
-  description: 'We build exceptional digital products for ambitious companies.',
+  metadataBase: new URL('https://www.ninefold.eu'),
+  title: 'Ninefold | Kreativna Agencija Zagreb - Web, Video, Branding',
+  description: 'Kreativna agencija iz Zagreba. Web, video, fotografija i branding, sve pod jednim krovom.',
   charset: 'utf-8',
+}
+
+// Sitewide Organization schema so Google connects every page to the brand.
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': 'https://www.ninefold.eu/#organization',
+  name: 'Ninefold',
+  url: 'https://www.ninefold.eu',
+  logo: 'https://www.ninefold.eu/ninefold-icon.svg',
+  email: 'hello@ninefold.eu',
+  description: 'Kreativna agencija iz Zagreba. Web, video, fotografija i branding, sve pod jednim krovom.',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Zagreb',
+    addressCountry: 'HR',
+  },
 }
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="hr" className="dark">
       <head>
         <meta charSet="utf-8" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
       </head>
       <body>
         <ScrollToTop />

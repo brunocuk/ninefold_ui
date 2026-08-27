@@ -155,12 +155,21 @@ export default async function ProjectPage({ params }) {
     },
   };
 
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Radovi', item: 'https://www.ninefold.eu/work' },
+      { '@type': 'ListItem', position: 2, name: project.title, item: `https://www.ninefold.eu/work/${project.slug}` },
+    ],
+  };
+
   return (
     <>
       {/* Structured Data */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify([jsonLd, breadcrumbJsonLd]) }}
       />
 
       {/* Client Component for Interactivity */}
