@@ -24,7 +24,7 @@ export const blogPosts = [
         "Freelancer, jednostavna stranica na predlošku: 400 do 1.500 €",
         "Agencija, custom dizajn za manji biznis (5 do 10 stranica): 1.500 do 4.000 €",
         "Ozbiljnija poslovna stranica s custom funkcionalnostima: 4.000 do 8.000 €",
-        "Web shop ili custom aplikacija: od 8.000 € naviše, realno bez gornje granice"
+        "Web shop: od 2.000 € za manju trgovinu do 10.000+ za velika custom rješenja, detalje smo razložili u [vodiču za cijene web shopova](/blog/koliko-kosta-izrada-web-shopa)"
       ]},
       { type: "text", content: "Ovi rasponi vrijede za hrvatsko tržište. U Njemačkoj ili Skandinaviji pomnoži sve s dva ili tri. Ako ti netko nudi custom stranicu za 300 €, dobit ćeš predložak s promijenjenim logom. To nije nužno loše, ali trebaš znati što kupuješ." },
       { type: "heading", level: 2, content: "Što zapravo diže cijenu" },
@@ -282,6 +282,70 @@ export const blogPosts = [
       ]},
       { type: "heading", level: 2, content: "Za kraj, pošteno" },
       { type: "text", content: "Ne treba svima agencija. Ako ti je web sporedna stvar, kreni jeftinije i nadogradi kasnije, to je pametan put. Ali ako računaš da će ti stranica dovoditi klijente, gledaj je kao ulaganje s povratom, a ne kao trošak koji treba minimizirati. Najskuplji web je onaj koji plaćaš dvaput: prvo jeftino, pa onda opet, ispravno. Ako si u fazi odlučivanja, [javi se](/contact), pošteno ćemo ti reći trebaš li nas uopće." }
+    ]
+  },
+
+  {
+    id: 7,
+    slug: "koliko-kosta-izrada-web-shopa",
+    title: "Koliko košta izrada web shopa u Hrvatskoj?",
+    excerpt: "Web shop nije web stranica s košaricom. Evo stvarnih raspona cijena za 2026., troškova koji dolaze tek nakon lansiranja i računice kad se shop uopće isplati.",
+    category: "Web",
+    author: { name: "Bruno", role: "Web", avatar: "/images/team/bruno.png" },
+    publishedAt: "2026-08-27",
+    readTime: "8 min čitanja",
+    featured: false,
+    thumbnail: "/images/blog/hr/koliko-kosta-izrada-web-shopa.webp",
+    heroImage: "/images/blog/hr/koliko-kosta-izrada-web-shopa.webp",
+    tags: ["Web shop", "Cijene", "Vodič"],
+    metaDescription: "Koliko košta izrada web shopa u Hrvatskoj 2026.? Konkretni rasponi cijena, troškovi koje nitko ne spomene i kako znati koja opcija ima smisla za tebe.",
+    content: [
+      { type: "text", content: "Web shop je najčešće krivo shvaćen proizvod u cijelom webu. Ljudi ga zamišljaju kao običnu stranicu s košaricom, pa se iznenade i cijenama i poslom koji dolazi poslije. Zato krenimo od brojki, a onda pošteno o svemu što uz njih ide. Ako te zanimaju cijene običnih stranica, njih smo razložili u članku [koliko košta izrada web stranice](/blog/koliko-kosta-izrada-web-stranice)." },
+      { type: "heading", level: 2, content: "Kratki odgovor: rasponi cijena u 2026." },
+      { type: "list", ordered: false, items: [
+        "Sam preko Shopifya ili Wixa: 30 do 50 € mjesečno plus provizije, i tvoje vrijeme",
+        "Gotova tema na WooCommerceu preko freelancera: 500 do 1.500 €",
+        "Manja custom trgovina (do 30-ak proizvoda, kartično plaćanje, dostava): 1.500 do 4.000 €",
+        "Shop po mjeri s custom dizajnom i integracijama: 4.000 do 10.000 €",
+        "Veliki shopovi, ERP i sinkronizacija skladišta: od 10.000 € naviše"
+      ]},
+      { type: "text", content: "Kao i kod stranica, rasponi su za hrvatsko tržište. Razlika između najjeftinije i najskuplje opcije nije u tome ima li shop košaricu, nego u svemu oko nje: brzini, dizajnu, tome kako ga Google rangira i koliko posla imaš ti kao vlasnik." },
+      { type: "heading", level: 2, content: "Što zapravo diže cijenu" },
+      { type: "list", ordered: false, items: [
+        "Broj proizvoda i varijanti: 15 proizvoda i 500 proizvoda s veličinama i bojama nisu isti posao",
+        "Načini plaćanja: kartice, pouzeće, virman. Svaka integracija se postavlja i testira",
+        "Dostava: zone, cjenici dostavljača, praćenje pošiljki",
+        "Opisi i fotografije proizvoda: netko ih mora napisati i snimiti, a to je često pola posla",
+        "Integracije: računovodstvo, fiskalizacija, newsletteri, skladište",
+        "Edukacija: shop vodiš ti, pa moraš znati unositi proizvode i obrađivati narudžbe"
+      ]},
+      { type: "heading", level: 2, content: "Troškovi koji dolaze tek nakon lansiranja" },
+      { type: "text", content: "Kod web shopa je ovo važnije nego kod obične stranice, jer shop je živ sustav, a ne brošura." },
+      { type: "list", ordered: false, items: [
+        "Provizije na kartično plaćanje: tipično 1,5 do 3% po transakciji",
+        "Hosting i domena: 10 do 40 € mjesečno za većinu shopova",
+        "Održavanje i nadogradnje: 30 do 150 € mjesečno, ovisno o opsegu",
+        "Licence za teme i dodatke ako si na gotovoj platformi",
+        "Marketing: shop bez posjetitelja je skladište. Računaj na budžet za oglase ili SEO"
+      ]},
+      { type: "callout", style: "warning", content: "Najčešća greška koju viđamo: sav budžet ode na izradu, a za dovođenje kupaca ne ostane ništa. Bolji je jednostavniji shop plus budžet za oglase nego savršen shop na koji nitko ne dolazi." },
+      { type: "heading", level: 2, content: "Shopify, WooCommerce ili custom?" },
+      { type: "text", content: "Shopify je najbrži put do prve prodaje: mjesečna pretplata, sve uključeno, ali plaćaš provizije i izgledaš kao tema koju su kupili i drugi. WooCommerce je fleksibilniji i jeftiniji dugoročno, ali traži održavanje i zna se raspasti nakon nadogradnji. Custom shop najviše košta na početku, ali je najbrži, izgleda kao tvoj brend i nema mjesečnih provizija platformi. Nijedna opcija nije univerzalno najbolja, ovisi o fazi u kojoj je tvoj biznis." },
+      { type: "heading", level: 2, content: "Kad je gotova platforma pametan izbor" },
+      { type: "text", content: "Ako tek testiraš hoće li tvoj proizvod uopće prodavati online, kreni sa Shopifyem ili čak Instagramom i pošalji ljude na plaćanje pouzećem. Nemoj trošiti tisuće eura dok ne znaš da potražnja postoji. Shop se uvijek može nadograditi kad brojke to opravdaju." },
+      { type: "heading", level: 2, content: "Kad se custom shop isplati" },
+      { type: "text", content: "Kad znaš da prodaješ i kad ti provizije, sporost ili izgled gotove teme počnu jesti maržu i povjerenje. Brži shop znači manje napuštenih košarica, bolji Google znači besplatne posjete, a dizajn po mjeri znači da te se kupci sjećaju. Ako shop napravi par tisuća eura prometa mjesečno, razlika u konverziji od jedan posto plaća razliku u cijeni za koju godinu dana, a često i puno prije." },
+      { type: "callout", style: "info", content: "Kod nas u Ninefoldu [izrada web shopa](/izrada-web-shopa) kreće od 1.990 € za mini trgovinu s kartičnim plaćanjem i edukacijom, a shop po mjeri od 3.990 €. Cijena je fiksna i poznata prije početka. Ako već imaš ponudu i želiš drugo mišljenje, [javi se](/contact), besplatno ćemo je pogledati." },
+      { type: "heading", level: 2, content: "Pitanja koja postavi prije potpisa" },
+      { type: "list", ordered: false, items: [
+        "Tko unosi proizvode i koliko ih je uključeno u cijenu?",
+        "Što je s provizijama: koliko ide platformi, a koliko kartičaru?",
+        "Čiji je shop, domena i svi pristupi ako se raziđemo?",
+        "Uključuje li cijena edukaciju za vođenje narudžbi?",
+        "Koliko košta održavanje i što točno pokriva?"
+      ]},
+      { type: "heading", level: 2, content: "Za kraj" },
+      { type: "text", content: "Web shop nije trošak izrade nego biznis s vlastitom matematikom: koliko košta posjetitelj, koliko ih kupi i koliko zaradiš po narudžbi. Izrada je samo ulaznica. Zato biraj opciju po fazi u kojoj jesi: testiraš li ideju, kreni jeftino; prodaješ li ozbiljno, kupi alat koji prodaje bolje od konkurencije. I u oba slučaja, prije potpisa postavi ista pitanja svima i usporedi što stvarno dobivaš." }
     ]
   }
 ]
