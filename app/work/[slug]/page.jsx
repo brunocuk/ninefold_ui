@@ -1,6 +1,8 @@
 // app/work/[slug]/page.jsx
 // Server component for SEO
 
+export const revalidate = 3600;
+
 import { notFound } from 'next/navigation';
 import { createClient } from '@supabase/supabase-js';
 import ProjectMono from '@/components/mono/ProjectMono';
