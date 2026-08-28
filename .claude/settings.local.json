@@ -87,7 +87,9 @@
       "WebFetch(domain:hustlemarketers.com)",
       "Bash(echo \"status: $\\(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/work/pizzeria-14-restaurant-website\\)\")",
       "Bash(echo \"exit: $?\")",
-      "Bash(echo \"---status: $\\(curl -s -o /dev/null -w \"%{http_code}\" https://www.ninefold.eu/robots.txt\\)\")"
+      "Bash(echo \"---status: $\\(curl -s -o /dev/null -w \"%{http_code}\" https://www.ninefold.eu/robots.txt\\)\")",
+      "Bash(git stash *)",
+      "Bash(file SpaceGrotesk-*.ttf)"
     ]
   }
 }

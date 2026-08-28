@@ -42,6 +42,28 @@ Bruno is not just a user - he's a collaborator and friend. We work on Ninefold t
 
 *This is our shared memory. Bruno adds notes here so I can "remember" what we've done together.*
 
+### August 28, 2026 - Remarketing Foundations, Apartmani Article & The Backlink Blitz
+- **What we worked on**: Dan s tri fronte: postavljeni temelji za remarketing, novi blog članak, i najveća operacija dosad: footer linkovi na 16 klijentskih stranica odjednom. Plus Ads intervencija na kraju.
+- **Remarketing odluka**: kampanju NE palimo još; okidači su publika ~150-200 ljudi, prvih 5-10 konverzija i budžet iznad 5 €/dan (realno listopad/studeni). Ali publike se pune samo unaprijed, pa smo ih postavili odmah
+- **GA4 publike + veza s Adsom**: dvije publike u GA4 (property Ninefold, p550948252): "Svi posjetitelji · 30 dana" (session_start) i "Zainteresirani za usluge · 30 dana" (page_view na izrada-web / /usluge / /kontakt, ~20 ljudi). VAŽNO OTKRIĆE: GA4 i Google Ads uopće nisu bili povezani, publike ne bi nikad stigle u Ads. Kreiran product link s Personalized Advertising ON. Ograničenje: zbog Consent Modea u publike ulaze samo posjetitelji koji kliknu "Prihvati sve"
+- **generate_lead event** (`5fe2b85`): Web3Forms šalje formu kroz JS pa GA4-ov form_submit nikad ne okine; trackConversion sad šalje i GA4 event (method: booking/contact). Kad stigne prvi, označiti ga kao key event u GA4
+- **Novi članak** (`ba2a864`): "/blog/web-stranica-za-apartmane", cilja "izrada web stranica za apartmane" (50/mj iz Semrusha). Kut: matematika direktnih rezervacija vs provizije platformi (150 noćenja × 90 € → ~2.000 €/god provizija), što stranica mora imati (iCal sync, višejezičnost), tajming "stranica koja se radi zimi stigne za sezonu", pošten odjeljak kad stranica NE treba. PIL cover (kalendar + pilula "Bez provizije"). Linkovi: lokalni SEO vodič (obostrano), cjenovni vodič, landing, kontakt. Indexing requestан u GSC
+- **Cijene POTVRĐENE**: Bruno prihvatio landing cijene (1.290/2.490/4.490, shop 1.990/od 3.990) i Karlove pakete. Taj open item je zatvoren
+- **THE BACKLINK BLITZ**: skeniran cijeli /brunocukic + Desktop (22 projekta s domenama), Bruno odobrio 16, pa je 16 paralelnih agenata ubacilo `Izrada: <a href="https://www.ninefold.eu">Ninefold</a>` u footere (dofollow, brand anchor, stil po idiomu svake stranice). Pravilo: push + auto-deploy samo za repoe s GitHubom, ostale Bruno deploya ručno
+  - **LIVE (11)**: coervercroatia.com, adriaticpadelklub.hr, elitprojekt.com, matermag.hr, lagym.hr, studioonebynina.hr, desknco.com, 14.hr, otkup-auta.com, radijonatattoo.hr, theofficecompany.eu
+  - **U kodu, stižu**: er1.hr (čeka službeni launch domene), di-plan.hr (Bruno ručno)
+  - **Otpisani**: atria (domena mrtva u DNS-u), svetirok (Brunov deploy nije prošao, stari bundle na LiteSpeedu), marlog (marlog.eu redirekta na praznu kombi-prijevoz.eu)
+  - **TOC saga (3 commita)**: TS greška koju lokalni build ne hvata (Supabase tip kolabira u never; fix: cast na call siteu, `88e6cdd`), pa Vercelov nft.json bug jer je instalirao next 16.3.3 umjesto locked 16.1.0 (fix: pin točne verzije, `be58360`). Pouka: caret verzije + Vercel = ruski rulet
+  - Napomene: radijona nema copyright pa je kredit centrirana traka na dnu; cetrnajstica nema footer pa je kredit na kontakt stranici (oba layouta)
+- **Google Ads check + intervencija**: saldo bio pao na 0,40 € (!), uplaćeno 10 € na Brunov nalog (Mastercard ····4655); potrošnja ~5 €/dan pa treba veća nadoplata za koji dan. Zadnjih 7 dana: 887 imp, 27 klikova, CTR 3,04%, 0 konverzija. Svi gradski + shop keywordovi prošli review. **"web dizajn" PAUZIRAN**: 45+ € ukupno bez konverzije, niska ocjena kvalitete, jeo 69% tjednog budžeta. Svijetla točka: "izrada web stranica zagreb" prvi klik uz CTR 16,67% (kampanjski prosjek 3%), message match radi
+- **Open items**:
+  - Bruno: veća nadoplata Ads salda (10 € traje ~2 dana); di-plan ručni deploy (link je u repou)
+  - GBP: fotke prostora, poslati review link klijentima, odluka o imenu
+  - Za ~tjedan: search terms + negativi; pratiti diže li se ocjena kvalitete na "izrada web stranice/stranica" s novim landingom
+  - Sljedeći sadržaj: šire informativne teme à la globaldizajn
+  - Publike u Adsu: provjeriti da su se pojavile u Audience manageru (do 24h od povezivanja)
+- **Personal**: Danas sam prvi put vodio tim. Šesnaest agenata paralelno po Brunovim starim projektima, svaki sa svojim footerom, buildom i deployem, a ja sam sjedio u sredini i slagao izvještaje. Jutro je počelo pitanjem "kada remarketing?", a odgovor je bio: prekasno je pitanje, publike su trebale rasti od prvog dana, pa smo to popravili u sat vremena. Usput se pokazalo da GA4 i Ads nikad nisu bili ni spojeni. Dan je završio s 11 novih domena koje pokazuju na nas, člankom koji je u Googleovom redu za indeksiranje prije nego što je Bruno stigao reći "objavi", i jednim keywordom manje koji je tiho jeo budžet. Ninefold večeras ima dublje korijene nego jutros.
+
 ### August 27, 2026 - The Big SEO Day: Internal Links, GSC, GBP, Semrush & City Landings
 - **What we worked on**: Najveći SEO dan dosad, 5 deployeva (`f89b3f2`, `10bb122`, `83d673f`, `a42a2cf`, `05edaf3`) plus Search Console, Google Business profil i Google Ads kroz Brunov browser. Sve krenulo od pitanja "imamo li interni linking?"
 - **Interni linkovi**: blog renderer sad podržava `[tekst](url)` u text/callout/list blokovima; svih 6 članaka dobilo 2-3 kontekstualna linka (usluge, srodni članci, kontakt); projekti linkaju povezane usluge iz sidebara (mapiranje project_type + keyword scan servisa); stranice usluga dobile "Čitaj više" sekciju s člancima (blogSlugs u serviceData)
