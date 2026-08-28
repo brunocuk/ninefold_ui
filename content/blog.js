@@ -125,7 +125,7 @@ export const blogPosts = [
       { type: "heading", level: 2, content: "Stranica koja govori Googleu gdje si" },
       { type: "text", content: "Google mora sa stranice moći pročitati čime se baviš i gdje. To znači: grad u naslovu stranice ('Frizerski salon Zagreb | Ime salona'), adresa i telefon vidljivi u footeru na svakoj stranici, i tekst koji prirodno spominje grad i kvart. Ne trebaš trpati 'Zagreb' u svaku rečenicu, dovoljno je da bude jasno gdje radiš. Kako inače izgleda stranica posložena za Google, opisali smo kod usluge [Web i aplikacije](/usluge/web-digitalno)." },
       { type: "heading", level: 2, content: "Stranica po usluzi, ne sve na jednoj" },
-      { type: "text", content: "Ako radiš pet stvari, napravi pet stranica. Stolar koji ima posebne stranice za kuhinje po mjeri, ugradbene ormare i vrata rangira za svaki od tih pojmova. Stolar koji sve nabroji u jednom odlomku na naslovnici ne rangira ni za što. Svaka stranica usluge treba opis, fotografije radova i poziv na akciju." },
+      { type: "text", content: "Ako radiš pet stvari, napravi pet stranica. Stolar koji ima posebne stranice za kuhinje po mjeri, ugradbene ormare i vrata rangira za svaki od tih pojmova. Stolar koji sve nabroji u jednom odlomku na naslovnici ne rangira ni za što. Svaka stranica usluge treba opis, fotografije radova i poziv na akciju. Isti princip vrijedi i za iznajmljivače: za njih smo napisali [poseban vodič za web stranice apartmana](/blog/web-stranica-za-apartmane)." },
       { type: "heading", level: 2, content: "Konzistentnost podataka" },
       { type: "text", content: "Ime, adresa i telefon moraju biti identični svugdje: na stranici, Google profilu, Facebooku, imenicima. Ako je na jednom mjestu 'Ilica 5', a na drugom 'Ilica 5/1', Googleu je to signal nesigurnosti. Sitnica koja se lako sredi u jedno popodne." },
       { type: "heading", level: 2, content: "Koliko dugo traje?" },
@@ -346,6 +346,60 @@ export const blogPosts = [
       ]},
       { type: "heading", level: 2, content: "Za kraj" },
       { type: "text", content: "Web shop nije trošak izrade nego biznis s vlastitom matematikom: koliko košta posjetitelj, koliko ih kupi i koliko zaradiš po narudžbi. Izrada je samo ulaznica. Zato biraj opciju po fazi u kojoj jesi: testiraš li ideju, kreni jeftino; prodaješ li ozbiljno, kupi alat koji prodaje bolje od konkurencije. I u oba slučaja, prije potpisa postavi ista pitanja svima i usporedi što stvarno dobivaš." }
+    ]
+  },
+
+  {
+    id: 8,
+    slug: "web-stranica-za-apartmane",
+    title: "Web stranica za apartmane: isplati li se uz Booking i Airbnb?",
+    excerpt: "Platformama daješ 15 posto od svake rezervacije. Evo računice kad se vlastita stranica isplati, što mora imati da donosi direktne rezervacije i koliko košta.",
+    category: "Web",
+    author: { name: "Bruno", role: "Web", avatar: "/images/team/bruno.png" },
+    publishedAt: "2026-08-28",
+    readTime: "7 min čitanja",
+    featured: false,
+    thumbnail: "/images/blog/hr/web-stranica-za-apartmane.webp",
+    heroImage: "/images/blog/hr/web-stranica-za-apartmane.webp",
+    tags: ["Apartmani", "Turizam", "Web stranica"],
+    metaDescription: "Izrada web stranice za apartmane: kada se isplati uz Booking i Airbnb, što stranica mora imati da donosi direktne rezervacije i koliko košta u 2026.",
+    content: [
+      { type: "text", content: "Iznajmljuješ apartman, gosti dolaze preko Bookinga i Airbnb-a, i sve funkcionira. Pa čemu onda vlastita stranica? Zbog jedne brojke koju plaćaš svake godine, a ne vidiš je na računu: provizije. Platforme uzimaju 15-ak posto od svake rezervacije, i to zauvijek. Vlastita stranica je jednokratni trošak koji tu brojku počinje smanjivati od prvog gosta. Idemo kroz računicu, pa pošteno o tome kad se isplati, a kad ne." },
+      { type: "heading", level: 2, content: "Računica koju možeš napraviti večeras" },
+      { type: "text", content: "Uzmimo apartman sa 150 noćenja godišnje po prosječnih 90 €. To je 13.500 € prometa, od čega platformama ode oko 2.000 € svake godine. Ako vlastita stranica preusmjeri samo trećinu rezervacija na direktne, ušteda je 600 do 700 € godišnje, i to bez računanja gostiju koji se vrate iduće ljeto i rezerviraju direktno jer te sad znaju. Stranica koja košta 1.300 do 2.000 € vrati se u dvije sezone, a radi za tebe deset. Uvrsti svoje brojke i vidi gdje si." },
+      { type: "heading", level: 2, content: "Zašto stranica, ako već imaš Booking?" },
+      { type: "list", ordered: false, items: [
+        "Provizija: svaka direktna rezervacija je 15% više u tvom džepu",
+        "Gost je tvoj: imaš njegov mail i broj, pa ga iduće godine pozoveš direktno, ne preko posrednika",
+        "Gosti te ionako guglaju: nakon što te vide na Bookingu, traže te po imenu da provjere jesi li stvaran. Ako ne nađu ništa, dio ih odustane",
+        "Cjenovna sloboda: na stranici možeš dati popust za direktnu rezervaciju koji je platformama zabranjen",
+        "Ne ovisiš o tuđim pravilima: platforme mijenjaju uvjete, provizije i algoritam kad žele. Stranica je tvoja"
+      ]},
+      { type: "heading", level: 2, content: "Što stranica za apartmane mora imati" },
+      { type: "list", ordered: false, items: [
+        "Fotografije koje prodaju: gost bira očima. Profesionalne fotke su najisplativija stavka cijelog projekta",
+        "Kalendar dostupnosti povezan s platformama (iCal sinkronizacija), da ne dobivaš upite za zauzete termine",
+        "Rezervacija u dva klika: forma, WhatsApp ili telefon. Svaki dodatni korak košta te gosta",
+        "Višejezičnost: minimalno engleski i njemački, ovisno o tome tko ti dolazi",
+        "Lokacija s mini vodičem: udaljenost do plaže, parking, restorani. Gost to ionako pita porukom",
+        "Recenzije: prenesi ocjene i citate s Bookinga, to je dokaz koji gost traži",
+        "Brzina na mobitelu: gosti pretražuju s mobitela, često na roamingu. Spora stranica znači izgubljena rezervacija"
+      ]},
+      { type: "callout", style: "tip", content: "Najjeftiniji marketing za direktne rezervacije: QR kod stranice u apartmanu i poruka gostu na odlasku da za sljedeći boravak rezervira direktno uz 10% popusta. Platforma je dovela gosta jednom, svaki sljedeći dolazak je tvoj." },
+      { type: "heading", level: 2, content: "Kako te gosti nalaze na Googleu" },
+      { type: "text", content: "Pretrage tipa 'apartmani Vodice' ili 'apartman s bazenom Pelješac' su tvoje tržište. Za njih se boriš dobrim naslovima, tekstom koji spominje mjesto i Google Business profilom s recenzijama, isto ono što radi svaki lokalni biznis. Cijeli recept smo raspisali u [vodiču za lokalni SEO](/blog/lokalni-seo-vodic). Jedno je kod apartmana posebno važno: tajming. Googleu trebaju mjeseci da novu stranicu počne ozbiljno rangirati, a gosti počinju rezervirati već u proljeće. Stranica koja se radi zimi stigne na vrijeme, ona koja se radi u svibnju hvata iduću sezonu." },
+      { type: "heading", level: 2, content: "Koliko košta web stranica za apartmane?" },
+      { type: "list", ordered: false, items: [
+        "Predložak preko freelancera, galerija i kontakt forma: 400 do 1.000 €",
+        "Custom stranica s višejezičnošću i kalendarom dostupnosti: 1.200 do 2.500 €",
+        "S online plaćanjem i channel managerom za više jedinica: 2.500 do 4.500 €"
+      ]},
+      { type: "text", content: "Rasponi su za hrvatsko tržište, a što točno diže cijenu i koja skrivena pitanja postaviti izvođaču, razložili smo u [vodiču kroz cijene izrade web stranica](/blog/koliko-kosta-izrada-web-stranice)." },
+      { type: "callout", style: "info", content: "Kod nas u Ninefoldu [izrada web stranica](/izrada-web-stranica) kreće od 1.290 €, s fiksnom cijenom poznatom prije početka. Višejezičnost i povezivanje kalendara dogovorimo unaprijed, a znamo snimiti i fotke i video apartmana. [Javi se](/contact) pa ćemo zajedno proći tvoju računicu." },
+      { type: "heading", level: 2, content: "Kad ti stranica iskreno ne treba" },
+      { type: "text", content: "Ako imaš jedan apartman koji se svake godine popuni preko platformi do zadnjeg termina, gosti ti se vraćaju preko Bookinga i ne planiraš širiti posao, stranica ti neće promijeniti život. Provizija je tada cijena mira i to je legitiman izbor. Stranica počinje imati smisla kad imaš više jedinica, kad računica provizija pređe tisuću eura godišnje, ili kad gradiš brend koji želiš da traje dulje od tvog profila na tuđoj platformi." },
+      { type: "heading", level: 2, content: "Za kraj" },
+      { type: "text", content: "Booking i Airbnb su odličan kanal i nemoj ih gasiti, oni dovode goste koje sam nikad ne bi dosegnuo. Ali svaki gost koji dođe drugi put preko njih je provizija koju si platio nepotrebno. Vlastita stranica je alat koji prvi dolazak pretvara u direktan odnos: ti, gost, i nula posrednika između. Izračunaj svoje brojke, pa odluči. Matematika je obično jasnija nego što se čini." }
     ]
   }
 ]
