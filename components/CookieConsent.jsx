@@ -69,6 +69,9 @@ export function trackConversion(key) {
   if (!label || !ADS_ID || firedConversions.has(key)) return
   firedConversions.add(key)
   gtag('event', 'conversion', { send_to: `${ADS_ID}/${label}` })
+  // GA4 copy of the same conversion (Web3Forms submits via JS, so GA4's
+  // automatic form_submit never fires); used for audiences and reports
+  if (GA_ID) gtag('event', 'generate_lead', { send_to: GA_ID, method: key })
 }
 
 let gtagLoaded = false
