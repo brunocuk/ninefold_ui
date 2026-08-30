@@ -74,6 +74,12 @@ export function trackConversion(key) {
   if (GA_ID) gtag('event', 'generate_lead', { send_to: GA_ID, method: key })
 }
 
+// Lightweight GA4 event (not an Ads conversion): WhatsApp clicks and similar
+// micro-signals we want in reports and audiences.
+export function trackEvent(name, params = {}) {
+  if (GA_ID) gtag('event', name, { send_to: GA_ID, ...params })
+}
+
 let gtagLoaded = false
 function loadGtag() {
   if (gtagLoaded || !GA_ID) return

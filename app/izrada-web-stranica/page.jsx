@@ -13,6 +13,36 @@ export const metadata = {
   },
 }
 
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: data.h1,
+    description: data.metaDescription,
+    url: 'https://www.ninefold.eu/izrada-web-stranica',
+    provider: { '@id': 'https://www.ninefold.eu/#organization' },
+    areaServed: { '@type': 'Country', name: 'Hrvatska' },
+    inLanguage: 'hr',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: data.faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+]
+
 export default function IzradaWebStranicaPage() {
-  return <LandingMono slug="izrada-web-stranica" />
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <LandingMono slug="izrada-web-stranica" />
+    </>
+  )
 }

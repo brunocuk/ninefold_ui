@@ -11,7 +11,7 @@ const baseUrl = 'https://www.ninefold.eu'
 export default async function sitemap() {
   const now = new Date().toISOString()
 
-  const staticRoutes = ['', '/about', '/usluge', '/work', '/contact', '/blog', '/izrada-web-stranica', '/izrada-web-shopa'].map((route) => ({
+  const staticRoutes = ['', '/about', '/usluge', '/work', '/contact', '/blog', '/izrada-web-stranica', '/izrada-web-shopa', '/besplatna-analiza'].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: now,
     changeFrequency: 'monthly',

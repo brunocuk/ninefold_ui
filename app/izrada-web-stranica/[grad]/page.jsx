@@ -47,6 +47,15 @@ export default async function IzradaWebStranicaGradPage({ params }) {
         { '@type': 'ListItem', position: 2, name: data.h1, item: `https://www.ninefold.eu/${slug}` },
       ],
     },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: data.faqs.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    },
   ]
 
   return (

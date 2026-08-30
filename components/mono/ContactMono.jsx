@@ -9,8 +9,9 @@ import { useState } from 'react'
 import {
   PANEL, BG, FG, BODY, MUTED, LINE, SIGNAL, MONO,
   Reveal, Eyebrow, MeetIcon, MonoPage, MonoFAQ, SERVICE_FAQS, useCalPopup,
+  WhatsAppIcon, waLink,
 } from '@/components/mono/kit'
-import { trackConversion } from '@/components/CookieConsent'
+import { trackConversion, trackEvent } from '@/components/CookieConsent'
 
 const SERVICES = ['Web', 'Video', 'Fotografija', 'Branding', 'Društvene mreže', 'Studio', 'Nešto drugo']
 const PROJECT_TYPES = ['Jednokratni projekt', 'Kontinuirana suradnja']
@@ -113,6 +114,23 @@ function ContactContent() {
 
             <Reveal delay={0.1}>
               <div className="mt-10 flex flex-col gap-4">
+                <a
+                  href={waLink()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => trackEvent('whatsapp_click', { location: 'contact' })}
+                  className="nf-card block w-full rounded-2xl p-6 text-left"
+                  style={{ background: PANEL, border: `1px solid ${LINE}` }}
+                >
+                  <p className="text-[11px] uppercase" style={{ fontFamily: MONO, letterSpacing: '0.14em', color: MUTED }}>
+                    Najbrži put do nas
+                  </p>
+                  <p className="mt-2 flex items-center gap-2.5 text-lg font-medium">
+                    <WhatsAppIcon size={18} />
+                    Piši nam na WhatsApp
+                  </p>
+                </a>
+
                 <button
                   onClick={openCal}
                   className="nf-card block w-full rounded-2xl p-6 text-left"

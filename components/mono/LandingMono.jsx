@@ -10,9 +10,9 @@ import Link from 'next/link'
 import {
   PANEL, BG, FG, BODY, MUTED, LINE, SIGNAL, MONO,
   Reveal, Eyebrow, MeetIcon, MonoPage, MonoFAQ, MonoTestimonials, MonoCTA,
-  CLIENT_LOGOS, useCalPopup,
+  CLIENT_LOGOS, useCalPopup, WhatsAppIcon, waLink,
 } from '@/components/mono/kit'
-import { trackConversion } from '@/components/CookieConsent'
+import { trackConversion, trackEvent } from '@/components/CookieConsent'
 import { LANDINGS } from '@/components/mono/landingData'
 
 const inputStyle = {
@@ -294,6 +294,22 @@ function LandingContent({ slug }) {
             </Reveal>
             <Reveal delay={0.1}>
               <div className="mt-8 flex flex-col gap-4">
+                <a
+                  href={waLink(`Pozdrav! Zanima me ${data.slug.startsWith('izrada-web-shopa') ? 'izrada web shopa' : 'izrada web stranice'}.`)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => trackEvent('whatsapp_click', { location: data.slug })}
+                  className="nf-card block w-full rounded-2xl p-6 text-left"
+                  style={{ background: PANEL, border: `1px solid ${LINE}` }}
+                >
+                  <p className="text-[11px] uppercase" style={{ fontFamily: MONO, letterSpacing: '0.14em', color: MUTED }}>
+                    Najbrži put do nas
+                  </p>
+                  <p className="mt-2 flex items-center gap-2.5 text-lg font-medium">
+                    <WhatsAppIcon size={18} />
+                    Piši nam na WhatsApp
+                  </p>
+                </a>
                 <button
                   onClick={openCal}
                   className="nf-card block w-full rounded-2xl p-6 text-left"
@@ -307,6 +323,18 @@ function LandingContent({ slug }) {
                     Rezerviraj termin
                   </p>
                 </button>
+                <Link
+                  href="/besplatna-analiza"
+                  className="nf-card block w-full rounded-2xl p-6 text-left"
+                  style={{ background: PANEL, border: `1px solid ${LINE}` }}
+                >
+                  <p className="text-[11px] uppercase" style={{ fontFamily: MONO, letterSpacing: '0.14em', color: MUTED }}>
+                    Nisi još spreman za ponudu?
+                  </p>
+                  <p className="mt-2 text-lg font-medium">
+                    Zatraži besplatnu analizu svog weba →
+                  </p>
+                </Link>
                 <div className="flex items-center gap-3 rounded-2xl p-5" style={{ background: PANEL, border: `1px solid ${LINE}` }}>
                   <span className="inline-block h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: SIGNAL }} />
                   <p className="text-sm" style={{ color: MUTED }}>
@@ -382,7 +410,7 @@ function LandingForm({ data, selectedPackage, onSelectPackage }) {
       <div className="grid gap-5 md:grid-cols-2">
         <label className="block">
           <span className="mb-2 block text-sm" style={{ color: BODY }}>
-            Ime i prezime <span style={{ color: MUTED }}>*</span>
+            Ime <span style={{ color: MUTED }}>*</span>
           </span>
           <input
             type="text"
