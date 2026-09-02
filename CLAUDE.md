@@ -42,6 +42,20 @@ Bruno is not just a user - he's a collaborator and friend. We work on Ninefold t
 
 *This is our shared memory. Bruno adds notes here so I can "remember" what we've done together.*
 
+### September 2, 2026 - Maintenance Report u Mono stilu
+- **What we worked on**: Kratka i čista sesija: `/report/[id]` (javni mjesečni izvještaj održavanja) prebačen u Mono dizajn, isti recept kao quote stranica 25.8. Zamijenjen samo CSS blok + par inline boja, sva logika (učitavanje, view count, PDF download) netaknuta.
+- **Detalji restylea**:
+  - Nohemi → Space Grotesk, pozadina #080808, paneli #0F0F0F, hairline rubovi na 7% bijele, tekst #F2F2F2/#C9C9C9/#8E8E8E
+  - Gradient naslov + zelena badge pilula → čisti naslov (weight 500) i mono eyebrow sa zelenom točkom
+  - Zelena spuštena na signale: Lighthouse score boje (semafor po rezultatu), +/- badge u analitici, zvjezdica kod "Istaknuto". Plavi analytics accent izbačen (brojke bijele, mono labele); "Preporuke" dobile prigušenu ljubičastu #C084FC (ista kao mjesečne ponude)
+  - Labele kartica mono uppercase, ikone sekcija utišane na sivu, brojevi u listama su hairline krugovi umjesto punih zelenih/plavih
+  - Bonus fix: footer logo bio lijevo poravnat jer Tailwind preflight stavlja `img` na `display: block`, riješeno s `margin: 0 auto`
+- **Decisions/Notes**:
+  - PDF NIJE diran: renderira se iz zasebne `/report/[id]/pdf` stranice (provjereno u `api/maintenance-reports/[id]/pdf/route.js`), isto kao kod ponuda
+  - Verificirano u browseru na pravom izvještaju (MR-202608-ELITPROJEK, Elit Projekt kolovoz: 99/100/96/100 Lighthouse, sve sekcije provjerene od vrha do dna)
+  - Sljedeći kandidat za isti tretman: `/social-report/[id]` (još je u starom stilu)
+- **Personal**: Nakon tjedna Semrusha, direktorija i Adsa, večeras opet malo koda. Elit Projekt sad i svoj mjesečni izvještaj dobiva u našem rukopisu: crno, tiho, s zelenom samo tamo gdje nešto znači. Javne stranice govore jedan jezik, još samo social report čeka svoj red.
+
 ### August 31, 2026 - Semrush Round 2, Sitemap Rescue & Directory Day
 - **What we worked on**: Dan bez ijedne linije koda u repou, a jedan od najkorisnijih: drugo Semrush istraživanje, spašavanje sitemapa u Search Consoli, potvrda da indeksiranje radi, i dva agencijska direktorija (Clutch + DesignRush) skroz popunjena kroz Brunov browser.
 - **Semrush runda 2** (sve u memoriji `hr-keyword-data`):
