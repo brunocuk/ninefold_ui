@@ -168,7 +168,7 @@ export default function ReportDetailPage() {
         }
 
         .back-link:hover {
-          color: #00FF94;
+          color: #F2F2F2;
         }
 
         .header-content {
@@ -219,7 +219,7 @@ export default function ReportDetailPage() {
         }
 
         .btn-primary {
-          background: #00FF94;
+          background: #F2F2F2;
           color: #000;
         }
 
@@ -258,7 +258,7 @@ export default function ReportDetailPage() {
         }
 
         .card {
-          background: #1a1a1a;
+          background: #0F0F0F;
           border: 1px solid #333;
           border-radius: 12px;
           padding: 24px;
@@ -291,7 +291,7 @@ export default function ReportDetailPage() {
         .lighthouse-item {
           text-align: center;
           padding: 20px 12px;
-          background: #0a0a0a;
+          background: #080808;
           border-radius: 10px;
           border: 1px solid #333;
         }
@@ -320,7 +320,7 @@ export default function ReportDetailPage() {
 
         .vital-item {
           padding: 16px;
-          background: #0a0a0a;
+          background: #080808;
           border-radius: 10px;
           border: 1px solid #333;
         }
@@ -354,7 +354,7 @@ export default function ReportDetailPage() {
         .analytics-item {
           text-align: center;
           padding: 20px 12px;
-          background: #0a0a0a;
+          background: #080808;
           border-radius: 10px;
           border: 1px solid #333;
         }
@@ -408,7 +408,7 @@ export default function ReportDetailPage() {
         .list-number {
           width: 24px;
           height: 24px;
-          background: #00FF94;
+          background: #F2F2F2;
           color: #000;
           border-radius: 50%;
           display: flex;
@@ -458,7 +458,7 @@ export default function ReportDetailPage() {
         }
 
         .modal {
-          background: #1a1a1a;
+          background: #0F0F0F;
           border: 1px solid #333;
           border-radius: 16px;
           padding: 32px;
@@ -487,7 +487,7 @@ export default function ReportDetailPage() {
         .form-input {
           width: 100%;
           padding: 12px 16px;
-          background: #0a0a0a;
+          background: #080808;
           border: 1px solid #333;
           border-radius: 8px;
           color: #fff;
@@ -496,7 +496,7 @@ export default function ReportDetailPage() {
 
         .form-input:focus {
           outline: none;
-          border-color: #00FF94;
+          border-color: rgba(255,255,255,0.3);
         }
 
         .modal-actions {

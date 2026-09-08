@@ -331,12 +331,12 @@ export default function SettingsPage() {
     <div className="animate-fadeIn">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Settings</h1>
-        <p className="text-gray-400">Manage your account and preferences</p>
+        <h1 className="text-3xl font-medium mb-2">Settings</h1>
+        <p className="text-[#8E8E8E]">Manage your account and preferences</p>
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-2 mb-8 border-b border-[#1a1a1a] pb-4 overflow-x-auto">
+      <div className="flex gap-2 mb-8 border-b border-white/[0.07] pb-4 overflow-x-auto">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           return (
@@ -345,8 +345,8 @@ export default function SettingsPage() {
               onClick={() => setActiveTab(tab.id)}
               className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium text-sm transition-all whitespace-nowrap ${
                 activeTab === tab.id
-                  ? 'bg-[#00FF94] text-black'
-                  : 'bg-[#1a1a1a] text-gray-400 hover:bg-[#252525] hover:text-white'
+                  ? 'bg-[#F2F2F2] text-[#080808]'
+                  : 'bg-[#0F0F0F] text-[#8E8E8E] hover:bg-white/[0.06] hover:text-[#F2F2F2]'
               }`}
             >
               <Icon size={18} />
@@ -362,9 +362,9 @@ export default function SettingsPage() {
         {activeTab === 'profile' && (
           <div className="space-y-6">
             {/* Avatar Section */}
-            <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl p-6">
+            <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-xl p-6">
               <h2 className="text-lg font-semibold mb-6 flex items-center gap-2">
-                <Camera size={20} className="text-[#00FF94]" />
+                <Camera size={20} className="text-[#8E8E8E]" />
                 Profile Picture
               </h2>
 
@@ -378,7 +378,7 @@ export default function SettingsPage() {
                   {avatar.type === 'custom' && (
                     <button
                       onClick={removeCustomAvatar}
-                      className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white hover:bg-red-600 transition-colors"
+                      className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-[#F2F2F2] hover:bg-red-600 transition-colors"
                       title="Remove custom avatar"
                     >
                       <X size={14} />
@@ -388,7 +388,7 @@ export default function SettingsPage() {
 
                 <div className="flex-1">
                   {/* Avatar Presets */}
-                  <label className="block text-sm font-medium text-gray-400 mb-3">
+                  <label className="block text-sm font-medium text-[#8E8E8E] mb-3">
                     Choose an avatar
                   </label>
                   <div className="flex flex-wrap gap-3 mb-5">
@@ -398,7 +398,7 @@ export default function SettingsPage() {
                         onClick={() => selectPresetAvatar(preset.id)}
                         className={`w-14 h-14 rounded-xl overflow-hidden transition-all hover:scale-110 ${
                           avatar.type === 'preset' && avatar.presetId === preset.id
-                            ? 'ring-2 ring-[#00FF94] ring-offset-2 ring-offset-[#1a1a1a]'
+                            ? 'ring-2 ring-[#00FF94] ring-offset-2 ring-offset-[#0F0F0F]'
                             : 'ring-1 ring-[#2a2a2a]'
                         }`}
                         title={preset.id}
@@ -413,7 +413,7 @@ export default function SettingsPage() {
                   </div>
 
                   {/* Upload Button */}
-                  <label className="block text-sm font-medium text-gray-400 mb-3">
+                  <label className="block text-sm font-medium text-[#8E8E8E] mb-3">
                     Or upload your own
                   </label>
                   <input
@@ -426,11 +426,11 @@ export default function SettingsPage() {
                   <button
                     onClick={() => fileInputRef.current?.click()}
                     disabled={uploading}
-                    className="flex items-center gap-2 px-4 py-2.5 bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg text-gray-300 hover:border-[#00FF94] hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex items-center gap-2 px-4 py-2.5 bg-[#080808] border border-white/[0.07] rounded-lg text-[#C9C9C9] hover:border-[#00FF94] hover:text-[#F2F2F2] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {uploading ? (
                       <>
-                        <div className="w-4 h-4 border-2 border-gray-500 border-t-[#00FF94] rounded-full animate-spin" />
+                        <div className="w-4 h-4 border-2 border-white/[0.2] border-t-[#00FF94] rounded-full animate-spin" />
                         Uploading...
                       </>
                     ) : (
@@ -440,7 +440,7 @@ export default function SettingsPage() {
                       </>
                     )}
                   </button>
-                  <p className="text-xs text-gray-500 mt-2">
+                  <p className="text-xs text-[#6E6E6E] mt-2">
                     JPG, PNG or GIF. Max 2MB. Stored in Supabase.
                   </p>
                 </div>
@@ -448,48 +448,48 @@ export default function SettingsPage() {
             </div>
 
             {/* Profile Information */}
-            <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl p-6">
+            <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-xl p-6">
               <h2 className="text-lg font-semibold mb-6 flex items-center gap-2">
-                <User size={20} className="text-[#00FF94]" />
+                <User size={20} className="text-[#8E8E8E]" />
                 Profile Information
               </h2>
 
               <div className="space-y-5">
                 <div>
-                  <label className="block text-sm font-medium text-gray-400 mb-2">
+                  <label className="block text-sm font-medium text-[#8E8E8E] mb-2">
                     Full Name
                   </label>
                   <input
                     type="text"
                     value={profile.name}
                     onChange={(e) => setProfile({ ...profile, name: e.target.value })}
-                    className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-lg text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                     placeholder="Your name"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-400 mb-2">
+                  <label className="block text-sm font-medium text-[#8E8E8E] mb-2">
                     Email Address
                   </label>
                   <input
                     type="email"
                     value={profile.email}
                     onChange={(e) => setProfile({ ...profile, email: e.target.value })}
-                    className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-lg text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                     placeholder="your@email.com"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-400 mb-2">
+                  <label className="block text-sm font-medium text-[#8E8E8E] mb-2">
                     Phone Number
                   </label>
                   <input
                     type="tel"
                     value={profile.phone}
                     onChange={(e) => setProfile({ ...profile, phone: e.target.value })}
-                    className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-lg text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                     placeholder="+385 91 123 4567"
                   />
                 </div>
@@ -501,18 +501,18 @@ export default function SettingsPage() {
         {/* Company Tab */}
         {activeTab === 'company' && (
           <div className="space-y-6">
-            <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl p-6">
+            <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-xl p-6">
               <h2 className="text-lg font-semibold mb-6 flex items-center gap-2">
-                <Building2 size={20} className="text-[#00FF94]" />
+                <Building2 size={20} className="text-[#8E8E8E]" />
                 Company Information
               </h2>
-              <p className="text-gray-400 text-sm mb-6">
+              <p className="text-[#8E8E8E] text-sm mb-6">
                 This information appears on your quotes and invoices.
               </p>
 
               <div className="space-y-5">
                 <div>
-                  <label className="block text-sm font-medium text-gray-400 mb-2">
+                  <label className="block text-sm font-medium text-[#8E8E8E] mb-2">
                     <Building2 size={14} className="inline mr-2" />
                     Company Name
                   </label>
@@ -520,12 +520,12 @@ export default function SettingsPage() {
                     type="text"
                     value={company.name}
                     onChange={(e) => setCompany({ ...company, name: e.target.value })}
-                    className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-lg text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-400 mb-2">
+                  <label className="block text-sm font-medium text-[#8E8E8E] mb-2">
                     <MapPin size={14} className="inline mr-2" />
                     Address
                   </label>
@@ -533,13 +533,13 @@ export default function SettingsPage() {
                     type="text"
                     value={company.address}
                     onChange={(e) => setCompany({ ...company, address: e.target.value })}
-                    className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-lg text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                   />
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-400 mb-2">
+                    <label className="block text-sm font-medium text-[#8E8E8E] mb-2">
                       <Mail size={14} className="inline mr-2" />
                       Email
                     </label>
@@ -547,11 +547,11 @@ export default function SettingsPage() {
                       type="email"
                       value={company.email}
                       onChange={(e) => setCompany({ ...company, email: e.target.value })}
-                      className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                      className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-lg text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-400 mb-2">
+                    <label className="block text-sm font-medium text-[#8E8E8E] mb-2">
                       <Phone size={14} className="inline mr-2" />
                       Phone
                     </label>
@@ -559,14 +559,14 @@ export default function SettingsPage() {
                       type="tel"
                       value={company.phone}
                       onChange={(e) => setCompany({ ...company, phone: e.target.value })}
-                      className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                      className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-lg text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-400 mb-2">
+                    <label className="block text-sm font-medium text-[#8E8E8E] mb-2">
                       <Globe size={14} className="inline mr-2" />
                       Website
                     </label>
@@ -574,11 +574,11 @@ export default function SettingsPage() {
                       type="text"
                       value={company.website}
                       onChange={(e) => setCompany({ ...company, website: e.target.value })}
-                      className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                      className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-lg text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-400 mb-2">
+                    <label className="block text-sm font-medium text-[#8E8E8E] mb-2">
                       <CreditCard size={14} className="inline mr-2" />
                       OIB (Tax ID)
                     </label>
@@ -586,7 +586,7 @@ export default function SettingsPage() {
                       type="text"
                       value={company.oib}
                       onChange={(e) => setCompany({ ...company, oib: e.target.value })}
-                      className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                      className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-lg text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                     />
                   </div>
                 </div>
@@ -598,9 +598,9 @@ export default function SettingsPage() {
         {/* Notifications Tab */}
         {activeTab === 'notifications' && (
           <div className="space-y-6">
-            <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl p-6">
+            <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-xl p-6">
               <h2 className="text-lg font-semibold mb-6 flex items-center gap-2">
-                <Bell size={20} className="text-[#00FF94]" />
+                <Bell size={20} className="text-[#8E8E8E]" />
                 Email Notifications
               </h2>
 
@@ -613,16 +613,16 @@ export default function SettingsPage() {
                 ].map((item) => (
                   <div
                     key={item.key}
-                    className="flex items-center justify-between p-4 bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg"
+                    className="flex items-center justify-between p-4 bg-[#080808] border border-white/[0.07] rounded-lg"
                   >
                     <div>
-                      <div className="font-medium text-white">{item.label}</div>
-                      <div className="text-sm text-gray-500">{item.desc}</div>
+                      <div className="font-medium text-[#F2F2F2]">{item.label}</div>
+                      <div className="text-sm text-[#6E6E6E]">{item.desc}</div>
                     </div>
                     <button
                       onClick={() => setNotifications({ ...notifications, [item.key]: !notifications[item.key] })}
                       className={`relative w-12 h-7 rounded-full transition-colors ${
-                        notifications[item.key] ? 'bg-[#00FF94]' : 'bg-[#2a2a2a]'
+                        notifications[item.key] ? 'bg-[#00FF94]' : 'bg-white/[0.06]'
                       }`}
                     >
                       <span
@@ -641,54 +641,54 @@ export default function SettingsPage() {
         {/* Security Tab */}
         {activeTab === 'security' && (
           <div className="space-y-6">
-            <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl p-6">
+            <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-xl p-6">
               <h2 className="text-lg font-semibold mb-6 flex items-center gap-2">
-                <Shield size={20} className="text-[#00FF94]" />
+                <Shield size={20} className="text-[#8E8E8E]" />
                 Change Password
               </h2>
 
               <div className="space-y-5">
                 <div>
-                  <label className="block text-sm font-medium text-gray-400 mb-2">
+                  <label className="block text-sm font-medium text-[#8E8E8E] mb-2">
                     Current Password
                   </label>
                   <input
                     type="password"
-                    className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-lg text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                     placeholder="Enter current password"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-400 mb-2">
+                  <label className="block text-sm font-medium text-[#8E8E8E] mb-2">
                     New Password
                   </label>
                   <input
                     type="password"
-                    className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-lg text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                     placeholder="Enter new password"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-400 mb-2">
+                  <label className="block text-sm font-medium text-[#8E8E8E] mb-2">
                     Confirm New Password
                   </label>
                   <input
                     type="password"
-                    className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2a2a2a] rounded-lg text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-lg text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                     placeholder="Confirm new password"
                   />
                 </div>
               </div>
             </div>
 
-            <div className="bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl p-6">
+            <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-xl p-6">
               <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
                 <AlertCircle size={20} className="text-red-500" />
                 Danger Zone
               </h2>
-              <p className="text-gray-400 text-sm mb-4">
+              <p className="text-[#8E8E8E] text-sm mb-4">
                 Once you delete your account, there is no going back. Please be certain.
               </p>
               <button className="px-4 py-2.5 bg-red-500/10 border border-red-500/20 text-red-500 rounded-lg font-medium hover:bg-red-500/20 transition-colors">
@@ -703,7 +703,7 @@ export default function SettingsPage() {
           <button
             onClick={handleSave}
             disabled={saving}
-            className="flex items-center gap-2 px-6 py-3 bg-[#00FF94] text-black rounded-lg font-semibold hover:bg-[#00dd82] transition-colors disabled:opacity-50"
+            className="flex items-center gap-2 px-6 py-3 bg-[#F2F2F2] text-[#080808] rounded-lg font-semibold hover:bg-white transition-colors disabled:opacity-50"
           >
             {saving ? (
               <>

@@ -366,7 +366,7 @@ export default function RecurringRevenuePage() {
         }
 
         .btn-primary {
-          background: #00FF94;
+          background: #F2F2F2;
           color: #000;
           padding: 14px 28px;
           border-radius: 10px;
@@ -437,8 +437,8 @@ export default function RecurringRevenuePage() {
           align-items: center;
           gap: 16px;
           padding: 12px 16px;
-          background: #0a0a0a;
-          border: 1px solid #2a2a2a;
+          background: #080808;
+          border: 1px solid rgba(255,255,255,0.07);
           border-radius: 10px;
           text-decoration: none;
           transition: all 0.2s;
@@ -501,7 +501,7 @@ export default function RecurringRevenuePage() {
         }
 
         .mark-paid-btn:hover {
-          background: #00FF94;
+          background: #F2F2F2;
           color: black;
         }
 
@@ -532,8 +532,8 @@ export default function RecurringRevenuePage() {
         }
 
         .stat-card {
-          background: linear-gradient(135deg, #1a1a1a 0%, #111 100%);
-          border: 1px solid #2a2a2a;
+          background: linear-gradient(135deg, #0F0F0F 0%, #111 100%);
+          border: 1px solid rgba(255,255,255,0.07);
           border-radius: 16px;
           padding: 28px;
           position: relative;
@@ -547,7 +547,7 @@ export default function RecurringRevenuePage() {
           left: 0;
           right: 0;
           height: 3px;
-          background: linear-gradient(90deg, #00FF94 0%, #00CC76 100%);
+          background: #00FF94;
           opacity: 0;
           transition: opacity 0.3s;
         }
@@ -558,8 +558,8 @@ export default function RecurringRevenuePage() {
 
         .stat-card.highlight {
           grid-column: span 2;
-          background: linear-gradient(135deg, rgba(0, 255, 148, 0.08) 0%, #111 100%);
-          border-color: rgba(0, 255, 148, 0.2);
+          background: #0F0F0F;
+          border-color: rgba(255,255,255,0.07);
         }
 
         .stat-card.alert {
@@ -615,7 +615,7 @@ export default function RecurringRevenuePage() {
         }
 
         .stat-card.highlight .stat-value {
-          color: #00FF94;
+          color: #F2F2F2;
           font-size: 2.8rem;
         }
 
@@ -631,8 +631,8 @@ export default function RecurringRevenuePage() {
 
         /* Breakdown Card */
         .breakdown-card {
-          background: linear-gradient(135deg, #1a1a1a 0%, #111 100%);
-          border: 1px solid #2a2a2a;
+          background: linear-gradient(135deg, #0F0F0F 0%, #111 100%);
+          border: 1px solid rgba(255,255,255,0.07);
           border-radius: 16px;
           padding: 24px;
         }
@@ -708,15 +708,15 @@ export default function RecurringRevenuePage() {
 
         /* Contracts Section */
         .contracts-section {
-          background: linear-gradient(135deg, #1a1a1a 0%, #111 100%);
-          border: 1px solid #2a2a2a;
+          background: linear-gradient(135deg, #0F0F0F 0%, #111 100%);
+          border: 1px solid rgba(255,255,255,0.07);
           border-radius: 20px;
           overflow: hidden;
         }
 
         .contracts-header {
           padding: 20px 24px;
-          border-bottom: 1px solid #2a2a2a;
+          border-bottom: 1px solid rgba(255,255,255,0.07);
           display: flex;
           flex-direction: column;
           gap: 16px;
@@ -785,7 +785,7 @@ export default function RecurringRevenuePage() {
         .sort-select {
           margin-left: auto;
           padding: 8px 14px;
-          background: #1a1a1a;
+          background: #0F0F0F;
           border: 1px solid #333;
           border-radius: 10px;
           color: #ccc;
@@ -800,11 +800,11 @@ export default function RecurringRevenuePage() {
         }
 
         .sort-select:focus {
-          border-color: #00FF94;
+          border-color: rgba(255,255,255,0.3);
         }
 
         .sort-select option {
-          background: #1a1a1a;
+          background: #0F0F0F;
         }
 
         @media (max-width: 768px) {
@@ -872,13 +872,13 @@ export default function RecurringRevenuePage() {
           cursor: pointer;
           text-decoration: none;
           color: inherit;
-          background: #0a0a0a;
+          background: #080808;
           border: 2px solid #333;
         }
 
         .contract-card:hover {
           background: #111;
-          border-color: #00FF94;
+          border-color: rgba(255,255,255,0.16);
           transform: translateY(-2px);
           box-shadow: 0 8px 30px rgba(0, 255, 148, 0.1);
         }
@@ -928,7 +928,7 @@ export default function RecurringRevenuePage() {
         .amount-value {
           font-size: 1.5rem;
           font-weight: 800;
-          color: #00FF94;
+          color: #F2F2F2;
           line-height: 1.2;
         }
 
@@ -1042,7 +1042,7 @@ export default function RecurringRevenuePage() {
         }
 
         .quick-action-btn:hover {
-          background: #00FF94;
+          background: #F2F2F2;
           color: black;
           transform: scale(1.02);
         }

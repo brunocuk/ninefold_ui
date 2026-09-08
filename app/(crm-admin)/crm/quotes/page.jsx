@@ -89,7 +89,7 @@ export default function QuotesPage() {
     draft: { bg: 'bg-gray-600', text: 'Draft', icon: FileEdit },
     sent: { bg: 'bg-blue-500', text: 'Sent', icon: Send },
     viewed: { bg: 'bg-purple-500', text: 'Viewed', icon: Eye },
-    accepted: { bg: 'bg-[#00FF94] text-black', text: 'Accepted', icon: CheckCircle },
+    accepted: { bg: 'bg-[#F2F2F2] text-[#080808]', text: 'Accepted', icon: CheckCircle },
     rejected: { bg: 'bg-red-500', text: 'Rejected', icon: XCircle }
   };
 
@@ -98,7 +98,7 @@ export default function QuotesPage() {
     const Icon = config.icon;
 
     return (
-      <span className={`inline-flex items-center gap-1.5 ${config.bg} text-white px-3 py-1.5 rounded-full text-xs font-bold`}>
+      <span className={`inline-flex items-center gap-1.5 ${config.bg} text-[#F2F2F2] px-3 py-1.5 rounded-full text-xs font-bold`}>
         <Icon size={12} />
         {config.text}
       </span>
@@ -140,14 +140,14 @@ export default function QuotesPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
         <div>
-          <h1 className="text-4xl font-black bg-gradient-to-r from-[#00FF94] to-[#00CC76] bg-clip-text text-transparent mb-2">
+          <h1 className="text-4xl font-medium text-[#F2F2F2] mb-2">
             Quotes
           </h1>
-          <p className="text-gray-400">Manage proposals and track conversions</p>
+          <p className="text-[#8E8E8E]">Manage proposals and track conversions</p>
         </div>
         <Link
           href="/crm/quotes/new"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 hover:-translate-y-0.5 transition-all"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-[#F2F2F2] text-[#080808] rounded-full font-medium hover:bg-white transition-all"
         >
           <Plus size={20} />
           Create Quote
@@ -155,16 +155,16 @@ export default function QuotesPage() {
       </div>
 
       {/* Filters */}
-      <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-5 mb-8">
+      <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-5 mb-8">
         <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2 text-gray-400">
+          <div className="flex items-center gap-2 text-[#8E8E8E]">
             <Filter size={18} />
             <span className="text-sm font-semibold">Filteri</span>
           </div>
           {hasActiveFilters && (
             <button
               onClick={clearFilters}
-              className="inline-flex items-center gap-1 text-xs text-[#00FF94] hover:underline"
+              className="inline-flex items-center gap-1 text-xs text-[#C9C9C9] hover:underline"
             >
               <RefreshCw size={12} />
               Očisti filtere
@@ -174,7 +174,7 @@ export default function QuotesPage() {
 
         {/* Status Filter */}
         <div className="mb-4">
-          <label className="block text-xs text-gray-500 mb-2 uppercase tracking-wider">Status</label>
+          <label className="block text-xs text-[#6E6E6E] mb-2 uppercase tracking-wider">Status</label>
           <div className="flex flex-wrap gap-2">
             {statusButtons.map((btn) => {
               const Icon = btn.icon;
@@ -184,8 +184,8 @@ export default function QuotesPage() {
                   onClick={() => setStatusFilter(btn.value)}
                   className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                     statusFilter === btn.value
-                      ? 'bg-[#00FF94] text-black'
-                      : 'bg-[#2A2A2A] text-gray-400 hover:bg-[#3A3A3A] hover:text-white'
+                      ? 'bg-[#F2F2F2] text-[#080808]'
+                      : 'bg-white/[0.06] text-[#8E8E8E] hover:bg-white/[0.1] hover:text-[#F2F2F2]'
                   }`}
                 >
                   {Icon && <Icon size={12} />}
@@ -199,11 +199,11 @@ export default function QuotesPage() {
         {/* Service Type and Quote Type Filters */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs text-gray-500 mb-2 uppercase tracking-wider">Vrsta usluge</label>
+            <label className="block text-xs text-[#6E6E6E] mb-2 uppercase tracking-wider">Vrsta usluge</label>
             <select
               value={serviceTypeFilter}
               onChange={(e) => setServiceTypeFilter(e.target.value)}
-              className="w-full bg-[#2A2A2A] text-white p-2.5 rounded-lg border border-[#3A3A3A] focus:border-[#00FF94] outline-none text-sm"
+              className="w-full bg-white/[0.06] text-[#F2F2F2] p-2.5 rounded-lg border border-white/[0.14] focus:border-white/25 outline-none text-sm"
             >
               {serviceTypeOptions.map(opt => (
                 <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -211,11 +211,11 @@ export default function QuotesPage() {
             </select>
           </div>
           <div>
-            <label className="block text-xs text-gray-500 mb-2 uppercase tracking-wider">Tip ponude</label>
+            <label className="block text-xs text-[#6E6E6E] mb-2 uppercase tracking-wider">Tip ponude</label>
             <select
               value={quoteTypeFilter}
               onChange={(e) => setQuoteTypeFilter(e.target.value)}
-              className="w-full bg-[#2A2A2A] text-white p-2.5 rounded-lg border border-[#3A3A3A] focus:border-[#00FF94] outline-none text-sm"
+              className="w-full bg-white/[0.06] text-[#F2F2F2] p-2.5 rounded-lg border border-white/[0.14] focus:border-white/25 outline-none text-sm"
             >
               {quoteTypeOptions.map(opt => (
                 <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -228,15 +228,15 @@ export default function QuotesPage() {
       {/* Content */}
       {loading ? (
         <div className="flex items-center justify-center py-20">
-          <div className="text-2xl text-[#00FF94]">Loading quotes...</div>
+          <div className="text-2xl text-[#8E8E8E]">Loading quotes...</div>
         </div>
       ) : quotes.length === 0 ? (
-        <div className="bg-[#1a1a1a] border-2 border-dashed border-[#2A2A2A] rounded-2xl p-20 text-center">
-          <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-[#00FF94]/10 flex items-center justify-center">
-            <FileText size={40} className="text-[#00FF94]" />
+        <div className="bg-[#0F0F0F] border-2 border-dashed border-white/[0.07] rounded-2xl p-20 text-center">
+          <div className="w-20 h-20 mx-auto mb-6 rounded-full border border-white/[0.07] flex items-center justify-center">
+            <FileText size={40} className="text-[#8E8E8E]" />
           </div>
-          <h2 className="text-2xl font-bold mb-3">No quotes found</h2>
-          <p className="text-gray-400 text-lg mb-8">
+          <h2 className="text-2xl font-medium mb-3">No quotes found</h2>
+          <p className="text-[#8E8E8E] text-lg mb-8">
             {hasActiveFilters
               ? 'No quotes match the current filters.'
               : 'Create your first quote to get started.'}
@@ -244,7 +244,7 @@ export default function QuotesPage() {
           {hasActiveFilters ? (
             <button
               onClick={clearFilters}
-              className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#2A2A2A] text-white rounded-xl font-bold hover:bg-[#3A3A3A] transition-all"
+              className="inline-flex items-center gap-2 px-7 py-3.5 bg-white/[0.06] text-[#F2F2F2] rounded-xl font-bold hover:bg-white/[0.1] transition-all"
             >
               <RefreshCw size={18} />
               Clear Filters
@@ -252,7 +252,7 @@ export default function QuotesPage() {
           ) : (
             <Link
               href="/crm/quotes/new"
-              className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 hover:-translate-y-0.5 transition-all"
+              className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#F2F2F2] text-[#080808] rounded-full font-medium hover:bg-white transition-all"
             >
               <Plus size={20} />
               Create First Quote
@@ -276,7 +276,7 @@ export default function QuotesPage() {
               <Link
                 key={quote.id}
                 href={`/crm/quotes/${quote.id}`}
-                className="block group bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 hover:border-[#00FF94] hover:shadow-xl hover:shadow-[#00FF94]/10 hover:translate-x-1 transition-all duration-300"
+                className="block group bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6 hover:border-white/20 hover:translate-x-1 transition-all duration-300"
               >
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-5">
@@ -284,11 +284,11 @@ export default function QuotesPage() {
                     {/* Service Type & Quote Type Badges */}
                     <div className="flex flex-wrap gap-2 mb-3">
                       <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${
-                        isMonthly ? 'bg-purple-500/20 text-purple-400' : 'bg-blue-500/20 text-blue-400'
+                        isMonthly ? 'bg-[#C084FC]/10 text-[#C084FC]' : 'bg-white/[0.06] text-[#C9C9C9]'
                       }`}>
                         {isMonthly ? '🔄 Mjesečni' : '📋 Projekt'}
                       </span>
-                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-[#2A2A2A] text-gray-300`}>
+                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-white/[0.06] text-[#C9C9C9]`}>
                         {serviceInfo.icon} {serviceInfo.nameHr}
                       </span>
                       {quote.sales_user?.name && (
@@ -298,15 +298,15 @@ export default function QuotesPage() {
                       )}
                     </div>
 
-                    <h3 className="text-xl font-bold text-white mb-2">
+                    <h3 className="text-xl font-bold text-[#F2F2F2] mb-2">
                       {quote.title || `Quote for ${clientName}`}
                     </h3>
-                    <div className="flex items-center gap-2 text-[#00FF94] font-semibold mb-3">
+                    <div className="flex items-center gap-2 text-[#C9C9C9] font-semibold mb-3">
                       <Building2 size={16} />
                       {clientName}
                     </div>
                     {(quote.quote_number || quote.reference) && (
-                      <div className="text-sm text-gray-500 font-mono">
+                      <div className="text-sm text-[#6E6E6E] font-mono">
                         #{quote.quote_number || quote.reference}
                       </div>
                     )}
@@ -316,11 +316,11 @@ export default function QuotesPage() {
 
                 {/* Details */}
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-5">
-                  <div className="bg-[#0a0a0a] rounded-lg p-4">
-                    <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">
+                  <div className="bg-[#080808] rounded-lg p-4">
+                    <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-2">
                       {isMonthly ? 'Mjesečno' : 'Total Value'}
                     </div>
-                    <div className={`text-lg font-black flex items-center gap-1 ${isMonthly ? 'text-purple-400' : 'text-[#00FF94]'}`}>
+                    <div className={`text-lg font-semibold flex items-center gap-1 ${isMonthly ? 'text-[#C084FC]' : 'text-[#F2F2F2]'}`}>
                       <DollarSign size={16} />
                       {isMonthly
                         ? formatCurrency(quote.monthly_price || quote.pricing?.monthlyPrice || 0)
@@ -331,21 +331,21 @@ export default function QuotesPage() {
                   </div>
 
                   {!isMonthly && quote.pricing?.discountRate > 0 && (
-                    <div className="bg-[#0a0a0a] rounded-lg p-4">
-                      <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">
+                    <div className="bg-[#080808] rounded-lg p-4">
+                      <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-2">
                         Discount
                       </div>
-                      <div className="text-lg font-black text-[#00FF94]">
+                      <div className="text-lg font-semibold text-[#F2F2F2]">
                         {(quote.pricing.discountRate * 100).toFixed(0)}%
                       </div>
                     </div>
                   )}
 
-                  <div className="bg-[#0a0a0a] rounded-lg p-4">
-                    <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">
+                  <div className="bg-[#080808] rounded-lg p-4">
+                    <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-2">
                       Views
                     </div>
-                    <div className="text-lg font-black text-[#00FF94] flex items-center gap-1">
+                    <div className="text-lg font-semibold text-[#F2F2F2] flex items-center gap-1">
                       <Eye size={16} />
                       {quote.view_count || 0}
                     </div>
@@ -353,7 +353,7 @@ export default function QuotesPage() {
                 </div>
 
                 {/* Footer */}
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 pt-5 border-t border-[#2A2A2A] text-xs text-gray-500">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 pt-5 border-t border-white/[0.07] text-xs text-[#6E6E6E]">
                   <div className="flex items-center gap-1.5">
                     <Calendar size={12} />
                     Created {new Date(quote.created_at).toLocaleDateString('en-US', {

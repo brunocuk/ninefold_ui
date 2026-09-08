@@ -211,27 +211,27 @@ export default function NewContentPage() {
       {/* Header */}
       <Link
         href="/crm/content"
-        className="inline-flex items-center gap-2 text-gray-400 hover:text-[#00FF94] mb-6 transition-colors"
+        className="inline-flex items-center gap-2 text-[#8E8E8E] hover:text-[#F2F2F2] mb-6 transition-colors"
       >
         <ArrowLeft size={16} />
         Natrag na sadržaj
       </Link>
 
-      <h1 className="text-4xl font-black text-white mb-8">Novi sadržaj</h1>
+      <h1 className="text-4xl font-medium text-[#F2F2F2] mb-8">Novi sadržaj</h1>
 
       {/* Form */}
       <form onSubmit={handleSubmit}>
-        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-8 space-y-6">
+        <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-8 space-y-6">
           {/* Client Selection */}
           <div>
-            <label className="block text-sm font-semibold text-gray-400 mb-2">
+            <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
               Klijent *
             </label>
             <select
               value={formData.client_id}
               onChange={(e) => setFormData({ ...formData, client_id: e.target.value, contract_id: '' })}
               required
-              className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
+              className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none"
             >
               <option value="">Odaberi klijenta...</option>
               {clients.map((client) => (
@@ -245,13 +245,13 @@ export default function NewContentPage() {
           {/* Contract Selection */}
           {contracts.length > 0 && (
             <div>
-              <label className="block text-sm font-semibold text-gray-400 mb-2">
+              <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                 Ugovor (opcionalno)
               </label>
               <select
                 value={formData.contract_id}
                 onChange={(e) => setFormData({ ...formData, contract_id: e.target.value })}
-                className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
+                className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none"
               >
                 <option value="">Bez ugovora</option>
                 {contracts.map((contract) => (
@@ -266,8 +266,8 @@ export default function NewContentPage() {
           {/* Platform & Type */}
           <div className="grid grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-semibold text-gray-400 mb-2">
-                Platforme * <span className="text-xs text-gray-500 font-normal">(možeš odabrati više)</span>
+              <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
+                Platforme * <span className="text-xs text-[#6E6E6E] font-normal">(možeš odabrati više)</span>
               </label>
               <div className="grid grid-cols-2 gap-2">
                 {PLATFORMS.map((platform) => {
@@ -284,8 +284,8 @@ export default function NewContentPage() {
                       }}
                       className={`px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
                         isSelected
-                          ? 'bg-[#00FF94] text-black'
-                          : 'bg-[#0a0a0a] border border-[#2A2A2A] text-gray-400 hover:border-[#00FF94]'
+                          ? 'bg-[#F2F2F2] text-[#080808]'
+                          : 'bg-[#080808] border border-white/[0.07] text-[#8E8E8E] hover:border-[#00FF94]'
                       }`}
                     >
                       {platform.label}
@@ -296,7 +296,7 @@ export default function NewContentPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-400 mb-2">
+              <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                 Tip sadržaja *
               </label>
               <div className="grid grid-cols-2 gap-2">
@@ -307,8 +307,8 @@ export default function NewContentPage() {
                     onClick={() => setFormData({ ...formData, content_type: type.id })}
                     className={`px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
                       formData.content_type === type.id
-                        ? 'bg-[#00FF94] text-black'
-                        : 'bg-[#0a0a0a] border border-[#2A2A2A] text-gray-400 hover:border-[#00FF94]'
+                        ? 'bg-[#F2F2F2] text-[#080808]'
+                        : 'bg-[#080808] border border-white/[0.07] text-[#8E8E8E] hover:border-[#00FF94]'
                     }`}
                   >
                     {type.label}
@@ -321,7 +321,7 @@ export default function NewContentPage() {
           {/* Schedule */}
           <div className="grid grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-semibold text-gray-400 mb-2">
+              <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                 <Calendar size={14} className="inline mr-2" />
                 Datum *
               </label>
@@ -330,12 +330,12 @@ export default function NewContentPage() {
                 value={formData.scheduled_date}
                 onChange={(e) => setFormData({ ...formData, scheduled_date: e.target.value })}
                 required
-                className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
+                className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-400 mb-2">
+              <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                 <Clock size={14} className="inline mr-2" />
                 Vrijeme
               </label>
@@ -343,14 +343,14 @@ export default function NewContentPage() {
                 type="time"
                 value={formData.scheduled_time}
                 onChange={(e) => setFormData({ ...formData, scheduled_time: e.target.value })}
-                className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
+                className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none"
               />
             </div>
           </div>
 
           {/* Caption */}
           <div>
-            <label className="block text-sm font-semibold text-gray-400 mb-2">
+            <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
               Tekst objave
             </label>
             <textarea
@@ -358,13 +358,13 @@ export default function NewContentPage() {
               onChange={(e) => setFormData({ ...formData, caption: e.target.value })}
               rows={5}
               placeholder="Napišite tekst koji će pratiti objavu..."
-              className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none resize-none"
+              className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none resize-none"
             />
           </div>
 
           {/* Hashtags */}
           <div>
-            <label className="block text-sm font-semibold text-gray-400 mb-2">
+            <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
               Hashtagovi
             </label>
             <div className="flex gap-2 mb-3">
@@ -374,12 +374,12 @@ export default function NewContentPage() {
                 onChange={(e) => setNewHashtag(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddHashtag())}
                 placeholder="Dodaj hashtag..."
-                className="flex-1 px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
+                className="flex-1 px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none"
               />
               <button
                 type="button"
                 onClick={handleAddHashtag}
-                className="px-4 py-3 bg-[#2A2A2A] text-white rounded-xl hover:bg-[#3A3A3A] transition-colors"
+                className="px-4 py-3 bg-white/[0.06] text-[#F2F2F2] rounded-xl hover:bg-white/[0.1] transition-colors"
               >
                 <Plus size={18} />
               </button>
@@ -403,11 +403,11 @@ export default function NewContentPage() {
 
           {/* Media URLs */}
           <div>
-            <label className="block text-sm font-semibold text-gray-400 mb-2">
+            <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
               <Image size={14} className="inline mr-2" />
               Mediji
             </label>
-            <p className="text-xs text-gray-500 mb-2">
+            <p className="text-xs text-[#6E6E6E] mb-2">
               Google Drive, YouTube, Vimeo ili direktni URL slike
             </p>
             <div className="flex gap-2 mb-3">
@@ -417,12 +417,12 @@ export default function NewContentPage() {
                 onChange={(e) => setNewMediaUrl(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddMedia())}
                 placeholder="Zalijepi Google Drive, YouTube ili direktni link..."
-                className="flex-1 px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
+                className="flex-1 px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none"
               />
               <button
                 type="button"
                 onClick={handleAddMedia}
-                className="px-4 py-3 bg-[#2A2A2A] text-white rounded-xl hover:bg-[#3A3A3A] transition-colors"
+                className="px-4 py-3 bg-white/[0.06] text-[#F2F2F2] rounded-xl hover:bg-white/[0.1] transition-colors"
               >
                 <Plus size={18} />
               </button>
@@ -435,7 +435,7 @@ export default function NewContentPage() {
                     <div key={i} className="relative group">
                       {/* Google Drive - try as image first, show video player on error */}
                       {media.type === 'drive' && (
-                        <div className="relative aspect-video bg-[#0a0a0a] rounded-xl overflow-hidden">
+                        <div className="relative aspect-video bg-[#080808] rounded-xl overflow-hidden">
                           <img
                             src={media.imageUrl}
                             alt=""
@@ -452,7 +452,7 @@ export default function NewContentPage() {
                             allow="autoplay"
                             frameBorder="0"
                           />
-                          <span className="absolute bottom-2 left-2 px-2 py-1 bg-black/70 text-white text-xs rounded">
+                          <span className="absolute bottom-2 left-2 px-2 py-1 bg-black/70 text-[#F2F2F2] text-xs rounded">
                             Google Drive
                           </span>
                         </div>
@@ -460,7 +460,7 @@ export default function NewContentPage() {
 
                       {/* YouTube */}
                       {media.type === 'youtube' && (
-                        <div className="relative aspect-video bg-[#0a0a0a] rounded-xl overflow-hidden">
+                        <div className="relative aspect-video bg-[#080808] rounded-xl overflow-hidden">
                           <img
                             src={media.thumbnailUrl}
                             alt=""
@@ -471,7 +471,7 @@ export default function NewContentPage() {
                               <div className="w-0 h-0 border-t-[8px] border-t-transparent border-l-[14px] border-l-white border-b-[8px] border-b-transparent ml-1" />
                             </div>
                           </div>
-                          <span className="absolute bottom-2 left-2 px-2 py-1 bg-black/70 text-white text-xs rounded">
+                          <span className="absolute bottom-2 left-2 px-2 py-1 bg-black/70 text-[#F2F2F2] text-xs rounded">
                             YouTube
                           </span>
                         </div>
@@ -479,14 +479,14 @@ export default function NewContentPage() {
 
                       {/* Vimeo */}
                       {media.type === 'vimeo' && (
-                        <div className="relative aspect-video bg-[#0a0a0a] rounded-xl overflow-hidden">
+                        <div className="relative aspect-video bg-[#080808] rounded-xl overflow-hidden">
                           <iframe
                             src={media.embedUrl}
                             className="w-full h-full"
                             frameBorder="0"
                             allow="autoplay; fullscreen"
                           />
-                          <span className="absolute bottom-2 left-2 px-2 py-1 bg-black/70 text-white text-xs rounded">
+                          <span className="absolute bottom-2 left-2 px-2 py-1 bg-black/70 text-[#F2F2F2] text-xs rounded">
                             Vimeo
                           </span>
                         </div>
@@ -494,7 +494,7 @@ export default function NewContentPage() {
 
                       {/* Direct URL (fallback) */}
                       {media.type === 'direct' && (
-                        <div className="relative aspect-video bg-[#0a0a0a] rounded-xl overflow-hidden">
+                        <div className="relative aspect-video bg-[#080808] rounded-xl overflow-hidden">
                           <img
                             src={media.imageUrl}
                             alt=""
@@ -508,7 +508,7 @@ export default function NewContentPage() {
                       <button
                         type="button"
                         onClick={() => handleRemoveMedia(url)}
-                        className="absolute top-2 right-2 p-1.5 bg-red-500 text-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                        className="absolute top-2 right-2 p-1.5 bg-red-500 text-[#F2F2F2] rounded-lg opacity-0 group-hover:opacity-100 transition-opacity z-10"
                       >
                         <X size={14} />
                       </button>
@@ -520,11 +520,11 @@ export default function NewContentPage() {
           </div>
 
           {/* Submit */}
-          <div className="flex gap-3 pt-6 border-t border-[#2A2A2A]">
+          <div className="flex gap-3 pt-6 border-t border-white/[0.07]">
             <button
               type="submit"
               disabled={saving}
-              className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 transition-all disabled:opacity-50"
+              className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#F2F2F2] text-[#080808] rounded-full font-medium transition-all disabled:opacity-50"
             >
               {saving ? (
                 <Loader2 size={18} className="animate-spin" />
@@ -535,7 +535,7 @@ export default function NewContentPage() {
             </button>
             <Link
               href="/crm/content"
-              className="px-6 py-3 bg-[#2A2A2A] text-white rounded-xl font-bold hover:bg-[#3A3A3A] transition-all"
+              className="px-6 py-3 bg-white/[0.06] text-[#F2F2F2] rounded-xl font-bold hover:bg-white/[0.1] transition-all"
             >
               Odustani
             </Link>

@@ -73,7 +73,7 @@ export default function LeadsPage() {
     const Icon = config.icon;
     
     return (
-      <span className={`inline-flex items-center gap-1.5 ${config.bg} ${config.textColor || 'text-white'} px-3 py-1.5 rounded-full text-xs font-bold`}>
+      <span className={`inline-flex items-center gap-1.5 ${config.bg} ${config.textColor || 'text-[#F2F2F2]'} px-3 py-1.5 rounded-full text-xs font-bold`}>
         <Icon size={12} />
         {config.text}
       </span>
@@ -98,14 +98,14 @@ export default function LeadsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
         <div>
-          <h1 className="text-4xl font-black bg-gradient-to-r from-[#00FF94] to-[#00CC76] bg-clip-text text-transparent mb-2">
+          <h1 className="text-4xl font-medium text-[#F2F2F2] mb-2">
             Leads
           </h1>
-          <p className="text-gray-400">Track and manage your sales pipeline</p>
+          <p className="text-[#8E8E8E]">Track and manage your sales pipeline</p>
         </div>
         <Link 
           href="/crm/leads/new" 
-          className="inline-flex items-center gap-2 px-6 py-3 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 hover:-translate-y-0.5 transition-all"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-[#F2F2F2] text-[#080808] rounded-full font-medium hover:-translate-y-0.5 transition-all"
         >
           <UserPlus size={20} />
           Add Lead
@@ -122,8 +122,8 @@ export default function LeadsPage() {
               onClick={() => setFilter(btn.value)}
               className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border-2 font-semibold transition-all ${
                 filter === btn.value
-                  ? 'bg-[#00FF94] text-black border-[#00FF94]'
-                  : 'bg-[#1a1a1a] text-gray-400 border-[#2A2A2A] hover:border-[#00FF94] hover:text-[#00FF94]'
+                  ? 'bg-[#F2F2F2] text-[#080808] border-[#00FF94]'
+                  : 'bg-[#0F0F0F] text-[#8E8E8E] border-white/[0.07] hover:border-[#00FF94] hover:text-[#F2F2F2]'
               }`}
             >
               {Icon && <Icon size={16} />}
@@ -140,12 +140,12 @@ export default function LeadsPage() {
           <div className="text-2xl text-[#00FF94]">Loading leads...</div>
         </div>
       ) : leads.length === 0 ? (
-        <div className="bg-[#1a1a1a] border-2 border-dashed border-[#2A2A2A] rounded-2xl p-20 text-center">
+        <div className="bg-[#0F0F0F] border-2 border-dashed border-white/[0.07] rounded-2xl p-20 text-center">
           <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-[#00FF94]/10 flex items-center justify-center">
             <UserPlus size={40} className="text-[#00FF94]" />
           </div>
-          <h2 className="text-2xl font-bold mb-3">No leads yet</h2>
-          <p className="text-gray-400 text-lg mb-8">
+          <h2 className="text-2xl font-medium mb-3">No leads yet</h2>
+          <p className="text-[#8E8E8E] text-lg mb-8">
             {filter === 'all'
               ? 'Add your first lead to start tracking your sales pipeline.'
               : `No leads with status "${filter}".`}
@@ -153,7 +153,7 @@ export default function LeadsPage() {
           {filter === 'all' && (
             <Link
               href="/crm/leads/new"
-              className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 hover:-translate-y-0.5 transition-all"
+              className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#F2F2F2] text-[#080808] rounded-full font-medium hover:-translate-y-0.5 transition-all"
             >
               <UserPlus size={20} />
               Add First Lead
@@ -166,20 +166,20 @@ export default function LeadsPage() {
             <Link
               key={lead.id}
               href={`/crm/leads/${lead.id}`}
-              className="block group bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 hover:border-[#00FF94] hover:shadow-xl hover:shadow-[#00FF94]/10 hover:translate-x-1 transition-all duration-300"
+              className="block group bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6 hover:border-[#00FF94] hover:shadow-xl hover:shadow-[#00FF94]/10 hover:translate-x-1 transition-all duration-300"
             >
               {/* Header */}
               <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-5">
                 <div className="flex-1">
                   <div className="flex flex-wrap items-center gap-2 mb-2">
-                    <h3 className="text-xl font-bold text-white">{lead.name}</h3>
+                    <h3 className="text-xl font-bold text-[#F2F2F2]">{lead.name}</h3>
                     {lead.sales_user?.name && (
                       <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-400">
                         🤝 {lead.sales_user.name}
                       </span>
                     )}
                   </div>
-                  <div className="flex flex-wrap gap-4 text-sm text-gray-400">
+                  <div className="flex flex-wrap gap-4 text-sm text-[#8E8E8E]">
                     {lead.email && (
                       <span className="inline-flex items-center gap-1.5">
                         <Mail size={14} className="text-[#00FF94]" />
@@ -206,8 +206,8 @@ export default function LeadsPage() {
               {/* Details Grid */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-5">
                 {lead.source && (
-                  <div className="bg-[#0a0a0a] rounded-lg p-3">
-                    <div className="text-xs text-gray-500 uppercase tracking-wider mb-1.5">Source</div>
+                  <div className="bg-[#080808] rounded-lg p-3">
+                    <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-1.5">Source</div>
                     <div className="flex items-center gap-2 text-sm font-semibold text-[#00FF94]">
                       {getSourceIcon(lead.source)}
                       {lead.source}
@@ -215,20 +215,20 @@ export default function LeadsPage() {
                   </div>
                 )}
                 {lead.budget_range && (
-                  <div className="bg-[#0a0a0a] rounded-lg p-3">
-                    <div className="text-xs text-gray-500 uppercase tracking-wider mb-1.5">Budget</div>
+                  <div className="bg-[#080808] rounded-lg p-3">
+                    <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-1.5">Budget</div>
                     <div className="text-sm font-semibold text-[#00FF94]">{lead.budget_range}</div>
                   </div>
                 )}
                 {lead.project_type && (
-                  <div className="bg-[#0a0a0a] rounded-lg p-3">
-                    <div className="text-xs text-gray-500 uppercase tracking-wider mb-1.5">Project Type</div>
+                  <div className="bg-[#080808] rounded-lg p-3">
+                    <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-1.5">Project Type</div>
                     <div className="text-sm font-semibold text-[#00FF94]">{lead.project_type}</div>
                   </div>
                 )}
                 {lead.timeline && (
-                  <div className="bg-[#0a0a0a] rounded-lg p-3">
-                    <div className="text-xs text-gray-500 uppercase tracking-wider mb-1.5">Timeline</div>
+                  <div className="bg-[#080808] rounded-lg p-3">
+                    <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-1.5">Timeline</div>
                     <div className="text-sm font-semibold text-[#00FF94]">{lead.timeline}</div>
                   </div>
                 )}
@@ -236,7 +236,7 @@ export default function LeadsPage() {
 
               {/* Description */}
               {lead.description && (
-                <p className="text-gray-400 text-sm leading-relaxed mb-4">
+                <p className="text-[#8E8E8E] text-sm leading-relaxed mb-4">
                   {lead.description.length > 150
                     ? lead.description.substring(0, 150) + '...'
                     : lead.description}
@@ -244,7 +244,7 @@ export default function LeadsPage() {
               )}
 
               {/* Footer */}
-              <div className="flex items-center gap-2 text-xs text-gray-500">
+              <div className="flex items-center gap-2 text-xs text-[#6E6E6E]">
                 <Clock size={12} />
                 Added {new Date(lead.created_at).toLocaleDateString('en-US', {
                   month: 'short',

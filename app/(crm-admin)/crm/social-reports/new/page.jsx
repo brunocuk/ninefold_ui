@@ -325,13 +325,13 @@ export default function NewSocialReportPage() {
         }
 
         .back-link:hover {
-          color: #00FF94;
+          color: #F2F2F2;
         }
 
         h1 {
           font-size: 2rem;
           font-weight: 900;
-          background: linear-gradient(135deg, #E4405F 0%, #3b82f6 50%, #00FF94 100%);
+          background: #F2F2F2;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
@@ -351,7 +351,7 @@ export default function NewSocialReportPage() {
         }
 
         .form-card {
-          background: #1a1a1a;
+          background: #0F0F0F;
           border: 1px solid #333;
           border-radius: 12px;
           padding: 32px;
@@ -367,7 +367,7 @@ export default function NewSocialReportPage() {
 
         .section-nav-btn {
           padding: 10px 16px;
-          background: #0a0a0a;
+          background: #080808;
           border: 1px solid #333;
           border-radius: 8px;
           color: #888;
@@ -378,8 +378,8 @@ export default function NewSocialReportPage() {
         }
 
         .section-nav-btn:hover {
-          border-color: #00FF94;
-          color: #00FF94;
+          border-color: rgba(255,255,255,0.16);
+          color: #F2F2F2;
         }
 
         .section-nav-btn.active {
@@ -437,7 +437,7 @@ export default function NewSocialReportPage() {
         .form-textarea {
           width: 100%;
           padding: 12px 16px;
-          background: #0a0a0a;
+          background: #080808;
           border: 1px solid #333;
           border-radius: 8px;
           color: #fff;
@@ -449,7 +449,7 @@ export default function NewSocialReportPage() {
         .form-select:focus,
         .form-textarea:focus {
           outline: none;
-          border-color: #00FF94;
+          border-color: rgba(255,255,255,0.3);
         }
 
         .form-textarea {
@@ -489,7 +489,7 @@ export default function NewSocialReportPage() {
         }
 
         .content-item {
-          background: #0a0a0a;
+          background: #080808;
           border: 1px solid #333;
           border-radius: 8px;
           padding: 12px;
@@ -512,7 +512,7 @@ export default function NewSocialReportPage() {
 
         .content-input {
           padding: 8px;
-          background: #1a1a1a;
+          background: #0F0F0F;
           border: 1px solid #333;
           border-radius: 6px;
           color: #fff;
@@ -522,7 +522,7 @@ export default function NewSocialReportPage() {
 
         .content-input:focus {
           outline: none;
-          border-color: #00FF94;
+          border-color: rgba(255,255,255,0.3);
         }
 
         .content-input-label {
@@ -534,7 +534,7 @@ export default function NewSocialReportPage() {
 
         /* Platform Card */
         .platform-card {
-          background: #0a0a0a;
+          background: #080808;
           border: 1px solid #333;
           border-radius: 12px;
           margin-bottom: 16px;
@@ -551,7 +551,7 @@ export default function NewSocialReportPage() {
         }
 
         .platform-header:hover {
-          background: #1a1a1a;
+          background: #0F0F0F;
         }
 
         .platform-icon {
@@ -596,7 +596,7 @@ export default function NewSocialReportPage() {
 
         /* Top Posts */
         .top-post-card {
-          background: #0a0a0a;
+          background: #080808;
           border: 1px solid #333;
           border-radius: 8px;
           padding: 16px;
@@ -622,7 +622,7 @@ export default function NewSocialReportPage() {
           align-items: center;
           gap: 12px;
           padding: 16px;
-          background: #0a0a0a;
+          background: #080808;
           border: 1px solid #333;
           border-radius: 8px;
           cursor: pointer;
@@ -667,7 +667,7 @@ export default function NewSocialReportPage() {
 
         /* Preview Card */
         .preview-card {
-          background: #1a1a1a;
+          background: #0F0F0F;
           border: 1px solid #333;
           border-radius: 12px;
           padding: 24px;
@@ -693,7 +693,7 @@ export default function NewSocialReportPage() {
 
         .preview-contract {
           padding: 16px;
-          background: #0a0a0a;
+          background: #080808;
           border-radius: 8px;
           margin-bottom: 20px;
         }
@@ -717,7 +717,7 @@ export default function NewSocialReportPage() {
         }
 
         .preview-stat {
-          background: #0a0a0a;
+          background: #080808;
           border-radius: 8px;
           padding: 12px;
           text-align: center;
@@ -757,7 +757,7 @@ export default function NewSocialReportPage() {
         }
 
         .btn-primary {
-          background: #00FF94;
+          background: #F2F2F2;
           color: #000;
         }
 
@@ -1192,7 +1192,7 @@ export default function NewSocialReportPage() {
                 </div>
 
                 {totals.avgEngagementRate && (
-                  <div style={{ textAlign: 'center', padding: '12px', background: '#0a0a0a', borderRadius: '8px' }}>
+                  <div style={{ textAlign: 'center', padding: '12px', background: '#080808', borderRadius: '8px' }}>
                     <div style={{ color: '#00FF94', fontSize: '1.5rem', fontWeight: '700' }}>
                       {totals.avgEngagementRate}%
                     </div>
@@ -1220,7 +1220,7 @@ function PlatformCard({ platform, data, onChange }) {
     <div className="platform-card">
       <style jsx>{`
         .platform-card {
-          background: #0a0a0a;
+          background: #080808;
           border: 1px solid #333;
           border-radius: 12px;
           margin-bottom: 16px;
@@ -1237,7 +1237,7 @@ function PlatformCard({ platform, data, onChange }) {
         }
 
         .platform-header:hover {
-          background: #1a1a1a;
+          background: #0F0F0F;
         }
 
         .platform-icon {
@@ -1298,7 +1298,7 @@ function PlatformCard({ platform, data, onChange }) {
         .form-input {
           width: 100%;
           padding: 12px 16px;
-          background: #0a0a0a;
+          background: #080808;
           border: 1px solid #333;
           border-radius: 8px;
           color: #fff;
@@ -1308,7 +1308,7 @@ function PlatformCard({ platform, data, onChange }) {
 
         .form-input:focus {
           outline: none;
-          border-color: #00FF94;
+          border-color: rgba(255,255,255,0.3);
         }
       `}</style>
       <div className="platform-header" onClick={() => setIsOpen(!isOpen)}>

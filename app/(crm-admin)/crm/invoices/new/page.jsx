@@ -210,27 +210,27 @@ export default function NewInvoicePage() {
       {/* Header */}
       <Link
         href="/crm/invoices"
-        className="inline-flex items-center gap-2 text-gray-400 hover:text-[#00FF94] mb-6 transition-colors"
+        className="inline-flex items-center gap-2 text-[#8E8E8E] hover:text-[#F2F2F2] mb-6 transition-colors"
       >
         <ArrowLeft size={16} />
         Natrag na fakture
       </Link>
 
-      <h1 className="text-4xl font-black text-white mb-8">Nova faktura</h1>
+      <h1 className="text-4xl font-medium text-[#F2F2F2] mb-8">Nova faktura</h1>
 
       {/* Form */}
       <form onSubmit={handleSubmit}>
-        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-8 space-y-6">
+        <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-8 space-y-6">
           {/* Client Selection */}
           <div>
-            <label className="block text-sm font-semibold text-gray-400 mb-2">
+            <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
               Klijent *
             </label>
             <select
               value={formData.client_id}
               onChange={(e) => setFormData({ ...formData, client_id: e.target.value })}
               required
-              className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
+              className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none"
             >
               <option value="">Odaberi klijenta...</option>
               {clients.map((client) => (
@@ -244,7 +244,7 @@ export default function NewInvoicePage() {
           {/* Invoice Number & Amount */}
           <div className="grid grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-semibold text-gray-400 mb-2">
+              <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                 <FileText size={14} className="inline mr-2" />
                 Broj fakture *
               </label>
@@ -254,12 +254,12 @@ export default function NewInvoicePage() {
                 onChange={(e) => setFormData({ ...formData, invoice_number: e.target.value })}
                 placeholder="NPR-2026-001"
                 required
-                className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
+                className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-400 mb-2">
+              <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                 <Euro size={14} className="inline mr-2" />
                 Iznos (EUR) *
               </label>
@@ -271,7 +271,7 @@ export default function NewInvoicePage() {
                 onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
                 placeholder="1000.00"
                 required
-                className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
+                className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none"
               />
             </div>
           </div>
@@ -279,7 +279,7 @@ export default function NewInvoicePage() {
           {/* Dates */}
           <div className="grid grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-semibold text-gray-400 mb-2">
+              <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                 <Calendar size={14} className="inline mr-2" />
                 Datum izdavanja *
               </label>
@@ -288,12 +288,12 @@ export default function NewInvoicePage() {
                 value={formData.issue_date}
                 onChange={(e) => setFormData({ ...formData, issue_date: e.target.value })}
                 required
-                className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
+                className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-400 mb-2">
+              <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                 <Calendar size={14} className="inline mr-2" />
                 Datum dospijeća
               </label>
@@ -301,14 +301,14 @@ export default function NewInvoicePage() {
                 type="date"
                 value={formData.due_date}
                 onChange={(e) => setFormData({ ...formData, due_date: e.target.value })}
-                className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
+                className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none"
               />
             </div>
           </div>
 
           {/* Status */}
           <div>
-            <label className="block text-sm font-semibold text-gray-400 mb-2">
+            <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
               Status
             </label>
             <div className="flex gap-3">
@@ -320,7 +320,7 @@ export default function NewInvoicePage() {
                   className={`flex-1 px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
                     formData.status === status.id
                       ? ''
-                      : 'bg-[#0a0a0a] border border-[#2A2A2A] text-gray-400 hover:border-[#3A3A3A]'
+                      : 'bg-[#080808] border border-white/[0.07] text-[#8E8E8E] hover:border-white/[0.14]'
                   }`}
                   style={
                     formData.status === status.id
@@ -336,7 +336,7 @@ export default function NewInvoicePage() {
 
           {/* File Upload */}
           <div>
-            <label className="block text-sm font-semibold text-gray-400 mb-2">
+            <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
               <Upload size={14} className="inline mr-2" />
               PDF fakture *
             </label>
@@ -346,7 +346,7 @@ export default function NewInvoicePage() {
                 className={`relative border-2 border-dashed rounded-xl p-8 text-center transition-all ${
                   dragActive
                     ? 'border-[#00FF94] bg-[#00FF94]/5'
-                    : 'border-[#2A2A2A] hover:border-[#3A3A3A]'
+                    : 'border-white/[0.07] hover:border-white/[0.14]'
                 }`}
                 onDragEnter={handleDrag}
                 onDragLeave={handleDrag}
@@ -360,28 +360,28 @@ export default function NewInvoicePage() {
                   onChange={handleFileSelect}
                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                 />
-                <Upload size={32} className="mx-auto mb-4 text-gray-500" />
-                <p className="text-gray-400 mb-2">
+                <Upload size={32} className="mx-auto mb-4 text-[#6E6E6E]" />
+                <p className="text-[#8E8E8E] mb-2">
                   Povuci i ispusti PDF ovdje ili{' '}
                   <span className="text-[#00FF94]">klikni za odabir</span>
                 </p>
-                <p className="text-sm text-gray-500">Max 10MB, samo PDF</p>
+                <p className="text-sm text-[#6E6E6E]">Max 10MB, samo PDF</p>
               </div>
             ) : (
-              <div className="flex items-center gap-4 p-4 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl">
+              <div className="flex items-center gap-4 p-4 bg-[#080808] border border-white/[0.07] rounded-xl">
                 <div className="w-12 h-12 rounded-lg bg-red-500/10 flex items-center justify-center">
                   <File size={24} className="text-red-500" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-white font-medium truncate">{file.name}</p>
-                  <p className="text-sm text-gray-400">
+                  <p className="text-[#F2F2F2] font-medium truncate">{file.name}</p>
+                  <p className="text-sm text-[#8E8E8E]">
                     {(file.size / 1024).toFixed(1)} KB
                   </p>
                 </div>
                 <button
                   type="button"
                   onClick={removeFile}
-                  className="p-2 text-gray-400 hover:text-red-500 transition-colors"
+                  className="p-2 text-[#8E8E8E] hover:text-red-500 transition-colors"
                 >
                   <X size={20} />
                 </button>
@@ -395,7 +395,7 @@ export default function NewInvoicePage() {
 
           {/* Notes */}
           <div>
-            <label className="block text-sm font-semibold text-gray-400 mb-2">
+            <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
               Napomene (opcionalno)
             </label>
             <textarea
@@ -403,16 +403,16 @@ export default function NewInvoicePage() {
               onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
               rows={3}
               placeholder="Dodatne napomene o fakturi..."
-              className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none resize-none"
+              className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none resize-none"
             />
           </div>
 
           {/* Submit */}
-          <div className="flex gap-3 pt-6 border-t border-[#2A2A2A]">
+          <div className="flex gap-3 pt-6 border-t border-white/[0.07]">
             <button
               type="submit"
               disabled={saving}
-              className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 transition-all disabled:opacity-50"
+              className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#F2F2F2] text-[#080808] rounded-full font-medium transition-all disabled:opacity-50"
             >
               {saving ? (
                 <>
@@ -428,7 +428,7 @@ export default function NewInvoicePage() {
             </button>
             <Link
               href="/crm/invoices"
-              className="px-6 py-3 bg-[#2A2A2A] text-white rounded-xl font-bold hover:bg-[#3A3A3A] transition-all"
+              className="px-6 py-3 bg-white/[0.06] text-[#F2F2F2] rounded-xl font-bold hover:bg-white/[0.1] transition-all"
             >
               Odustani
             </Link>

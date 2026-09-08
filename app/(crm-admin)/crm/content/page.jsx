@@ -21,7 +21,7 @@ const PLATFORM_CONFIG = {
   instagram: { bg: 'bg-pink-500/10', text: 'text-pink-500', label: 'Instagram' },
   facebook: { bg: 'bg-blue-500/10', text: 'text-blue-500', label: 'Facebook' },
   linkedin: { bg: 'bg-indigo-500/10', text: 'text-indigo-500', label: 'LinkedIn' },
-  tiktok: { bg: 'bg-gray-500/10', text: 'text-gray-400', label: 'TikTok' },
+  tiktok: { bg: 'bg-gray-500/10', text: 'text-[#8E8E8E]', label: 'TikTok' },
 };
 
 const STATUS_CONFIG = {
@@ -149,13 +149,13 @@ export default function ContentManagementPage() {
       {/* Header */}
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-8">
         <div>
-          <h1 className="text-4xl font-black text-white mb-2">Sadržaj za odobrenje</h1>
-          <p className="text-gray-400">Upravljajte sadržajem za društvene mreže</p>
+          <h1 className="text-4xl font-medium text-[#F2F2F2] mb-2">Sadržaj za odobrenje</h1>
+          <p className="text-[#8E8E8E]">Upravljajte sadržajem za društvene mreže</p>
         </div>
 
         <Link
           href="/crm/content/new"
-          className="inline-flex items-center gap-2 px-5 py-3 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 transition-all"
+          className="inline-flex items-center gap-2 px-5 py-3 bg-[#F2F2F2] text-[#080808] rounded-full font-medium transition-all"
         >
           <Plus size={20} />
           Novi sadržaj
@@ -164,43 +164,43 @@ export default function ContentManagementPage() {
 
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-5">
-          <div className="text-3xl font-black text-white mb-1">{content.length}</div>
-          <div className="text-sm text-gray-400">Ukupno</div>
+        <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-5">
+          <div className="text-3xl font-medium text-[#F2F2F2] mb-1">{content.length}</div>
+          <div className="text-sm text-[#8E8E8E]">Ukupno</div>
         </div>
-        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-5">
-          <div className="text-3xl font-black text-yellow-500 mb-1">{pendingCount}</div>
-          <div className="text-sm text-gray-400">Čeka odobrenje</div>
+        <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-5">
+          <div className="text-3xl font-medium text-yellow-500 mb-1">{pendingCount}</div>
+          <div className="text-sm text-[#8E8E8E]">Čeka odobrenje</div>
         </div>
-        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-5">
-          <div className="text-3xl font-black text-red-500 mb-1">{revisionCount}</div>
-          <div className="text-sm text-gray-400">Treba izmjene</div>
+        <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-5">
+          <div className="text-3xl font-medium text-red-500 mb-1">{revisionCount}</div>
+          <div className="text-sm text-[#8E8E8E]">Treba izmjene</div>
         </div>
-        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-5">
-          <div className="text-3xl font-black text-green-500 mb-1">
+        <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-5">
+          <div className="text-3xl font-medium text-green-500 mb-1">
             {content.filter((c) => c.status === 'approved').length}
           </div>
-          <div className="text-sm text-gray-400">Odobreno</div>
+          <div className="text-sm text-[#8E8E8E]">Odobreno</div>
         </div>
       </div>
 
       {/* Filters */}
       <div className="flex flex-wrap gap-4 mb-6">
         <div className="relative flex-1 min-w-[250px] max-w-md">
-          <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
+          <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#6E6E6E]" />
           <input
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Pretraži sadržaj..."
-            className="w-full pl-11 pr-4 py-3 bg-[#1a1a1a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
+            className="w-full pl-11 pr-4 py-3 bg-[#0F0F0F] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none"
           />
         </div>
 
         <select
           value={filterClient}
           onChange={(e) => setFilterClient(e.target.value)}
-          className="px-4 py-3 bg-[#1a1a1a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
+          className="px-4 py-3 bg-[#0F0F0F] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none"
         >
           <option value="all">Svi klijenti</option>
           {clients.map((client) => (
@@ -213,7 +213,7 @@ export default function ContentManagementPage() {
         <select
           value={filterPlatform}
           onChange={(e) => setFilterPlatform(e.target.value)}
-          className="px-4 py-3 bg-[#1a1a1a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
+          className="px-4 py-3 bg-[#0F0F0F] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none"
         >
           <option value="all">Sve platforme</option>
           <option value="instagram">Instagram</option>
@@ -225,7 +225,7 @@ export default function ContentManagementPage() {
         <select
           value={filterStatus}
           onChange={(e) => setFilterStatus(e.target.value)}
-          className="px-4 py-3 bg-[#1a1a1a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
+          className="px-4 py-3 bg-[#0F0F0F] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none"
         >
           <option value="all">Svi statusi</option>
           <option value="pending">Čeka odobrenje</option>
@@ -237,20 +237,20 @@ export default function ContentManagementPage() {
 
       {/* Content List */}
       {filteredContent.length === 0 ? (
-        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-12 text-center">
-          <Calendar size={48} className="mx-auto mb-4 text-gray-600" />
-          <h3 className="text-xl font-bold text-white mb-2">Nema sadržaja</h3>
-          <p className="text-gray-400 mb-6">Kreirajte novi sadržaj za vaše klijente</p>
+        <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-12 text-center">
+          <Calendar size={48} className="mx-auto mb-4 text-[#5C5C5C]" />
+          <h3 className="text-xl font-bold text-[#F2F2F2] mb-2">Nema sadržaja</h3>
+          <p className="text-[#8E8E8E] mb-6">Kreirajte novi sadržaj za vaše klijente</p>
           <Link
             href="/crm/content/new"
-            className="inline-flex items-center gap-2 px-5 py-3 bg-[#00FF94] text-black rounded-xl font-bold"
+            className="inline-flex items-center gap-2 px-5 py-3 bg-[#F2F2F2] text-[#080808] rounded-full font-medium"
           >
             <Plus size={18} />
             Kreiraj sadržaj
           </Link>
         </div>
       ) : (
-        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl overflow-hidden">
+        <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl overflow-hidden">
           {filteredContent.map((item, index) => {
             // Support both platforms array and legacy platform field
             const itemPlatforms = item.platforms?.length > 0 ? item.platforms : (item.platform ? [item.platform] : ['instagram']);
@@ -261,13 +261,13 @@ export default function ContentManagementPage() {
               <Link
                 key={item.id}
                 href={`/crm/content/${item.id}`}
-                className={`flex items-center gap-5 p-5 hover:bg-[#222] transition-colors ${
-                  index < filteredContent.length - 1 ? 'border-b border-[#2A2A2A]' : ''
+                className={`flex items-center gap-5 p-5 hover:bg-white/[0.06] transition-colors ${
+                  index < filteredContent.length - 1 ? 'border-b border-white/[0.07]' : ''
                 }`}
               >
                 {/* Thumbnail */}
                 {item.media_urls?.[0] ? (
-                  <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-[#2A2A2A]">
+                  <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-white/[0.06]">
                     <img
                       src={getThumbnailUrl(item.media_urls[0])}
                       alt=""
@@ -294,13 +294,13 @@ export default function ContentManagementPage() {
                         </span>
                       );
                     })}
-                    <span className="text-sm text-gray-500 capitalize">{item.content_type}</span>
+                    <span className="text-sm text-[#6E6E6E] capitalize">{item.content_type}</span>
                   </div>
-                  <div className="text-white font-semibold mb-1 truncate">
+                  <div className="text-[#F2F2F2] font-semibold mb-1 truncate">
                     {item.caption?.slice(0, 60) || 'Bez opisa'}
                     {item.caption?.length > 60 && '...'}
                   </div>
-                  <div className="flex items-center gap-4 text-sm text-gray-500">
+                  <div className="flex items-center gap-4 text-sm text-[#6E6E6E]">
                     <span className="flex items-center gap-1">
                       <Calendar size={14} />
                       {new Date(item.scheduled_date).toLocaleDateString('hr-HR')}
@@ -316,7 +316,7 @@ export default function ContentManagementPage() {
 
                 {/* Client Feedback */}
                 {item.client_feedback && (
-                  <div className="max-w-[200px] text-sm text-gray-400 italic truncate flex-shrink-0">
+                  <div className="max-w-[200px] text-sm text-[#8E8E8E] italic truncate flex-shrink-0">
                     "{item.client_feedback.slice(0, 50)}{item.client_feedback.length > 50 && '...'}"
                   </div>
                 )}
@@ -330,7 +330,7 @@ export default function ContentManagementPage() {
                       handleStatusChange(item.id, e.target.value);
                     }}
                     onClick={(e) => e.preventDefault()}
-                    className="px-3 py-2 bg-[#0a0a0a] border border-[#2A2A2A] rounded-lg text-sm text-white cursor-pointer"
+                    className="px-3 py-2 bg-[#080808] border border-white/[0.07] rounded-lg text-sm text-[#F2F2F2] cursor-pointer"
                   >
                     <option value="pending">Čeka</option>
                     <option value="approved">Odobreno</option>
@@ -343,7 +343,7 @@ export default function ContentManagementPage() {
                       e.preventDefault();
                       handleDelete(item.id);
                     }}
-                    className="p-2 text-gray-500 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-colors"
+                    className="p-2 text-[#6E6E6E] hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-colors"
                   >
                     <Trash2 size={18} />
                   </button>

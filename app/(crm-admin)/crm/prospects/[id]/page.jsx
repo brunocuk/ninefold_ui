@@ -159,7 +159,7 @@ export default function ProspectDetailPage() {
   if (!prospect) {
     return (
       <div className="text-center py-20">
-        <h2 className="text-2xl font-bold mb-4">Prospect not found</h2>
+        <h2 className="text-2xl font-medium mb-4">Prospect not found</h2>
         <Link href="/crm/prospects" className="text-[#00FF94] hover:underline">
           ← Back to Prospects
         </Link>
@@ -171,7 +171,7 @@ export default function ProspectDetailPage() {
     researched: 'bg-slate-500',
     'outreach-pending': 'bg-blue-500',
     contacted: 'bg-purple-500',
-    responding: 'bg-[#00FF94] text-black',
+    responding: 'bg-[#F2F2F2] text-[#080808]',
     qualified: 'bg-green-500',
     unresponsive: 'bg-amber-500',
     disqualified: 'bg-red-500'
@@ -182,7 +182,7 @@ export default function ProspectDetailPage() {
       {/* Breadcrumb */}
       <Link
         href="/crm/prospects"
-        className="inline-flex items-center gap-2 text-gray-400 hover:text-[#00FF94] mb-6 transition-colors"
+        className="inline-flex items-center gap-2 text-[#8E8E8E] hover:text-[#F2F2F2] mb-6 transition-colors"
       >
         <ArrowLeft size={16} />
         Back to Prospects
@@ -191,8 +191,8 @@ export default function ProspectDetailPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-8">
         <div className="flex-1">
-          <h1 className="text-4xl font-black text-white mb-3">{prospect.contact_name}</h1>
-          <div className="flex flex-wrap gap-3 text-gray-400">
+          <h1 className="text-4xl font-medium text-[#F2F2F2] mb-3">{prospect.contact_name}</h1>
+          <div className="flex flex-wrap gap-3 text-[#8E8E8E]">
             {prospect.company && (
               <span className="inline-flex items-center gap-1.5">
                 <Building2 size={16} className="text-[#00FF94]" />
@@ -210,7 +210,7 @@ export default function ProspectDetailPage() {
                 href={prospect.linkedin_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 hover:text-[#00FF94] transition-colors"
+                className="inline-flex items-center gap-1.5 hover:text-[#F2F2F2] transition-colors"
               >
                 <Linkedin size={16} className="text-[#00FF94]" />
                 LinkedIn
@@ -221,7 +221,7 @@ export default function ProspectDetailPage() {
                 href={prospect.website_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 hover:text-[#00FF94] transition-colors"
+                className="inline-flex items-center gap-1.5 hover:text-[#F2F2F2] transition-colors"
               >
                 <Globe size={16} className="text-[#00FF94]" />
                 Website
@@ -229,7 +229,7 @@ export default function ProspectDetailPage() {
             )}
           </div>
         </div>
-        <span className={`px-4 py-2 rounded-full text-sm font-bold ${statusColors[prospect.status] || 'bg-gray-600'} text-white`}>
+        <span className={`px-4 py-2 rounded-full text-sm font-bold ${statusColors[prospect.status] || 'bg-gray-600'} text-[#F2F2F2]`}>
           {prospect.status}
         </span>
       </div>
@@ -240,21 +240,21 @@ export default function ProspectDetailPage() {
           <>
             <button
               onClick={() => setEditing(true)}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 hover:-translate-y-0.5 transition-all"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#F2F2F2] text-[#080808] rounded-full font-medium hover:-translate-y-0.5 transition-all"
             >
               <Edit size={18} />
               Edit
             </button>
             <button
               onClick={handleLogOutreach}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-500 text-white rounded-xl font-bold hover:bg-blue-600 transition-all"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-500 text-[#F2F2F2] rounded-xl font-bold hover:bg-blue-600 transition-all"
             >
               <Send size={18} />
               Log Outreach
             </button>
             <button
               onClick={handleDelete}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-red-500 text-white rounded-xl font-bold hover:bg-red-600 transition-all"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-red-500 text-[#F2F2F2] rounded-xl font-bold hover:bg-red-600 transition-all"
             >
               <Trash2 size={18} />
               Delete
@@ -266,14 +266,14 @@ export default function ProspectDetailPage() {
       {/* Content */}
       {editing ? (
         <form onSubmit={handleUpdate}>
-          <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-8">
-            <h3 className="text-2xl font-bold mb-6 pb-4 border-b border-[#2A2A2A]">
+          <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-8">
+            <h3 className="text-2xl font-medium mb-6 pb-4 border-b border-white/[0.07]">
               Edit Prospect
             </h3>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                   Contact Name *
                 </label>
                 <input
@@ -281,24 +281,24 @@ export default function ProspectDetailPage() {
                   value={formData.contact_name || ''}
                   onChange={(e) => setFormData({...formData, contact_name: e.target.value})}
                   required
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                   Title
                 </label>
                 <input
                   type="text"
                   value={formData.title || ''}
                   onChange={(e) => setFormData({...formData, title: e.target.value})}
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                   Company *
                 </label>
                 <input
@@ -306,30 +306,30 @@ export default function ProspectDetailPage() {
                   value={formData.company || ''}
                   onChange={(e) => setFormData({...formData, company: e.target.value})}
                   required
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                   Industry
                 </label>
                 <input
                   type="text"
                   value={formData.industry || ''}
                   onChange={(e) => setFormData({...formData, industry: e.target.value})}
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                   Company Size
                 </label>
                 <select
                   value={formData.company_size || ''}
                   onChange={(e) => setFormData({...formData, company_size: e.target.value})}
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 >
                   <option value="">Select...</option>
                   <option value="1-10">1-10 employees</option>
@@ -341,13 +341,13 @@ export default function ProspectDetailPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                   Status
                 </label>
                 <select
                   value={formData.status || 'researched'}
                   onChange={(e) => setFormData({...formData, status: e.target.value})}
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 >
                   <option value="researched">Researched</option>
                   <option value="outreach-pending">Outreach Pending</option>
@@ -360,7 +360,7 @@ export default function ProspectDetailPage() {
               </div>
 
               <div className="md:col-span-2">
-                <label className="block text-sm font-semibold text-gray-400 mb-2">
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                   Primary Email *
                 </label>
                 <input
@@ -368,76 +368,76 @@ export default function ProspectDetailPage() {
                   value={formData.primary_email || ''}
                   onChange={(e) => setFormData({...formData, primary_email: e.target.value})}
                   required
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                   Secondary Email
                 </label>
                 <input
                   type="email"
                   value={formData.secondary_email || ''}
                   onChange={(e) => setFormData({...formData, secondary_email: e.target.value})}
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                   Tertiary Email
                 </label>
                 <input
                   type="email"
                   value={formData.tertiary_email || ''}
                   onChange={(e) => setFormData({...formData, tertiary_email: e.target.value})}
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                   Website URL
                 </label>
                 <input
                   type="url"
                   value={formData.website_url || ''}
                   onChange={(e) => setFormData({...formData, website_url: e.target.value})}
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                   LinkedIn URL
                 </label>
                 <input
                   type="url"
                   value={formData.linkedin_url || ''}
                   onChange={(e) => setFormData({...formData, linkedin_url: e.target.value})}
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 />
               </div>
             </div>
 
             <div className="mb-6">
-              <label className="block text-sm font-semibold text-gray-400 mb-2">
+              <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                 Notes
               </label>
               <textarea
                 value={formData.notes || ''}
                 onChange={(e) => setFormData({...formData, notes: e.target.value})}
                 rows={4}
-                className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors resize-none"
+                className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors resize-none"
               />
             </div>
 
-            <div className="flex gap-3 pt-6 border-t border-[#2A2A2A]">
+            <div className="flex gap-3 pt-6 border-t border-white/[0.07]">
               <button
                 type="submit"
                 disabled={saving}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-[#F2F2F2] text-[#080808] rounded-full font-medium hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Save size={18} />
                 {saving ? 'Saving...' : 'Save Changes'}
@@ -448,7 +448,7 @@ export default function ProspectDetailPage() {
                   setEditing(false);
                   setFormData(prospect);
                 }}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-[#2A2A2A] text-white rounded-xl font-bold hover:bg-[#3A3A3A] transition-all"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-white/[0.06] text-[#F2F2F2] rounded-xl font-bold hover:bg-white/[0.1] transition-all"
               >
                 <X size={18} />
                 Cancel
@@ -459,26 +459,26 @@ export default function ProspectDetailPage() {
       ) : (
         <div className="space-y-6">
           {/* Contact Information */}
-          <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-8">
-            <h3 className="text-2xl font-bold mb-6 pb-4 border-b border-[#2A2A2A]">
+          <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-8">
+            <h3 className="text-2xl font-medium mb-6 pb-4 border-b border-white/[0.07]">
               Contact Information
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {prospect.title && (
-                <div className="bg-[#0a0a0a] rounded-xl p-5">
-                  <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">Title</div>
+                <div className="bg-[#080808] rounded-xl p-5">
+                  <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-2">Title</div>
                   <div className="text-lg font-bold text-[#00FF94]">{prospect.title}</div>
                 </div>
               )}
               {prospect.industry && (
-                <div className="bg-[#0a0a0a] rounded-xl p-5">
-                  <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">Industry</div>
+                <div className="bg-[#080808] rounded-xl p-5">
+                  <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-2">Industry</div>
                   <div className="text-lg font-bold text-[#00FF94]">{prospect.industry}</div>
                 </div>
               )}
               {prospect.company_size && (
-                <div className="bg-[#0a0a0a] rounded-xl p-5">
-                  <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">Company Size</div>
+                <div className="bg-[#080808] rounded-xl p-5">
+                  <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-2">Company Size</div>
                   <div className="text-lg font-bold text-[#00FF94]">{prospect.company_size}</div>
                 </div>
               )}
@@ -486,48 +486,48 @@ export default function ProspectDetailPage() {
           </div>
 
           {/* Email Addresses */}
-          <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-8">
-            <h3 className="text-2xl font-bold mb-6 pb-4 border-b border-[#2A2A2A]">
+          <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-8">
+            <h3 className="text-2xl font-medium mb-6 pb-4 border-b border-white/[0.07]">
               Email Addresses
             </h3>
             <div className="space-y-4">
               {prospect.primary_email && (
-                <div className="flex items-center justify-between bg-[#0a0a0a] rounded-xl p-5">
+                <div className="flex items-center justify-between bg-[#080808] rounded-xl p-5">
                   <div>
-                    <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">Primary Email</div>
+                    <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-2">Primary Email</div>
                     <div className="text-lg font-bold text-[#00FF94]">{prospect.primary_email}</div>
                   </div>
                   <button
                     onClick={() => copyToClipboard(prospect.primary_email, 'primary')}
-                    className="p-3 bg-[#2A2A2A] rounded-lg hover:bg-[#00FF94] hover:text-black transition-colors"
+                    className="p-3 bg-white/[0.06] rounded-lg hover:bg-white/[0.1] hover:text-[#F2F2F2] transition-colors"
                   >
                     {copied === 'primary' ? <CheckCircle size={20} /> : <Copy size={20} />}
                   </button>
                 </div>
               )}
               {prospect.secondary_email && (
-                <div className="flex items-center justify-between bg-[#0a0a0a] rounded-xl p-5">
+                <div className="flex items-center justify-between bg-[#080808] rounded-xl p-5">
                   <div>
-                    <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">Secondary Email</div>
+                    <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-2">Secondary Email</div>
                     <div className="text-lg font-bold text-[#00FF94]">{prospect.secondary_email}</div>
                   </div>
                   <button
                     onClick={() => copyToClipboard(prospect.secondary_email, 'secondary')}
-                    className="p-3 bg-[#2A2A2A] rounded-lg hover:bg-[#00FF94] hover:text-black transition-colors"
+                    className="p-3 bg-white/[0.06] rounded-lg hover:bg-white/[0.1] hover:text-[#F2F2F2] transition-colors"
                   >
                     {copied === 'secondary' ? <CheckCircle size={20} /> : <Copy size={20} />}
                   </button>
                 </div>
               )}
               {prospect.tertiary_email && (
-                <div className="flex items-center justify-between bg-[#0a0a0a] rounded-xl p-5">
+                <div className="flex items-center justify-between bg-[#080808] rounded-xl p-5">
                   <div>
-                    <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">Tertiary Email</div>
+                    <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-2">Tertiary Email</div>
                     <div className="text-lg font-bold text-[#00FF94]">{prospect.tertiary_email}</div>
                   </div>
                   <button
                     onClick={() => copyToClipboard(prospect.tertiary_email, 'tertiary')}
-                    className="p-3 bg-[#2A2A2A] rounded-lg hover:bg-[#00FF94] hover:text-black transition-colors"
+                    className="p-3 bg-white/[0.06] rounded-lg hover:bg-white/[0.1] hover:text-[#F2F2F2] transition-colors"
                   >
                     {copied === 'tertiary' ? <CheckCircle size={20} /> : <Copy size={20} />}
                   </button>
@@ -538,14 +538,14 @@ export default function ProspectDetailPage() {
 
           {/* Online Presence */}
           {(prospect.website_url || prospect.linkedin_url) && (
-            <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-8">
-              <h3 className="text-2xl font-bold mb-6 pb-4 border-b border-[#2A2A2A]">
+            <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-8">
+              <h3 className="text-2xl font-medium mb-6 pb-4 border-b border-white/[0.07]">
                 Online Presence
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 {prospect.website_url && (
-                  <div className="bg-[#0a0a0a] rounded-xl p-5">
-                    <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">Website</div>
+                  <div className="bg-[#080808] rounded-xl p-5">
+                    <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-2">Website</div>
                     <a
                       href={prospect.website_url}
                       target="_blank"
@@ -558,8 +558,8 @@ export default function ProspectDetailPage() {
                   </div>
                 )}
                 {prospect.linkedin_url && (
-                  <div className="bg-[#0a0a0a] rounded-xl p-5">
-                    <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">LinkedIn</div>
+                  <div className="bg-[#080808] rounded-xl p-5">
+                    <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-2">LinkedIn</div>
                     <a
                       href={prospect.linkedin_url}
                       target="_blank"
@@ -576,28 +576,28 @@ export default function ProspectDetailPage() {
           )}
 
           {/* Outreach Tracking */}
-          <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-8">
-            <h3 className="text-2xl font-bold mb-6 pb-4 border-b border-[#2A2A2A]">
+          <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-8">
+            <h3 className="text-2xl font-medium mb-6 pb-4 border-b border-white/[0.07]">
               Outreach Tracking
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-              <div className="bg-[#0a0a0a] rounded-xl p-5">
-                <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">Total Attempts</div>
+              <div className="bg-[#080808] rounded-xl p-5">
+                <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-2">Total Attempts</div>
                 <div className="flex items-center gap-2 text-lg font-bold text-[#00FF94]">
                   <Hash size={20} />
                   {prospect.outreach_attempts || 0}
                 </div>
               </div>
-              <div className="bg-[#0a0a0a] rounded-xl p-5">
-                <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">First Contacted</div>
+              <div className="bg-[#080808] rounded-xl p-5">
+                <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-2">First Contacted</div>
                 <div className="text-lg font-bold text-[#00FF94]">
                   {prospect.first_contacted
                     ? new Date(prospect.first_contacted).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
                     : 'Not yet contacted'}
                 </div>
               </div>
-              <div className="bg-[#0a0a0a] rounded-xl p-5">
-                <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">Last Contacted</div>
+              <div className="bg-[#080808] rounded-xl p-5">
+                <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-2">Last Contacted</div>
                 <div className="text-lg font-bold text-[#00FF94]">
                   {prospect.last_contacted
                     ? new Date(prospect.last_contacted).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
@@ -609,11 +609,11 @@ export default function ProspectDetailPage() {
 
           {/* Notes */}
           {prospect.notes && (
-            <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-8">
-              <h3 className="text-2xl font-bold mb-6 pb-4 border-b border-[#2A2A2A]">
+            <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-8">
+              <h3 className="text-2xl font-medium mb-6 pb-4 border-b border-white/[0.07]">
                 Notes
               </h3>
-              <p className="text-gray-400 leading-relaxed text-lg whitespace-pre-wrap">
+              <p className="text-[#8E8E8E] leading-relaxed text-lg whitespace-pre-wrap">
                 {prospect.notes}
               </p>
             </div>

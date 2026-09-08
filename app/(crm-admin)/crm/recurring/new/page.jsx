@@ -115,7 +115,7 @@ export default function NewContractPage() {
         }
 
         .form {
-          background: #1a1a1a;
+          background: #0F0F0F;
           border: 1px solid #333;
           border-radius: 12px;
           padding: 40px;
@@ -167,8 +167,8 @@ export default function NewContractPage() {
         .form-input,
         .form-select,
         .form-textarea {
-          background: #0a0a0a;
-          border: 1px solid #2A2A2A;
+          background: #080808;
+          border: 1px solid rgba(255,255,255,0.07);
           border-radius: 8px;
           padding: 12px 16px;
           color: white;
@@ -181,7 +181,7 @@ export default function NewContractPage() {
         .form-select:focus,
         .form-textarea:focus {
           outline: none;
-          border-color: #00FF94;
+          border-color: rgba(255,255,255,0.3);
           background: #0F0F0F;
         }
 
@@ -216,7 +216,7 @@ export default function NewContractPage() {
         }
 
         .btn-primary {
-          background: #00FF94;
+          background: #F2F2F2;
           color: #0F0F0F;
         }
 
@@ -234,11 +234,11 @@ export default function NewContractPage() {
         .btn-secondary {
           background: transparent;
           color: #8F8F8F;
-          border: 1px solid #2A2A2A;
+          border: 1px solid rgba(255,255,255,0.07);
         }
 
         .btn-secondary:hover {
-          background: #1a1a1a;
+          background: #0F0F0F;
           color: white;
         }
 
@@ -249,8 +249,8 @@ export default function NewContractPage() {
         }
 
         .type-option {
-          background: #0a0a0a;
-          border: 2px solid #2A2A2A;
+          background: #080808;
+          border: 2px solid rgba(255,255,255,0.07);
           border-radius: 8px;
           padding: 20px;
           cursor: pointer;
@@ -259,7 +259,7 @@ export default function NewContractPage() {
         }
 
         .type-option:hover {
-          border-color: #00FF94;
+          border-color: rgba(255,255,255,0.16);
         }
 
         .type-option.selected {

@@ -373,7 +373,7 @@ export default function ContractDetailPage() {
         }
 
         .stat-card {
-          background: #1a1a1a;
+          background: #0F0F0F;
           border: 1px solid #333;
           border-radius: 12px;
           padding: 25px;
@@ -395,7 +395,7 @@ export default function ContractDetailPage() {
         .stat-value {
           font-size: 2rem;
           font-weight: 900;
-          color: #00FF94;
+          color: #F2F2F2;
           line-height: 1;
         }
 
@@ -416,7 +416,7 @@ export default function ContractDetailPage() {
         }
 
         .card {
-          background: #1a1a1a;
+          background: #0F0F0F;
           border: 1px solid #333;
           border-radius: 12px;
           padding: 30px;
@@ -463,8 +463,8 @@ export default function ContractDetailPage() {
         }
 
         .notes-box {
-          background: #0a0a0a;
-          border: 1px solid #2A2A2A;
+          background: #080808;
+          border: 1px solid rgba(255,255,255,0.07);
           border-radius: 8px;
           padding: 20px;
           color: #C4C4C4;
@@ -496,7 +496,7 @@ export default function ContractDetailPage() {
         .status-btn {
           padding: 10px 20px;
           border: 2px solid #333;
-          background: #1a1a1a;
+          background: #0F0F0F;
           color: #888;
           border-radius: 8px;
           cursor: pointer;
@@ -511,7 +511,7 @@ export default function ContractDetailPage() {
         }
 
         .status-btn.active {
-          background: #00FF94;
+          background: #F2F2F2;
           color: #000;
           border-color: #00FF94;
         }
@@ -555,7 +555,7 @@ export default function ContractDetailPage() {
           color: #666;
           margin-bottom: 12px;
           padding-bottom: 8px;
-          border-bottom: 1px solid #2a2a2a;
+          border-bottom: 1px solid rgba(255,255,255,0.07);
         }
 
         .payment-grid {
@@ -571,7 +571,7 @@ export default function ContractDetailPage() {
           justify-content: center;
           gap: 6px;
           padding: 14px 10px;
-          background: #0a0a0a;
+          background: #080808;
           border: 2px solid #333;
           border-radius: 12px;
           cursor: pointer;
@@ -676,7 +676,7 @@ export default function ContractDetailPage() {
           display: flex;
           gap: 24px;
           padding: 20px;
-          background: #0a0a0a;
+          background: #080808;
           border-radius: 10px;
           margin-bottom: 20px;
           flex-wrap: wrap;

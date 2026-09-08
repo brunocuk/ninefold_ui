@@ -383,7 +383,7 @@ export default function NewPortfolioPage() {
         h1 {
           font-size: 2rem;
           font-weight: 900;
-          background: linear-gradient(135deg, #00FF94 0%, #00CC76 100%);
+          background: #F2F2F2;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
@@ -409,7 +409,7 @@ export default function NewPortfolioPage() {
         }
 
         .btn-primary {
-          background: #00FF94;
+          background: #F2F2F2;
           color: #000;
         }
 
@@ -430,7 +430,7 @@ export default function NewPortfolioPage() {
         }
 
         .btn-secondary:hover {
-          border-color: #00FF94;
+          border-color: rgba(255,255,255,0.16);
           color: #fff;
         }
 
@@ -438,7 +438,7 @@ export default function NewPortfolioPage() {
         .tabs {
           display: flex;
           gap: 4px;
-          background: #1a1a1a;
+          background: #0F0F0F;
           padding: 6px;
           border-radius: 12px;
           margin-bottom: 30px;
@@ -462,13 +462,13 @@ export default function NewPortfolioPage() {
         }
 
         .tab.active {
-          background: #00FF94;
+          background: #F2F2F2;
           color: #000;
         }
 
         /* Form Sections */
         .form-section {
-          background: #1a1a1a;
+          background: #0F0F0F;
           border: 1px solid #333;
           border-radius: 12px;
           padding: 24px;
@@ -520,7 +520,7 @@ export default function NewPortfolioPage() {
 
         input, textarea, select {
           padding: 12px 16px;
-          background: #0a0a0a;
+          background: #080808;
           border: 1px solid #333;
           border-radius: 8px;
           color: #fff;
@@ -530,7 +530,7 @@ export default function NewPortfolioPage() {
 
         input:focus, textarea:focus, select:focus {
           outline: none;
-          border-color: #00FF94;
+          border-color: rgba(255,255,255,0.3);
           box-shadow: 0 0 0 3px rgba(0, 255, 148, 0.1);
         }
 
@@ -548,7 +548,7 @@ export default function NewPortfolioPage() {
 
         .type-card {
           padding: 20px;
-          background: #0a0a0a;
+          background: #080808;
           border: 2px solid #333;
           border-radius: 12px;
           cursor: pointer;
@@ -690,7 +690,7 @@ export default function NewPortfolioPage() {
         }
 
         .section-item {
-          background: #0a0a0a;
+          background: #080808;
           border: 1px solid #333;
           border-radius: 8px;
           padding: 16px;
@@ -734,7 +734,7 @@ export default function NewPortfolioPage() {
         }
 
         .toggle.active {
-          background: #00FF94;
+          background: #F2F2F2;
         }
 
         .toggle::after {
@@ -764,7 +764,7 @@ export default function NewPortfolioPage() {
         .gallery-item {
           position: relative;
           aspect-ratio: 16/9;
-          background: #0a0a0a;
+          background: #080808;
           border: 1px solid #333;
           border-radius: 8px;
           overflow: hidden;

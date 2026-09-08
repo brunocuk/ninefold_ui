@@ -27,7 +27,7 @@ const STATUS_CONFIG = {
 };
 
 const PRIORITY_CONFIG = {
-  low: { bg: 'bg-gray-500/10', text: 'text-gray-400', label: 'Nisko' },
+  low: { bg: 'bg-gray-500/10', text: 'text-[#8E8E8E]', label: 'Nisko' },
   normal: { bg: 'bg-blue-500/10', text: 'text-blue-400', label: 'Normalno' },
   high: { bg: 'bg-yellow-500/10', text: 'text-yellow-400', label: 'Visoko' },
   urgent: { bg: 'bg-red-500/10', text: 'text-red-400', label: 'Hitno' },
@@ -126,57 +126,57 @@ export default function ChangeRequestsPage() {
     <div className="animate-fadeIn">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-4xl font-black text-white mb-2">Zahtjevi klijenata</h1>
-        <p className="text-gray-400">Upravljajte zahtjevima za izmjene od klijenata</p>
+        <h1 className="text-4xl font-medium text-[#F2F2F2] mb-2">Zahtjevi klijenata</h1>
+        <p className="text-[#8E8E8E]">Upravljajte zahtjevima za izmjene od klijenata</p>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
-        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-5">
-          <div className="text-3xl font-black text-white mb-1">{requests.length}</div>
-          <div className="text-sm text-gray-400">Ukupno</div>
+        <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-5">
+          <div className="text-3xl font-medium text-[#F2F2F2] mb-1">{requests.length}</div>
+          <div className="text-sm text-[#8E8E8E]">Ukupno</div>
         </div>
-        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-5">
-          <div className="text-3xl font-black text-yellow-500 mb-1">{openCount}</div>
-          <div className="text-sm text-gray-400">Otvoreno</div>
+        <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-5">
+          <div className="text-3xl font-medium text-yellow-500 mb-1">{openCount}</div>
+          <div className="text-sm text-[#8E8E8E]">Otvoreno</div>
         </div>
-        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-5">
-          <div className="text-3xl font-black text-green-500 mb-1">
+        <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-5">
+          <div className="text-3xl font-medium text-green-500 mb-1">
             {requests.filter((r) => r.status === 'completed').length}
           </div>
-          <div className="text-sm text-gray-400">Završeno</div>
+          <div className="text-sm text-[#8E8E8E]">Završeno</div>
         </div>
-        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-5">
-          <div className="text-3xl font-black text-red-500 mb-1">
+        <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-5">
+          <div className="text-3xl font-medium text-red-500 mb-1">
             {requests.filter((r) => r.priority === 'urgent').length}
           </div>
-          <div className="text-sm text-gray-400">Hitno</div>
+          <div className="text-sm text-[#8E8E8E]">Hitno</div>
         </div>
-        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-5">
-          <div className="text-3xl font-black text-indigo-500 mb-1">
+        <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-5">
+          <div className="text-3xl font-medium text-indigo-500 mb-1">
             {requests.filter((r) => r.status === 'in_progress').length}
           </div>
-          <div className="text-sm text-gray-400">U obradi</div>
+          <div className="text-sm text-[#8E8E8E]">U obradi</div>
         </div>
       </div>
 
       {/* Filters */}
       <div className="flex flex-wrap gap-4 mb-6">
         <div className="relative flex-1 min-w-[250px] max-w-md">
-          <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
+          <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#6E6E6E]" />
           <input
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Pretraži zahtjeve..."
-            className="w-full pl-11 pr-4 py-3 bg-[#1a1a1a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
+            className="w-full pl-11 pr-4 py-3 bg-[#0F0F0F] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none"
           />
         </div>
 
         <select
           value={filterStatus}
           onChange={(e) => setFilterStatus(e.target.value)}
-          className="px-4 py-3 bg-[#1a1a1a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
+          className="px-4 py-3 bg-[#0F0F0F] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none"
         >
           <option value="all">Svi statusi</option>
           <option value="submitted">Poslano</option>
@@ -189,7 +189,7 @@ export default function ChangeRequestsPage() {
         <select
           value={filterPriority}
           onChange={(e) => setFilterPriority(e.target.value)}
-          className="px-4 py-3 bg-[#1a1a1a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
+          className="px-4 py-3 bg-[#0F0F0F] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none"
         >
           <option value="all">Svi prioriteti</option>
           <option value="urgent">Hitno</option>
@@ -201,13 +201,13 @@ export default function ChangeRequestsPage() {
 
       {/* Requests List */}
       {filteredRequests.length === 0 ? (
-        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-12 text-center">
-          <FileEdit size={48} className="mx-auto mb-4 text-gray-600" />
-          <h3 className="text-xl font-bold text-white mb-2">Nema zahtjeva</h3>
-          <p className="text-gray-400">Zahtjevi klijenata će se pojaviti ovdje</p>
+        <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-12 text-center">
+          <FileEdit size={48} className="mx-auto mb-4 text-[#5C5C5C]" />
+          <h3 className="text-xl font-bold text-[#F2F2F2] mb-2">Nema zahtjeva</h3>
+          <p className="text-[#8E8E8E]">Zahtjevi klijenata će se pojaviti ovdje</p>
         </div>
       ) : (
-        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl overflow-hidden">
+        <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl overflow-hidden">
           {filteredRequests.map((request, index) => {
             const status = STATUS_CONFIG[request.status] || STATUS_CONFIG.submitted;
             const priority = PRIORITY_CONFIG[request.priority] || PRIORITY_CONFIG.normal;
@@ -215,8 +215,8 @@ export default function ChangeRequestsPage() {
             return (
               <div
                 key={request.id}
-                className={`p-5 hover:bg-[#222] transition-colors ${
-                  index < filteredRequests.length - 1 ? 'border-b border-[#2A2A2A]' : ''
+                className={`p-5 hover:bg-white/[0.06] transition-colors ${
+                  index < filteredRequests.length - 1 ? 'border-b border-white/[0.07]' : ''
                 }`}
               >
                 <div className="flex items-start gap-4">
@@ -228,17 +228,17 @@ export default function ChangeRequestsPage() {
                   {/* Content */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-3 mb-2 flex-wrap">
-                      <h3 className="text-lg font-semibold text-white">{request.title}</h3>
+                      <h3 className="text-lg font-semibold text-[#F2F2F2]">{request.title}</h3>
                       <span className={`px-2.5 py-1 rounded-lg text-xs font-semibold ${priority.bg} ${priority.text}`}>
                         {priority.label}
                       </span>
                     </div>
 
-                    <p className="text-gray-400 text-sm mb-3 line-clamp-2">
+                    <p className="text-[#8E8E8E] text-sm mb-3 line-clamp-2">
                       {request.description}
                     </p>
 
-                    <div className="flex items-center gap-4 flex-wrap text-sm text-gray-500">
+                    <div className="flex items-center gap-4 flex-wrap text-sm text-[#6E6E6E]">
                       <span className={`px-2.5 py-1 rounded-lg text-xs font-semibold ${status.bg} ${status.text}`}>
                         {status.label}
                       </span>
@@ -264,7 +264,7 @@ export default function ChangeRequestsPage() {
                     {request.admin_notes && (
                       <div className="mt-3 p-3 bg-[#00FF94]/5 border-l-2 border-[#00FF94] rounded-r-lg">
                         <div className="text-xs text-[#00FF94] font-semibold mb-1">Vaša bilješka:</div>
-                        <p className="text-sm text-gray-300">{request.admin_notes}</p>
+                        <p className="text-sm text-[#C9C9C9]">{request.admin_notes}</p>
                       </div>
                     )}
                   </div>
@@ -274,7 +274,7 @@ export default function ChangeRequestsPage() {
                     <select
                       value={request.status}
                       onChange={(e) => handleStatusChange(request.id, e.target.value)}
-                      className="px-3 py-2 bg-[#0a0a0a] border border-[#2A2A2A] rounded-lg text-sm text-white cursor-pointer focus:border-[#00FF94] focus:outline-none"
+                      className="px-3 py-2 bg-[#080808] border border-white/[0.07] rounded-lg text-sm text-[#F2F2F2] cursor-pointer focus:border-white/25 focus:outline-none"
                     >
                       <option value="submitted">Poslano</option>
                       <option value="in_review">Na pregledu</option>
@@ -288,7 +288,7 @@ export default function ChangeRequestsPage() {
                         setSelectedRequest(request);
                         setAdminNotes(request.admin_notes || '');
                       }}
-                      className="px-3 py-2 bg-[#2A2A2A] text-white rounded-lg text-sm hover:bg-[#3A3A3A] transition-colors flex items-center gap-1.5 justify-center"
+                      className="px-3 py-2 bg-white/[0.06] text-[#F2F2F2] rounded-lg text-sm hover:bg-white/[0.1] transition-colors flex items-center gap-1.5 justify-center"
                     >
                       <MessageSquare size={14} />
                       Bilješka
@@ -304,19 +304,19 @@ export default function ChangeRequestsPage() {
       {/* Notes Modal */}
       {selectedRequest && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 w-full max-w-lg">
+          <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6 w-full max-w-lg">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xl font-bold text-white">Bilješka za klijenta</h3>
+              <h3 className="text-xl font-bold text-[#F2F2F2]">Bilješka za klijenta</h3>
               <button
                 onClick={() => setSelectedRequest(null)}
-                className="p-2 text-gray-400 hover:text-white hover:bg-[#2A2A2A] rounded-lg"
+                className="p-2 text-[#8E8E8E] hover:text-[#F2F2F2] hover:bg-white/[0.06] rounded-lg"
               >
                 <X size={20} />
               </button>
             </div>
 
-            <div className="mb-2 text-sm text-gray-400">
-              Zahtjev: <span className="text-white">{selectedRequest.title}</span>
+            <div className="mb-2 text-sm text-[#8E8E8E]">
+              Zahtjev: <span className="text-[#F2F2F2]">{selectedRequest.title}</span>
             </div>
 
             <textarea
@@ -324,21 +324,21 @@ export default function ChangeRequestsPage() {
               onChange={(e) => setAdminNotes(e.target.value)}
               placeholder="Napišite odgovor ili bilješku za klijenta..."
               rows={5}
-              className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none resize-none mb-4"
+              className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none resize-none mb-4"
             />
 
             <div className="flex gap-3">
               <button
                 onClick={handleSaveNotes}
                 disabled={saving}
-                className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg transition-all disabled:opacity-50"
+                className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 bg-[#F2F2F2] text-[#080808] rounded-full font-medium hover:shadow-lg transition-all disabled:opacity-50"
               >
                 {saving ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />}
                 {saving ? 'Spremanje...' : 'Spremi'}
               </button>
               <button
                 onClick={() => setSelectedRequest(null)}
-                className="px-4 py-3 bg-[#2A2A2A] text-white rounded-xl font-bold hover:bg-[#3A3A3A] transition-all"
+                className="px-4 py-3 bg-white/[0.06] text-[#F2F2F2] rounded-xl font-bold hover:bg-white/[0.1] transition-all"
               >
                 Odustani
               </button>

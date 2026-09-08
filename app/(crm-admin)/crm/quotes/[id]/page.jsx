@@ -362,12 +362,12 @@ export default function QuoteDetailPage() {
       draft: 'bg-gray-600',
       sent: 'bg-blue-500',
       viewed: 'bg-purple-500',
-      accepted: 'bg-[#00FF94] text-black',
+      accepted: 'bg-[#F2F2F2] text-[#080808]',
       rejected: 'bg-red-500'
     };
 
     return (
-      <span className={`${colors[status] || 'bg-gray-600'} text-white px-4 py-3 rounded-full text-sm font-bold`}>
+      <span className={`${colors[status] || 'bg-gray-600'} text-[#F2F2F2] px-4 py-3 rounded-full text-sm font-bold`}>
         {status}
       </span>
     );
@@ -391,7 +391,7 @@ export default function QuoteDetailPage() {
   if (!quote) {
     return (
       <div className="text-center py-20">
-        <h2 className="text-2xl font-bold mb-4">Quote not found</h2>
+        <h2 className="text-2xl font-medium mb-4">Quote not found</h2>
         <Link href="/crm/quotes" className="text-[#00FF94] hover:underline">
           ← Back to Quotes
         </Link>
@@ -404,7 +404,7 @@ export default function QuoteDetailPage() {
       {/* Breadcrumb */}
       <Link
         href="/crm/quotes"
-        className="inline-flex items-center gap-2 text-gray-400 hover:text-[#00FF94] mb-6 transition-colors"
+        className="inline-flex items-center gap-2 text-[#8E8E8E] hover:text-[#F2F2F2] mb-6 transition-colors"
       >
         <ArrowLeft size={16} />
         Back to Quotes
@@ -416,18 +416,18 @@ export default function QuoteDetailPage() {
           {/* Service Type Badge */}
           {serviceInfo && (
             <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold mb-3 ${
-              isMonthly ? 'bg-purple-500/20 text-purple-400' : `${getServiceBadgeColor(quote.service_type)} text-white`
+              isMonthly ? 'bg-purple-500/20 text-purple-400' : `${getServiceBadgeColor(quote.service_type)} text-[#F2F2F2]`
             }`}>
               <span>{serviceInfo.icon}</span>
               <span>{serviceInfo.nameHr}</span>
-              {isMonthly && <span className="ml-1 px-2 py-0.5 bg-purple-500 text-white rounded">Mjesečni</span>}
+              {isMonthly && <span className="ml-1 px-2 py-0.5 bg-purple-500 text-[#F2F2F2] rounded">Mjesečni</span>}
             </div>
           )}
 
           {quote.title && (
             <p className="text-[#00FF94] text-sm font-semibold mb-2">{quote.title}</p>
           )}
-          <h1 className="text-4xl font-black text-white mb-4">{quote.client_name}</h1>
+          <h1 className="text-4xl font-medium text-[#F2F2F2] mb-4">{quote.client_name}</h1>
           {client && (
             <Link
               href={`/crm/clients/${client.id}`}
@@ -444,14 +444,14 @@ export default function QuoteDetailPage() {
             <>
               <button
                 onClick={() => setIsEditing(true)}
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#2A2A2A] text-white rounded-xl font-bold hover:bg-[#3A3A3A] transition-all"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/[0.06] text-[#F2F2F2] rounded-xl font-bold hover:bg-white/[0.1] transition-all"
               >
                 <Edit3 size={18} />
                 Edit
               </button>
               <button
                 onClick={() => setShowEmailModal(true)}
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 hover:-translate-y-0.5 transition-all"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#F2F2F2] text-[#080808] rounded-full font-medium hover:-translate-y-0.5 transition-all"
                 disabled={sending}
               >
                 <Mail size={18} />
@@ -460,14 +460,14 @@ export default function QuoteDetailPage() {
               <a
                 href={`/quote/${params.id}`}
                 target="_blank"
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-500 text-white rounded-xl font-bold hover:bg-blue-600 transition-all"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-500 text-[#F2F2F2] rounded-xl font-bold hover:bg-blue-600 transition-all"
               >
                 <Eye size={18} />
                 Preview
               </a>
               <button
                 onClick={deleteQuote}
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-red-500 text-white rounded-xl font-bold hover:bg-red-600 transition-all"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-red-500 text-[#F2F2F2] rounded-xl font-bold hover:bg-red-600 transition-all"
               >
                 <Trash2 size={18} />
                 Delete
@@ -477,7 +477,7 @@ export default function QuoteDetailPage() {
             <>
               <button
                 onClick={() => setIsEditing(false)}
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#2A2A2A] text-white rounded-xl font-bold hover:bg-[#3A3A3A] transition-all"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/[0.06] text-[#F2F2F2] rounded-xl font-bold hover:bg-white/[0.1] transition-all"
               >
                 <X size={18} />
                 Cancel
@@ -485,7 +485,7 @@ export default function QuoteDetailPage() {
               <button
                 onClick={handleSaveEdit}
                 disabled={saving}
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 transition-all disabled:opacity-50"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#F2F2F2] text-[#080808] rounded-full font-medium transition-all disabled:opacity-50"
               >
                 <Save size={18} />
                 {saving ? 'Saving...' : 'Save Changes'}
@@ -499,65 +499,65 @@ export default function QuoteDetailPage() {
         /* Edit Mode */
         <div className="space-y-6">
           {/* Basic Info */}
-          <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6">
+          <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6">
             <h3 className="text-xl font-bold text-[#00FF94] mb-4">Osnovne informacije</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm text-gray-400 mb-2">Naziv ponude</label>
+                <label className="block text-sm text-[#8E8E8E] mb-2">Naziv ponude</label>
                 <input
                   type="text"
                   value={editForm.title}
                   onChange={(e) => setEditForm({...editForm, title: e.target.value})}
-                  className="w-full bg-[#0F0F0F] text-white p-3 rounded-lg border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
+                  className="w-full bg-[#0F0F0F] text-[#F2F2F2] p-3 rounded-lg border border-white/[0.07] focus:border-white/25 outline-none"
                   placeholder="npr. Web stranica + Mobile app"
                 />
               </div>
               <div>
-                <label className="block text-sm text-gray-400 mb-2">Trajanje</label>
+                <label className="block text-sm text-[#8E8E8E] mb-2">Trajanje</label>
                 <input
                   type="text"
                   value={editForm.duration}
                   onChange={(e) => setEditForm({...editForm, duration: e.target.value})}
-                  className="w-full bg-[#0F0F0F] text-white p-3 rounded-lg border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
+                  className="w-full bg-[#0F0F0F] text-[#F2F2F2] p-3 rounded-lg border border-white/[0.07] focus:border-white/25 outline-none"
                   placeholder={isMonthly ? 'Mjesečna usluga' : '8 tjedana'}
                 />
               </div>
               <div>
-                <label className="block text-sm text-gray-400 mb-2">Ime klijenta *</label>
+                <label className="block text-sm text-[#8E8E8E] mb-2">Ime klijenta *</label>
                 <input
                   type="text"
                   value={editForm.client_name}
                   onChange={(e) => setEditForm({...editForm, client_name: e.target.value})}
-                  className="w-full bg-[#0F0F0F] text-white p-3 rounded-lg border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
+                  className="w-full bg-[#0F0F0F] text-[#F2F2F2] p-3 rounded-lg border border-white/[0.07] focus:border-white/25 outline-none"
                 />
               </div>
               <div>
-                <label className="block text-sm text-gray-400 mb-2">Email klijenta *</label>
+                <label className="block text-sm text-[#8E8E8E] mb-2">Email klijenta *</label>
                 <input
                   type="email"
                   value={editForm.client_email}
                   onChange={(e) => setEditForm({...editForm, client_email: e.target.value})}
-                  className="w-full bg-[#0F0F0F] text-white p-3 rounded-lg border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
+                  className="w-full bg-[#0F0F0F] text-[#F2F2F2] p-3 rounded-lg border border-white/[0.07] focus:border-white/25 outline-none"
                 />
               </div>
               <div className="md:col-span-2">
-                <label className="block text-sm text-gray-400 mb-2">Pregled projekta</label>
+                <label className="block text-sm text-[#8E8E8E] mb-2">Pregled projekta</label>
                 <textarea
                   value={editForm.project_overview}
                   onChange={(e) => setEditForm({...editForm, project_overview: e.target.value})}
-                  className="w-full bg-[#0F0F0F] text-white p-3 rounded-lg border border-[#2A2A2A] focus:border-[#00FF94] outline-none h-32"
+                  className="w-full bg-[#0F0F0F] text-[#F2F2F2] p-3 rounded-lg border border-white/[0.07] focus:border-white/25 outline-none h-32"
                 />
               </div>
             </div>
           </div>
 
           {/* Scope of Work */}
-          <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6">
+          <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-xl font-bold text-[#00FF94]">{isMonthly ? 'Što je uključeno' : 'Opseg rada'}</h3>
               <button
                 onClick={addScopeSection}
-                className="flex items-center gap-2 bg-[#00FF94] text-black px-3 py-2 rounded text-sm font-semibold hover:bg-[#00DD7F] transition-colors"
+                className="flex items-center gap-2 bg-[#F2F2F2] text-[#080808] px-3 py-2 rounded text-sm font-semibold hover:bg-white transition-colors"
               >
                 <Plus size={16} />
                 Dodaj sekciju
@@ -565,22 +565,22 @@ export default function QuoteDetailPage() {
             </div>
             <div className="space-y-4">
               {editForm.scope.map((section, sectionIndex) => (
-                <div key={sectionIndex} className="bg-[#0F0F0F] p-4 rounded-lg border border-[#2A2A2A]">
+                <div key={sectionIndex} className="bg-[#0F0F0F] p-4 rounded-lg border border-white/[0.07]">
                   <div className="flex gap-3 items-start mb-3">
-                    <div className="w-8 h-8 bg-[#00FF94] rounded flex items-center justify-center text-black font-bold text-sm flex-shrink-0">
+                    <div className="w-8 h-8 border border-white/[0.14] rounded flex items-center justify-center text-[#F2F2F2] font-medium text-sm flex-shrink-0">
                       {section.number}
                     </div>
                     <input
                       type="text"
                       value={section.title}
                       onChange={(e) => updateScopeSection(sectionIndex, 'title', e.target.value)}
-                      className="flex-1 bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none font-semibold"
+                      className="flex-1 bg-[#0F0F0F] text-[#F2F2F2] p-2 rounded border border-white/[0.07] focus:border-white/25 outline-none font-semibold"
                       placeholder="Naziv sekcije"
                     />
                     <button
                       onClick={() => removeScopeSection(sectionIndex)}
                       disabled={editForm.scope.length === 1}
-                      className="p-2 text-gray-500 hover:text-red-500 disabled:opacity-30"
+                      className="p-2 text-[#6E6E6E] hover:text-red-500 disabled:opacity-30"
                     >
                       <Trash2 size={16} />
                     </button>
@@ -593,13 +593,13 @@ export default function QuoteDetailPage() {
                           type="text"
                           value={item}
                           onChange={(e) => updateScopeItem(sectionIndex, itemIndex, e.target.value)}
-                          className="flex-1 bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none text-sm"
+                          className="flex-1 bg-[#0F0F0F] text-[#F2F2F2] p-2 rounded border border-white/[0.07] focus:border-white/25 outline-none text-sm"
                           placeholder="Stavka"
                         />
                         <button
                           onClick={() => removeScopeItem(sectionIndex, itemIndex)}
                           disabled={section.items.length === 1}
-                          className="p-1 text-gray-500 hover:text-red-500 disabled:opacity-30"
+                          className="p-1 text-[#6E6E6E] hover:text-red-500 disabled:opacity-30"
                         >
                           <Trash2 size={14} />
                         </button>
@@ -618,13 +618,13 @@ export default function QuoteDetailPage() {
           </div>
 
           {/* Pricing */}
-          <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6">
+          <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-xl font-bold text-[#00FF94]">{isMonthly ? 'Mjesečna cijena' : 'Stavke / Usluge'}</h3>
               {!isMonthly && (
                 <button
                   onClick={addItem}
-                  className="flex items-center gap-2 bg-[#00FF94] text-black px-3 py-2 rounded text-sm font-semibold hover:bg-[#00DD7F] transition-colors"
+                  className="flex items-center gap-2 bg-[#F2F2F2] text-[#080808] px-3 py-2 rounded text-sm font-semibold hover:bg-white transition-colors"
                 >
                   <Plus size={16} />
                   Dodaj stavku
@@ -634,12 +634,12 @@ export default function QuoteDetailPage() {
 
             {isMonthly ? (
               <div>
-                <label className="block text-sm text-gray-400 mb-2">Mjesečna cijena (EUR) *</label>
+                <label className="block text-sm text-[#8E8E8E] mb-2">Mjesečna cijena (EUR) *</label>
                 <input
                   type="number"
                   value={editForm.monthlyPrice || ''}
                   onChange={(e) => setEditForm({...editForm, monthlyPrice: Number(e.target.value)})}
-                  className="w-full bg-[#0F0F0F] text-white p-3 rounded-lg border border-[#2A2A2A] focus:border-[#00FF94] outline-none text-2xl font-bold"
+                  className="w-full bg-[#0F0F0F] text-[#F2F2F2] p-3 rounded-lg border border-white/[0.07] focus:border-white/25 outline-none text-2xl font-medium"
                   placeholder="0"
                 />
               </div>
@@ -647,26 +647,26 @@ export default function QuoteDetailPage() {
               <>
                 <div className="space-y-3">
                   {editForm.items.map((item, index) => (
-                    <div key={index} className="bg-[#0F0F0F] p-4 rounded-lg border border-[#2A2A2A]">
+                    <div key={index} className="bg-[#0F0F0F] p-4 rounded-lg border border-white/[0.07]">
                       <div className="flex gap-3 items-start mb-2">
                         <input
                           type="text"
                           value={item.name}
                           onChange={(e) => updateItem(index, 'name', e.target.value)}
-                          className="flex-1 bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
+                          className="flex-1 bg-[#0F0F0F] text-[#F2F2F2] p-2 rounded border border-white/[0.07] focus:border-white/25 outline-none"
                           placeholder="Naziv usluge"
                         />
                         <input
                           type="number"
                           value={item.price || ''}
                           onChange={(e) => updateItem(index, 'price', e.target.value)}
-                          className="w-28 bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
+                          className="w-28 bg-[#0F0F0F] text-[#F2F2F2] p-2 rounded border border-white/[0.07] focus:border-white/25 outline-none"
                           placeholder="Cijena"
                         />
                         <button
                           onClick={() => removeItem(index)}
                           disabled={editForm.items.length === 1}
-                          className="p-2 text-gray-500 hover:text-red-500 disabled:opacity-30"
+                          className="p-2 text-[#6E6E6E] hover:text-red-500 disabled:opacity-30"
                         >
                           <Trash2 size={18} />
                         </button>
@@ -674,7 +674,7 @@ export default function QuoteDetailPage() {
                       <textarea
                         value={item.description || ''}
                         onChange={(e) => updateItem(index, 'description', e.target.value)}
-                        className="w-full bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none text-sm"
+                        className="w-full bg-[#0F0F0F] text-[#F2F2F2] p-2 rounded border border-white/[0.07] focus:border-white/25 outline-none text-sm"
                         placeholder="Opis (opcionalno)"
                         rows={2}
                       />
@@ -683,25 +683,25 @@ export default function QuoteDetailPage() {
                 </div>
 
                 {/* Discount & Deposit */}
-                <div className="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-[#2A2A2A]">
+                <div className="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-white/[0.07]">
                   <div>
-                    <label className="block text-sm text-gray-400 mb-2">Popust (%)</label>
+                    <label className="block text-sm text-[#8E8E8E] mb-2">Popust (%)</label>
                     <input
                       type="number"
                       value={editForm.discountRate}
                       onChange={(e) => setEditForm({...editForm, discountRate: Number(e.target.value)})}
-                      className="w-full bg-[#0F0F0F] text-white p-3 rounded-lg border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
+                      className="w-full bg-[#0F0F0F] text-[#F2F2F2] p-3 rounded-lg border border-white/[0.07] focus:border-white/25 outline-none"
                       min="0"
                       max="100"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-400 mb-2">Akontacija (%)</label>
+                    <label className="block text-sm text-[#8E8E8E] mb-2">Akontacija (%)</label>
                     <input
                       type="number"
                       value={editForm.depositRate}
                       onChange={(e) => setEditForm({...editForm, depositRate: Math.min(100, Math.max(0, Number(e.target.value)))})}
-                      className="w-full bg-[#0F0F0F] text-white p-3 rounded-lg border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
+                      className="w-full bg-[#0F0F0F] text-[#F2F2F2] p-3 rounded-lg border border-white/[0.07] focus:border-white/25 outline-none"
                       min="0"
                       max="100"
                     />
@@ -709,8 +709,8 @@ export default function QuoteDetailPage() {
                 </div>
 
                 {/* Live Total Preview */}
-                <div className="mt-4 pt-4 border-t border-[#2A2A2A] text-sm">
-                  <div className="flex justify-between text-gray-400 mb-1">
+                <div className="mt-4 pt-4 border-t border-white/[0.07] text-sm">
+                  <div className="flex justify-between text-[#8E8E8E] mb-1">
                     <span>Međuzbroj:</span>
                     <span>€{calculateEditTotals().subtotal.toLocaleString()}</span>
                   </div>
@@ -720,7 +720,7 @@ export default function QuoteDetailPage() {
                       <span>-€{calculateEditTotals().discountAmount.toLocaleString()}</span>
                     </div>
                   )}
-                  <div className="flex justify-between text-white font-bold text-lg">
+                  <div className="flex justify-between text-[#F2F2F2] font-bold text-lg">
                     <span>Ukupno:</span>
                     <span className="text-[#00FF94]">€{calculateEditTotals().total.toLocaleString()}</span>
                   </div>
@@ -731,17 +731,17 @@ export default function QuoteDetailPage() {
 
           {/* Maintenance & Support (Optional) - Only for project quotes */}
           {!isMonthly && (
-            <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6">
+            <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6">
               <div className="flex justify-between items-center mb-4">
                 <div>
                   <h3 className="text-xl font-bold text-[#00FF94]">Maintenance & Support</h3>
-                  <p className="text-gray-500 text-xs mt-1">Optional recurring monthly service (not included in project total)</p>
+                  <p className="text-[#6E6E6E] text-xs mt-1">Optional recurring monthly service (not included in project total)</p>
                 </div>
                 <button
                   type="button"
                   onClick={() => setEditForm({...editForm, maintenanceEnabled: !editForm.maintenanceEnabled})}
                   className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                    editForm.maintenanceEnabled ? 'bg-[#00FF94]' : 'bg-[#2A2A2A]'
+                    editForm.maintenanceEnabled ? 'bg-[#00FF94]' : 'bg-white/[0.06]'
                   }`}
                 >
                   <span
@@ -753,24 +753,24 @@ export default function QuoteDetailPage() {
               </div>
 
               {editForm.maintenanceEnabled && (
-                <div className="space-y-4 mt-4 pt-4 border-t border-[#2A2A2A]">
+                <div className="space-y-4 mt-4 pt-4 border-t border-white/[0.07]">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="md:col-span-2">
-                      <label className="block text-sm text-gray-400 mb-2">Description</label>
+                      <label className="block text-sm text-[#8E8E8E] mb-2">Description</label>
                       <textarea
                         value={editForm.maintenanceDescription}
                         onChange={(e) => setEditForm({...editForm, maintenanceDescription: e.target.value})}
-                        className="w-full bg-[#0F0F0F] text-white p-3 rounded-lg border border-[#2A2A2A] focus:border-[#00FF94] outline-none h-20 text-sm"
+                        className="w-full bg-[#0F0F0F] text-[#F2F2F2] p-3 rounded-lg border border-white/[0.07] focus:border-white/25 outline-none h-20 text-sm"
                         placeholder="Describe what's included in the maintenance package..."
                       />
                     </div>
                     <div>
-                      <label className="block text-sm text-gray-400 mb-2">Monthly Price (€)</label>
+                      <label className="block text-sm text-[#8E8E8E] mb-2">Monthly Price (€)</label>
                       <input
                         type="number"
                         value={editForm.maintenancePrice}
                         onChange={(e) => setEditForm({...editForm, maintenancePrice: Number(e.target.value)})}
-                        className="w-full bg-[#0F0F0F] text-white p-3 rounded-lg border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
+                        className="w-full bg-[#0F0F0F] text-[#F2F2F2] p-3 rounded-lg border border-white/[0.07] focus:border-white/25 outline-none"
                         placeholder="150"
                         min="0"
                       />
@@ -783,12 +783,12 @@ export default function QuoteDetailPage() {
 
           {/* Timeline - Only for project quotes */}
           {!isMonthly && (
-            <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6">
+            <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-xl font-bold text-[#00FF94]">Vremenski plan</h3>
                 <button
                   onClick={addTimelinePhase}
-                  className="flex items-center gap-2 bg-[#00FF94] text-black px-3 py-2 rounded text-sm font-semibold hover:bg-[#00DD7F] transition-colors"
+                  className="flex items-center gap-2 bg-[#F2F2F2] text-[#080808] px-3 py-2 rounded text-sm font-semibold hover:bg-white transition-colors"
                 >
                   <Plus size={16} />
                   Dodaj fazu
@@ -796,35 +796,35 @@ export default function QuoteDetailPage() {
               </div>
               <div className="space-y-3">
                 {editForm.timeline.map((phase, index) => (
-                  <div key={index} className="flex gap-3 items-center bg-[#0F0F0F] p-3 rounded-lg border border-[#2A2A2A]">
-                    <div className="w-8 h-8 bg-[#00FF94] rounded flex items-center justify-center text-black font-bold text-sm flex-shrink-0">
+                  <div key={index} className="flex gap-3 items-center bg-[#0F0F0F] p-3 rounded-lg border border-white/[0.07]">
+                    <div className="w-8 h-8 border border-white/[0.14] rounded flex items-center justify-center text-[#F2F2F2] font-medium text-sm flex-shrink-0">
                       {index + 1}
                     </div>
                     <input
                       type="text"
                       value={phase.week}
                       onChange={(e) => updateTimelinePhase(index, 'week', e.target.value)}
-                      className="w-28 bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none text-sm"
+                      className="w-28 bg-[#0F0F0F] text-[#F2F2F2] p-2 rounded border border-white/[0.07] focus:border-white/25 outline-none text-sm"
                       placeholder="Tjedan"
                     />
                     <input
                       type="text"
                       value={phase.phase}
                       onChange={(e) => updateTimelinePhase(index, 'phase', e.target.value)}
-                      className="flex-1 bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none text-sm"
+                      className="flex-1 bg-[#0F0F0F] text-[#F2F2F2] p-2 rounded border border-white/[0.07] focus:border-white/25 outline-none text-sm"
                       placeholder="Naziv faze"
                     />
                     <input
                       type="text"
                       value={phase.duration}
                       onChange={(e) => updateTimelinePhase(index, 'duration', e.target.value)}
-                      className="w-28 bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none text-sm"
+                      className="w-28 bg-[#0F0F0F] text-[#F2F2F2] p-2 rounded border border-white/[0.07] focus:border-white/25 outline-none text-sm"
                       placeholder="Trajanje"
                     />
                     <button
                       onClick={() => removeTimelinePhase(index)}
                       disabled={editForm.timeline.length === 1}
-                      className="p-2 text-gray-500 hover:text-red-500 disabled:opacity-30"
+                      className="p-2 text-[#6E6E6E] hover:text-red-500 disabled:opacity-30"
                     >
                       <Trash2 size={16} />
                     </button>
@@ -839,14 +839,14 @@ export default function QuoteDetailPage() {
         <>
           {/* Email Status */}
           {quote.last_sent_at && (
-            <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 mb-8">
+            <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6 mb-8">
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-10 h-10 rounded-full bg-[#00FF94]/10 flex items-center justify-center">
-                  <Send size={20} className="text-[#00FF94]" />
+                  <Send size={20} className="text-[#8E8E8E]" />
                 </div>
                 <h3 className="text-xl font-bold">Email Status</h3>
               </div>
-              <p className="text-gray-400">
+              <p className="text-[#8E8E8E]">
                 Last sent: <span className="text-[#00FF94] font-semibold">
                   {new Date(quote.last_sent_at).toLocaleString('en-US', {
                     month: 'short',
@@ -862,28 +862,28 @@ export default function QuoteDetailPage() {
 
           {/* Stats */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-8">
-            <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 text-center">
-              <div className="text-xs text-gray-500 uppercase tracking-wider mb-3">
+            <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6 text-center">
+              <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-3">
                 {isMonthly ? 'Monthly Value' : 'Total Value'}
               </div>
-              <div className={`text-3xl font-black flex items-center justify-center gap-2 ${isMonthly ? 'text-purple-400' : 'text-[#00FF94]'}`}>
+              <div className={`text-3xl font-medium flex items-center justify-center gap-2 ${isMonthly ? 'text-purple-400' : 'text-[#00FF94]'}`}>
                 <DollarSign size={24} />
                 €{isMonthly ? (quote.monthly_price || 0).toLocaleString() : (quote.pricing?.total || 0).toLocaleString()}
                 {isMonthly && <span className="text-lg">/mj</span>}
               </div>
             </div>
 
-            <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 text-center">
-              <div className="text-xs text-gray-500 uppercase tracking-wider mb-3">Views</div>
-              <div className="text-3xl font-black text-[#00FF94] flex items-center justify-center gap-2">
+            <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6 text-center">
+              <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-3">Views</div>
+              <div className="text-3xl font-medium text-[#F2F2F2] flex items-center justify-center gap-2">
                 <Eye size={24} />
                 {quote.view_count || 0}
               </div>
             </div>
 
-            <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 text-center">
-              <div className="text-xs text-gray-500 uppercase tracking-wider mb-3">Created</div>
-              <div className="text-xl font-black text-[#00FF94] flex items-center justify-center gap-2">
+            <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6 text-center">
+              <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-3">Created</div>
+              <div className="text-xl font-medium text-[#F2F2F2] flex items-center justify-center gap-2">
                 <Calendar size={20} />
                 {new Date(quote.created_at).toLocaleDateString('en-US', {
                   month: 'short',
@@ -895,14 +895,14 @@ export default function QuoteDetailPage() {
           </div>
 
           {/* Status Actions */}
-          <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 mb-8">
+          <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6 mb-8">
             <h3 className="text-lg font-bold mb-4">Promijeni status</h3>
             <div className="flex flex-wrap gap-3">
               <button
                 onClick={() => updateStatus('draft')}
                 disabled={updating || quote.status === 'draft'}
                 className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-all disabled:opacity-40 disabled:cursor-not-allowed ${
-                  quote.status === 'draft' ? 'bg-gray-600 text-white' : 'bg-[#2A2A2A] text-gray-400 hover:bg-gray-600 hover:text-white'
+                  quote.status === 'draft' ? 'bg-gray-600 text-[#F2F2F2]' : 'bg-white/[0.06] text-[#8E8E8E] hover:bg-gray-600 hover:text-[#F2F2F2]'
                 }`}
               >
                 <FileText size={16} />
@@ -912,7 +912,7 @@ export default function QuoteDetailPage() {
                 onClick={() => updateStatus('sent')}
                 disabled={updating || quote.status === 'sent'}
                 className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-all disabled:opacity-40 disabled:cursor-not-allowed ${
-                  quote.status === 'sent' ? 'bg-blue-500 text-white' : 'bg-[#2A2A2A] text-gray-400 hover:bg-blue-500 hover:text-white'
+                  quote.status === 'sent' ? 'bg-blue-500 text-[#F2F2F2]' : 'bg-white/[0.06] text-[#8E8E8E] hover:bg-blue-500 hover:text-[#F2F2F2]'
                 }`}
               >
                 <Send size={16} />
@@ -922,7 +922,7 @@ export default function QuoteDetailPage() {
                 onClick={() => updateStatus('viewed')}
                 disabled={updating || quote.status === 'viewed'}
                 className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-all disabled:opacity-40 disabled:cursor-not-allowed ${
-                  quote.status === 'viewed' ? 'bg-purple-500 text-white' : 'bg-[#2A2A2A] text-gray-400 hover:bg-purple-500 hover:text-white'
+                  quote.status === 'viewed' ? 'bg-purple-500 text-[#F2F2F2]' : 'bg-white/[0.06] text-[#8E8E8E] hover:bg-purple-500 hover:text-[#F2F2F2]'
                 }`}
               >
                 <Eye size={16} />
@@ -932,7 +932,7 @@ export default function QuoteDetailPage() {
                 onClick={() => updateStatus('accepted')}
                 disabled={updating || quote.status === 'accepted'}
                 className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-all disabled:opacity-40 disabled:cursor-not-allowed ${
-                  quote.status === 'accepted' ? 'bg-[#00FF94] text-black' : 'bg-[#2A2A2A] text-gray-400 hover:bg-[#00FF94] hover:text-black'
+                  quote.status === 'accepted' ? 'bg-[#F2F2F2] text-[#080808]' : 'bg-white/[0.06] text-[#8E8E8E] hover:bg-white/[0.1] hover:text-[#F2F2F2]'
                 }`}
               >
                 <CheckCircle size={16} />
@@ -942,7 +942,7 @@ export default function QuoteDetailPage() {
                 onClick={() => updateStatus('rejected')}
                 disabled={updating || quote.status === 'rejected'}
                 className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-all disabled:opacity-40 disabled:cursor-not-allowed ${
-                  quote.status === 'rejected' ? 'bg-red-500 text-white' : 'bg-[#2A2A2A] text-gray-400 hover:bg-red-500 hover:text-white'
+                  quote.status === 'rejected' ? 'bg-red-500 text-[#F2F2F2]' : 'bg-white/[0.06] text-[#8E8E8E] hover:bg-red-500 hover:text-[#F2F2F2]'
                 }`}
               >
                 <XCircle size={16} />
@@ -953,15 +953,15 @@ export default function QuoteDetailPage() {
 
           {/* Project Overview */}
           {quote.project_overview && (
-            <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 mb-8">
+            <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6 mb-8">
               <h3 className="text-xl font-bold mb-4">Pregled {isMonthly ? 'usluge' : 'projekta'}</h3>
-              <p className="text-gray-400 leading-relaxed">{quote.project_overview}</p>
+              <p className="text-[#8E8E8E] leading-relaxed">{quote.project_overview}</p>
             </div>
           )}
 
           {/* Scope */}
           {quote.scope && quote.scope.length > 0 && (
-            <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 mb-8">
+            <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6 mb-8">
               <h3 className="text-xl font-bold mb-4">{isMonthly ? 'Što je uključeno' : 'Opseg rada'}</h3>
               <div className="space-y-4">
                 {quote.scope.map((section, index) => (
@@ -970,11 +970,11 @@ export default function QuoteDetailPage() {
                       <div className={`w-8 h-8 rounded flex items-center justify-center text-black font-bold text-sm ${isMonthly ? 'bg-purple-400' : 'bg-[#00FF94]'}`}>
                         {section.number}
                       </div>
-                      <span className="font-semibold text-white">{section.title}</span>
+                      <span className="font-semibold text-[#F2F2F2]">{section.title}</span>
                     </div>
                     <ul className="ml-11 space-y-1">
                       {section.items.map((item, itemIndex) => (
-                        <li key={itemIndex} className="text-gray-400 text-sm flex items-start gap-2">
+                        <li key={itemIndex} className="text-[#8E8E8E] text-sm flex items-start gap-2">
                           <span className={isMonthly ? 'text-purple-400' : 'text-[#00FF94]'}>→</span>
                           {item}
                         </li>
@@ -987,14 +987,14 @@ export default function QuoteDetailPage() {
           )}
 
           {/* Pricing Breakdown */}
-          <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 mb-8">
+          <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6 mb-8">
             <h3 className="text-xl font-bold mb-4">{isMonthly ? 'Cijena' : 'Pricing Breakdown'}</h3>
 
             {isMonthly ? (
               <div className={`text-center py-6 rounded-xl ${isMonthly ? 'bg-purple-500/10' : 'bg-[#00FF94]/10'}`}>
-                <div className={`text-4xl font-black ${isMonthly ? 'text-purple-400' : 'text-[#00FF94]'}`}>
+                <div className={`text-4xl font-medium ${isMonthly ? 'text-purple-400' : 'text-[#00FF94]'}`}>
                   €{(quote.monthly_price || 0).toLocaleString()}
-                  <span className="text-xl text-gray-400">/mj</span>
+                  <span className="text-xl text-[#8E8E8E]">/mj</span>
                 </div>
               </div>
             ) : (
@@ -1003,13 +1003,13 @@ export default function QuoteDetailPage() {
                 {quote.pricing?.items && quote.pricing.items.length > 0 && (
                   <div className="space-y-3 mb-4">
                     {quote.pricing.items.map((item, index) => (
-                      <div key={index} className="py-3 border-b border-[#2A2A2A]">
+                      <div key={index} className="py-3 border-b border-white/[0.07]">
                         <div className="flex justify-between items-center">
-                          <span className="text-gray-300">{item.name}</span>
-                          <span className="text-white font-semibold">€{item.price?.toLocaleString()}</span>
+                          <span className="text-[#C9C9C9]">{item.name}</span>
+                          <span className="text-[#F2F2F2] font-semibold">€{item.price?.toLocaleString()}</span>
                         </div>
                         {item.description && (
-                          <p className="text-sm text-gray-500 mt-1">{item.description}</p>
+                          <p className="text-sm text-[#6E6E6E] mt-1">{item.description}</p>
                         )}
                       </div>
                     ))}
@@ -1017,7 +1017,7 @@ export default function QuoteDetailPage() {
                 )}
 
                 <div className="space-y-2 text-sm">
-                  <div className="flex justify-between text-gray-400">
+                  <div className="flex justify-between text-[#8E8E8E]">
                     <span>Subtotal</span>
                     <span>€{quote.pricing?.subtotal?.toLocaleString() || 0}</span>
                   </div>
@@ -1027,15 +1027,15 @@ export default function QuoteDetailPage() {
                       <span>-€{quote.pricing.discountAmount?.toLocaleString() || 0}</span>
                     </div>
                   )}
-                  <div className="flex justify-between text-lg font-bold pt-2 border-t border-[#2A2A2A]">
+                  <div className="flex justify-between text-lg font-bold pt-2 border-t border-white/[0.07]">
                     <span>Total</span>
                     <span className="text-[#00FF94]">€{quote.pricing?.total?.toLocaleString() || 0}</span>
                   </div>
                 </div>
 
                 {/* Payment Structure */}
-                <div className="mt-6 pt-4 border-t border-[#2A2A2A]">
-                  <h4 className="text-sm font-semibold text-gray-400 mb-3">Payment Structure</h4>
+                <div className="mt-6 pt-4 border-t border-white/[0.07]">
+                  <h4 className="text-sm font-semibold text-[#8E8E8E] mb-3">Payment Structure</h4>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="bg-[#00FF94]/10 border border-[#00FF94]/20 rounded-xl p-4">
                       <div className="text-xs text-[#00FF94]/70 mb-1">
@@ -1045,11 +1045,11 @@ export default function QuoteDetailPage() {
                         €{(quote.pricing?.total * (quote.pricing?.depositRate ?? 0.5))?.toLocaleString() || 0}
                       </div>
                     </div>
-                    <div className="bg-[#2A2A2A] rounded-xl p-4">
-                      <div className="text-xs text-gray-500 mb-1">
+                    <div className="bg-white/[0.06] rounded-xl p-4">
+                      <div className="text-xs text-[#6E6E6E] mb-1">
                         {(100 - (quote.pricing?.depositRate ?? 0.5) * 100).toFixed(0)}% On Completion
                       </div>
-                      <div className="text-xl font-bold text-white">
+                      <div className="text-xl font-bold text-[#F2F2F2]">
                         €{(quote.pricing?.total * (1 - (quote.pricing?.depositRate ?? 0.5)))?.toLocaleString() || 0}
                       </div>
                     </div>
@@ -1058,8 +1058,8 @@ export default function QuoteDetailPage() {
 
                 {/* Maintenance & Support (if enabled) */}
                 {quote.pricing?.maintenance?.enabled && (
-                  <div className="mt-6 pt-4 border-t border-[#2A2A2A]">
-                    <h4 className="text-sm font-semibold text-gray-400 mb-3">Maintenance & Support (Optional)</h4>
+                  <div className="mt-6 pt-4 border-t border-white/[0.07]">
+                    <h4 className="text-sm font-semibold text-[#8E8E8E] mb-3">Maintenance & Support (Optional)</h4>
                     <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-4">
                       <div className="flex justify-between items-center mb-2">
                         <span className="text-blue-400 font-semibold">Monthly Service</span>
@@ -1077,19 +1077,19 @@ export default function QuoteDetailPage() {
 
           {/* Timeline - Only for project quotes */}
           {!isMonthly && quote.timeline && quote.timeline.length > 0 && (
-            <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 mb-8">
+            <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6 mb-8">
               <h3 className="text-xl font-bold mb-4">Vremenski plan</h3>
               <div className="space-y-3">
                 {quote.timeline.map((phase, index) => (
                   <div key={index} className="flex items-center gap-4 p-3 bg-[#0F0F0F] rounded-lg">
-                    <div className="w-8 h-8 bg-[#00FF94] rounded flex items-center justify-center text-black font-bold text-sm flex-shrink-0">
+                    <div className="w-8 h-8 border border-white/[0.14] rounded flex items-center justify-center text-[#F2F2F2] font-medium text-sm flex-shrink-0">
                       {index + 1}
                     </div>
                     <div className="flex-1">
                       <span className="text-[#00FF94] font-semibold mr-3">{phase.week}</span>
-                      <span className="text-gray-300">{phase.phase}</span>
+                      <span className="text-[#C9C9C9]">{phase.phase}</span>
                     </div>
-                    <span className="text-gray-500 text-sm">{phase.duration}</span>
+                    <span className="text-[#6E6E6E] text-sm">{phase.duration}</span>
                   </div>
                 ))}
               </div>
@@ -1105,14 +1105,14 @@ export default function QuoteDetailPage() {
           onClick={() => setShowEmailModal(false)}
         >
           <div
-            className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-8 max-w-md w-[90%]"
+            className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-8 max-w-md w-[90%]"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-center mb-6">
-              <h3 className="text-2xl font-bold">Send Quote via Email</h3>
+              <h3 className="text-2xl font-medium">Send Quote via Email</h3>
               <button
                 onClick={() => setShowEmailModal(false)}
-                className="text-gray-400 hover:text-white transition-colors"
+                className="text-[#8E8E8E] hover:text-[#F2F2F2] transition-colors"
               >
                 <X size={24} />
               </button>
@@ -1120,7 +1120,7 @@ export default function QuoteDetailPage() {
 
             <div className="space-y-5">
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                   Recipient Email *
                 </label>
                 <input
@@ -1129,12 +1129,12 @@ export default function QuoteDetailPage() {
                   onChange={(e) => setEmailForm({...emailForm, email: e.target.value})}
                   placeholder="client@example.com"
                   required
-                  className="w-full px-4 py-3 bg-[#0F0F0F] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#0F0F0F] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                   Recipient Name *
                 </label>
                 <input
@@ -1143,7 +1143,7 @@ export default function QuoteDetailPage() {
                   onChange={(e) => setEmailForm({...emailForm, name: e.target.value})}
                   placeholder="Client Name"
                   required
-                  className="w-full px-4 py-3 bg-[#0F0F0F] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#0F0F0F] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 />
               </div>
             </div>
@@ -1152,14 +1152,14 @@ export default function QuoteDetailPage() {
               <button
                 onClick={() => setShowEmailModal(false)}
                 disabled={sending}
-                className="flex-1 px-6 py-3 bg-[#2A2A2A] text-white rounded-xl font-bold hover:bg-[#3A3A3A] transition-all"
+                className="flex-1 px-6 py-3 bg-white/[0.06] text-[#F2F2F2] rounded-xl font-bold hover:bg-white/[0.1] transition-all"
               >
                 Cancel
               </button>
               <button
                 onClick={sendQuoteEmail}
                 disabled={sending}
-                className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#F2F2F2] text-[#080808] rounded-full font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Send size={18} />
                 {sending ? 'Sending...' : 'Send Email'}

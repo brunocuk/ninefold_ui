@@ -469,7 +469,7 @@ export default function PortfolioDetailPage({ params }) {
         }
 
         .btn-primary {
-          background: #00FF94;
+          background: #F2F2F2;
           color: #000;
         }
 
@@ -489,7 +489,7 @@ export default function PortfolioDetailPage({ params }) {
         }
 
         .btn-secondary:hover {
-          border-color: #00FF94;
+          border-color: rgba(255,255,255,0.16);
           color: #fff;
         }
 
@@ -507,7 +507,7 @@ export default function PortfolioDetailPage({ params }) {
         .tabs {
           display: flex;
           gap: 4px;
-          background: #1a1a1a;
+          background: #0F0F0F;
           padding: 6px;
           border-radius: 12px;
           margin-bottom: 30px;
@@ -531,13 +531,13 @@ export default function PortfolioDetailPage({ params }) {
         }
 
         .tab.active {
-          background: #00FF94;
+          background: #F2F2F2;
           color: #000;
         }
 
         /* View Mode Sections */
         .view-section {
-          background: #1a1a1a;
+          background: #0F0F0F;
           border: 1px solid #333;
           border-radius: 12px;
           padding: 24px;
@@ -608,7 +608,7 @@ export default function PortfolioDetailPage({ params }) {
 
         .result-display {
           padding: 16px;
-          background: #0a0a0a;
+          background: #080808;
           border: 1px solid #333;
           border-radius: 8px;
           text-align: center;
@@ -634,7 +634,7 @@ export default function PortfolioDetailPage({ params }) {
 
         /* Form Sections (Edit Mode) */
         .form-section {
-          background: #1a1a1a;
+          background: #0F0F0F;
           border: 1px solid #333;
           border-radius: 12px;
           padding: 24px;
@@ -686,7 +686,7 @@ export default function PortfolioDetailPage({ params }) {
 
         input, textarea, select {
           padding: 12px 16px;
-          background: #0a0a0a;
+          background: #080808;
           border: 1px solid #333;
           border-radius: 8px;
           color: #fff;
@@ -696,7 +696,7 @@ export default function PortfolioDetailPage({ params }) {
 
         input:focus, textarea:focus, select:focus {
           outline: none;
-          border-color: #00FF94;
+          border-color: rgba(255,255,255,0.3);
           box-shadow: 0 0 0 3px rgba(0, 255, 148, 0.1);
         }
 
@@ -714,7 +714,7 @@ export default function PortfolioDetailPage({ params }) {
 
         .type-card {
           padding: 20px;
-          background: #0a0a0a;
+          background: #080808;
           border: 2px solid #333;
           border-radius: 12px;
           cursor: pointer;
@@ -856,7 +856,7 @@ export default function PortfolioDetailPage({ params }) {
         }
 
         .section-item {
-          background: #0a0a0a;
+          background: #080808;
           border: 1px solid #333;
           border-radius: 8px;
           padding: 16px;
@@ -900,7 +900,7 @@ export default function PortfolioDetailPage({ params }) {
         }
 
         .toggle.active {
-          background: #00FF94;
+          background: #F2F2F2;
         }
 
         .toggle::after {
@@ -930,7 +930,7 @@ export default function PortfolioDetailPage({ params }) {
         .gallery-item {
           position: relative;
           aspect-ratio: 16/9;
-          background: #0a0a0a;
+          background: #080808;
           border: 1px solid #333;
           border-radius: 8px;
           overflow: hidden;

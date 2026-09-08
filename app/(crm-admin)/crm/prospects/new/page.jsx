@@ -78,7 +78,7 @@ export default function NewProspectPage() {
           font-size: 2.5rem;
           font-weight: 900;
           margin-bottom: 10px;
-          background: linear-gradient(135deg, #00FF94 0%, #00CC76 100%);
+          background: #F2F2F2;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
@@ -99,7 +99,7 @@ export default function NewProspectPage() {
         }
 
         .form-card {
-          background: #1a1a1a;
+          background: #0F0F0F;
           border: 1px solid #333;
           border-radius: 12px;
           padding: 30px;
@@ -150,7 +150,7 @@ export default function NewProspectPage() {
         textarea {
           width: 100%;
           padding: 12px 15px;
-          background: #0a0a0a;
+          background: #080808;
           border: 1px solid #333;
           border-radius: 8px;
           color: white;
@@ -163,7 +163,7 @@ export default function NewProspectPage() {
         select:focus,
         textarea:focus {
           outline: none;
-          border-color: #00FF94;
+          border-color: rgba(255,255,255,0.3);
           box-shadow: 0 0 0 3px rgba(0, 255, 148, 0.1);
         }
 
@@ -194,7 +194,7 @@ export default function NewProspectPage() {
         }
 
         .btn-primary {
-          background: #00FF94;
+          background: #F2F2F2;
           color: #000;
         }
 

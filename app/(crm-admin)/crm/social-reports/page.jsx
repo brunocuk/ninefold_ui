@@ -144,7 +144,7 @@ export default function SocialReportsPage() {
         h1 {
           font-size: 2.5rem;
           font-weight: 900;
-          background: linear-gradient(135deg, #E4405F 0%, #3b82f6 50%, #00FF94 100%);
+          background: #F2F2F2;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
@@ -161,7 +161,7 @@ export default function SocialReportsPage() {
         }
 
         .btn-primary {
-          background: #00FF94;
+          background: #F2F2F2;
           color: #000;
           padding: 12px 24px;
           border-radius: 8px;
@@ -185,7 +185,7 @@ export default function SocialReportsPage() {
         }
 
         .stat-card {
-          background: #1a1a1a;
+          background: #0F0F0F;
           border: 1px solid #333;
           border-radius: 12px;
           padding: 24px;
@@ -194,7 +194,7 @@ export default function SocialReportsPage() {
         }
 
         .stat-card:hover {
-          border-color: #00FF94;
+          border-color: rgba(255,255,255,0.16);
           transform: translateY(-4px);
         }
 
@@ -214,7 +214,7 @@ export default function SocialReportsPage() {
         .stat-value {
           font-size: 2rem;
           font-weight: 900;
-          color: #00FF94;
+          color: #F2F2F2;
           line-height: 1;
         }
 
@@ -228,7 +228,7 @@ export default function SocialReportsPage() {
 
         .filter-select {
           padding: 10px 16px;
-          background: #1a1a1a;
+          background: #0F0F0F;
           border: 1px solid #333;
           color: #fff;
           border-radius: 8px;
@@ -238,7 +238,7 @@ export default function SocialReportsPage() {
 
         .filter-select:focus {
           outline: none;
-          border-color: #00FF94;
+          border-color: rgba(255,255,255,0.3);
         }
 
         /* Reports List */
@@ -248,7 +248,7 @@ export default function SocialReportsPage() {
         }
 
         .report-card {
-          background: #1a1a1a;
+          background: #0F0F0F;
           border: 1px solid #333;
           border-radius: 12px;
           padding: 24px;
@@ -256,7 +256,7 @@ export default function SocialReportsPage() {
         }
 
         .report-card:hover {
-          border-color: #00FF94;
+          border-color: rgba(255,255,255,0.16);
         }
 
         .report-header {
@@ -414,7 +414,7 @@ export default function SocialReportsPage() {
         .empty-state {
           text-align: center;
           padding: 80px 20px;
-          background: #1a1a1a;
+          background: #0F0F0F;
           border: 2px dashed #333;
           border-radius: 12px;
         }

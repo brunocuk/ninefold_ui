@@ -225,14 +225,14 @@ export default function SalesTeamPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
         <div>
-          <h1 className="text-4xl font-black bg-gradient-to-r from-[#00FF94] to-[#00CC76] bg-clip-text text-transparent mb-2">
+          <h1 className="text-4xl font-medium text-[#F2F2F2] mb-2">
             Sales Team
           </h1>
-          <p className="text-gray-400">Prodavači, njihov pipeline i provizije</p>
+          <p className="text-[#8E8E8E]">Prodavači, njihov pipeline i provizije</p>
         </div>
         <button
           onClick={() => setShowAdd(!showAdd)}
-          className="inline-flex items-center gap-2 px-6 py-3 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 transition-all"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-[#F2F2F2] text-[#080808] rounded-full font-medium transition-all"
         >
           {showAdd ? <X size={18} /> : <Plus size={18} />}
           {showAdd ? 'Odustani' : 'Dodaj prodavača'}
@@ -242,34 +242,34 @@ export default function SalesTeamPage() {
       {/* New user password panel */}
       {newUserPassword && (
         <div className="bg-[#00FF94]/10 border border-[#00FF94]/30 rounded-2xl p-5 mb-6">
-          <p className="text-sm text-gray-300 mb-2">
+          <p className="text-sm text-[#C9C9C9] mb-2">
             Nova lozinka (prikazuje se samo sada, pošalji je prodavaču):
           </p>
           <div className="flex items-center gap-3">
-            <code className="bg-[#0a0a0a] text-[#00FF94] px-4 py-2.5 rounded-lg font-mono text-lg">
+            <code className="bg-[#080808] text-[#00FF94] px-4 py-2.5 rounded-lg font-mono text-lg">
               {newUserPassword}
             </code>
             <button
               onClick={copyPassword}
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-[#2A2A2A] text-white rounded-lg text-sm font-semibold hover:bg-[#3A3A3A] transition-all"
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-white/[0.06] text-[#F2F2F2] rounded-lg text-sm font-semibold hover:bg-white/[0.1] transition-all"
             >
               {copiedPassword ? <Check size={15} className="text-[#00FF94]" /> : <Copy size={15} />}
               {copiedPassword ? 'Kopirano' : 'Kopiraj'}
             </button>
             <button
               onClick={() => setNewUserPassword('')}
-              className="text-gray-500 hover:text-white transition-colors"
+              className="text-[#6E6E6E] hover:text-[#F2F2F2] transition-colors"
             >
               <X size={18} />
             </button>
           </div>
-          <p className="text-xs text-gray-500 mt-2">Login: ninefold.eu/sales/login</p>
+          <p className="text-xs text-[#6E6E6E] mt-2">Login: ninefold.eu/sales/login</p>
         </div>
       )}
 
       {/* Add form */}
       {showAdd && (
-        <form onSubmit={handleCreate} className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 mb-6">
+        <form onSubmit={handleCreate} className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6 mb-6">
           <h2 className="text-lg font-bold mb-4">Novi prodavač</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <input
@@ -277,7 +277,7 @@ export default function SalesTeamPage() {
               onChange={(e) => setForm({ ...form, name: e.target.value })}
               placeholder="Ime i prezime *"
               required
-              className="bg-[#2A2A2A] text-white p-3 rounded-lg border border-[#3A3A3A] focus:border-[#00FF94] outline-none text-sm"
+              className="bg-white/[0.06] text-[#F2F2F2] p-3 rounded-lg border border-white/[0.14] focus:border-white/25 outline-none text-sm"
             />
             <input
               type="email"
@@ -285,13 +285,13 @@ export default function SalesTeamPage() {
               onChange={(e) => setForm({ ...form, email: e.target.value })}
               placeholder="Email *"
               required
-              className="bg-[#2A2A2A] text-white p-3 rounded-lg border border-[#3A3A3A] focus:border-[#00FF94] outline-none text-sm"
+              className="bg-white/[0.06] text-[#F2F2F2] p-3 rounded-lg border border-white/[0.14] focus:border-white/25 outline-none text-sm"
             />
             <input
               value={form.phone}
               onChange={(e) => setForm({ ...form, phone: e.target.value })}
               placeholder="Telefon"
-              className="bg-[#2A2A2A] text-white p-3 rounded-lg border border-[#3A3A3A] focus:border-[#00FF94] outline-none text-sm"
+              className="bg-white/[0.06] text-[#F2F2F2] p-3 rounded-lg border border-white/[0.14] focus:border-white/25 outline-none text-sm"
             />
             <div className="flex items-center gap-3">
               <input
@@ -300,15 +300,15 @@ export default function SalesTeamPage() {
                 max="100"
                 value={form.commission}
                 onChange={(e) => setForm({ ...form, commission: e.target.value })}
-                className="w-24 bg-[#2A2A2A] text-white p-3 rounded-lg border border-[#3A3A3A] focus:border-[#00FF94] outline-none text-sm"
+                className="w-24 bg-white/[0.06] text-[#F2F2F2] p-3 rounded-lg border border-white/[0.14] focus:border-white/25 outline-none text-sm"
               />
-              <span className="text-sm text-gray-400">% provizije</span>
+              <span className="text-sm text-[#8E8E8E]">% provizije</span>
             </div>
           </div>
           <button
             type="submit"
             disabled={creating}
-            className="mt-4 inline-flex items-center gap-2 px-6 py-3 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 transition-all disabled:opacity-50"
+            className="mt-4 inline-flex items-center gap-2 px-6 py-3 bg-[#F2F2F2] text-[#080808] rounded-full font-medium transition-all disabled:opacity-50"
           >
             {creating ? <Loader2 size={18} className="animate-spin" /> : <Plus size={18} />}
             Kreiraj račun
@@ -318,23 +318,23 @@ export default function SalesTeamPage() {
 
       {/* Commission totals */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-5">
-          <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">Provizije za isplatu</div>
-          <div className="text-2xl font-black text-amber-400 flex items-center gap-2">
+        <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-5">
+          <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-2">Provizije za isplatu</div>
+          <div className="text-2xl font-medium text-amber-400 flex items-center gap-2">
             <Wallet size={20} />
             {formatCurrency(payableTotal)}
           </div>
         </div>
-        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-5">
-          <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">Isplaćeno ukupno</div>
-          <div className="text-2xl font-black text-[#00FF94] flex items-center gap-2">
+        <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-5">
+          <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-2">Isplaćeno ukupno</div>
+          <div className="text-2xl font-medium text-[#F2F2F2] flex items-center gap-2">
             <CheckCircle size={20} />
             {formatCurrency(paidTotal)}
           </div>
         </div>
-        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-5">
-          <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">Naplaćeno preko prodaje</div>
-          <div className="text-2xl font-black text-white flex items-center gap-2">
+        <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-5">
+          <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-2">Naplaćeno preko prodaje</div>
+          <div className="text-2xl font-medium text-[#F2F2F2] flex items-center gap-2">
             <FileText size={20} />
             {formatCurrency(quotes.filter((q) => q.payment_received).reduce((s, q) => s + (q.pricing?.total || 0), 0))}
           </div>
@@ -343,24 +343,24 @@ export default function SalesTeamPage() {
 
       {/* Sales users */}
       <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-        <Handshake size={20} className="text-[#00FF94]" />
+        <Handshake size={20} className="text-[#8E8E8E]" />
         Prodavači
       </h2>
 
       {salesUsers.length === 0 ? (
-        <div className="bg-[#1a1a1a] border-2 border-dashed border-[#2A2A2A] rounded-2xl p-12 text-center mb-8">
-          <p className="text-gray-400">Još nema prodavača. Dodaj prvog (Karlo čeka).</p>
+        <div className="bg-[#0F0F0F] border-2 border-dashed border-white/[0.07] rounded-2xl p-12 text-center mb-8">
+          <p className="text-[#8E8E8E]">Još nema prodavača. Dodaj prvog (Karlo čeka).</p>
         </div>
       ) : (
         <div className="grid gap-4 mb-8">
           {salesUsers.map((user) => {
             const stats = statsForUser(user.id);
             return (
-              <div key={user.id} className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6">
+              <div key={user.id} className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6">
                 <div className="flex flex-col lg:flex-row justify-between gap-5">
                   <div>
                     <div className="flex items-center gap-3 mb-1">
-                      <h3 className="text-xl font-bold text-white">{user.name}</h3>
+                      <h3 className="text-xl font-bold text-[#F2F2F2]">{user.name}</h3>
                       <span
                         className={`px-2.5 py-1 rounded-full text-xs font-semibold ${
                           user.active ? 'bg-[#00FF94]/20 text-[#00FF94]' : 'bg-red-500/20 text-red-400'
@@ -369,14 +369,14 @@ export default function SalesTeamPage() {
                         {user.active ? 'Aktivan' : 'Deaktiviran'}
                       </span>
                     </div>
-                    <p className="text-sm text-gray-400">
+                    <p className="text-sm text-[#8E8E8E]">
                       {user.email}
                       {user.phone ? ` · ${user.phone}` : ''}
                       {user.last_login_at ? ` · zadnji login ${new Date(user.last_login_at).toLocaleDateString('hr-HR')}` : ' · nikad se nije logirao'}
                     </p>
 
                     <div className="flex items-center gap-2 mt-4">
-                      <span className="text-xs text-gray-500 uppercase tracking-wider">Provizija:</span>
+                      <span className="text-xs text-[#6E6E6E] uppercase tracking-wider">Provizija:</span>
                       <input
                         type="number"
                         min="0"
@@ -388,9 +388,9 @@ export default function SalesTeamPage() {
                             handleCommissionRateChange(user, val);
                           }
                         }}
-                        className="w-16 bg-[#2A2A2A] text-white p-1.5 rounded-lg border border-[#3A3A3A] focus:border-[#00FF94] outline-none text-sm text-center"
+                        className="w-16 bg-white/[0.06] text-[#F2F2F2] p-1.5 rounded-lg border border-white/[0.14] focus:border-white/25 outline-none text-sm text-center"
                       />
-                      <span className="text-sm text-gray-400">%</span>
+                      <span className="text-sm text-[#8E8E8E]">%</span>
                     </div>
                   </div>
 
@@ -403,18 +403,18 @@ export default function SalesTeamPage() {
                       { label: 'Plaćene', value: stats.paid },
                       { label: 'Naplaćeno', value: formatCurrency(stats.revenue), green: true },
                     ].map((s) => (
-                      <div key={s.label} className="bg-[#0a0a0a] rounded-lg p-3 text-center">
-                        <div className="text-[10px] text-gray-500 uppercase tracking-wider mb-1">{s.label}</div>
-                        <div className={`text-sm font-black ${s.green ? 'text-[#00FF94]' : 'text-white'}`}>{s.value}</div>
+                      <div key={s.label} className="bg-[#080808] rounded-lg p-3 text-center">
+                        <div className="text-[10px] text-[#6E6E6E] uppercase tracking-wider mb-1">{s.label}</div>
+                        <div className={`text-sm font-medium ${s.green ? 'text-[#00FF94]' : 'text-[#F2F2F2]'}`}>{s.value}</div>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                <div className="flex flex-wrap gap-2 mt-5 pt-4 border-t border-[#2A2A2A]">
+                <div className="flex flex-wrap gap-2 mt-5 pt-4 border-t border-white/[0.07]">
                   <button
                     onClick={() => handleResetPassword(user.id)}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#2A2A2A] text-white rounded-lg text-xs font-semibold hover:bg-[#3A3A3A] transition-all"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 bg-white/[0.06] text-[#F2F2F2] rounded-lg text-xs font-semibold hover:bg-white/[0.1] transition-all"
                   >
                     <Key size={13} />
                     Resetiraj lozinku
@@ -449,18 +449,18 @@ export default function SalesTeamPage() {
               const depositRate = q.pricing?.depositRate ?? 0.5;
               const remaining = (q.pricing?.total || 0) * (1 - depositRate);
               return (
-                <div key={q.id} className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-5 flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+                <div key={q.id} className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-5 flex flex-col sm:flex-row justify-between sm:items-center gap-4">
                   <div>
-                    <Link href={`/crm/quotes/${q.id}`} className="font-bold text-white hover:text-[#00FF94] transition-colors">
+                    <Link href={`/crm/quotes/${q.id}`} className="font-bold text-[#F2F2F2] hover:text-[#F2F2F2] transition-colors">
                       {q.reference} · {q.client_name}
                     </Link>
-                    <p className="text-sm text-gray-400">
+                    <p className="text-sm text-[#8E8E8E]">
                       Predujam plaćen · ostatak {formatCurrency(remaining)} · prodavač: {user?.name || '?'}
                     </p>
                   </div>
                   <button
                     onClick={() => handleMarkFinalPayment(q)}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#00FF94] text-black rounded-xl text-sm font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 transition-all"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#F2F2F2] text-[#080808] rounded-full text-sm font-medium transition-all"
                   >
                     <CheckCircle size={15} />
                     Označi konačnu uplatu
@@ -474,31 +474,31 @@ export default function SalesTeamPage() {
 
       {/* Commissions */}
       <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-        <Wallet size={20} className="text-[#00FF94]" />
+        <Wallet size={20} className="text-[#8E8E8E]" />
         Provizije
       </h2>
 
       {commissions.length === 0 ? (
-        <div className="bg-[#1a1a1a] border-2 border-dashed border-[#2A2A2A] rounded-2xl p-12 text-center">
-          <p className="text-gray-400">Još nema provizija. Pojave se automatski kad klijent plati predujam.</p>
+        <div className="bg-[#0F0F0F] border-2 border-dashed border-white/[0.07] rounded-2xl p-12 text-center">
+          <p className="text-[#8E8E8E]">Još nema provizija. Pojave se automatski kad klijent plati predujam.</p>
         </div>
       ) : (
         <div className="grid gap-3">
           {commissions.map((c) => (
-            <div key={c.id} className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-5 flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+            <div key={c.id} className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-5 flex flex-col sm:flex-row justify-between sm:items-center gap-4">
               <div>
-                <p className="font-bold text-white">
+                <p className="font-bold text-[#F2F2F2]">
                   {c.sales_user?.name || '?'} · {c.quote?.reference || 'Ponuda'} · {c.quote?.client_name || ''}
                 </p>
-                <p className="text-sm text-gray-400">
+                <p className="text-sm text-[#8E8E8E]">
                   {c.kind === 'deposit' ? 'Predujam' : 'Ostatak'} · {formatCurrency(c.base_amount)} × {Math.round(Number(c.rate) * 100)}%
                   {' · '}{new Date(c.created_at).toLocaleDateString('hr-HR')}
                 </p>
               </div>
               <div className="flex items-center gap-3">
-                <span className="text-lg font-black text-white">{formatCurrency(c.amount)}</span>
+                <span className="text-lg font-medium text-[#F2F2F2]">{formatCurrency(c.amount)}</span>
                 {c.status === 'paid' ? (
-                  <span className="px-3 py-1.5 rounded-full text-xs font-semibold bg-[#2A2A2A] text-gray-300">
+                  <span className="px-3 py-1.5 rounded-full text-xs font-semibold bg-white/[0.06] text-[#C9C9C9]">
                     Isplaćeno {c.paid_at ? new Date(c.paid_at).toLocaleDateString('hr-HR') : ''}
                   </span>
                 ) : (

@@ -211,8 +211,8 @@ export default function CRMDashboard() {
       case 'urgent': return 'text-red-400 bg-red-400/10';
       case 'high': return 'text-orange-400 bg-orange-400/10';
       case 'normal': return 'text-blue-400 bg-blue-400/10';
-      case 'low': return 'text-gray-400 bg-gray-400/10';
-      default: return 'text-gray-400 bg-gray-400/10';
+      case 'low': return 'text-[#8E8E8E] bg-gray-400/10';
+      default: return 'text-[#8E8E8E] bg-gray-400/10';
     }
   };
 
@@ -222,7 +222,7 @@ export default function CRMDashboard() {
       case 'in_review': return { color: 'bg-blue-400/10 text-blue-400', label: 'In Review' };
       case 'revision_requested': return { color: 'bg-orange-400/10 text-orange-400', label: 'Revision' };
       case 'pending': return { color: 'bg-purple-400/10 text-purple-400', label: 'Pending' };
-      default: return { color: 'bg-gray-400/10 text-gray-400', label: status };
+      default: return { color: 'bg-gray-400/10 text-[#8E8E8E]', label: status };
     }
   };
 
@@ -275,7 +275,7 @@ export default function CRMDashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <div className="text-2xl text-[#00FF94]">Loading dashboard...</div>
+        <div className="text-xs uppercase tracking-[0.14em] text-[#8E8E8E]" style={{ fontFamily: 'ui-monospace, Menlo, monospace' }}>Loading dashboard...</div>
       </div>
     );
   }
@@ -287,42 +287,36 @@ export default function CRMDashboard() {
     <div className="animate-fadeIn">
       {/* Personalized Header */}
       <div className="mb-10">
-        <div className="flex items-center gap-3 mb-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400/20 to-orange-500/20 flex items-center justify-center">
-            <GreetingIcon size={20} className="text-amber-400" />
-          </div>
-          <div className="flex items-center gap-2 text-sm text-gray-500">
-            <Calendar size={14} />
-            <span>{formatDate()}</span>
-          </div>
-        </div>
-        <h1 className="text-4xl font-black mb-2">
-          <span className="text-white">{greeting.text}, </span>
-          <span className="bg-gradient-to-r from-[#00FF94] to-[#00CC76] bg-clip-text text-transparent">
-            {userName || 'there'}
+        <div className="flex items-center gap-2.5 mb-4">
+          <span className="w-[5px] h-[5px] rounded-full bg-[#00FF94]" />
+          <span className="text-[11px] uppercase tracking-[0.14em] text-[#8E8E8E]" style={{ fontFamily: 'ui-monospace, Menlo, monospace' }}>
+            {formatDate()}
           </span>
+        </div>
+        <h1 className="text-4xl font-medium mb-2 text-[#F2F2F2]">
+          {greeting.text}, {userName || 'there'}
         </h1>
-        <p className="text-gray-400">Here's your business overview for today.</p>
+        <p className="text-[#8E8E8E]">Here's your business overview for today.</p>
       </div>
 
       {!hasData ? (
         /* Empty State */
-        <div className="bg-[#1a1a1a] border-2 border-dashed border-[#2A2A2A] rounded-2xl p-20 text-center">
-          <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-[#00FF94]/10 flex items-center justify-center">
-            <Sparkles size={40} className="text-[#00FF94]" />
+        <div className="bg-[#0F0F0F] border border-dashed border-white/[0.07] rounded-2xl p-20 text-center">
+          <div className="w-20 h-20 mx-auto mb-6 rounded-full border border-white/[0.07] flex items-center justify-center">
+            <Sparkles size={32} className="text-[#8E8E8E]" />
           </div>
-          <h3 className="text-2xl font-bold mb-3">Welcome to NineFold CRM!</h3>
-          <p className="text-gray-400 text-lg mb-8">Get started by adding your first lead or client.</p>
+          <h3 className="text-2xl font-medium mb-3 text-[#F2F2F2]">Welcome to Ninefold CRM!</h3>
+          <p className="text-[#8E8E8E] text-lg mb-8">Get started by adding your first lead or client.</p>
           <div className="flex gap-3 justify-center">
-            <Link 
-              href="/crm/leads/new" 
-              className="px-7 py-3.5 bg-[#00FF94] text-[#0F0F0F] rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 hover:-translate-y-0.5 transition-all"
+            <Link
+              href="/crm/leads/new"
+              className="px-7 py-3.5 bg-[#F2F2F2] text-[#080808] rounded-full font-medium hover:bg-white transition-all"
             >
               Add First Lead
             </Link>
-            <Link 
-              href="/crm/clients/new" 
-              className="px-7 py-3.5 bg-[#2A2A2A] text-white rounded-xl font-bold hover:bg-[#3A3A3A] transition-all"
+            <Link
+              href="/crm/clients/new"
+              className="px-7 py-3.5 border border-white/[0.14] text-[#F2F2F2] rounded-full font-medium hover:border-white/30 transition-all"
             >
               Add Client
             </Link>
@@ -334,17 +328,17 @@ export default function CRMDashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
             {/* Personal Todos */}
-            <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6">
+            <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6">
               <div className="flex items-center justify-between mb-5">
-                <h2 className="text-lg font-bold flex items-center gap-2">
-                  <CheckCircle size={20} className="text-[#00FF94]" />
+                <h2 className="flex items-center gap-2.5 text-[11px] uppercase tracking-[0.14em] text-[#8E8E8E]" style={{ fontFamily: 'ui-monospace, Menlo, monospace' }}>
+                  <CheckCircle size={16} className="text-[#8E8E8E]" />
                   My Todos
                 </h2>
                 <button
                   onClick={() => setShowTodoInput(!showTodoInput)}
-                  className="w-8 h-8 rounded-lg bg-[#00FF94]/10 flex items-center justify-center text-[#00FF94] hover:bg-[#00FF94]/20 transition-colors"
+                  className="w-8 h-8 rounded-lg border border-white/[0.07] flex items-center justify-center text-[#8E8E8E] hover:text-[#F2F2F2] hover:border-white/[0.16] transition-colors"
                 >
-                  <Plus size={18} />
+                  <Plus size={16} />
                 </button>
               </div>
 
@@ -356,12 +350,12 @@ export default function CRMDashboard() {
                       value={newTodoTitle}
                       onChange={(e) => setNewTodoTitle(e.target.value)}
                       placeholder="What needs to be done?"
-                      className="flex-1 px-4 py-2.5 bg-[#0f0f0f] border border-[#2A2A2A] rounded-xl text-white placeholder-gray-500 focus:border-[#00FF94] focus:outline-none"
+                      className="flex-1 px-4 py-2.5 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] placeholder-[#5C5C5C] focus:border-white/25 focus:outline-none"
                       autoFocus
                     />
                     <button
                       type="submit"
-                      className="px-4 py-2.5 bg-[#00FF94] text-black font-semibold rounded-xl hover:bg-[#00CC76] transition-colors"
+                      className="px-4 py-2.5 bg-[#F2F2F2] text-[#080808] font-medium rounded-full hover:bg-white transition-colors"
                     >
                       Add
                     </button>
@@ -371,7 +365,7 @@ export default function CRMDashboard() {
 
               <div className="space-y-2">
                 {todos.length === 0 ? (
-                  <div className="text-center py-8 text-gray-500">
+                  <div className="text-center py-8 text-[#8E8E8E]">
                     <CheckCircle size={32} className="mx-auto mb-2 opacity-50" />
                     <p>All caught up!</p>
                   </div>
@@ -379,18 +373,18 @@ export default function CRMDashboard() {
                   todos.map((todo) => (
                     <div
                       key={todo.id}
-                      className="group flex items-center gap-3 p-3 rounded-xl hover:bg-[#0f0f0f] transition-colors"
+                      className="group flex items-center gap-3 p-3 rounded-xl hover:bg-white/[0.03] transition-colors"
                     >
                       <button
                         onClick={() => handleCompleteTodo(todo.id)}
-                        className="w-5 h-5 rounded-full border-2 border-gray-600 flex items-center justify-center hover:border-[#00FF94] hover:bg-[#00FF94]/10 transition-colors"
+                        className="w-5 h-5 rounded-full border border-white/[0.2] flex items-center justify-center hover:border-[#00FF94] hover:bg-[#00FF94]/10 transition-colors"
                       >
-                        <Check size={12} className="text-transparent group-hover:text-[#00FF94]" />
+                        <Check size={12} className="text-transparent group-hover:text-[#F2F2F2]" />
                       </button>
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium truncate">{todo.title}</p>
                         {todo.due_date && (
-                          <p className="text-xs text-gray-500">{formatRelativeDate(todo.due_date)}</p>
+                          <p className="text-xs text-[#8E8E8E]">{formatRelativeDate(todo.due_date)}</p>
                         )}
                       </div>
                       {todo.priority !== 'normal' && (
@@ -406,7 +400,7 @@ export default function CRMDashboard() {
               {todos.length > 0 && (
                 <Link
                   href="/crm/todos"
-                  className="mt-4 flex items-center justify-center gap-1 text-sm text-gray-500 hover:text-[#00FF94] transition-colors"
+                  className="mt-4 flex items-center justify-center gap-1 text-sm text-[#8E8E8E] hover:text-[#F2F2F2] transition-colors"
                 >
                   View all <ChevronRight size={14} />
                 </Link>
@@ -414,15 +408,15 @@ export default function CRMDashboard() {
             </div>
 
             {/* Client Portal Requests */}
-            <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6">
+            <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6">
               <div className="flex items-center justify-between mb-5">
-                <h2 className="text-lg font-bold flex items-center gap-2">
-                  <MessageSquare size={20} className="text-purple-400" />
+                <h2 className="flex items-center gap-2.5 text-[11px] uppercase tracking-[0.14em] text-[#8E8E8E]" style={{ fontFamily: 'ui-monospace, Menlo, monospace' }}>
+                  <MessageSquare size={16} className="text-[#8E8E8E]" />
                   Client Requests
                 </h2>
                 <Link
                   href="/crm/change-requests"
-                  className="text-sm text-gray-500 hover:text-[#00FF94] transition-colors"
+                  className="text-sm text-[#8E8E8E] hover:text-[#F2F2F2] transition-colors"
                 >
                   View all
                 </Link>
@@ -430,7 +424,7 @@ export default function CRMDashboard() {
 
               <div className="space-y-2">
                 {changeRequests.length === 0 ? (
-                  <div className="text-center py-8 text-gray-500">
+                  <div className="text-center py-8 text-[#8E8E8E]">
                     <MessageSquare size={32} className="mx-auto mb-2 opacity-50" />
                     <p>No pending requests</p>
                   </div>
@@ -441,12 +435,12 @@ export default function CRMDashboard() {
                       <Link
                         key={request.id}
                         href={`/crm/change-requests/${request.id}`}
-                        className="block p-3 rounded-xl hover:bg-[#0f0f0f] transition-colors"
+                        className="block p-3 rounded-xl hover:bg-white/[0.03] transition-colors"
                       >
                         <div className="flex items-start justify-between gap-2">
                           <div className="flex-1 min-w-0">
                             <p className="text-sm font-medium truncate">{request.title}</p>
-                            <p className="text-xs text-gray-500 truncate">
+                            <p className="text-xs text-[#8E8E8E] truncate">
                               {request.clients?.company || request.clients?.name || 'Unknown client'}
                             </p>
                           </div>
@@ -462,15 +456,15 @@ export default function CRMDashboard() {
             </div>
 
             {/* Content Needing Action */}
-            <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6">
+            <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6">
               <div className="flex items-center justify-between mb-5">
-                <h2 className="text-lg font-bold flex items-center gap-2">
-                  <Image size={20} className="text-blue-400" />
+                <h2 className="flex items-center gap-2.5 text-[11px] uppercase tracking-[0.14em] text-[#8E8E8E]" style={{ fontFamily: 'ui-monospace, Menlo, monospace' }}>
+                  <Image size={16} className="text-[#8E8E8E]" />
                   Content to Review
                 </h2>
                 <Link
                   href="/crm/content"
-                  className="text-sm text-gray-500 hover:text-[#00FF94] transition-colors"
+                  className="text-sm text-[#8E8E8E] hover:text-[#F2F2F2] transition-colors"
                 >
                   View all
                 </Link>
@@ -478,7 +472,7 @@ export default function CRMDashboard() {
 
               <div className="space-y-2">
                 {contentItems.length === 0 ? (
-                  <div className="text-center py-8 text-gray-500">
+                  <div className="text-center py-8 text-[#8E8E8E]">
                     <Image size={32} className="mx-auto mb-2 opacity-50" />
                     <p>No content pending</p>
                   </div>
@@ -489,14 +483,14 @@ export default function CRMDashboard() {
                       <Link
                         key={item.id}
                         href={`/crm/content/${item.id}`}
-                        className="block p-3 rounded-xl hover:bg-[#0f0f0f] transition-colors"
+                        className="block p-3 rounded-xl hover:bg-white/[0.03] transition-colors"
                       >
                         <div className="flex items-start justify-between gap-2">
                           <div className="flex-1 min-w-0">
                             <p className="text-sm font-medium truncate capitalize">
                               {item.platform} {item.content_type}
                             </p>
-                            <p className="text-xs text-gray-500">
+                            <p className="text-xs text-[#8E8E8E]">
                               {item.clients?.company || item.clients?.name} • {formatRelativeDate(item.scheduled_date)}
                             </p>
                           </div>
@@ -512,15 +506,15 @@ export default function CRMDashboard() {
             </div>
 
             {/* Upcoming Deadlines */}
-            <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6">
+            <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6">
               <div className="flex items-center justify-between mb-5">
-                <h2 className="text-lg font-bold flex items-center gap-2">
-                  <CalendarClock size={20} className="text-orange-400" />
+                <h2 className="flex items-center gap-2.5 text-[11px] uppercase tracking-[0.14em] text-[#8E8E8E]" style={{ fontFamily: 'ui-monospace, Menlo, monospace' }}>
+                  <CalendarClock size={16} className="text-[#8E8E8E]" />
                   Upcoming Deadlines
                 </h2>
                 <Link
                   href="/crm/calendar"
-                  className="text-sm text-gray-500 hover:text-[#00FF94] transition-colors"
+                  className="text-sm text-[#8E8E8E] hover:text-[#F2F2F2] transition-colors"
                 >
                   Calendar
                 </Link>
@@ -528,7 +522,7 @@ export default function CRMDashboard() {
 
               <div className="space-y-2">
                 {deadlines.length === 0 ? (
-                  <div className="text-center py-8 text-gray-500">
+                  <div className="text-center py-8 text-[#8E8E8E]">
                     <CalendarClock size={32} className="mx-auto mb-2 opacity-50" />
                     <p>No deadlines this week</p>
                   </div>
@@ -536,12 +530,12 @@ export default function CRMDashboard() {
                   deadlines.map((deadline) => (
                     <div
                       key={deadline.id}
-                      className="p-3 rounded-xl hover:bg-[#0f0f0f] transition-colors"
+                      className="p-3 rounded-xl hover:bg-white/[0.03] transition-colors"
                     >
                       <div className="flex items-start justify-between gap-2">
                         <div className="flex-1 min-w-0">
                           <p className="text-sm font-medium truncate">{deadline.title}</p>
-                          <p className="text-xs text-gray-500 truncate">
+                          <p className="text-xs text-[#8E8E8E] truncate">
                             {deadline.projects?.name || 'Project'}
                           </p>
                         </div>

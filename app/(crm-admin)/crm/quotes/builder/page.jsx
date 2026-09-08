@@ -255,7 +255,7 @@ export default function QuoteBuilderPage() {
       {/* Header */}
       <Link
         href="/crm/quotes"
-        className="inline-flex items-center gap-2 text-gray-400 hover:text-[#00FF94] mb-6 transition-colors"
+        className="inline-flex items-center gap-2 text-[#8E8E8E] hover:text-[#F2F2F2] mb-6 transition-colors"
       >
         <ArrowLeft size={16} />
         Natrag na ponude
@@ -265,64 +265,64 @@ export default function QuoteBuilderPage() {
         {/* Main Content */}
         <div className="flex-1 space-y-6">
           <div className="mb-8">
-            <h1 className="text-4xl font-black bg-gradient-to-r from-[#00FF94] to-[#00CC76] bg-clip-text text-transparent mb-2">
+            <h1 className="text-4xl font-medium text-[#F2F2F2] mb-2">
               Quote Builder
             </h1>
-            <p className="text-gray-400">Brzo sastavi ponudu odabirom paketa</p>
+            <p className="text-[#8E8E8E]">Brzo sastavi ponudu odabirom paketa</p>
           </div>
 
           {/* Client Info */}
-          <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6">
-            <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-              <FileText size={20} className="text-[#00FF94]" />
+          <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6">
+            <h2 className="text-xl font-bold text-[#F2F2F2] mb-4 flex items-center gap-2">
+              <FileText size={20} className="text-[#8E8E8E]" />
               Podaci o klijentu
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-400 mb-2">Ime klijenta *</label>
+                <label className="block text-sm font-medium text-[#8E8E8E] mb-2">Ime klijenta *</label>
                 <input
                   type="text"
                   value={clientInfo.name}
                   onChange={(e) => setClientInfo(prev => ({ ...prev, name: e.target.value }))}
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                   placeholder="Ivan Horvat"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-400 mb-2">Tvrtka</label>
+                <label className="block text-sm font-medium text-[#8E8E8E] mb-2">Tvrtka</label>
                 <input
                   type="text"
                   value={clientInfo.company}
                   onChange={(e) => setClientInfo(prev => ({ ...prev, company: e.target.value }))}
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                   placeholder="Tvrtka d.o.o."
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-400 mb-2">Email</label>
+                <label className="block text-sm font-medium text-[#8E8E8E] mb-2">Email</label>
                 <input
                   type="email"
                   value={clientInfo.email}
                   onChange={(e) => setClientInfo(prev => ({ ...prev, email: e.target.value }))}
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                   placeholder="ivan@tvrtka.hr"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-400 mb-2">Naslov ponude</label>
+                <label className="block text-sm font-medium text-[#8E8E8E] mb-2">Naslov ponude</label>
                 <input
                   type="text"
                   value={clientInfo.projectTitle}
                   onChange={(e) => setClientInfo(prev => ({ ...prev, projectTitle: e.target.value }))}
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                   placeholder="Web stranica za Tvrtka d.o.o."
                 />
               </div>
             </div>
 
             {/* Company/Issuer Selection */}
-            <div className="mt-6 pt-6 border-t border-[#2A2A2A]">
-              <label className="block text-sm font-medium text-gray-400 mb-3">Izdavač ponude</label>
+            <div className="mt-6 pt-6 border-t border-white/[0.07]">
+              <label className="block text-sm font-medium text-[#8E8E8E] mb-3">Izdavač ponude</label>
               <div className="flex gap-3">
                 {Object.values(COMPANIES).map((company) => (
                   <button
@@ -332,16 +332,16 @@ export default function QuoteBuilderPage() {
                     className={`flex-1 p-4 rounded-xl border-2 transition-all text-left ${
                       selectedCompany === company.id
                         ? 'border-[#00FF94] bg-[#00FF94]/10'
-                        : 'border-[#2A2A2A] bg-[#0a0a0a] hover:border-[#3A3A3A]'
+                        : 'border-white/[0.07] bg-[#080808] hover:border-white/[0.14]'
                     }`}
                   >
                     <div className="flex items-center justify-between mb-1">
-                      <div className="text-sm font-bold text-white uppercase">{company.id}</div>
+                      <div className="text-sm font-bold text-[#F2F2F2] uppercase">{company.id}</div>
                       {selectedCompany === company.id && (
                         <Check size={16} className="text-[#00FF94]" />
                       )}
                     </div>
-                    <div className="text-xs text-gray-500">Potpisuje: {company.signatory}</div>
+                    <div className="text-xs text-[#6E6E6E]">Potpisuje: {company.signatory}</div>
                   </button>
                 ))}
               </div>
@@ -359,7 +359,7 @@ export default function QuoteBuilderPage() {
           >
             {/* Package Selection */}
             <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-400 mb-3">Odaberi paket</label>
+              <label className="block text-sm font-medium text-[#8E8E8E] mb-3">Odaberi paket</label>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {Object.values(WEB_PACKAGES).map((pkg) => (
                   <PackageCard
@@ -377,11 +377,11 @@ export default function QuoteBuilderPage() {
 
             {/* Maintenance Toggle */}
             {selections.webDevelopment.package && (
-              <div className="border-t border-[#2A2A2A] pt-6">
+              <div className="border-t border-white/[0.07] pt-6">
                 <div className="flex items-center justify-between mb-4">
                   <div>
-                    <h4 className="text-white font-semibold">Održavanje i podrška</h4>
-                    <p className="text-sm text-gray-500">Mjesečno održavanje web stranice</p>
+                    <h4 className="text-[#F2F2F2] font-semibold">Održavanje i podrška</h4>
+                    <p className="text-sm text-[#6E6E6E]">Mjesečno održavanje web stranice</p>
                   </div>
                   <ToggleSwitch
                     enabled={selections.webDevelopment.maintenance.enabled}
@@ -390,18 +390,18 @@ export default function QuoteBuilderPage() {
                 </div>
 
                 {selections.webDevelopment.maintenance.enabled && (
-                  <div className="bg-[#0a0a0a] rounded-xl p-4">
+                  <div className="bg-[#080808] rounded-xl p-4">
                     {(() => {
                       const tier = MAINTENANCE_TIERS[selections.webDevelopment.maintenance.tier];
                       return tier ? (
                         <div className="flex justify-between items-center">
                           <div>
-                            <span className="text-white font-medium">{tier.nameHr}</span>
-                            <span className="text-gray-500 ml-2">- {tier.description}</span>
+                            <span className="text-[#F2F2F2] font-medium">{tier.nameHr}</span>
+                            <span className="text-[#6E6E6E] ml-2">- {tier.description}</span>
                           </div>
                           <div className="text-right">
-                            <div className="text-[#00FF94] font-bold">{formatCurrency(tier.monthlyPrice)}/mj</div>
-                            <div className="text-xs text-gray-500">{formatCurrency(tier.monthlyPrice * 12)}/god</div>
+                            <div className="text-[#F2F2F2] font-medium">{formatCurrency(tier.monthlyPrice)}/mj</div>
+                            <div className="text-xs text-[#6E6E6E]">{formatCurrency(tier.monthlyPrice * 12)}/god</div>
                           </div>
                         </div>
                       ) : null;
@@ -438,12 +438,12 @@ export default function QuoteBuilderPage() {
 
             {selections.appDevelopment.package === 'enterprise' && (
               <div className="mt-4">
-                <label className="block text-sm font-medium text-gray-400 mb-2">Custom cijena (EUR)</label>
+                <label className="block text-sm font-medium text-[#8E8E8E] mb-2">Custom cijena (EUR)</label>
                 <input
                   type="number"
                   value={selections.appDevelopment.customPrice || ''}
                   onChange={(e) => updateSelection('appDevelopment', 'customPrice', Number(e.target.value))}
-                  className="w-full max-w-xs px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full max-w-xs px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                   placeholder="10000"
                 />
               </div>
@@ -461,7 +461,7 @@ export default function QuoteBuilderPage() {
           >
             {/* Plan Selection */}
             <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-400 mb-3">Odaberi plan</label>
+              <label className="block text-sm font-medium text-[#8E8E8E] mb-3">Odaberi plan</label>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 {Object.values(SOCIAL_PLANS).filter(p => p.id !== 'custom').map((plan) => (
                   <PackageCard
@@ -493,48 +493,48 @@ export default function QuoteBuilderPage() {
 
             {/* Custom Plan Configuration */}
             {selections.socialMedia.plan === 'custom' && (
-              <div className="border-t border-[#2A2A2A] pt-6 mb-6">
-                <h4 className="text-white font-semibold mb-4 flex items-center gap-2">
+              <div className="border-t border-white/[0.07] pt-6 mb-6">
+                <h4 className="text-[#F2F2F2] font-semibold mb-4 flex items-center gap-2">
                   <Sparkles size={16} className="text-[#00FF94]" />
                   Prilagođeni paket - Konfiguracija
                 </h4>
 
                 {/* Custom Management Price */}
                 <div className="mb-6">
-                  <label className="block text-sm font-medium text-gray-400 mb-2">Mjesečna cijena upravljanja (EUR) *</label>
+                  <label className="block text-sm font-medium text-[#8E8E8E] mb-2">Mjesečna cijena upravljanja (EUR) *</label>
                   <input
                     type="number"
                     value={selections.socialMedia.customPlan?.managementPrice || ''}
                     onChange={(e) => updateCustomPlan('managementPrice', Number(e.target.value) || null)}
-                    className="w-full max-w-xs px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                    className="w-full max-w-xs px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                     placeholder="450"
                   />
                 </div>
 
                 {/* Weekly Content Deliverables */}
                 <div className="mb-6">
-                  <label className="block text-sm font-medium text-gray-400 mb-3">Sadržaj tjedno (automatski se računa mjesečno × 4)</label>
+                  <label className="block text-sm font-medium text-[#8E8E8E] mb-3">Sadržaj tjedno (automatski se računa mjesečno × 4)</label>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                     {Object.values(CONTENT_TYPES).map((content) => {
                       const weekly = selections.socialMedia.customPlan?.contentDeliverables?.[content.id]?.weekly || 0;
                       const monthly = weekly * 4;
 
                       return (
-                        <div key={content.id} className="bg-[#0a0a0a] rounded-xl p-3">
+                        <div key={content.id} className="bg-[#080808] rounded-xl p-3">
                           <div className="flex justify-between items-start mb-2">
-                            <span className="text-sm text-gray-300">{content.nameHr}</span>
+                            <span className="text-sm text-[#C9C9C9]">{content.nameHr}</span>
                           </div>
                           <div className="flex items-center gap-2">
                             <button
                               onClick={() => updateCustomDeliverable(content.id, weekly - 1)}
-                              className="w-8 h-8 rounded-lg bg-[#2A2A2A] text-white flex items-center justify-center hover:bg-[#3A3A3A] transition-colors"
+                              className="w-8 h-8 rounded-lg bg-white/[0.06] text-[#F2F2F2] flex items-center justify-center hover:bg-white/[0.1] transition-colors"
                             >
                               <Minus size={14} />
                             </button>
-                            <span className="w-8 text-center text-white font-medium">{weekly}</span>
+                            <span className="w-8 text-center text-[#F2F2F2] font-medium">{weekly}</span>
                             <button
                               onClick={() => updateCustomDeliverable(content.id, weekly + 1)}
-                              className="w-8 h-8 rounded-lg bg-[#2A2A2A] text-white flex items-center justify-center hover:bg-[#3A3A3A] transition-colors"
+                              className="w-8 h-8 rounded-lg bg-white/[0.06] text-[#F2F2F2] flex items-center justify-center hover:bg-white/[0.1] transition-colors"
                             >
                               <Plus size={14} />
                             </button>
@@ -552,7 +552,7 @@ export default function QuoteBuilderPage() {
 
                 {/* Custom Features */}
                 <div className="mb-6">
-                  <label className="block text-sm font-medium text-gray-400 mb-3">Uključene usluge</label>
+                  <label className="block text-sm font-medium text-[#8E8E8E] mb-3">Uključene usluge</label>
                   <div className="flex flex-wrap gap-2 mb-3">
                     {(selections.socialMedia.customPlan?.features || []).map((feature, index) => (
                       <span
@@ -562,7 +562,7 @@ export default function QuoteBuilderPage() {
                         {feature}
                         <button
                           onClick={() => removeCustomFeature(index)}
-                          className="ml-1 hover:text-white transition-colors"
+                          className="ml-1 hover:text-[#F2F2F2] transition-colors"
                         >
                           ×
                         </button>
@@ -573,7 +573,7 @@ export default function QuoteBuilderPage() {
                     <input
                       type="text"
                       id="newFeatureInput"
-                      className="flex-1 max-w-xs px-4 py-2 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white text-sm focus:border-[#00FF94] focus:outline-none transition-colors"
+                      className="flex-1 max-w-xs px-4 py-2 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] text-sm focus:border-white/25 focus:outline-none transition-colors"
                       placeholder="Nova usluga..."
                       onKeyDown={(e) => {
                         if (e.key === 'Enter') {
@@ -588,7 +588,7 @@ export default function QuoteBuilderPage() {
                         addCustomFeature(input.value);
                         input.value = '';
                       }}
-                      className="px-4 py-2 bg-[#2A2A2A] text-white rounded-xl hover:bg-[#3A3A3A] transition-colors text-sm"
+                      className="px-4 py-2 bg-white/[0.06] text-[#F2F2F2] rounded-xl hover:bg-white/[0.1] transition-colors text-sm"
                     >
                       Dodaj
                     </button>
@@ -599,9 +599,9 @@ export default function QuoteBuilderPage() {
 
             {/* Content Production */}
             {selections.socialMedia.plan && (
-              <div className="border-t border-[#2A2A2A] pt-6">
-                <h4 className="text-white font-semibold mb-4">Produkcija sadržaja (mjesečno) - dodatna naplata</h4>
-                <p className="text-sm text-gray-500 mb-4">
+              <div className="border-t border-white/[0.07] pt-6">
+                <h4 className="text-[#F2F2F2] font-semibold mb-4">Produkcija sadržaja (mjesečno) - dodatna naplata</h4>
+                <p className="text-sm text-[#6E6E6E] mb-4">
                   {selections.socialMedia.plan === 'custom'
                     ? 'Ako trebate dodatnu produkciju sadržaja uz prilagođeni paket, odaberite količine ispod.'
                     : 'Odaberite količine za dodatnu produkciju sadržaja.'}
@@ -614,19 +614,19 @@ export default function QuoteBuilderPage() {
                     const maxPhotos = !isCustomPlan && content.id === 'fotografija' ? plan?.maxPhotos : null;
 
                     return (
-                      <div key={content.id} className="bg-[#0a0a0a] rounded-xl p-3">
+                      <div key={content.id} className="bg-[#080808] rounded-xl p-3">
                         <div className="flex justify-between items-start mb-2">
-                          <span className="text-sm text-gray-300">{content.nameHr}</span>
+                          <span className="text-sm text-[#C9C9C9]">{content.nameHr}</span>
                           <span className="text-xs text-[#00FF94]">{formatCurrency(content.price)}</span>
                         </div>
                         <div className="flex items-center gap-2">
                           <button
                             onClick={() => updateContentQuantity(content.id, quantity - 1)}
-                            className="w-8 h-8 rounded-lg bg-[#2A2A2A] text-white flex items-center justify-center hover:bg-[#3A3A3A] transition-colors"
+                            className="w-8 h-8 rounded-lg bg-white/[0.06] text-[#F2F2F2] flex items-center justify-center hover:bg-white/[0.1] transition-colors"
                           >
                             <Minus size={14} />
                           </button>
-                          <span className="w-8 text-center text-white font-medium">{quantity}</span>
+                          <span className="w-8 text-center text-[#F2F2F2] font-medium">{quantity}</span>
                           <button
                             onClick={() => {
                               const newQty = quantity + 1;
@@ -636,13 +636,13 @@ export default function QuoteBuilderPage() {
                               }
                               updateContentQuantity(content.id, newQty);
                             }}
-                            className="w-8 h-8 rounded-lg bg-[#2A2A2A] text-white flex items-center justify-center hover:bg-[#3A3A3A] transition-colors"
+                            className="w-8 h-8 rounded-lg bg-white/[0.06] text-[#F2F2F2] flex items-center justify-center hover:bg-white/[0.1] transition-colors"
                           >
                             <Plus size={14} />
                           </button>
                         </div>
                         {maxPhotos && (
-                          <div className="text-xs text-gray-500 mt-1">Max: {maxPhotos}</div>
+                          <div className="text-xs text-[#6E6E6E] mt-1">Max: {maxPhotos}</div>
                         )}
                       </div>
                     );
@@ -652,11 +652,11 @@ export default function QuoteBuilderPage() {
                 {/* Contract Length & Onboarding */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-400 mb-2">Trajanje ugovora</label>
+                    <label className="block text-sm font-medium text-[#8E8E8E] mb-2">Trajanje ugovora</label>
                     <select
                       value={selections.socialMedia.contractLength}
                       onChange={(e) => updateSelection('socialMedia', 'contractLength', Number(e.target.value))}
-                      className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                      className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                     >
                       <option value={1}>1 mjesec</option>
                       <option value={3}>3 mjeseca</option>
@@ -671,8 +671,8 @@ export default function QuoteBuilderPage() {
                       disabled={shouldWaiveOnboarding(selections.socialMedia.contractLength)}
                     />
                     <div>
-                      <span className="text-white">Onboarding</span>
-                      <span className="text-gray-500 ml-2">
+                      <span className="text-[#F2F2F2]">Onboarding</span>
+                      <span className="text-[#6E6E6E] ml-2">
                         {shouldWaiveOnboarding(selections.socialMedia.contractLength)
                           ? '(besplatno kod 6+ mjeseci)'
                           : `(${formatCurrency(ADDITIONAL_PRICING.onboarding.price)})`}
@@ -694,7 +694,7 @@ export default function QuoteBuilderPage() {
             onExpand={() => toggleSection('podcastStudio')}
           >
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-400 mb-3">Trajanje snimanja</label>
+              <label className="block text-sm font-medium text-[#8E8E8E] mb-3">Trajanje snimanja</label>
               <div className="flex flex-wrap gap-3">
                 {Object.values(PODCAST_STUDIO_PRICING).map((duration) => (
                   <button
@@ -702,8 +702,8 @@ export default function QuoteBuilderPage() {
                     onClick={() => updateSelection('podcastStudio', 'duration', duration.id)}
                     className={`px-4 py-2 rounded-xl font-medium transition-all ${
                       selections.podcastStudio.duration === duration.id
-                        ? 'bg-[#00FF94] text-black'
-                        : 'bg-[#2A2A2A] text-white hover:bg-[#3A3A3A]'
+                        ? 'bg-[#F2F2F2] text-[#080808]'
+                        : 'bg-white/[0.06] text-[#F2F2F2] hover:bg-white/[0.1]'
                     }`}
                   >
                     {duration.nameHr}
@@ -713,7 +713,7 @@ export default function QuoteBuilderPage() {
             </div>
 
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-400 mb-3">Broj shortova</label>
+              <label className="block text-sm font-medium text-[#8E8E8E] mb-3">Broj shortova</label>
               <div className="flex flex-wrap gap-3">
                 {[5, 10, 15].map((count) => {
                   const price = getPodcastStudioPrice(selections.podcastStudio.duration, count);
@@ -726,10 +726,10 @@ export default function QuoteBuilderPage() {
                       disabled={!isAvailable}
                       className={`px-4 py-2 rounded-xl font-medium transition-all ${
                         selections.podcastStudio.shortsPackage === count
-                          ? 'bg-[#00FF94] text-black'
+                          ? 'bg-[#F2F2F2] text-[#080808]'
                           : isAvailable
-                            ? 'bg-[#2A2A2A] text-white hover:bg-[#3A3A3A]'
-                            : 'bg-[#1a1a1a] text-gray-600 cursor-not-allowed'
+                            ? 'bg-white/[0.06] text-[#F2F2F2] hover:bg-white/[0.1]'
+                            : 'bg-[#0F0F0F] text-[#5C5C5C] cursor-not-allowed'
                       }`}
                     >
                       {count} shorts
@@ -742,14 +742,14 @@ export default function QuoteBuilderPage() {
 
             {/* Price Display */}
             {selections.podcastStudio.duration && selections.podcastStudio.shortsPackage && (
-              <div className="bg-[#0a0a0a] rounded-xl p-4 mt-4">
+              <div className="bg-[#080808] rounded-xl p-4 mt-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-400">Cijena po snimanju</span>
-                  <span className="text-xl font-bold text-[#00FF94]">
+                  <span className="text-[#8E8E8E]">Cijena po snimanju</span>
+                  <span className="text-xl font-medium text-[#F2F2F2]">
                     {formatCurrency(getPodcastStudioPrice(selections.podcastStudio.duration, selections.podcastStudio.shortsPackage))}
                   </span>
                 </div>
-                <p className="text-xs text-gray-500 mt-2">Jednokratna cijena za jedno snimanje</p>
+                <p className="text-xs text-[#6E6E6E] mt-2">Jednokratna cijena za jedno snimanje</p>
               </div>
             )}
           </ServiceCard>
@@ -771,20 +771,20 @@ export default function QuoteBuilderPage() {
           >
             <div className="flex items-center gap-4">
               <div>
-                <span className="text-white">Dodatni dani snimanja</span>
-                <span className="text-gray-500 ml-2">({formatCurrency(ADDITIONAL_PRICING.additionalFilmingDay.price)}/dan)</span>
+                <span className="text-[#F2F2F2]">Dodatni dani snimanja</span>
+                <span className="text-[#6E6E6E] ml-2">({formatCurrency(ADDITIONAL_PRICING.additionalFilmingDay.price)}/dan)</span>
               </div>
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setSelections(prev => ({ ...prev, additionalFilmingDays: Math.max(0, prev.additionalFilmingDays - 1) }))}
-                  className="w-10 h-10 rounded-xl bg-[#2A2A2A] text-white flex items-center justify-center hover:bg-[#3A3A3A] transition-colors"
+                  className="w-10 h-10 rounded-xl bg-white/[0.06] text-[#F2F2F2] flex items-center justify-center hover:bg-white/[0.1] transition-colors"
                 >
                   <Minus size={18} />
                 </button>
-                <span className="w-12 text-center text-xl font-bold text-white">{selections.additionalFilmingDays}</span>
+                <span className="w-12 text-center text-xl font-bold text-[#F2F2F2]">{selections.additionalFilmingDays}</span>
                 <button
                   onClick={() => setSelections(prev => ({ ...prev, additionalFilmingDays: prev.additionalFilmingDays + 1 }))}
-                  className="w-10 h-10 rounded-xl bg-[#2A2A2A] text-white flex items-center justify-center hover:bg-[#3A3A3A] transition-colors"
+                  className="w-10 h-10 rounded-xl bg-white/[0.06] text-[#F2F2F2] flex items-center justify-center hover:bg-white/[0.1] transition-colors"
                 >
                   <Plus size={18} />
                 </button>
@@ -796,29 +796,29 @@ export default function QuoteBuilderPage() {
         {/* Sticky Sidebar - Quote Summary */}
         <div className="lg:w-[400px]">
           <div className="lg:sticky lg:top-8">
-            <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6">
-              <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-                <Calculator size={20} className="text-[#00FF94]" />
+            <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6">
+              <h2 className="text-xl font-bold text-[#F2F2F2] mb-6 flex items-center gap-2">
+                <Calculator size={20} className="text-[#8E8E8E]" />
                 Pregled ponude
               </h2>
 
               {/* One-time fees */}
               {quoteResult.lineItems.oneTime.length > 0 && (
                 <div className="mb-6">
-                  <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Jednokratno</h3>
+                  <h3 className="text-sm font-semibold text-[#8E8E8E] uppercase tracking-wider mb-3">Jednokratno</h3>
                   <div className="space-y-2">
                     {quoteResult.lineItems.oneTime.map((item, index) => (
                       <div key={index} className="flex justify-between text-sm">
-                        <span className="text-gray-300">{item.name}</span>
-                        <span className="text-white font-medium">{formatCurrency(item.price)}</span>
+                        <span className="text-[#C9C9C9]">{item.name}</span>
+                        <span className="text-[#F2F2F2] font-medium">{formatCurrency(item.price)}</span>
                       </div>
                     ))}
                   </div>
 
-                  <div className="border-t border-[#2A2A2A] mt-3 pt-3">
+                  <div className="border-t border-white/[0.07] mt-3 pt-3">
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-400">Međuzbroj</span>
-                      <span className="text-white">{formatCurrency(quoteResult.summary?.oneTime?.subtotal || 0)}</span>
+                      <span className="text-[#8E8E8E]">Međuzbroj</span>
+                      <span className="text-[#F2F2F2]">{formatCurrency(quoteResult.summary?.oneTime?.subtotal || 0)}</span>
                     </div>
                     {quoteResult.summary?.oneTime?.discount > 0 && (
                       <div className="flex justify-between text-sm mt-1">
@@ -827,8 +827,8 @@ export default function QuoteBuilderPage() {
                       </div>
                     )}
                     <div className="flex justify-between text-lg font-bold mt-2">
-                      <span className="text-white">Ukupno</span>
-                      <span className="text-[#00FF94]">{formatCurrency(quoteResult.summary?.oneTime?.total || 0)}</span>
+                      <span className="text-[#F2F2F2]">Ukupno</span>
+                      <span className="text-[#F2F2F2]">{formatCurrency(quoteResult.summary?.oneTime?.total || 0)}</span>
                     </div>
                   </div>
                 </div>
@@ -837,22 +837,22 @@ export default function QuoteBuilderPage() {
               {/* Monthly fees */}
               {quoteResult.lineItems.monthly.length > 0 && (
                 <div className="mb-6">
-                  <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Mjesečno</h3>
+                  <h3 className="text-sm font-semibold text-[#8E8E8E] uppercase tracking-wider mb-3">Mjesečno</h3>
                   <div className="space-y-2">
                     {quoteResult.lineItems.monthly.map((item, index) => (
                       <div key={index} className="flex justify-between text-sm">
-                        <span className="text-gray-300 truncate pr-2">{item.name}</span>
-                        <span className="text-white font-medium whitespace-nowrap">{formatCurrency(item.monthlyPrice)}/mj</span>
+                        <span className="text-[#C9C9C9] truncate pr-2">{item.name}</span>
+                        <span className="text-[#F2F2F2] font-medium whitespace-nowrap">{formatCurrency(item.monthlyPrice)}/mj</span>
                       </div>
                     ))}
                   </div>
 
-                  <div className="border-t border-[#2A2A2A] mt-3 pt-3">
+                  <div className="border-t border-white/[0.07] mt-3 pt-3">
                     <div className="flex justify-between text-lg font-bold">
-                      <span className="text-white">Mjesečno ukupno</span>
+                      <span className="text-[#F2F2F2]">Mjesečno ukupno</span>
                       <span className="text-purple-400">{formatCurrency(quoteResult.summary?.monthly?.total || 0)}/mj</span>
                     </div>
-                    <div className="flex justify-between text-sm text-gray-500 mt-1">
+                    <div className="flex justify-between text-sm text-[#6E6E6E] mt-1">
                       <span>Godišnje</span>
                       <span>{formatCurrency((quoteResult.summary?.monthly?.total || 0) * 12)}/god</span>
                     </div>
@@ -872,7 +872,7 @@ export default function QuoteBuilderPage() {
 
               {/* Empty state */}
               {quoteResult.lineItems.oneTime.length === 0 && quoteResult.lineItems.monthly.length === 0 && (
-                <div className="text-center py-8 text-gray-500">
+                <div className="text-center py-8 text-[#6E6E6E]">
                   <Calculator size={40} className="mx-auto mb-3 opacity-50" />
                   <p>Odaberi usluge za izračun</p>
                 </div>
@@ -882,7 +882,7 @@ export default function QuoteBuilderPage() {
               <button
                 onClick={handleSubmit}
                 disabled={saving || (quoteResult.lineItems.oneTime.length === 0 && quoteResult.lineItems.monthly.length === 0)}
-                className="w-full mt-4 px-6 py-4 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none disabled:hover:shadow-none flex items-center justify-center gap-2"
+                className="w-full mt-4 px-6 py-4 bg-[#F2F2F2] text-[#080808] rounded-full font-medium hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none disabled:hover:shadow-none flex items-center justify-center gap-2"
               >
                 {saving ? (
                   'Kreiram ponudu...'
@@ -914,8 +914,8 @@ export default function QuoteBuilderPage() {
 // Service Card Component
 function ServiceCard({ title, icon, enabled, expanded, onToggle, onExpand, children }) {
   return (
-    <div className={`bg-[#1a1a1a] border rounded-2xl overflow-hidden transition-all ${
-      enabled ? 'border-[#00FF94]' : 'border-[#2A2A2A]'
+    <div className={`bg-[#0F0F0F] border rounded-2xl overflow-hidden transition-all ${
+      enabled ? 'border-[#00FF94]' : 'border-white/[0.07]'
     }`}>
       <div
         className="flex items-center justify-between p-5 cursor-pointer"
@@ -923,25 +923,25 @@ function ServiceCard({ title, icon, enabled, expanded, onToggle, onExpand, child
       >
         <div className="flex items-center gap-3">
           <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
-            enabled ? 'bg-[#00FF94]/20 text-[#00FF94]' : 'bg-[#2A2A2A] text-gray-400'
+            enabled ? 'bg-[#00FF94]/20 text-[#00FF94]' : 'bg-white/[0.06] text-[#8E8E8E]'
           }`}>
             {icon}
           </div>
           <div>
-            <h3 className="text-lg font-bold text-white">{title}</h3>
+            <h3 className="text-lg font-bold text-[#F2F2F2]">{title}</h3>
             {enabled && <span className="text-sm text-[#00FF94]">Aktivno</span>}
           </div>
         </div>
         <div className="flex items-center gap-3">
           <ToggleSwitch enabled={enabled} onChange={onToggle} />
-          <button className="text-gray-400 hover:text-white transition-colors">
+          <button className="text-[#8E8E8E] hover:text-[#F2F2F2] transition-colors">
             {expanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
           </button>
         </div>
       </div>
 
       {expanded && enabled && (
-        <div className="px-5 pb-5 border-t border-[#2A2A2A] pt-5">
+        <div className="px-5 pb-5 border-t border-white/[0.07] pt-5">
           {children}
         </div>
       )}
@@ -957,7 +957,7 @@ function PackageCard({ name, price, priceLabel = '', description, features, sele
       className={`relative p-5 rounded-xl border-2 cursor-pointer transition-all ${
         selected
           ? 'border-[#00FF94] bg-[#00FF94]/10'
-          : 'border-[#2A2A2A] bg-[#0a0a0a] hover:border-[#3A3A3A]'
+          : 'border-white/[0.07] bg-[#080808] hover:border-white/[0.14]'
       }`}
     >
       {selected && (
@@ -965,29 +965,29 @@ function PackageCard({ name, price, priceLabel = '', description, features, sele
           <Check size={14} className="text-black" />
         </div>
       )}
-      <h4 className="text-lg font-bold text-white mb-1">{name}</h4>
+      <h4 className="text-lg font-bold text-[#F2F2F2] mb-1">{name}</h4>
       {highlight && (
         <div className="text-xs text-[#00FF94] mb-2">{highlight}</div>
       )}
-      <div className="text-2xl font-black text-[#00FF94] mb-2">
+      <div className="text-2xl font-medium text-[#F2F2F2] mb-2">
         {isCustomPrice ? 'Custom' : (
           <>
             {formatCurrency(price)}
-            <span className="text-sm font-normal text-gray-400">{priceLabel}</span>
+            <span className="text-sm font-normal text-[#8E8E8E]">{priceLabel}</span>
           </>
         )}
       </div>
-      <p className="text-sm text-gray-500 mb-3">{description}</p>
+      <p className="text-sm text-[#6E6E6E] mb-3">{description}</p>
       {features && features.length > 0 && (
         <ul className="space-y-1">
           {features.slice(0, 4).map((feature, index) => (
-            <li key={index} className="text-xs text-gray-400 flex items-start gap-2">
+            <li key={index} className="text-xs text-[#8E8E8E] flex items-start gap-2">
               <span className="text-[#00FF94] mt-0.5">•</span>
               {feature}
             </li>
           ))}
           {features.length > 4 && (
-            <li className="text-xs text-gray-500">+{features.length - 4} više...</li>
+            <li className="text-xs text-[#6E6E6E]">+{features.length - 4} više...</li>
           )}
         </ul>
       )}
@@ -1006,7 +1006,7 @@ function ToggleSwitch({ enabled, onChange, disabled }) {
       disabled={disabled}
       className={`relative w-12 h-6 rounded-full transition-all ${
         disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
-      } ${enabled ? 'bg-[#00FF94]' : 'bg-[#2A2A2A]'}`}
+      } ${enabled ? 'bg-[#00FF94]' : 'bg-white/[0.06]'}`}
     >
       <div
         className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-transform ${

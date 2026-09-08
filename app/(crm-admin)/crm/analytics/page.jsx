@@ -328,11 +328,11 @@ export default function AnalyticsPage() {
     scales: {
       y: {
         ticks: { color: '#8F8F8F' },
-        grid: { color: '#2A2A2A' },
+        grid: { color: 'rgba(255,255,255,0.07)' },
       },
       x: {
         ticks: { color: '#8F8F8F' },
-        grid: { color: '#2A2A2A' },
+        grid: { color: 'rgba(255,255,255,0.07)' },
       },
     },
   };
@@ -373,7 +373,7 @@ export default function AnalyticsPage() {
         h1 {
           font-size: 2.5rem;
           font-weight: 900;
-          background: linear-gradient(135deg, #00FF94 0%, #00DD7F 100%);
+          background: #F2F2F2;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
@@ -403,7 +403,7 @@ export default function AnalyticsPage() {
         .range-btn {
           padding: 10px 18px;
           border: 1px solid transparent;
-          background: #1a1a1a;
+          background: #0F0F0F;
           color: #888;
           border-radius: 10px;
           cursor: pointer;
@@ -433,15 +433,15 @@ export default function AnalyticsPage() {
         }
 
         .metric-card {
-          background: #1a1a1a;
-          border: 1px solid #2A2A2A;
+          background: #0F0F0F;
+          border: 1px solid rgba(255,255,255,0.07);
           border-radius: 12px;
           padding: 24px;
           transition: all 0.3s;
         }
 
         .metric-card:hover {
-          border-color: #00FF94;
+          border-color: rgba(255,255,255,0.16);
           transform: translateY(-4px);
         }
 
@@ -456,7 +456,7 @@ export default function AnalyticsPage() {
           right: 8px;
           width: 6px;
           height: 6px;
-          background: #00FF94;
+          background: #F2F2F2;
           border-radius: 50%;
         }
 
@@ -471,7 +471,7 @@ export default function AnalyticsPage() {
         .metric-value {
           font-size: 2.5rem;
           font-weight: 900;
-          color: #00FF94;
+          color: #F2F2F2;
           line-height: 1;
         }
 
@@ -489,8 +489,8 @@ export default function AnalyticsPage() {
         }
 
         .chart-card {
-          background: #1a1a1a;
-          border: 1px solid #2A2A2A;
+          background: #0F0F0F;
+          border: 1px solid rgba(255,255,255,0.07);
           border-radius: 12px;
           padding: 30px;
         }

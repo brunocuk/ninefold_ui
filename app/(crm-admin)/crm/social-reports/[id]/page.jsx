@@ -239,7 +239,7 @@ export default function SocialReportDetailPage() {
         }
 
         .back-link:hover {
-          color: #00FF94;
+          color: #F2F2F2;
         }
 
         .header-content {
@@ -290,7 +290,7 @@ export default function SocialReportDetailPage() {
         }
 
         .btn-primary {
-          background: #00FF94;
+          background: #F2F2F2;
           color: #000;
         }
 
@@ -329,7 +329,7 @@ export default function SocialReportDetailPage() {
         }
 
         .card {
-          background: #1a1a1a;
+          background: #0F0F0F;
           border: 1px solid #333;
           border-radius: 12px;
           padding: 24px;
@@ -361,7 +361,7 @@ export default function SocialReportDetailPage() {
         }
 
         .stat-card {
-          background: #1a1a1a;
+          background: #0F0F0F;
           border: 1px solid #333;
           border-radius: 12px;
           padding: 20px;
@@ -371,7 +371,7 @@ export default function SocialReportDetailPage() {
         .stat-value {
           font-size: 2rem;
           font-weight: 900;
-          color: #00FF94;
+          color: #F2F2F2;
           line-height: 1;
           margin-bottom: 8px;
         }
@@ -390,7 +390,7 @@ export default function SocialReportDetailPage() {
         }
 
         .content-item {
-          background: #0a0a0a;
+          background: #080808;
           border: 1px solid #333;
           border-radius: 8px;
           padding: 16px;
@@ -437,7 +437,7 @@ export default function SocialReportDetailPage() {
         }
 
         .platform-card {
-          background: #0a0a0a;
+          background: #080808;
           border: 1px solid #333;
           border-radius: 12px;
           overflow: hidden;
@@ -491,7 +491,7 @@ export default function SocialReportDetailPage() {
         .platform-metric {
           text-align: center;
           padding: 8px;
-          background: #1a1a1a;
+          background: #0F0F0F;
           border-radius: 6px;
         }
 
@@ -551,7 +551,7 @@ export default function SocialReportDetailPage() {
         }
 
         .paid-ads-item {
-          background: #0a0a0a;
+          background: #080808;
           border: 1px solid #333;
           border-radius: 8px;
           padding: 16px;
@@ -600,7 +600,7 @@ export default function SocialReportDetailPage() {
         .list-number {
           width: 24px;
           height: 24px;
-          background: #00FF94;
+          background: #F2F2F2;
           color: #000;
           border-radius: 50%;
           display: flex;
@@ -650,7 +650,7 @@ export default function SocialReportDetailPage() {
         }
 
         .modal {
-          background: #1a1a1a;
+          background: #0F0F0F;
           border: 1px solid #333;
           border-radius: 16px;
           padding: 32px;
@@ -679,7 +679,7 @@ export default function SocialReportDetailPage() {
         .form-input {
           width: 100%;
           padding: 12px 16px;
-          background: #0a0a0a;
+          background: #080808;
           border: 1px solid #333;
           border-radius: 8px;
           color: #fff;
@@ -688,7 +688,7 @@ export default function SocialReportDetailPage() {
 
         .form-input:focus {
           outline: none;
-          border-color: #00FF94;
+          border-color: rgba(255,255,255,0.3);
         }
 
         .modal-actions {
@@ -1379,7 +1379,7 @@ function SocialReportEditForm({ report, onCancel, onSaved }) {
         .edit-header .ref { color: #E4405F; font-family: monospace; font-weight: 600; }
         .actions { display: flex; gap: 12px; }
         .card {
-          background: #1a1a1a; border: 1px solid #333; border-radius: 12px;
+          background: #0F0F0F; border: 1px solid #333; border-radius: 12px;
           padding: 24px; margin-bottom: 20px;
         }
         .section-title {
@@ -1392,27 +1392,27 @@ function SocialReportEditForm({ report, onCancel, onSaved }) {
           margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;
         }
         .form-input, .form-select, .form-textarea {
-          width: 100%; padding: 12px 16px; background: #0a0a0a; border: 1px solid #333;
+          width: 100%; padding: 12px 16px; background: #080808; border: 1px solid #333;
           border-radius: 8px; color: #fff; font-size: 1rem; transition: border-color 0.2s;
         }
-        .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: #00FF94; }
+        .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: rgba(255,255,255,0.3); }
         .form-textarea { min-height: 120px; resize: vertical; }
         .form-row-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
         @media (max-width: 640px) { .form-row-2 { grid-template-columns: 1fr; } }
         .content-grid-inputs {
           display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px;
         }
-        .content-item { background: #0a0a0a; border: 1px solid #333; border-radius: 8px; padding: 12px; }
+        .content-item { background: #080808; border: 1px solid #333; border-radius: 8px; padding: 12px; }
         .content-item-header {
           display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
           font-size: 0.85rem; color: #fff;
         }
         .content-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
         .content-input {
-          padding: 8px; background: #1a1a1a; border: 1px solid #333; border-radius: 6px;
+          padding: 8px; background: #0F0F0F; border: 1px solid #333; border-radius: 6px;
           color: #fff; font-size: 0.85rem; width: 100%;
         }
-        .content-input:focus { outline: none; border-color: #00FF94; }
+        .content-input:focus { outline: none; border-color: rgba(255,255,255,0.3); }
         .content-input-label { font-size: 0.7rem; color: #666; text-align: center; margin-top: 4px; }
         .platform-block { border-top: 1px solid #222; padding-top: 16px; margin-top: 16px; }
         .platform-block:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
@@ -1427,13 +1427,13 @@ function SocialReportEditForm({ report, onCancel, onSaved }) {
         }
         .platform-metrics .form-group { margin-bottom: 0; }
         .top-post-card {
-          background: #0a0a0a; border: 1px solid #333; border-radius: 8px; padding: 16px; margin-bottom: 12px;
+          background: #080808; border: 1px solid #333; border-radius: 8px; padding: 16px; margin-bottom: 12px;
         }
         .top-post-header { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; margin-bottom: 12px; }
         .top-post-header .form-group { margin-bottom: 0; }
         @media (max-width: 640px) { .top-post-header { grid-template-columns: 1fr 1fr; } }
         .checkbox-wrapper {
-          display: flex; align-items: center; gap: 12px; padding: 16px; background: #0a0a0a;
+          display: flex; align-items: center; gap: 12px; padding: 16px; background: #080808;
           border: 1px solid #333; border-radius: 8px; cursor: pointer;
         }
         .checkbox-wrapper input { width: 20px; height: 20px; accent-color: #00FF94; }
@@ -1441,7 +1441,7 @@ function SocialReportEditForm({ report, onCancel, onSaved }) {
         .list-inputs { display: flex; flex-direction: column; gap: 10px; }
         .list-input-row { display: flex; align-items: center; gap: 10px; }
         .list-input-row > span {
-          width: 24px; height: 24px; background: #00FF94; color: #000; border-radius: 50%;
+          width: 24px; height: 24px; background: #F2F2F2; color: #000; border-radius: 50%;
           display: flex; align-items: center; justify-content: center; font-size: 0.8rem;
           font-weight: 700; flex-shrink: 0;
         }
@@ -1458,7 +1458,7 @@ function SocialReportEditForm({ report, onCancel, onSaved }) {
           margin-top: 12px; padding: 8px 16px; background: transparent; border: 1px dashed #444;
           border-radius: 8px; color: #888; font-size: 0.85rem; font-weight: 600; cursor: pointer;
         }
-        .add-btn:hover { border-color: #00FF94; color: #00FF94; }
+        .add-btn:hover { border-color: rgba(255,255,255,0.16); color: #F2F2F2; }
         .remove-btn {
           margin-top: 4px; padding: 6px 12px; background: transparent; border: 1px solid #4a2a2a;
           border-radius: 6px; color: #ef4444; font-size: 0.8rem; cursor: pointer;
@@ -1472,7 +1472,7 @@ function SocialReportEditForm({ report, onCancel, onSaved }) {
           padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 1rem; cursor: pointer;
           transition: all 0.3s; border: none; display: inline-flex; align-items: center; gap: 8px;
         }
-        .btn-primary { background: #00FF94; color: #000; }
+        .btn-primary { background: #F2F2F2; color: #000; }
         .btn-primary:hover { box-shadow: 0 0 20px rgba(0, 255, 148, 0.4); }
         .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; }
         .btn-secondary { background: #333; color: #fff; }

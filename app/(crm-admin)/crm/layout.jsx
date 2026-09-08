@@ -212,15 +212,18 @@ export default function CRMLayout({ children }) {
       <div
         style={{
           minHeight: "100vh",
-          background: "#0a0a0a",
+          background: "#080808",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          color: "#00FF94",
-          fontSize: "1.2rem",
+          color: "#8E8E8E",
+          fontFamily: "ui-monospace, Menlo, monospace",
+          fontSize: "0.8rem",
+          letterSpacing: "0.14em",
+          textTransform: "uppercase",
         }}
       >
-        Checking authentication...
+        Provjera prijave...
       </div>
     );
   }
@@ -241,6 +244,10 @@ export default function CRMLayout({ children }) {
 
   return (
     <ToastProvider>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      />
       <style jsx global>{`
         /* Hide website header/footer */
         body > header,
@@ -275,9 +282,9 @@ export default function CRMLayout({ children }) {
         }
 
         body {
-          background: #0a0a0a !important;
-          color: white !important;
-          font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif !important;
+          background: #080808 !important;
+          color: #F2F2F2 !important;
+          font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif !important;
         }
 
         .crm-container {
@@ -295,9 +302,9 @@ export default function CRMLayout({ children }) {
           left: 0;
           right: 0;
           height: 60px;
-          background: rgba(0, 0, 0, 0.95);
+          background: rgba(8, 8, 8, 0.95);
           backdrop-filter: blur(20px);
-          border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.07);
           z-index: 1001;
           padding: 0 16px;
           align-items: center;
@@ -305,12 +312,10 @@ export default function CRMLayout({ children }) {
         }
 
         .mobile-logo {
-          font-size: 1.25rem;
-          font-weight: 800;
-          background: linear-gradient(135deg, #00ff94 0%, #00cc76 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
+          font-size: 1.05rem;
+          font-weight: 500;
+          color: #F2F2F2;
+          letter-spacing: 0.01em;
         }
 
         .mobile-menu-btn {
@@ -319,17 +324,17 @@ export default function CRMLayout({ children }) {
           display: flex;
           align-items: center;
           justify-content: center;
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 12px;
-          color: #fff;
+          background: transparent;
+          border: 1px solid rgba(255, 255, 255, 0.07);
+          border-radius: 10px;
+          color: #C9C9C9;
           cursor: pointer;
           transition: all 0.2s ease;
         }
 
         .mobile-menu-btn:hover {
-          background: rgba(0, 255, 148, 0.1);
-          border-color: rgba(0, 255, 148, 0.3);
+          border-color: rgba(255, 255, 255, 0.16);
+          color: #F2F2F2;
         }
 
         /* Mobile Overlay */
@@ -351,9 +356,8 @@ export default function CRMLayout({ children }) {
         /* Sidebar */
         .sidebar {
           width: ${isCollapsed ? '72px' : '240px'};
-          background: linear-gradient(180deg, rgba(10, 10, 10, 0.98) 0%, rgba(0, 0, 0, 0.98) 100%);
-          backdrop-filter: blur(20px);
-          border-right: 1px solid rgba(255, 255, 255, 0.06);
+          background: #080808;
+          border-right: 1px solid rgba(255, 255, 255, 0.07);
           position: fixed;
           height: 100vh;
           overflow: hidden;
@@ -368,7 +372,7 @@ export default function CRMLayout({ children }) {
           align-items: center;
           justify-content: space-between;
           padding: ${isCollapsed ? '16px 12px' : '16px'};
-          border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.07);
           flex-shrink: 0;
         }
 
@@ -397,12 +401,10 @@ export default function CRMLayout({ children }) {
         }
 
         .logo-text {
-          font-size: 1.2rem;
-          font-weight: 800;
-          background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
+          font-size: 1.05rem;
+          font-weight: 500;
+          color: #F2F2F2;
+          letter-spacing: 0.01em;
           white-space: nowrap;
           opacity: ${isCollapsed ? '0' : '1'};
           width: ${isCollapsed ? '0' : 'auto'};
@@ -410,12 +412,12 @@ export default function CRMLayout({ children }) {
         }
 
         .collapse-btn {
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(255, 255, 255, 0.06);
-          color: #666;
+          background: transparent;
+          border: 1px solid rgba(255, 255, 255, 0.07);
+          color: #8E8E8E;
           cursor: pointer;
           padding: 6px;
-          border-radius: 6px;
+          border-radius: 8px;
           transition: all 0.2s ease;
           display: flex;
           align-items: center;
@@ -424,9 +426,8 @@ export default function CRMLayout({ children }) {
         }
 
         .collapse-btn:hover {
-          background: rgba(0, 255, 148, 0.1);
-          border-color: rgba(0, 255, 148, 0.2);
-          color: #00ff94;
+          border-color: rgba(255, 255, 255, 0.16);
+          color: #F2F2F2;
         }
 
         .sidebar-nav {
@@ -443,12 +444,13 @@ export default function CRMLayout({ children }) {
         }
 
         .nav-label {
-          padding: ${isCollapsed ? '8px 0' : '8px 16px'};
-          font-size: 0.65rem;
+          padding: ${isCollapsed ? '8px 0' : '10px 16px 6px'};
+          font-family: ui-monospace, Menlo, monospace;
+          font-size: 0.6rem;
           text-transform: uppercase;
-          letter-spacing: 1.5px;
-          color: #4a4a4a;
-          font-weight: 700;
+          letter-spacing: 0.14em;
+          color: #5C5C5C;
+          font-weight: 400;
           opacity: ${isCollapsed ? '0' : '1'};
           height: ${isCollapsed ? '0' : 'auto'};
           overflow: hidden;
@@ -462,7 +464,7 @@ export default function CRMLayout({ children }) {
           gap: 12px;
           padding: ${isCollapsed ? '10px 0' : '10px 14px'};
           margin: ${isCollapsed ? '2px 8px' : '2px 8px'};
-          color: #7a7a7a;
+          color: #8E8E8E;
           text-decoration: none;
           transition: all 0.2s ease;
           font-size: 0.85rem;
@@ -475,34 +477,24 @@ export default function CRMLayout({ children }) {
 
         .nav-link:hover {
           background: rgba(255, 255, 255, 0.04);
-          color: #ffffff;
-        }
-
-        .nav-link:hover .nav-icon-wrapper {
-          background: rgba(0, 255, 148, 0.15);
-          color: #00ff94;
+          color: #F2F2F2;
         }
 
         .nav-link.active {
-          background: rgba(0, 255, 148, 0.08);
-          color: #00ff94;
+          background: rgba(255, 255, 255, 0.05);
+          color: #F2F2F2;
         }
 
-        .nav-link.active::before {
+        .nav-link.active::after {
           content: '';
           position: absolute;
-          left: 0;
+          right: ${isCollapsed ? '6px' : '12px'};
           top: 50%;
           transform: translateY(-50%);
-          width: 3px;
-          height: 24px;
-          background: linear-gradient(180deg, #00ff94 0%, #00cc76 100%);
-          border-radius: 0 4px 4px 0;
-        }
-
-        .nav-link.active .nav-icon-wrapper {
-          background: rgba(0, 255, 148, 0.2);
-          color: #00ff94;
+          width: 5px;
+          height: 5px;
+          border-radius: 50%;
+          background: #F2F2F2;
         }
 
         .nav-icon-wrapper {
@@ -512,7 +504,7 @@ export default function CRMLayout({ children }) {
           width: 32px;
           height: 32px;
           border-radius: 8px;
-          background: rgba(255, 255, 255, 0.03);
+          background: transparent;
           transition: all 0.2s ease;
           flex-shrink: 0;
         }
@@ -532,7 +524,7 @@ export default function CRMLayout({ children }) {
           gap: 16px;
           padding: 16px 0;
           margin-bottom: 24px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.07);
         }
 
         .user-menu {
@@ -540,16 +532,15 @@ export default function CRMLayout({ children }) {
           align-items: center;
           gap: 12px;
           padding: 8px 16px 8px 8px;
-          background: rgba(255, 255, 255, 0.02);
-          border: 1px solid rgba(255, 255, 255, 0.06);
+          background: #0F0F0F;
+          border: 1px solid rgba(255, 255, 255, 0.07);
           border-radius: 50px;
           cursor: pointer;
           transition: all 0.2s ease;
         }
 
         .user-menu:hover {
-          background: rgba(255, 255, 255, 0.04);
-          border-color: rgba(255, 255, 255, 0.1);
+          border-color: rgba(255, 255, 255, 0.16);
         }
 
         .user-avatar {
@@ -573,8 +564,8 @@ export default function CRMLayout({ children }) {
 
         .user-name {
           font-size: 0.85rem;
-          font-weight: 600;
-          color: #fff;
+          font-weight: 500;
+          color: #F2F2F2;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -583,7 +574,7 @@ export default function CRMLayout({ children }) {
 
         .user-email {
           font-size: 0.7rem;
-          color: #666;
+          color: #8E8E8E;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -602,19 +593,18 @@ export default function CRMLayout({ children }) {
           justify-content: center;
           width: 40px;
           height: 40px;
-          background: rgba(255, 255, 255, 0.02);
-          border: 1px solid rgba(255, 255, 255, 0.06);
-          border-radius: 12px;
-          color: #666;
+          background: transparent;
+          border: 1px solid rgba(255, 255, 255, 0.07);
+          border-radius: 10px;
+          color: #8E8E8E;
           cursor: pointer;
           transition: all 0.2s ease;
           text-decoration: none;
         }
 
         .top-bar-btn:hover {
-          background: rgba(255, 255, 255, 0.06);
-          color: #fff;
-          border-color: rgba(255, 255, 255, 0.1);
+          color: #F2F2F2;
+          border-color: rgba(255, 255, 255, 0.16);
         }
 
         .top-bar-btn.logout:hover {

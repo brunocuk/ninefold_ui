@@ -41,8 +41,8 @@ export default function LoginPage() {
         }
 
         .login-card {
-          background: #1a1a1a;
-          border: 1px solid #2A2A2A;
+          background: #0F0F0F;
+          border: 1px solid rgba(255,255,255,0.07);
           border-radius: 16px;
           padding: 50px;
           max-width: 440px;
@@ -70,7 +70,7 @@ export default function LoginPage() {
         .logo-text {
           font-size: 2.5rem;
           font-weight: 900;
-          background: linear-gradient(135deg, #00FF94 0%, #00DD7F 100%);
+          background: #F2F2F2;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
@@ -99,7 +99,7 @@ export default function LoginPage() {
           width: 100%;
           padding: 14px 16px;
           background: #0F0F0F;
-          border: 1px solid #2A2A2A;
+          border: 1px solid rgba(255,255,255,0.07);
           border-radius: 12px;
           color: white;
           font-size: 1rem;
@@ -108,8 +108,8 @@ export default function LoginPage() {
 
         input:focus {
           outline: none;
-          border-color: #00FF94;
-          background: #0a0a0a;
+          border-color: rgba(255,255,255,0.3);
+          background: #080808;
           box-shadow: 0 0 0 3px rgba(0, 255, 148, 0.1);
         }
 
@@ -120,7 +120,7 @@ export default function LoginPage() {
         .btn {
           width: 100%;
           padding: 16px;
-          background: #00FF94;
+          background: #F2F2F2;
           color: #0F0F0F;
           border: none;
           border-radius: 12px;

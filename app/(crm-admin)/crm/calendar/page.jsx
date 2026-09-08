@@ -356,10 +356,10 @@ export default function CalendarPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div>
-          <h1 className="text-4xl font-black bg-gradient-to-r from-[#00FF94] to-[#00CC76] bg-clip-text text-transparent mb-2">
+          <h1 className="text-4xl font-medium text-[#F2F2F2] mb-2">
             Calendar
           </h1>
-          <p className="text-gray-400">Manage deadlines and schedule follow-ups</p>
+          <p className="text-[#8E8E8E]">Manage deadlines and schedule follow-ups</p>
         </div>
         <button
           onClick={() => {
@@ -378,7 +378,7 @@ export default function CalendarPage() {
             });
             setShowModal(true);
           }}
-          className="inline-flex items-center gap-2 px-6 py-3 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 hover:-translate-y-0.5 transition-all"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-[#F2F2F2] text-[#080808] rounded-full font-medium hover:-translate-y-0.5 transition-all"
         >
           <Plus size={20} />
           New Event
@@ -387,9 +387,9 @@ export default function CalendarPage() {
 
       {/* Team Member Filter */}
       {teamMembers.length > 0 && (
-        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-xl p-4 mb-6">
+        <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-xl p-4 mb-6">
           <div className="flex flex-wrap items-center gap-3">
-            <span className="text-sm font-semibold text-gray-400 flex items-center gap-2">
+            <span className="text-sm font-semibold text-[#8E8E8E] flex items-center gap-2">
               <Users size={16} />
               Filter by:
             </span>
@@ -397,8 +397,8 @@ export default function CalendarPage() {
               onClick={() => setFilterTeamMember(null)}
               className={`px-4 py-2 rounded-lg font-semibold transition-all ${
                 filterTeamMember === null
-                  ? 'bg-[#00FF94] text-black'
-                  : 'bg-[#0a0a0a] text-gray-400 border border-[#2A2A2A] hover:border-[#00FF94]'
+                  ? 'bg-[#F2F2F2] text-[#080808]'
+                  : 'bg-[#080808] text-[#8E8E8E] border border-white/[0.07] hover:border-[#00FF94]'
               }`}
             >
               All
@@ -409,8 +409,8 @@ export default function CalendarPage() {
                 onClick={() => setFilterTeamMember(member.id)}
                 className={`px-4 py-2 rounded-lg font-semibold transition-all flex items-center gap-2 ${
                   filterTeamMember === member.id
-                    ? 'bg-[#00FF94] text-black'
-                    : 'bg-[#0a0a0a] text-gray-400 border border-[#2A2A2A] hover:border-[#00FF94]'
+                    ? 'bg-[#F2F2F2] text-[#080808]'
+                    : 'bg-[#080808] text-[#8E8E8E] border border-white/[0.07] hover:border-[#00FF94]'
                 }`}
               >
                 <div
@@ -425,7 +425,7 @@ export default function CalendarPage() {
       )}
 
       {/* Calendar */}
-      <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6">
+      <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6">
         {loading ? (
           <div className="flex items-center justify-center py-20">
             <div className="text-2xl text-[#00FF94]">Loading calendar...</div>
@@ -453,9 +453,9 @@ export default function CalendarPage() {
       </div>
 
       {/* Legend */}
-      <div className="mt-6 bg-[#1a1a1a] border border-[#2A2A2A] rounded-xl p-4">
+      <div className="mt-6 bg-[#0F0F0F] border border-white/[0.07] rounded-xl p-4">
         <div className="flex flex-wrap gap-4">
-          <span className="text-sm font-semibold text-gray-400">Event Types:</span>
+          <span className="text-sm font-semibold text-[#8E8E8E]">Event Types:</span>
           {eventTypes.map((type) => {
             const Icon = type.icon;
             return (
@@ -464,8 +464,8 @@ export default function CalendarPage() {
                   className="w-3 h-3 rounded"
                   style={{ backgroundColor: type.color }}
                 />
-                <Icon size={14} className="text-gray-400" />
-                <span className="text-sm text-gray-300">{type.label}</span>
+                <Icon size={14} className="text-[#8E8E8E]" />
+                <span className="text-sm text-[#C9C9C9]">{type.label}</span>
               </div>
             );
           })}
@@ -479,16 +479,16 @@ export default function CalendarPage() {
           onClick={() => setShowModal(false)}
         >
           <div
-            className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+            className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-center mb-6">
-              <h3 className="text-2xl font-bold">
+              <h3 className="text-2xl font-medium">
                 {selectedEvent ? 'Edit Event' : 'New Event'}
               </h3>
               <button
                 onClick={() => setShowModal(false)}
-                className="text-gray-400 hover:text-white transition-colors"
+                className="text-[#8E8E8E] hover:text-[#F2F2F2] transition-colors"
               >
                 <X size={24} />
               </button>
@@ -497,14 +497,14 @@ export default function CalendarPage() {
             <div className="space-y-5">
               {/* Title */}
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                   Title *
                 </label>
                 <input
                   type="text"
                   value={formData.title}
                   onChange={(e) => setFormData({...formData, title: e.target.value})}
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                   placeholder="Event title"
                   required
                 />
@@ -512,7 +512,7 @@ export default function CalendarPage() {
 
               {/* Event Type */}
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                   Type
                 </label>
                 <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
@@ -524,8 +524,8 @@ export default function CalendarPage() {
                         onClick={() => setFormData({...formData, event_type: type.value})}
                         className={`flex items-center gap-2 px-3 py-2 rounded-lg border-2 font-semibold transition-all ${
                           formData.event_type === type.value
-                            ? 'bg-[#00FF94] text-black border-[#00FF94]'
-                            : 'bg-[#0a0a0a] text-gray-400 border-[#2A2A2A] hover:border-[#00FF94]'
+                            ? 'bg-[#F2F2F2] text-[#080808] border-[#00FF94]'
+                            : 'bg-[#080808] text-[#8E8E8E] border-white/[0.07] hover:border-[#00FF94]'
                         }`}
                       >
                         <Icon size={16} />
@@ -539,7 +539,7 @@ export default function CalendarPage() {
               {/* Assigned To */}
               {teamMembers.length > 0 && (
                 <div>
-                  <label className="block text-sm font-semibold text-gray-400 mb-2">
+                  <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                     Assigned To
                   </label>
                   <div className="flex flex-wrap gap-2">
@@ -549,8 +549,8 @@ export default function CalendarPage() {
                         onClick={() => toggleAssignee(member.id)}
                         className={`flex items-center gap-2 px-4 py-2 rounded-lg border-2 font-semibold transition-all ${
                           formData.assignees.includes(member.id)
-                            ? 'bg-[#00FF94] text-black border-[#00FF94]'
-                            : 'bg-[#0a0a0a] text-gray-400 border-[#2A2A2A] hover:border-[#00FF94]'
+                            ? 'bg-[#F2F2F2] text-[#080808] border-[#00FF94]'
+                            : 'bg-[#080808] text-[#8E8E8E] border-white/[0.07] hover:border-[#00FF94]'
                         }`}
                       >
                         <div
@@ -571,32 +571,32 @@ export default function CalendarPage() {
               {/* Date & Time */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-400 mb-2">
+                  <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                     Start
                   </label>
                   <input
                     type="datetime-local"
                     value={moment(formData.start).format('YYYY-MM-DDTHH:mm')}
                     onChange={(e) => setFormData({...formData, start: new Date(e.target.value)})}
-                    className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-400 mb-2">
+                  <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                     End
                   </label>
                   <input
                     type="datetime-local"
                     value={moment(formData.end).format('YYYY-MM-DDTHH:mm')}
                     onChange={(e) => setFormData({...formData, end: new Date(e.target.value)})}
-                    className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                   />
                 </div>
               </div>
 
               {/* Priority */}
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                   Priority
                 </label>
                 <div className="flex gap-2">
@@ -606,8 +606,8 @@ export default function CalendarPage() {
                       onClick={() => setFormData({...formData, priority: priority.value})}
                       className={`flex-1 px-4 py-2 rounded-lg border-2 font-semibold transition-all ${
                         formData.priority === priority.value
-                          ? 'bg-[#00FF94] text-black border-[#00FF94]'
-                          : 'bg-[#0a0a0a] text-gray-400 border-[#2A2A2A] hover:border-[#00FF94]'
+                          ? 'bg-[#F2F2F2] text-[#080808] border-[#00FF94]'
+                          : 'bg-[#080808] text-[#8E8E8E] border-white/[0.07] hover:border-[#00FF94]'
                       }`}
                     >
                       {priority.label}
@@ -618,14 +618,14 @@ export default function CalendarPage() {
 
               {/* Related To */}
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                   Related To
                 </label>
                 <div className="grid grid-cols-2 gap-4">
                   <select
                     value={formData.related_type || ''}
                     onChange={(e) => setFormData({...formData, related_type: e.target.value, related_to: null})}
-                    className="px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                    className="px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                   >
                     <option value="">Select type...</option>
                     <option value="client">Client</option>
@@ -636,7 +636,7 @@ export default function CalendarPage() {
                     <select
                       value={formData.related_to || ''}
                       onChange={(e) => setFormData({...formData, related_to: e.target.value})}
-                      className="px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                      className="px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                     >
                       <option value="">Select {formData.related_type}...</option>
                       {formData.related_type === 'client' && clients.map(c => (
@@ -655,27 +655,27 @@ export default function CalendarPage() {
 
               {/* Description */}
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                   Description
                 </label>
                 <textarea
                   value={formData.description}
                   onChange={(e) => setFormData({...formData, description: e.target.value})}
                   rows={4}
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors resize-none"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors resize-none"
                   placeholder="Event description..."
                 />
               </div>
 
               {/* Reminder */}
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                   Reminder (minutes before)
                 </label>
                 <select
                   value={formData.reminder_minutes}
                   onChange={(e) => setFormData({...formData, reminder_minutes: parseInt(e.target.value)})}
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 >
                   <option value={0}>No reminder</option>
                   <option value={15}>15 minutes</option>
@@ -689,11 +689,11 @@ export default function CalendarPage() {
             </div>
 
             {/* Actions */}
-            <div className="flex gap-3 mt-8 pt-6 border-t border-[#2A2A2A]">
+            <div className="flex gap-3 mt-8 pt-6 border-t border-white/[0.07]">
               {selectedEvent && (
                 <button
                   onClick={handleDeleteEvent}
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-red-500 text-white rounded-xl font-bold hover:bg-red-600 transition-all"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-red-500 text-[#F2F2F2] rounded-xl font-bold hover:bg-red-600 transition-all"
                 >
                   <Trash2 size={18} />
                   Delete
@@ -702,14 +702,14 @@ export default function CalendarPage() {
               <div className="flex-1" />
               <button
                 onClick={() => setShowModal(false)}
-                className="px-6 py-3 bg-[#2A2A2A] text-white rounded-xl font-bold hover:bg-[#3A3A3A] transition-all"
+                className="px-6 py-3 bg-white/[0.06] text-[#F2F2F2] rounded-xl font-bold hover:bg-white/[0.1] transition-all"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSaveEvent}
                 disabled={!formData.title}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-[#F2F2F2] text-[#080808] rounded-full font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Save size={18} />
                 {selectedEvent ? 'Update' : 'Create'}
@@ -738,18 +738,18 @@ export default function CalendarPage() {
           font-weight: 700;
           font-size: 0.9rem;
           color: #00FF94;
-          border-bottom: 2px solid #2A2A2A !important;
+          border-bottom: 2px solid rgba(255,255,255,0.07) !important;
         }
         .rbc-month-view, .rbc-time-view, .rbc-agenda-view {
-          border: 1px solid #2A2A2A !important;
+          border: 1px solid rgba(255,255,255,0.07) !important;
           border-radius: 12px;
           overflow: hidden;
         }
         .rbc-month-row, .rbc-day-bg, .rbc-time-content {
-          border-color: #2A2A2A !important;
+          border-color: rgba(255,255,255,0.07) !important;
         }
         .rbc-day-bg {
-          background: #0a0a0a;
+          background: #080808;
         }
         .rbc-off-range-bg {
           background: #050505;
@@ -760,25 +760,25 @@ export default function CalendarPage() {
         .rbc-toolbar {
           padding: 16px 20px;
           margin-bottom: 20px;
-          background: #0a0a0a;
+          background: #080808;
           border-radius: 12px;
-          border: 1px solid #2A2A2A;
+          border: 1px solid rgba(255,255,255,0.07);
         }
         .rbc-toolbar button {
           color: white;
-          background: #1a1a1a;
-          border: 1px solid #2A2A2A;
+          background: #0F0F0F;
+          border: 1px solid rgba(255,255,255,0.07);
           padding: 8px 16px;
           border-radius: 8px;
           font-weight: 600;
           transition: all 0.2s;
         }
         .rbc-toolbar button:hover {
-          background: #2A2A2A;
-          border-color: #00FF94;
+          background: rgba(255,255,255,0.08);
+          border-color: rgba(255,255,255,0.16);
         }
         .rbc-toolbar button.rbc-active {
-          background: #00FF94;
+          background: #F2F2F2;
           color: black;
           border-color: #00FF94;
         }

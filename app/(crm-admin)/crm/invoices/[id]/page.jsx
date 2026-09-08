@@ -212,7 +212,7 @@ export default function InvoiceDetailPage() {
   if (!invoice) {
     return (
       <div className="text-center py-12">
-        <h1 className="text-2xl font-bold text-white mb-4">Faktura nije pronađena</h1>
+        <h1 className="text-2xl font-medium text-[#F2F2F2] mb-4">Faktura nije pronađena</h1>
         <Link href="/crm/invoices" className="text-[#00FF94] hover:underline">
           Natrag na fakture
         </Link>
@@ -228,7 +228,7 @@ export default function InvoiceDetailPage() {
       {/* Header */}
       <Link
         href="/crm/invoices"
-        className="inline-flex items-center gap-2 text-gray-400 hover:text-[#00FF94] mb-6 transition-colors"
+        className="inline-flex items-center gap-2 text-[#8E8E8E] hover:text-[#F2F2F2] mb-6 transition-colors"
       >
         <ArrowLeft size={16} />
         Natrag na fakture
@@ -236,7 +236,7 @@ export default function InvoiceDetailPage() {
 
       <div className="flex items-start justify-between mb-8">
         <div>
-          <h1 className="text-4xl font-black text-white mb-2">{invoice.invoice_number}</h1>
+          <h1 className="text-4xl font-medium text-[#F2F2F2] mb-2">{invoice.invoice_number}</h1>
           <div className="flex items-center gap-3">
             <span
               className="px-3 py-1.5 rounded-lg text-sm font-semibold"
@@ -244,7 +244,7 @@ export default function InvoiceDetailPage() {
             >
               {status.label}
             </span>
-            <span className="text-gray-400">{clientName}</span>
+            <span className="text-[#8E8E8E]">{clientName}</span>
           </div>
         </div>
 
@@ -253,14 +253,14 @@ export default function InvoiceDetailPage() {
             <>
               <button
                 onClick={handleDownload}
-                className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#2A2A2A] text-white rounded-xl font-semibold hover:bg-[#3A3A3A] transition-all"
+                className="inline-flex items-center gap-2 px-4 py-2.5 bg-white/[0.06] text-[#F2F2F2] rounded-xl font-semibold hover:bg-white/[0.1] transition-all"
               >
                 <Download size={18} />
                 Preuzmi PDF
               </button>
               <button
                 onClick={() => setEditing(true)}
-                className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#00FF94] text-black rounded-xl font-semibold hover:shadow-lg hover:shadow-[#00FF94]/30 transition-all"
+                className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#F2F2F2] text-[#080808] rounded-xl font-semibold transition-all"
               >
                 <Edit size={18} />
                 Uredi
@@ -273,17 +273,17 @@ export default function InvoiceDetailPage() {
       {editing ? (
         /* Edit Form */
         <form onSubmit={handleUpdate}>
-          <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-8 space-y-6">
+          <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-8 space-y-6">
             {/* Client Selection */}
             <div>
-              <label className="block text-sm font-semibold text-gray-400 mb-2">
+              <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                 Klijent *
               </label>
               <select
                 value={formData.client_id}
                 onChange={(e) => setFormData({ ...formData, client_id: e.target.value })}
                 required
-                className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
+                className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none"
               >
                 {clients.map((client) => (
                   <option key={client.id} value={client.id}>
@@ -296,7 +296,7 @@ export default function InvoiceDetailPage() {
             {/* Invoice Number & Amount */}
             <div className="grid grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                   <FileText size={14} className="inline mr-2" />
                   Broj fakture *
                 </label>
@@ -305,12 +305,12 @@ export default function InvoiceDetailPage() {
                   value={formData.invoice_number}
                   onChange={(e) => setFormData({ ...formData, invoice_number: e.target.value })}
                   required
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                   <Euro size={14} className="inline mr-2" />
                   Iznos (EUR) *
                 </label>
@@ -321,7 +321,7 @@ export default function InvoiceDetailPage() {
                   value={formData.amount}
                   onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
                   required
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none"
                 />
               </div>
             </div>
@@ -329,7 +329,7 @@ export default function InvoiceDetailPage() {
             {/* Dates */}
             <div className="grid grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                   <Calendar size={14} className="inline mr-2" />
                   Datum izdavanja *
                 </label>
@@ -338,12 +338,12 @@ export default function InvoiceDetailPage() {
                   value={formData.issue_date}
                   onChange={(e) => setFormData({ ...formData, issue_date: e.target.value })}
                   required
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                   <Calendar size={14} className="inline mr-2" />
                   Datum dospijeća
                 </label>
@@ -351,14 +351,14 @@ export default function InvoiceDetailPage() {
                   type="date"
                   value={formData.due_date || ''}
                   onChange={(e) => setFormData({ ...formData, due_date: e.target.value })}
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none"
                 />
               </div>
             </div>
 
             {/* Status */}
             <div>
-              <label className="block text-sm font-semibold text-gray-400 mb-2">
+              <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                 Status
               </label>
               <div className="flex gap-3">
@@ -370,7 +370,7 @@ export default function InvoiceDetailPage() {
                     className={`flex-1 px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
                       formData.status === s.id
                         ? ''
-                        : 'bg-[#0a0a0a] border border-[#2A2A2A] text-gray-400 hover:border-[#3A3A3A]'
+                        : 'bg-[#080808] border border-white/[0.07] text-[#8E8E8E] hover:border-white/[0.14]'
                     }`}
                     style={formData.status === s.id ? { background: s.bg, color: s.color } : {}}
                   >
@@ -382,19 +382,19 @@ export default function InvoiceDetailPage() {
 
             {/* Current File & New File Upload */}
             <div>
-              <label className="block text-sm font-semibold text-gray-400 mb-2">
+              <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                 <Upload size={14} className="inline mr-2" />
                 PDF fakture
               </label>
 
               {/* Current file */}
-              <div className="flex items-center gap-4 p-4 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl mb-3">
+              <div className="flex items-center gap-4 p-4 bg-[#080808] border border-white/[0.07] rounded-xl mb-3">
                 <div className="w-12 h-12 rounded-lg bg-red-500/10 flex items-center justify-center">
                   <File size={24} className="text-red-500" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-white font-medium truncate">{invoice.file_name}</p>
-                  <p className="text-sm text-gray-400">
+                  <p className="text-[#F2F2F2] font-medium truncate">{invoice.file_name}</p>
+                  <p className="text-sm text-[#8E8E8E]">
                     {invoice.file_size ? `${(invoice.file_size / 1024).toFixed(1)} KB` : 'Veličina nepoznata'}
                   </p>
                 </div>
@@ -413,7 +413,7 @@ export default function InvoiceDetailPage() {
                   className={`relative border-2 border-dashed rounded-xl p-6 text-center transition-all ${
                     dragActive
                       ? 'border-[#00FF94] bg-[#00FF94]/5'
-                      : 'border-[#2A2A2A] hover:border-[#3A3A3A]'
+                      : 'border-white/[0.07] hover:border-white/[0.14]'
                   }`}
                   onDragEnter={handleDrag}
                   onDragLeave={handleDrag}
@@ -427,23 +427,23 @@ export default function InvoiceDetailPage() {
                     onChange={handleFileSelect}
                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                   />
-                  <p className="text-gray-400 text-sm">
+                  <p className="text-[#8E8E8E] text-sm">
                     Zamijeni PDF: povuci i ispusti ili <span className="text-[#00FF94]">klikni za odabir</span>
                   </p>
                 </div>
               ) : (
                 <div className="flex items-center gap-4 p-4 bg-[#00FF94]/5 border border-[#00FF94]/20 rounded-xl">
                   <div className="w-12 h-12 rounded-lg bg-[#00FF94]/10 flex items-center justify-center">
-                    <File size={24} className="text-[#00FF94]" />
+                    <File size={24} className="text-[#8E8E8E]" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-white font-medium truncate">{newFile.name}</p>
+                    <p className="text-[#F2F2F2] font-medium truncate">{newFile.name}</p>
                     <p className="text-sm text-[#00FF94]">Nova datoteka za učitavanje</p>
                   </div>
                   <button
                     type="button"
                     onClick={() => setNewFile(null)}
-                    className="p-2 text-gray-400 hover:text-red-500 transition-colors"
+                    className="p-2 text-[#8E8E8E] hover:text-red-500 transition-colors"
                   >
                     <X size={20} />
                   </button>
@@ -453,23 +453,23 @@ export default function InvoiceDetailPage() {
 
             {/* Notes */}
             <div>
-              <label className="block text-sm font-semibold text-gray-400 mb-2">
+              <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                 Napomene
               </label>
               <textarea
                 value={formData.notes || ''}
                 onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                 rows={3}
-                className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none resize-none"
+                className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none resize-none"
               />
             </div>
 
             {/* Actions */}
-            <div className="flex gap-3 pt-6 border-t border-[#2A2A2A]">
+            <div className="flex gap-3 pt-6 border-t border-white/[0.07]">
               <button
                 type="submit"
                 disabled={saving}
-                className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 transition-all disabled:opacity-50"
+                className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#F2F2F2] text-[#080808] rounded-full font-medium transition-all disabled:opacity-50"
               >
                 {saving ? (
                   <>
@@ -490,7 +490,7 @@ export default function InvoiceDetailPage() {
                   setFormData(invoice);
                   setNewFile(null);
                 }}
-                className="px-6 py-3 bg-[#2A2A2A] text-white rounded-xl font-bold hover:bg-[#3A3A3A] transition-all"
+                className="px-6 py-3 bg-white/[0.06] text-[#F2F2F2] rounded-xl font-bold hover:bg-white/[0.1] transition-all"
               >
                 Odustani
               </button>
@@ -508,25 +508,25 @@ export default function InvoiceDetailPage() {
         /* View Mode */
         <div className="grid gap-6">
           {/* Main Info Card */}
-          <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-8">
+          <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-8">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               <div>
-                <div className="text-sm text-gray-400 mb-1">Iznos</div>
-                <div className="text-3xl font-bold text-white">
+                <div className="text-sm text-[#8E8E8E] mb-1">Iznos</div>
+                <div className="text-3xl font-medium text-[#F2F2F2]">
                   €{Number(invoice.amount).toLocaleString()}
                 </div>
               </div>
 
               <div>
-                <div className="text-sm text-gray-400 mb-1">Datum izdavanja</div>
-                <div className="text-lg font-semibold text-white">
+                <div className="text-sm text-[#8E8E8E] mb-1">Datum izdavanja</div>
+                <div className="text-lg font-semibold text-[#F2F2F2]">
                   {new Date(invoice.issue_date).toLocaleDateString('hr-HR')}
                 </div>
               </div>
 
               <div>
-                <div className="text-sm text-gray-400 mb-1">Datum dospijeća</div>
-                <div className={`text-lg font-semibold ${invoice.status === 'overdue' ? 'text-red-500' : 'text-white'}`}>
+                <div className="text-sm text-[#8E8E8E] mb-1">Datum dospijeća</div>
+                <div className={`text-lg font-semibold ${invoice.status === 'overdue' ? 'text-red-500' : 'text-[#F2F2F2]'}`}>
                   {invoice.due_date
                     ? new Date(invoice.due_date).toLocaleDateString('hr-HR')
                     : '-'}
@@ -534,7 +534,7 @@ export default function InvoiceDetailPage() {
               </div>
 
               <div>
-                <div className="text-sm text-gray-400 mb-1">Status</div>
+                <div className="text-sm text-[#8E8E8E] mb-1">Status</div>
                 <span
                   className="inline-block px-3 py-1.5 rounded-lg text-sm font-semibold"
                   style={{ background: status.bg, color: status.color }}
@@ -546,9 +546,9 @@ export default function InvoiceDetailPage() {
           </div>
 
           {/* Client Card */}
-          <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6">
-            <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-              <Building2 size={20} className="text-[#00FF94]" />
+          <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6">
+            <h3 className="text-lg font-bold text-[#F2F2F2] mb-4 flex items-center gap-2">
+              <Building2 size={20} className="text-[#8E8E8E]" />
               Klijent
             </h3>
             <Link
@@ -560,9 +560,9 @@ export default function InvoiceDetailPage() {
           </div>
 
           {/* File Card */}
-          <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6">
-            <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-              <FileText size={20} className="text-[#00FF94]" />
+          <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6">
+            <h3 className="text-lg font-bold text-[#F2F2F2] mb-4 flex items-center gap-2">
+              <FileText size={20} className="text-[#8E8E8E]" />
               Datoteka
             </h3>
             <div className="flex items-center gap-4">
@@ -570,14 +570,14 @@ export default function InvoiceDetailPage() {
                 <File size={24} className="text-red-500" />
               </div>
               <div className="flex-1">
-                <p className="text-white font-medium">{invoice.file_name}</p>
-                <p className="text-sm text-gray-400">
+                <p className="text-[#F2F2F2] font-medium">{invoice.file_name}</p>
+                <p className="text-sm text-[#8E8E8E]">
                   {invoice.file_size ? `${(invoice.file_size / 1024).toFixed(1)} KB` : ''}
                 </p>
               </div>
               <button
                 onClick={handleDownload}
-                className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#2A2A2A] text-white rounded-xl font-semibold hover:bg-[#3A3A3A] transition-all"
+                className="inline-flex items-center gap-2 px-4 py-2.5 bg-white/[0.06] text-[#F2F2F2] rounded-xl font-semibold hover:bg-white/[0.1] transition-all"
               >
                 <Download size={18} />
                 Preuzmi
@@ -587,9 +587,9 @@ export default function InvoiceDetailPage() {
 
           {/* Notes Card */}
           {invoice.notes && (
-            <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6">
-              <h3 className="text-lg font-bold text-white mb-4">Napomene</h3>
-              <p className="text-gray-300 whitespace-pre-wrap">{invoice.notes}</p>
+            <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6">
+              <h3 className="text-lg font-bold text-[#F2F2F2] mb-4">Napomene</h3>
+              <p className="text-[#C9C9C9] whitespace-pre-wrap">{invoice.notes}</p>
             </div>
           )}
 

@@ -129,7 +129,7 @@ export default function ProjectDetailPage() {
   if (!project) {
     return (
       <div className="text-center py-20">
-        <h2 className="text-2xl font-bold mb-4">Project not found</h2>
+        <h2 className="text-2xl font-medium mb-4">Project not found</h2>
         <Link href="/crm/projects" className="text-[#00FF94] hover:underline">
           ← Back to Projects
         </Link>
@@ -145,7 +145,7 @@ export default function ProjectDetailPage() {
     design: 'bg-purple-500',
     development: 'bg-amber-500',
     testing: 'bg-cyan-500',
-    deployed: 'bg-[#00FF94] text-black',
+    deployed: 'bg-[#F2F2F2] text-[#080808]',
     completed: 'bg-green-500'
   };
 
@@ -154,7 +154,7 @@ export default function ProjectDetailPage() {
       {/* Breadcrumb */}
       <Link 
         href="/crm/projects" 
-        className="inline-flex items-center gap-2 text-gray-400 hover:text-[#00FF94] mb-6 transition-colors"
+        className="inline-flex items-center gap-2 text-[#8E8E8E] hover:text-[#F2F2F2] mb-6 transition-colors"
       >
         <ArrowLeft size={16} />
         Back to Projects
@@ -163,7 +163,7 @@ export default function ProjectDetailPage() {
       {/* Header */}
       <div className="flex flex-col lg:flex-row justify-between items-start gap-6 mb-8">
         <div className="flex-1">
-          <h1 className="text-4xl font-black text-white mb-4">{project.name}</h1>
+          <h1 className="text-4xl font-medium text-[#F2F2F2] mb-4">{project.name}</h1>
           {client && (
             <Link 
               href={`/crm/clients/${client.id}`}
@@ -174,7 +174,7 @@ export default function ProjectDetailPage() {
             </Link>
           )}
         </div>
-        <span className={`${statusColors[project.status] || 'bg-blue-500'} text-white px-4 py-2 rounded-full text-sm font-bold`}>
+        <span className={`${statusColors[project.status] || 'bg-blue-500'} text-[#F2F2F2] px-4 py-2 rounded-full text-sm font-bold`}>
           {project.status}
         </span>
       </div>
@@ -185,7 +185,7 @@ export default function ProjectDetailPage() {
           <>
             <button
               onClick={() => setEditing(true)}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 hover:-translate-y-0.5 transition-all"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#F2F2F2] text-[#080808] rounded-full font-medium hover:-translate-y-0.5 transition-all"
             >
               <Edit size={18} />
               Edit
@@ -195,7 +195,7 @@ export default function ProjectDetailPage() {
                 href={project.staging_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#2A2A2A] text-white rounded-xl font-bold hover:bg-[#3A3A3A] transition-all"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/[0.06] text-[#F2F2F2] rounded-xl font-bold hover:bg-white/[0.1] transition-all"
               >
                 <Globe size={18} />
                 View Staging
@@ -206,7 +206,7 @@ export default function ProjectDetailPage() {
                 href={project.production_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#2A2A2A] text-white rounded-xl font-bold hover:bg-[#3A3A3A] transition-all"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/[0.06] text-[#F2F2F2] rounded-xl font-bold hover:bg-white/[0.1] transition-all"
               >
                 <Rocket size={18} />
                 View Live
@@ -214,7 +214,7 @@ export default function ProjectDetailPage() {
             )}
             <button
               onClick={handleDelete}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-red-500 text-white rounded-xl font-bold hover:bg-red-600 transition-all"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-red-500 text-[#F2F2F2] rounded-xl font-bold hover:bg-red-600 transition-all"
             >
               <Trash2 size={18} />
               Delete
@@ -225,29 +225,29 @@ export default function ProjectDetailPage() {
 
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
-        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 text-center">
-          <div className="text-xs text-gray-500 uppercase tracking-wider mb-3">Total Value</div>
-          <div className="text-3xl font-black text-[#00FF94]">
+        <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6 text-center">
+          <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-3">Total Value</div>
+          <div className="text-3xl font-medium text-[#F2F2F2]">
             €{project.total_value.toLocaleString()}
           </div>
         </div>
-        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 text-center">
-          <div className="text-xs text-gray-500 uppercase tracking-wider mb-3">Paid</div>
-          <div className="text-3xl font-black text-[#00FF94]">
+        <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6 text-center">
+          <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-3">Paid</div>
+          <div className="text-3xl font-medium text-[#F2F2F2]">
             €{(project.paid_amount || 0).toLocaleString()}
           </div>
-          <div className="text-xs text-gray-500 mt-2">{paymentProgress.toFixed(0)}% received</div>
+          <div className="text-xs text-[#6E6E6E] mt-2">{paymentProgress.toFixed(0)}% received</div>
         </div>
-        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 text-center">
-          <div className="text-xs text-gray-500 uppercase tracking-wider mb-3">Remaining</div>
-          <div className="text-3xl font-black text-[#00FF94]">
+        <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6 text-center">
+          <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-3">Remaining</div>
+          <div className="text-3xl font-medium text-[#F2F2F2]">
             €{remainingAmount.toLocaleString()}
           </div>
         </div>
         {project.deadline && (
-          <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 text-center">
-            <div className="text-xs text-gray-500 uppercase tracking-wider mb-3">Deadline</div>
-            <div className="text-lg font-black text-[#00FF94]">
+          <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6 text-center">
+            <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-3">Deadline</div>
+            <div className="text-lg font-medium text-[#F2F2F2]">
               {new Date(project.deadline).toLocaleDateString('en-US', {
                 month: 'short',
                 day: 'numeric',
@@ -259,15 +259,15 @@ export default function ProjectDetailPage() {
       </div>
 
       {/* Progress */}
-      <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 mb-8">
+      <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6 mb-8">
         <div className="flex justify-between items-center mb-4">
-          <div className="flex items-center gap-2 font-bold text-white">
-            <TrendingUp size={20} className="text-[#00FF94]" />
+          <div className="flex items-center gap-2 font-bold text-[#F2F2F2]">
+            <TrendingUp size={20} className="text-[#8E8E8E]" />
             Project Progress
           </div>
-          <div className="text-2xl font-black text-[#00FF94]">{project.progress}%</div>
+          <div className="text-2xl font-medium text-[#F2F2F2]">{project.progress}%</div>
         </div>
-        <div className="bg-[#0a0a0a] rounded-xl h-3 overflow-hidden">
+        <div className="bg-[#080808] rounded-xl h-3 overflow-hidden">
           <div 
             className="h-full transition-all duration-300 rounded-xl"
             style={{
@@ -281,29 +281,29 @@ export default function ProjectDetailPage() {
       {/* Content */}
       {editing ? (
         <form onSubmit={handleUpdate}>
-          <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-8">
-            <h3 className="text-2xl font-bold mb-6 pb-4 border-b border-[#2A2A2A]">
+          <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-8">
+            <h3 className="text-2xl font-medium mb-6 pb-4 border-b border-white/[0.07]">
               Edit Project
             </h3>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">Project Name *</label>
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">Project Name *</label>
                 <input
                   type="text"
                   value={formData.name || ''}
                   onChange={(e) => setFormData({...formData, name: e.target.value})}
                   required
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">Project Type</label>
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">Project Type</label>
                 <select
                   value={formData.project_type || ''}
                   onChange={(e) => setFormData({...formData, project_type: e.target.value})}
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 >
                   <option value="">Select...</option>
                   <option value="website">Website</option>
@@ -315,11 +315,11 @@ export default function ProjectDetailPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">Status</label>
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">Status</label>
                 <select
                   value={formData.status || 'planning'}
                   onChange={(e) => setFormData({...formData, status: e.target.value})}
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 >
                   <option value="planning">Planning</option>
                   <option value="design">Design</option>
@@ -331,116 +331,116 @@ export default function ProjectDetailPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">Progress (%)</label>
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">Progress (%)</label>
                 <input
                   type="number"
                   value={formData.progress || 0}
                   onChange={(e) => setFormData({...formData, progress: e.target.value})}
                   min="0"
                   max="100"
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">Total Value (€) *</label>
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">Total Value (€) *</label>
                 <input
                   type="number"
                   value={formData.total_value || ''}
                   onChange={(e) => setFormData({...formData, total_value: e.target.value})}
                   step="0.01"
                   required
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">Paid Amount (€)</label>
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">Paid Amount (€)</label>
                 <input
                   type="number"
                   value={formData.paid_amount || 0}
                   onChange={(e) => setFormData({...formData, paid_amount: e.target.value})}
                   step="0.01"
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">Start Date</label>
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">Start Date</label>
                 <input
                   type="date"
                   value={formData.start_date || ''}
                   onChange={(e) => setFormData({...formData, start_date: e.target.value})}
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">Deadline</label>
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">Deadline</label>
                 <input
                   type="date"
                   value={formData.deadline || ''}
                   onChange={(e) => setFormData({...formData, deadline: e.target.value})}
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">Repository URL</label>
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">Repository URL</label>
                 <input
                   type="url"
                   value={formData.repo_url || ''}
                   onChange={(e) => setFormData({...formData, repo_url: e.target.value})}
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">Staging URL</label>
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">Staging URL</label>
                 <input
                   type="url"
                   value={formData.staging_url || ''}
                   onChange={(e) => setFormData({...formData, staging_url: e.target.value})}
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">Production URL</label>
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">Production URL</label>
                 <input
                   type="url"
                   value={formData.production_url || ''}
                   onChange={(e) => setFormData({...formData, production_url: e.target.value})}
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 />
               </div>
             </div>
 
             <div className="mb-6">
-              <label className="block text-sm font-semibold text-gray-400 mb-2">Description</label>
+              <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">Description</label>
               <textarea
                 value={formData.description || ''}
                 onChange={(e) => setFormData({...formData, description: e.target.value})}
                 rows={4}
-                className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors resize-none"
+                className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors resize-none"
               />
             </div>
 
             <div className="mb-6">
-              <label className="block text-sm font-semibold text-gray-400 mb-2">Notes</label>
+              <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">Notes</label>
               <textarea
                 value={formData.notes || ''}
                 onChange={(e) => setFormData({...formData, notes: e.target.value})}
                 rows={4}
-                className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors resize-none"
+                className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors resize-none"
               />
             </div>
 
-            <div className="flex gap-3 pt-6 border-t border-[#2A2A2A]">
+            <div className="flex gap-3 pt-6 border-t border-white/[0.07]">
               <button
                 type="submit"
                 disabled={saving}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-[#F2F2F2] text-[#080808] rounded-full font-medium hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Save size={18} />
                 {saving ? 'Saving...' : 'Save Changes'}
@@ -451,7 +451,7 @@ export default function ProjectDetailPage() {
                   setEditing(false);
                   setFormData(project);
                 }}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-[#2A2A2A] text-white rounded-xl font-bold hover:bg-[#3A3A3A] transition-all"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-white/[0.06] text-[#F2F2F2] rounded-xl font-bold hover:bg-white/[0.1] transition-all"
               >
                 <X size={18} />
                 Cancel
@@ -462,19 +462,19 @@ export default function ProjectDetailPage() {
       ) : (
         <div className="space-y-6">
           {/* Project Details */}
-          <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-8">
-            <h3 className="text-2xl font-bold mb-6 pb-4 border-b border-[#2A2A2A]">
+          <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-8">
+            <h3 className="text-2xl font-medium mb-6 pb-4 border-b border-white/[0.07]">
               Project Details
             </h3>
             {project.description && (
-              <p className="text-gray-400 leading-relaxed mb-6">
+              <p className="text-[#8E8E8E] leading-relaxed mb-6">
                 {project.description}
               </p>
             )}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
               {project.project_type && (
-                <div className="bg-[#0a0a0a] rounded-xl p-5">
-                  <div className="text-xs text-gray-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                <div className="bg-[#080808] rounded-xl p-5">
+                  <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-2 flex items-center gap-1.5">
                     <Package size={12} />
                     Type
                   </div>
@@ -482,8 +482,8 @@ export default function ProjectDetailPage() {
                 </div>
               )}
               {project.start_date && (
-                <div className="bg-[#0a0a0a] rounded-xl p-5">
-                  <div className="text-xs text-gray-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                <div className="bg-[#080808] rounded-xl p-5">
+                  <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-2 flex items-center gap-1.5">
                     <Calendar size={12} />
                     Start Date
                   </div>
@@ -492,8 +492,8 @@ export default function ProjectDetailPage() {
                   </div>
                 </div>
               )}
-              <div className="bg-[#0a0a0a] rounded-xl p-5">
-                <div className="text-xs text-gray-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+              <div className="bg-[#080808] rounded-xl p-5">
+                <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-2 flex items-center gap-1.5">
                   <Calendar size={12} />
                   Created
                 </div>
@@ -506,14 +506,14 @@ export default function ProjectDetailPage() {
 
           {/* Technical Links */}
           {(project.repo_url || project.staging_url || project.production_url) && (
-            <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-8">
-              <h3 className="text-2xl font-bold mb-6 pb-4 border-b border-[#2A2A2A]">
+            <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-8">
+              <h3 className="text-2xl font-medium mb-6 pb-4 border-b border-white/[0.07]">
                 Technical Links
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
                 {project.repo_url && (
-                  <div className="bg-[#0a0a0a] rounded-xl p-5">
-                    <div className="text-xs text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                  <div className="bg-[#080808] rounded-xl p-5">
+                    <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-3 flex items-center gap-1.5">
                       <Github size={12} />
                       Repository
                     </div>
@@ -529,8 +529,8 @@ export default function ProjectDetailPage() {
                   </div>
                 )}
                 {project.staging_url && (
-                  <div className="bg-[#0a0a0a] rounded-xl p-5">
-                    <div className="text-xs text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                  <div className="bg-[#080808] rounded-xl p-5">
+                    <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-3 flex items-center gap-1.5">
                       <Globe size={12} />
                       Staging
                     </div>
@@ -546,8 +546,8 @@ export default function ProjectDetailPage() {
                   </div>
                 )}
                 {project.production_url && (
-                  <div className="bg-[#0a0a0a] rounded-xl p-5">
-                    <div className="text-xs text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                  <div className="bg-[#080808] rounded-xl p-5">
+                    <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-3 flex items-center gap-1.5">
                       <Rocket size={12} />
                       Production
                     </div>
@@ -568,11 +568,11 @@ export default function ProjectDetailPage() {
 
           {/* Notes */}
           {project.notes && (
-            <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-8">
-              <h3 className="text-2xl font-bold mb-6 pb-4 border-b border-[#2A2A2A]">
+            <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-8">
+              <h3 className="text-2xl font-medium mb-6 pb-4 border-b border-white/[0.07]">
                 Internal Notes
               </h3>
-              <p className="text-gray-400 leading-relaxed whitespace-pre-wrap">
+              <p className="text-[#8E8E8E] leading-relaxed whitespace-pre-wrap">
                 {project.notes}
               </p>
             </div>

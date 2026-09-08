@@ -25,7 +25,7 @@ const PLATFORMS = [
   { id: 'instagram', label: 'Instagram', color: '#E4405F', bg: 'bg-pink-500/10', text: 'text-pink-500' },
   { id: 'facebook', label: 'Facebook', color: '#1877F2', bg: 'bg-blue-500/10', text: 'text-blue-500' },
   { id: 'linkedin', label: 'LinkedIn', color: '#0A66C2', bg: 'bg-indigo-500/10', text: 'text-indigo-500' },
-  { id: 'tiktok', label: 'TikTok', color: '#000000', bg: 'bg-gray-500/10', text: 'text-gray-400' },
+  { id: 'tiktok', label: 'TikTok', color: '#000000', bg: 'bg-gray-500/10', text: 'text-[#8E8E8E]' },
 ];
 
 const CONTENT_TYPES = [
@@ -261,7 +261,7 @@ export default function ContentDetailPage() {
   if (!content) {
     return (
       <div className="text-center py-20">
-        <h2 className="text-2xl font-bold mb-4">Sadržaj nije pronađen</h2>
+        <h2 className="text-2xl font-medium mb-4">Sadržaj nije pronađen</h2>
         <Link href="/crm/content" className="text-[#00FF94] hover:underline">
           ← Natrag na sadržaj
         </Link>
@@ -281,7 +281,7 @@ export default function ContentDetailPage() {
       {/* Breadcrumb */}
       <Link
         href="/crm/content"
-        className="inline-flex items-center gap-2 text-gray-400 hover:text-[#00FF94] mb-6 transition-colors"
+        className="inline-flex items-center gap-2 text-[#8E8E8E] hover:text-[#F2F2F2] mb-6 transition-colors"
       >
         <ArrowLeft size={16} />
         Natrag na sadržaj
@@ -299,9 +299,9 @@ export default function ContentDetailPage() {
                 </span>
               );
             })}
-            <span className="text-gray-400 capitalize">{content.content_type}</span>
+            <span className="text-[#8E8E8E] capitalize">{content.content_type}</span>
           </div>
-          <h1 className="text-3xl font-black text-white mb-2">
+          <h1 className="text-3xl font-medium text-[#F2F2F2] mb-2">
             {content.caption?.slice(0, 50) || 'Sadržaj bez opisa'}
             {content.caption?.length > 50 && '...'}
           </h1>
@@ -327,7 +327,7 @@ export default function ContentDetailPage() {
           <>
             <button
               onClick={() => setEditing(true)}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 transition-all"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#F2F2F2] text-[#080808] rounded-full font-medium transition-all"
             >
               <Edit size={18} />
               Uredi
@@ -335,7 +335,7 @@ export default function ContentDetailPage() {
             <select
               value={content.status}
               onChange={(e) => handleStatusChange(e.target.value)}
-              className="px-4 py-2.5 bg-[#2A2A2A] text-white rounded-xl font-bold cursor-pointer border border-[#3A3A3A] hover:border-[#00FF94] transition-colors"
+              className="px-4 py-2.5 bg-white/[0.06] text-[#F2F2F2] rounded-xl font-bold cursor-pointer border border-white/[0.14] hover:border-[#00FF94] transition-colors"
             >
               <option value="pending">Čeka odobrenje</option>
               <option value="approved">Odobreno</option>
@@ -344,7 +344,7 @@ export default function ContentDetailPage() {
             </select>
             <button
               onClick={handleDelete}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-red-500 text-white rounded-xl font-bold hover:bg-red-600 transition-all"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-red-500 text-[#F2F2F2] rounded-xl font-bold hover:bg-red-600 transition-all"
             >
               <Trash2 size={18} />
               Obriši
@@ -356,19 +356,19 @@ export default function ContentDetailPage() {
       {editing ? (
         /* Edit Form */
         <form onSubmit={handleUpdate}>
-          <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-8">
-            <h3 className="text-2xl font-bold mb-6 pb-4 border-b border-[#2A2A2A]">
+          <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-8">
+            <h3 className="text-2xl font-medium mb-6 pb-4 border-b border-white/[0.07]">
               Uredi sadržaj
             </h3>
 
             {/* Client Selection */}
             <div className="mb-6">
-              <label className="block text-sm font-semibold text-gray-400 mb-2">Klijent *</label>
+              <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">Klijent *</label>
               <select
                 value={formData.client_id}
                 onChange={(e) => setFormData({ ...formData, client_id: e.target.value })}
                 required
-                className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
+                className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none"
               >
                 <option value="">Odaberi klijenta...</option>
                 {clients.map((c) => (
@@ -382,8 +382,8 @@ export default function ContentDetailPage() {
             {/* Platform & Type */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">
-                  Platforme * <span className="text-xs text-gray-500 font-normal">(možeš odabrati više)</span>
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
+                  Platforme * <span className="text-xs text-[#6E6E6E] font-normal">(možeš odabrati više)</span>
                 </label>
                 <div className="grid grid-cols-2 gap-2">
                   {PLATFORMS.map((p) => {
@@ -401,8 +401,8 @@ export default function ContentDetailPage() {
                         }}
                         className={`px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
                           isSelected
-                            ? 'bg-[#00FF94] text-black'
-                            : 'bg-[#0a0a0a] border border-[#2A2A2A] text-gray-400 hover:border-[#00FF94]'
+                            ? 'bg-[#F2F2F2] text-[#080808]'
+                            : 'bg-[#080808] border border-white/[0.07] text-[#8E8E8E] hover:border-[#00FF94]'
                         }`}
                       >
                         {p.label}
@@ -413,7 +413,7 @@ export default function ContentDetailPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">Tip sadržaja *</label>
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">Tip sadržaja *</label>
                 <div className="grid grid-cols-2 gap-2">
                   {CONTENT_TYPES.map((type) => (
                     <button
@@ -422,8 +422,8 @@ export default function ContentDetailPage() {
                       onClick={() => setFormData({ ...formData, content_type: type.id })}
                       className={`px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
                         formData.content_type === type.id
-                          ? 'bg-[#00FF94] text-black'
-                          : 'bg-[#0a0a0a] border border-[#2A2A2A] text-gray-400 hover:border-[#00FF94]'
+                          ? 'bg-[#F2F2F2] text-[#080808]'
+                          : 'bg-[#080808] border border-white/[0.07] text-[#8E8E8E] hover:border-[#00FF94]'
                       }`}
                     >
                       {type.label}
@@ -436,7 +436,7 @@ export default function ContentDetailPage() {
             {/* Schedule */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                   <Calendar size={14} className="inline mr-2" />
                   Datum *
                 </label>
@@ -445,12 +445,12 @@ export default function ContentDetailPage() {
                   value={formData.scheduled_date}
                   onChange={(e) => setFormData({ ...formData, scheduled_date: e.target.value })}
                   required
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                   <Clock size={14} className="inline mr-2" />
                   Vrijeme
                 </label>
@@ -458,26 +458,26 @@ export default function ContentDetailPage() {
                   type="time"
                   value={formData.scheduled_time || ''}
                   onChange={(e) => setFormData({ ...formData, scheduled_time: e.target.value })}
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none"
                 />
               </div>
             </div>
 
             {/* Caption */}
             <div className="mb-6">
-              <label className="block text-sm font-semibold text-gray-400 mb-2">Tekst objave</label>
+              <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">Tekst objave</label>
               <textarea
                 value={formData.caption || ''}
                 onChange={(e) => setFormData({ ...formData, caption: e.target.value })}
                 rows={5}
                 placeholder="Napišite tekst koji će pratiti objavu..."
-                className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none resize-none"
+                className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none resize-none"
               />
             </div>
 
             {/* Hashtags */}
             <div className="mb-6">
-              <label className="block text-sm font-semibold text-gray-400 mb-2">Hashtagovi</label>
+              <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">Hashtagovi</label>
               <div className="flex gap-2 mb-3">
                 <input
                   type="text"
@@ -485,12 +485,12 @@ export default function ContentDetailPage() {
                   onChange={(e) => setNewHashtag(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddHashtag())}
                   placeholder="Dodaj hashtag..."
-                  className="flex-1 px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
+                  className="flex-1 px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none"
                 />
                 <button
                   type="button"
                   onClick={handleAddHashtag}
-                  className="px-4 py-3 bg-[#2A2A2A] text-white rounded-xl hover:bg-[#3A3A3A] transition-colors"
+                  className="px-4 py-3 bg-white/[0.06] text-[#F2F2F2] rounded-xl hover:bg-white/[0.1] transition-colors"
                 >
                   <Plus size={18} />
                 </button>
@@ -514,11 +514,11 @@ export default function ContentDetailPage() {
 
             {/* Media URLs */}
             <div className="mb-6">
-              <label className="block text-sm font-semibold text-gray-400 mb-2">
+              <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                 <Image size={14} className="inline mr-2" />
                 Mediji
               </label>
-              <p className="text-xs text-gray-500 mb-2">
+              <p className="text-xs text-[#6E6E6E] mb-2">
                 Google Drive, YouTube, Vimeo ili direktni URL slike
               </p>
               <div className="flex gap-2 mb-3">
@@ -528,12 +528,12 @@ export default function ContentDetailPage() {
                   onChange={(e) => setNewMediaUrl(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddMedia())}
                   placeholder="Zalijepi link..."
-                  className="flex-1 px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
+                  className="flex-1 px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none"
                 />
                 <button
                   type="button"
                   onClick={handleAddMedia}
-                  className="px-4 py-3 bg-[#2A2A2A] text-white rounded-xl hover:bg-[#3A3A3A] transition-colors"
+                  className="px-4 py-3 bg-white/[0.06] text-[#F2F2F2] rounded-xl hover:bg-white/[0.1] transition-colors"
                 >
                   <Plus size={18} />
                 </button>
@@ -544,7 +544,7 @@ export default function ContentDetailPage() {
                     const media = parseMediaUrl(url);
                     return (
                       <div key={i} className="relative group">
-                        <div className="aspect-video bg-[#0a0a0a] rounded-xl overflow-hidden">
+                        <div className="aspect-video bg-[#080808] rounded-xl overflow-hidden">
                           {media?.type === 'drive' && (
                             <iframe
                               src={media.embedUrl}
@@ -579,7 +579,7 @@ export default function ContentDetailPage() {
                         <button
                           type="button"
                           onClick={() => handleRemoveMedia(url)}
-                          className="absolute top-2 right-2 p-1.5 bg-red-500 text-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                          className="absolute top-2 right-2 p-1.5 bg-red-500 text-[#F2F2F2] rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
                         >
                           <X size={14} />
                         </button>
@@ -591,11 +591,11 @@ export default function ContentDetailPage() {
             </div>
 
             {/* Submit */}
-            <div className="flex gap-3 pt-6 border-t border-[#2A2A2A]">
+            <div className="flex gap-3 pt-6 border-t border-white/[0.07]">
               <button
                 type="submit"
                 disabled={saving}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 transition-all disabled:opacity-50"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-[#F2F2F2] text-[#080808] rounded-full font-medium transition-all disabled:opacity-50"
               >
                 {saving ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />}
                 {saving ? 'Spremanje...' : 'Spremi promjene'}
@@ -614,7 +614,7 @@ export default function ContentDetailPage() {
                     media_urls: content.media_urls || [],
                   });
                 }}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-[#2A2A2A] text-white rounded-xl font-bold hover:bg-[#3A3A3A] transition-all"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-white/[0.06] text-[#F2F2F2] rounded-xl font-bold hover:bg-white/[0.1] transition-all"
               >
                 <X size={18} />
                 Odustani
@@ -626,11 +626,11 @@ export default function ContentDetailPage() {
         /* View Mode */
         <div className="space-y-6">
           {/* Schedule Info */}
-          <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-8">
-            <h3 className="text-2xl font-bold mb-6 pb-4 border-b border-[#2A2A2A]">Detalji objave</h3>
+          <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-8">
+            <h3 className="text-2xl font-medium mb-6 pb-4 border-b border-white/[0.07]">Detalji objave</h3>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
-              <div className="bg-[#0a0a0a] rounded-xl p-5">
-                <div className="text-xs text-gray-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+              <div className="bg-[#080808] rounded-xl p-5">
+                <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-2 flex items-center gap-1.5">
                   <Calendar size={12} />
                   Datum
                 </div>
@@ -644,8 +644,8 @@ export default function ContentDetailPage() {
                 </div>
               </div>
               {content.scheduled_time && (
-                <div className="bg-[#0a0a0a] rounded-xl p-5">
-                  <div className="text-xs text-gray-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                <div className="bg-[#080808] rounded-xl p-5">
+                  <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-2 flex items-center gap-1.5">
                     <Clock size={12} />
                     Vrijeme
                   </div>
@@ -654,8 +654,8 @@ export default function ContentDetailPage() {
                   </div>
                 </div>
               )}
-              <div className="bg-[#0a0a0a] rounded-xl p-5">
-                <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">
+              <div className="bg-[#080808] rounded-xl p-5">
+                <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-2">
                   {contentPlatforms.length > 1 ? 'Platforme' : 'Platforma'}
                 </div>
                 <div className="flex flex-wrap gap-1">
@@ -669,20 +669,20 @@ export default function ContentDetailPage() {
                   })}
                 </div>
               </div>
-              <div className="bg-[#0a0a0a] rounded-xl p-5">
-                <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">Tip</div>
-                <div className="text-sm font-bold text-white capitalize">{content.content_type}</div>
+              <div className="bg-[#080808] rounded-xl p-5">
+                <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-2">Tip</div>
+                <div className="text-sm font-bold text-[#F2F2F2] capitalize">{content.content_type}</div>
               </div>
             </div>
           </div>
 
           {/* Caption */}
           {content.caption && (
-            <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-8">
-              <h3 className="text-2xl font-bold mb-6 pb-4 border-b border-[#2A2A2A]">Tekst objave</h3>
-              <p className="text-gray-300 leading-relaxed whitespace-pre-wrap">{content.caption}</p>
+            <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-8">
+              <h3 className="text-2xl font-medium mb-6 pb-4 border-b border-white/[0.07]">Tekst objave</h3>
+              <p className="text-[#C9C9C9] leading-relaxed whitespace-pre-wrap">{content.caption}</p>
               {content.hashtags?.length > 0 && (
-                <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-[#2A2A2A]">
+                <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-white/[0.07]">
                   {content.hashtags.map((tag, i) => (
                     <span
                       key={i}
@@ -698,15 +698,15 @@ export default function ContentDetailPage() {
 
           {/* Media */}
           {content.media_urls?.length > 0 && (
-            <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-8">
-              <h3 className="text-2xl font-bold mb-6 pb-4 border-b border-[#2A2A2A]">
+            <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-8">
+              <h3 className="text-2xl font-medium mb-6 pb-4 border-b border-white/[0.07]">
                 Mediji ({content.media_urls.length})
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {content.media_urls.map((url, i) => {
                   const media = parseMediaUrl(url);
                   return (
-                    <div key={i} className="relative aspect-video bg-[#0a0a0a] rounded-xl overflow-hidden">
+                    <div key={i} className="relative aspect-video bg-[#080808] rounded-xl overflow-hidden">
                       {media?.type === 'drive' && (
                         <iframe
                           src={media.embedUrl}
@@ -742,7 +742,7 @@ export default function ContentDetailPage() {
                         href={url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="absolute bottom-2 right-2 px-3 py-1.5 bg-black/70 text-white text-xs rounded-lg flex items-center gap-1 hover:bg-black transition-colors"
+                        className="absolute bottom-2 right-2 px-3 py-1.5 bg-black/70 text-[#F2F2F2] text-xs rounded-lg flex items-center gap-1 hover:bg-black transition-colors"
                       >
                         Otvori <ExternalLink size={12} />
                       </a>
@@ -760,11 +760,11 @@ export default function ContentDetailPage() {
                 ? 'bg-red-500/5 border border-red-500/20'
                 : 'bg-green-500/5 border border-green-500/20'
             }`}>
-              <h3 className="text-2xl font-bold mb-4 flex items-center gap-3">
+              <h3 className="text-2xl font-medium mb-4 flex items-center gap-3">
                 <MessageSquare size={24} className={content.status === 'revision_requested' ? 'text-red-500' : 'text-green-500'} />
                 Feedback od klijenta
               </h3>
-              <p className="text-gray-300 leading-relaxed">{content.client_feedback}</p>
+              <p className="text-[#C9C9C9] leading-relaxed">{content.client_feedback}</p>
             </div>
           )}
 
@@ -776,7 +776,7 @@ export default function ContentDetailPage() {
                 Odobreno {new Date(content.approved_at).toLocaleDateString('hr-HR')}
               </div>
               {content.approver && (
-                <div className="text-gray-400 text-sm mt-1">
+                <div className="text-[#8E8E8E] text-sm mt-1">
                   od {content.approver.name}
                 </div>
               )}

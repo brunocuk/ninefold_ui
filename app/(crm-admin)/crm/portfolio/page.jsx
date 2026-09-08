@@ -132,7 +132,7 @@ export default function PortfolioPage() {
         h1 {
           font-size: 2.5rem;
           font-weight: 900;
-          background: linear-gradient(135deg, #00FF94 0%, #00CC76 100%);
+          background: #F2F2F2;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
@@ -149,7 +149,7 @@ export default function PortfolioPage() {
         }
 
         .btn-primary {
-          background: #00FF94;
+          background: #F2F2F2;
           color: #000;
           padding: 12px 24px;
           border-radius: 8px;
@@ -173,7 +173,7 @@ export default function PortfolioPage() {
         }
 
         .stat-card {
-          background: #1a1a1a;
+          background: #0F0F0F;
           border: 1px solid #333;
           border-radius: 12px;
           padding: 16px;
@@ -183,7 +183,7 @@ export default function PortfolioPage() {
         }
 
         .stat-card:hover {
-          border-color: #00FF94;
+          border-color: rgba(255,255,255,0.16);
           transform: translateY(-2px);
         }
 
@@ -203,7 +203,7 @@ export default function PortfolioPage() {
         .stat-value {
           font-size: 1.5rem;
           font-weight: 900;
-          color: #00FF94;
+          color: #F2F2F2;
           line-height: 1;
         }
 
@@ -236,7 +236,7 @@ export default function PortfolioPage() {
         }
 
         .project-card {
-          background: #1a1a1a;
+          background: #0F0F0F;
           border: 1px solid #333;
           border-radius: 12px;
           overflow: hidden;
@@ -244,7 +244,7 @@ export default function PortfolioPage() {
         }
 
         .project-card:hover {
-          border-color: #00FF94;
+          border-color: rgba(255,255,255,0.16);
           transform: translateY(-4px);
         }
 
@@ -434,7 +434,7 @@ export default function PortfolioPage() {
         .empty-state {
           text-align: center;
           padding: 80px 20px;
-          background: #1a1a1a;
+          background: #0F0F0F;
           border: 2px dashed #333;
           border-radius: 12px;
         }

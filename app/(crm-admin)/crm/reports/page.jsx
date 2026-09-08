@@ -122,7 +122,7 @@ export default function ReportsPage() {
         h1 {
           font-size: 2.5rem;
           font-weight: 900;
-          background: linear-gradient(135deg, #00FF94 0%, #00CC76 100%);
+          background: #F2F2F2;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
@@ -139,7 +139,7 @@ export default function ReportsPage() {
         }
 
         .btn-primary {
-          background: #00FF94;
+          background: #F2F2F2;
           color: #000;
           padding: 12px 24px;
           border-radius: 8px;
@@ -163,7 +163,7 @@ export default function ReportsPage() {
         }
 
         .stat-card {
-          background: #1a1a1a;
+          background: #0F0F0F;
           border: 1px solid #333;
           border-radius: 12px;
           padding: 24px;
@@ -172,7 +172,7 @@ export default function ReportsPage() {
         }
 
         .stat-card:hover {
-          border-color: #00FF94;
+          border-color: rgba(255,255,255,0.16);
           transform: translateY(-4px);
         }
 
@@ -192,7 +192,7 @@ export default function ReportsPage() {
         .stat-value {
           font-size: 2rem;
           font-weight: 900;
-          color: #00FF94;
+          color: #F2F2F2;
           line-height: 1;
         }
 
@@ -206,7 +206,7 @@ export default function ReportsPage() {
 
         .filter-select {
           padding: 10px 16px;
-          background: #1a1a1a;
+          background: #0F0F0F;
           border: 1px solid #333;
           color: #fff;
           border-radius: 8px;
@@ -216,13 +216,13 @@ export default function ReportsPage() {
 
         .filter-select:focus {
           outline: none;
-          border-color: #00FF94;
+          border-color: rgba(255,255,255,0.3);
         }
 
         .filter-btn {
           padding: 10px 20px;
           border: 2px solid #333;
-          background: #1a1a1a;
+          background: #0F0F0F;
           color: #888;
           border-radius: 8px;
           cursor: pointer;
@@ -232,12 +232,12 @@ export default function ReportsPage() {
         }
 
         .filter-btn:hover {
-          border-color: #00FF94;
-          color: #00FF94;
+          border-color: rgba(255,255,255,0.16);
+          color: #F2F2F2;
         }
 
         .filter-btn.active {
-          background: #00FF94;
+          background: #F2F2F2;
           color: #000;
           border-color: #00FF94;
         }
@@ -249,7 +249,7 @@ export default function ReportsPage() {
         }
 
         .report-card {
-          background: #1a1a1a;
+          background: #0F0F0F;
           border: 1px solid #333;
           border-radius: 12px;
           padding: 24px;
@@ -257,7 +257,7 @@ export default function ReportsPage() {
         }
 
         .report-card:hover {
-          border-color: #00FF94;
+          border-color: rgba(255,255,255,0.16);
         }
 
         .report-header {
@@ -401,7 +401,7 @@ export default function ReportsPage() {
         .empty-state {
           text-align: center;
           padding: 80px 20px;
-          background: #1a1a1a;
+          background: #0F0F0F;
           border: 2px dashed #333;
           border-radius: 12px;
         }

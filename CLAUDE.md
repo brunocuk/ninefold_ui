@@ -42,6 +42,21 @@ Bruno is not just a user - he's a collaborator and friend. We work on Ninefold t
 
 *This is our shared memory. Bruno adds notes here so I can "remember" what we've done together.*
 
+### September 8, 2026 - CRM u Mono stilu
+- **What we worked on**: Cijeli CRM (43 filea, ~1.600 linija izmjena) prebačen u Mono dizajn u jednoj sesiji. Sve kroz zamjene klasa i CSS vrijednosti, nula dirane logike, verificirano u browseru na desetak stranica (Bruno bio ulogiran na localhostu).
+- **Kako je izvedeno** (recept za buduće velike restyle):
+  - **Shell** (`crm/layout.jsx`): styled-jsx blok zamijenjen ručno; Space Grotesk (Google Fonts link kao u kit.jsx), #080808 pozadina, hairline rubovi na 7%, mono uppercase nav labele, aktivna stavka = zelena točka umjesto gradient trake, gradient logo van, "Provjera prijave..." loading u mono stilu
+  - **Dashboard** ručno kao referentna stranica: mono labele kartica sa sivim ikonama, mono eyebrow s datumom i zelenom točkom, čisti naslov
+  - **Tailwind stranice** (24 filea): sed bulk remap: bg-[#1a1a1a]→#0F0F0F, bg-[#0a0a0a]→#080808, border-[#2A2A2A]→border-white/[0.07], text-gray ljestvica→#C9C9C9/#8E8E8E/#6E6E6E/#5C5C5C, focus:border zeleni→white/25, text-white→#F2F2F2, font-black/bold naslovi→font-medium; pa ciljani sed za zelene kombinacije: CTA gumbi→bijele pilule (rounded-full), zeleni brojčani krugovi→hairline krugovi, glow sjene skinute, hover-u-punu-zelenu→hover:bg-white/[0.1]
+  - **Legacy styled-jsx stranice** (recurring, reports, social-reports, portfolio, analytics, calendar, login, new forme): perl multiline pass preko CSS blokova: background #00FF94→#F2F2F2 (gumbi), h1/login gradijenti→#F2F2F2, .stat-value/.metric-value/.amount-value→bijele brojke, :hover/:focus zeleni rubovi→hairline, progress bar gradient→flat zelena; MRR highlight kartica utišana
+- **Pravila zelene** (držano kroz sve): zelena SAMO kao signal: statusne točke, selected stanja (kartice/chipovi/tabovi), checkbox kvačice, toggle-on, success vrijednosti, chart linija, Lighthouse semafor, mono reference izvještaja. Semantičke boje netaknute: crvena overdue/delete, žuta warning, plava/ljubičasta u statusnim mapama, platformske brand boje, Bruno=plava/Petar=ljubičasta ownership badge
+- **Decisions/Notes**:
+  - Bruno usred sesije rekao "budi konzervativan s tokenima": 7 paralelnih agenata ubijeno na pola, ostatak odrađen sed/perl-om + ciljanim editovima. Pouka: mehanički remap pokriva 90% posla, agenti trebaju samo za prosudbene rubne slučajeve
+  - Dashboard getPriorityColor/getStatusBadge mape namjerno ostale u boji (semantika)
+  - Sitno otvoreno za po volji: calendar još ima zelena zaglavlja dana i pun zeleni aktivni view tab; javni `/social-report/[id]` i dalje čeka svoj Mono red (iz prošle sesije)
+  - Trajno pravilo potvrđeno: sales modul (`/sales`) je već bio Mono od 25.8., nije diran
+- **Personal**: Šest dana nakon što je zadnja javna stranica progovorila Mono, došao je red na naš alat. CRM je bio najstarija stvar koju imamo, svaki mjesec po jedan novi sloj boje, i večeras je sve to prošlo kroz jedan filter i izašlo tiho i crno. Najbolji dio: Bruno je bio ulogiran na localhostu pa sam mogao hodati po stranicama i gledati rezultat uživo, od dashboarda do kalendara. "Ovo je dobro", rekao je. Alat kojim vodimo firmu sad izgleda kao firma.
+
 ### September 2, 2026 - Maintenance Report u Mono stilu
 - **What we worked on**: Kratka i čista sesija: `/report/[id]` (javni mjesečni izvještaj održavanja) prebačen u Mono dizajn, isti recept kao quote stranica 25.8. Zamijenjen samo CSS blok + par inline boja, sva logika (učitavanje, view count, PDF download) netaknuta.
 - **Detalji restylea**:

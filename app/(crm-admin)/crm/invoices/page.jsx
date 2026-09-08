@@ -97,12 +97,12 @@ export default function InvoicesPage() {
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-4xl font-black text-white mb-2">Fakture</h1>
-          <p className="text-gray-400">Upravljanje fakturama i dijeljenje s klijentima</p>
+          <h1 className="text-4xl font-medium text-[#F2F2F2] mb-2">Fakture</h1>
+          <p className="text-[#8E8E8E]">Upravljanje fakturama i dijeljenje s klijentima</p>
         </div>
         <Link
           href="/crm/invoices/new"
-          className="inline-flex items-center gap-2 px-5 py-3 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 transition-all"
+          className="inline-flex items-center gap-2 px-5 py-3 bg-[#F2F2F2] text-[#080808] rounded-full font-medium transition-all"
         >
           <Plus size={18} />
           Nova faktura
@@ -111,56 +111,56 @@ export default function InvoicesPage() {
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6">
+        <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-[#00FF94]/10 flex items-center justify-center">
-              <Receipt size={24} className="text-[#00FF94]" />
+              <Receipt size={24} className="text-[#8E8E8E]" />
             </div>
             <div>
-              <div className="text-3xl font-bold text-white">{totalInvoices}</div>
-              <div className="text-sm text-gray-400">Ukupno faktura</div>
+              <div className="text-3xl font-medium text-[#F2F2F2]">{totalInvoices}</div>
+              <div className="text-sm text-[#8E8E8E]">Ukupno faktura</div>
             </div>
           </div>
         </div>
 
-        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6">
+        <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-yellow-500/10 flex items-center justify-center">
               <Clock size={24} className="text-yellow-500" />
             </div>
             <div>
-              <div className="text-3xl font-bold text-yellow-500">€{unpaidAmount.toLocaleString()}</div>
-              <div className="text-sm text-gray-400">Neplaćeno</div>
+              <div className="text-3xl font-medium text-yellow-500">€{unpaidAmount.toLocaleString()}</div>
+              <div className="text-sm text-[#8E8E8E]">Neplaćeno</div>
             </div>
           </div>
         </div>
 
-        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6">
+        <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-red-500/10 flex items-center justify-center">
               <AlertCircle size={24} className="text-red-500" />
             </div>
             <div>
-              <div className="text-3xl font-bold text-red-500">{overdueCount}</div>
-              <div className="text-sm text-gray-400">Dospjelih</div>
+              <div className="text-3xl font-medium text-red-500">{overdueCount}</div>
+              <div className="text-sm text-[#8E8E8E]">Dospjelih</div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Filters */}
-      <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-4 mb-6">
+      <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-4 mb-6">
         <div className="flex flex-wrap items-center gap-4">
           {/* Search */}
           <div className="flex-1 min-w-[200px]">
             <div className="relative">
-              <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+              <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#6E6E6E]" />
               <input
                 type="text"
                 placeholder="Pretraži po broju fakture ili klijentu..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white placeholder:text-gray-500 focus:border-[#00FF94] focus:outline-none"
+                className="w-full pl-10 pr-4 py-2.5 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] placeholder:text-[#6E6E6E] focus:border-white/25 focus:outline-none"
               />
             </div>
           </div>
@@ -169,7 +169,7 @@ export default function InvoicesPage() {
           <select
             value={filterClient}
             onChange={(e) => setFilterClient(e.target.value)}
-            className="px-4 py-2.5 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
+            className="px-4 py-2.5 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none"
           >
             <option value="">Svi klijenti</option>
             {clients.map((client) => (
@@ -187,8 +187,8 @@ export default function InvoicesPage() {
                 onClick={() => setFilterStatus(status)}
                 className={`px-4 py-2.5 rounded-xl text-sm font-semibold transition-all ${
                   filterStatus === status
-                    ? 'bg-[#00FF94] text-black'
-                    : 'bg-[#0a0a0a] border border-[#2A2A2A] text-gray-400 hover:border-[#00FF94]'
+                    ? 'bg-[#F2F2F2] text-[#080808]'
+                    : 'bg-[#080808] border border-white/[0.07] text-[#8E8E8E] hover:border-[#00FF94]'
                 }`}
               >
                 {status === '' ? 'Sve' : STATUS_CONFIG[status].label}
@@ -200,10 +200,10 @@ export default function InvoicesPage() {
 
       {/* Invoice List */}
       {filteredInvoices.length === 0 ? (
-        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-12 text-center">
-          <Receipt size={48} className="text-gray-600 mx-auto mb-4" />
-          <h3 className="text-xl font-bold text-white mb-2">Nema faktura</h3>
-          <p className="text-gray-400 mb-6">
+        <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-12 text-center">
+          <Receipt size={48} className="text-[#5C5C5C] mx-auto mb-4" />
+          <h3 className="text-xl font-bold text-[#F2F2F2] mb-2">Nema faktura</h3>
+          <p className="text-[#8E8E8E] mb-6">
             {invoices.length === 0
               ? 'Dodajte prvu fakturu klikom na "Nova faktura"'
               : 'Nema faktura koje odgovaraju filterima'}
@@ -211,7 +211,7 @@ export default function InvoicesPage() {
           {invoices.length === 0 && (
             <Link
               href="/crm/invoices/new"
-              className="inline-flex items-center gap-2 px-5 py-3 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 transition-all"
+              className="inline-flex items-center gap-2 px-5 py-3 bg-[#F2F2F2] text-[#080808] rounded-full font-medium transition-all"
             >
               <Plus size={18} />
               Nova faktura
@@ -219,7 +219,7 @@ export default function InvoicesPage() {
           )}
         </div>
       ) : (
-        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl overflow-hidden">
+        <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl overflow-hidden">
           {filteredInvoices.map((invoice, index) => {
             const status = STATUS_CONFIG[invoice.status];
             const clientName = invoice.clients?.company || invoice.clients?.name || 'Nepoznat klijent';
@@ -228,19 +228,19 @@ export default function InvoicesPage() {
               <Link
                 key={invoice.id}
                 href={`/crm/invoices/${invoice.id}`}
-                className={`flex items-center gap-4 p-5 hover:bg-[#222] transition-colors ${
-                  index < filteredInvoices.length - 1 ? 'border-b border-[#2A2A2A]' : ''
+                className={`flex items-center gap-4 p-5 hover:bg-white/[0.06] transition-colors ${
+                  index < filteredInvoices.length - 1 ? 'border-b border-white/[0.07]' : ''
                 }`}
               >
                 {/* Icon */}
                 <div className="w-12 h-12 rounded-xl bg-[#00FF94]/10 flex items-center justify-center flex-shrink-0">
-                  <Receipt size={24} className="text-[#00FF94]" />
+                  <Receipt size={24} className="text-[#8E8E8E]" />
                 </div>
 
                 {/* Main Content */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-3 mb-1">
-                    <h3 className="text-white font-semibold">{invoice.invoice_number}</h3>
+                    <h3 className="text-[#F2F2F2] font-semibold">{invoice.invoice_number}</h3>
                     <span
                       className="px-2.5 py-1 rounded-lg text-xs font-semibold"
                       style={{ background: status.bg, color: status.color }}
@@ -248,7 +248,7 @@ export default function InvoicesPage() {
                       {status.label}
                     </span>
                   </div>
-                  <div className="flex items-center gap-4 text-sm text-gray-400">
+                  <div className="flex items-center gap-4 text-sm text-[#8E8E8E]">
                     <span>{clientName}</span>
                     <span className="flex items-center gap-1">
                       <Calendar size={14} />
@@ -264,7 +264,7 @@ export default function InvoicesPage() {
 
                 {/* Amount */}
                 <div className="text-right flex-shrink-0">
-                  <div className="text-xl font-bold text-white">€{Number(invoice.amount).toLocaleString()}</div>
+                  <div className="text-xl font-bold text-[#F2F2F2]">€{Number(invoice.amount).toLocaleString()}</div>
                 </div>
 
                 {/* Download Button */}
@@ -274,7 +274,7 @@ export default function InvoicesPage() {
                     e.stopPropagation();
                     handleDownload(invoice);
                   }}
-                  className="w-10 h-10 rounded-lg bg-[#2A2A2A] text-gray-400 flex items-center justify-center hover:bg-[#00FF94] hover:text-black transition-all flex-shrink-0"
+                  className="w-10 h-10 rounded-lg bg-white/[0.06] text-[#8E8E8E] flex items-center justify-center hover:bg-white/[0.1] hover:text-[#F2F2F2] transition-all flex-shrink-0"
                 >
                   <Download size={18} />
                 </button>

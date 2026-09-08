@@ -199,7 +199,7 @@ export default function ClientDetailPage() {
   if (!client) {
     return (
       <div className="text-center py-20">
-        <h2 className="text-2xl font-bold mb-4">Client not found</h2>
+        <h2 className="text-2xl font-medium mb-4">Client not found</h2>
         <Link href="/crm/clients" className="text-[#00FF94] hover:underline">
           ← Back to Clients
         </Link>
@@ -212,7 +212,7 @@ export default function ClientDetailPage() {
       {/* Breadcrumb */}
       <Link 
         href="/crm/clients" 
-        className="inline-flex items-center gap-2 text-gray-400 hover:text-[#00FF94] mb-6 transition-colors"
+        className="inline-flex items-center gap-2 text-[#8E8E8E] hover:text-[#F2F2F2] mb-6 transition-colors"
       >
         <ArrowLeft size={16} />
         Back to Clients
@@ -221,14 +221,14 @@ export default function ClientDetailPage() {
       {/* Header */}
       <div className="flex flex-col lg:flex-row justify-between items-start gap-6 mb-8">
         <div className="flex-1">
-          <h1 className="text-4xl font-black text-white mb-3">{client.name}</h1>
+          <h1 className="text-4xl font-medium text-[#F2F2F2] mb-3">{client.name}</h1>
           {client.company && (
             <div className="flex items-center gap-2 text-[#00FF94] font-bold text-lg mb-4">
               <Building2 size={20} />
               {client.company}
             </div>
           )}
-          <div className="flex flex-wrap gap-3 text-gray-400">
+          <div className="flex flex-wrap gap-3 text-[#8E8E8E]">
             {client.email && (
               <span className="inline-flex items-center gap-1.5">
                 <Mail size={16} className="text-[#00FF94]" />
@@ -250,7 +250,7 @@ export default function ClientDetailPage() {
           </div>
         </div>
         <span className={`px-4 py-2 rounded-full text-sm font-bold ${
-          client.status === 'active' ? 'bg-[#00FF94] text-black' : 'bg-slate-500 text-white'
+          client.status === 'active' ? 'bg-[#F2F2F2] text-[#080808]' : 'bg-slate-500 text-[#F2F2F2]'
         }`}>
           {client.status}
         </span>
@@ -262,21 +262,21 @@ export default function ClientDetailPage() {
           <>
             <button
               onClick={() => setEditing(true)}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 hover:-translate-y-0.5 transition-all"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#F2F2F2] text-[#080808] rounded-full font-medium hover:-translate-y-0.5 transition-all"
             >
               <Edit size={18} />
               Edit
             </button>
             <Link
               href={`/quote-maker?client=${client.id}`}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#2A2A2A] text-white rounded-xl font-bold hover:bg-[#3A3A3A] transition-all"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/[0.06] text-[#F2F2F2] rounded-xl font-bold hover:bg-white/[0.1] transition-all"
             >
               <FileText size={18} />
               Create Quote
             </Link>
             <button
               onClick={handleDelete}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-red-500 text-white rounded-xl font-bold hover:bg-red-600 transition-all"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-red-500 text-[#F2F2F2] rounded-xl font-bold hover:bg-red-600 transition-all"
             >
               <Trash2 size={18} />
               Delete
@@ -287,23 +287,23 @@ export default function ClientDetailPage() {
 
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
-        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 text-center">
-          <div className="text-xs text-gray-500 uppercase tracking-wider mb-3">Lifetime Value</div>
-          <div className="text-3xl font-black text-[#00FF94]">
+        <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6 text-center">
+          <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-3">Lifetime Value</div>
+          <div className="text-3xl font-medium text-[#F2F2F2]">
             €{(client.lifetime_value || 0).toLocaleString()}
           </div>
         </div>
-        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 text-center">
-          <div className="text-xs text-gray-500 uppercase tracking-wider mb-3">Total Projects</div>
-          <div className="text-3xl font-black text-[#00FF94]">{projects.length}</div>
+        <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6 text-center">
+          <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-3">Total Projects</div>
+          <div className="text-3xl font-medium text-[#F2F2F2]">{projects.length}</div>
         </div>
-        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 text-center">
-          <div className="text-xs text-gray-500 uppercase tracking-wider mb-3">Quotes</div>
-          <div className="text-3xl font-black text-[#00FF94]">{quotes.length}</div>
+        <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6 text-center">
+          <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-3">Quotes</div>
+          <div className="text-3xl font-medium text-[#F2F2F2]">{quotes.length}</div>
         </div>
-        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 text-center">
-          <div className="text-xs text-gray-500 uppercase tracking-wider mb-3">Client Since</div>
-          <div className="text-lg font-black text-[#00FF94]">
+        <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6 text-center">
+          <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-3">Client Since</div>
+          <div className="text-lg font-medium text-[#F2F2F2]">
             {new Date(client.created_at).toLocaleDateString('en-US', {
               month: 'short',
               year: 'numeric'
@@ -315,90 +315,90 @@ export default function ClientDetailPage() {
       {/* Content */}
       {editing ? (
         <form onSubmit={handleUpdate}>
-          <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-8">
-            <h3 className="text-2xl font-bold mb-6 pb-4 border-b border-[#2A2A2A]">
+          <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-8">
+            <h3 className="text-2xl font-medium mb-6 pb-4 border-b border-white/[0.07]">
               Edit Client
             </h3>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">Name *</label>
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">Name *</label>
                 <input
                   type="text"
                   value={formData.name || ''}
                   onChange={(e) => setFormData({...formData, name: e.target.value})}
                   required
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">Email *</label>
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">Email *</label>
                 <input
                   type="email"
                   value={formData.email || ''}
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
                   required
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">Phone</label>
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">Phone</label>
                 <input
                   type="tel"
                   value={formData.phone || ''}
                   onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">Company</label>
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">Company</label>
                 <input
                   type="text"
                   value={formData.company || ''}
                   onChange={(e) => setFormData({...formData, company: e.target.value})}
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">Website</label>
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">Website</label>
                 <input
                   type="url"
                   value={formData.website || ''}
                   onChange={(e) => setFormData({...formData, website: e.target.value})}
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">Industry</label>
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">Industry</label>
                 <input
                   type="text"
                   value={formData.industry || ''}
                   onChange={(e) => setFormData({...formData, industry: e.target.value})}
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">City</label>
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">City</label>
                 <input
                   type="text"
                   value={formData.city || ''}
                   onChange={(e) => setFormData({...formData, city: e.target.value})}
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">Status</label>
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">Status</label>
                 <select
                   value={formData.status || 'active'}
                   onChange={(e) => setFormData({...formData, status: e.target.value})}
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 >
                   <option value="active">Active</option>
                   <option value="inactive">Inactive</option>
@@ -408,70 +408,70 @@ export default function ClientDetailPage() {
             </div>
 
             <div className="mb-6">
-              <label className="block text-sm font-semibold text-gray-400 mb-2">Notes</label>
+              <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">Notes</label>
               <textarea
                 value={formData.notes || ''}
                 onChange={(e) => setFormData({...formData, notes: e.target.value})}
                 rows={4}
-                className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors resize-none"
+                className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors resize-none"
               />
             </div>
 
             {/* Social Media Section */}
-            <div className="mb-6 pt-6 border-t border-[#2A2A2A]">
-              <h4 className="text-lg font-bold text-white mb-4">Social Media</h4>
+            <div className="mb-6 pt-6 border-t border-white/[0.07]">
+              <h4 className="text-lg font-bold text-[#F2F2F2] mb-4">Social Media</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-400 mb-2">Instagram Handle</label>
+                  <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">Instagram Handle</label>
                   <input
                     type="text"
                     value={formData.instagram_handle || ''}
                     onChange={(e) => setFormData({...formData, instagram_handle: e.target.value})}
                     placeholder="company (without @)"
-                    className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-400 mb-2">Facebook Page</label>
+                  <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">Facebook Page</label>
                   <input
                     type="text"
                     value={formData.facebook_page_name || ''}
                     onChange={(e) => setFormData({...formData, facebook_page_name: e.target.value})}
                     placeholder="Company Name"
-                    className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-400 mb-2">LinkedIn Page</label>
+                  <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">LinkedIn Page</label>
                   <input
                     type="text"
                     value={formData.linkedin_page_name || ''}
                     onChange={(e) => setFormData({...formData, linkedin_page_name: e.target.value})}
                     placeholder="Company Name"
-                    className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-400 mb-2">TikTok Handle</label>
+                  <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">TikTok Handle</label>
                   <input
                     type="text"
                     value={formData.tiktok_handle || ''}
                     onChange={(e) => setFormData({...formData, tiktok_handle: e.target.value})}
                     placeholder="company (without @)"
-                    className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                   />
                 </div>
               </div>
             </div>
 
-            <div className="flex gap-3 pt-6 border-t border-[#2A2A2A]">
+            <div className="flex gap-3 pt-6 border-t border-white/[0.07]">
               <button
                 type="submit"
                 disabled={saving}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-[#F2F2F2] text-[#080808] rounded-full font-medium hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Save size={18} />
                 {saving ? 'Saving...' : 'Save Changes'}
@@ -482,7 +482,7 @@ export default function ClientDetailPage() {
                   setEditing(false);
                   setFormData(client);
                 }}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-[#2A2A2A] text-white rounded-xl font-bold hover:bg-[#3A3A3A] transition-all"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-white/[0.06] text-[#F2F2F2] rounded-xl font-bold hover:bg-white/[0.1] transition-all"
               >
                 <X size={18} />
                 Cancel
@@ -493,14 +493,14 @@ export default function ClientDetailPage() {
       ) : (
         <div className="space-y-6">
           {/* Client Info */}
-          <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-8">
-            <h3 className="text-2xl font-bold mb-6 pb-4 border-b border-[#2A2A2A]">
+          <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-8">
+            <h3 className="text-2xl font-medium mb-6 pb-4 border-b border-white/[0.07]">
               Client Information
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
               {client.website && (
-                <div className="bg-[#0a0a0a] rounded-xl p-5">
-                  <div className="text-xs text-gray-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                <div className="bg-[#080808] rounded-xl p-5">
+                  <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-2 flex items-center gap-1.5">
                     <Globe size={12} />
                     Website
                   </div>
@@ -516,8 +516,8 @@ export default function ClientDetailPage() {
                 </div>
               )}
               {client.industry && (
-                <div className="bg-[#0a0a0a] rounded-xl p-5">
-                  <div className="text-xs text-gray-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                <div className="bg-[#080808] rounded-xl p-5">
+                  <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-2 flex items-center gap-1.5">
                     <Briefcase size={12} />
                     Industry
                   </div>
@@ -525,14 +525,14 @@ export default function ClientDetailPage() {
                 </div>
               )}
               {client.company_size && (
-                <div className="bg-[#0a0a0a] rounded-xl p-5">
-                  <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">Company Size</div>
+                <div className="bg-[#080808] rounded-xl p-5">
+                  <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-2">Company Size</div>
                   <div className="text-sm font-bold text-[#00FF94]">{client.company_size}</div>
                 </div>
               )}
               {client.address && (
-                <div className="bg-[#0a0a0a] rounded-xl p-5">
-                  <div className="text-xs text-gray-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                <div className="bg-[#080808] rounded-xl p-5">
+                  <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-2 flex items-center gap-1.5">
                     <MapPin size={12} />
                     Address
                   </div>
@@ -543,31 +543,31 @@ export default function ClientDetailPage() {
           </div>
 
           {/* Projects */}
-          <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-8">
-            <div className="flex justify-between items-center mb-6 pb-4 border-b border-[#2A2A2A]">
-              <h3 className="text-2xl font-bold">Projects ({projects.length})</h3>
+          <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-8">
+            <div className="flex justify-between items-center mb-6 pb-4 border-b border-white/[0.07]">
+              <h3 className="text-2xl font-medium">Projects ({projects.length})</h3>
               <Link
                 href="/crm/projects/new"
-                className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#00FF94] text-black rounded-lg text-sm font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 transition-all"
+                className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#F2F2F2] text-[#080808] rounded-full text-sm font-medium transition-all"
               >
                 <Plus size={16} />
                 New
               </Link>
             </div>
             {projects.length === 0 ? (
-              <p className="text-center text-gray-500 py-12 italic">No projects yet</p>
+              <p className="text-center text-[#6E6E6E] py-12 italic">No projects yet</p>
             ) : (
               <div className="space-y-3">
                 {projects.map(project => (
                   <Link
                     key={project.id}
                     href={`/crm/projects/${project.id}`}
-                    className="block bg-[#0a0a0a] border border-[#222] rounded-xl p-5 hover:border-[#00FF94] transition-all"
+                    className="block bg-[#080808] border border-white/[0.07] rounded-xl p-5 hover:border-[#00FF94] transition-all"
                   >
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
-                        <div className="font-semibold text-white mb-2">{project.name}</div>
-                        <div className="flex items-center gap-3 text-sm text-gray-400">
+                        <div className="font-semibold text-[#F2F2F2] mb-2">{project.name}</div>
+                        <div className="flex items-center gap-3 text-sm text-[#8E8E8E]">
                           <span className="inline-flex items-center gap-1">
                             <DollarSign size={14} className="text-[#00FF94]" />
                             €{project.total_value.toLocaleString()}
@@ -584,12 +584,12 @@ export default function ClientDetailPage() {
           </div>
 
           {/* Quotes */}
-          <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-8">
-            <h3 className="text-2xl font-bold mb-6 pb-4 border-b border-[#2A2A2A]">
+          <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-8">
+            <h3 className="text-2xl font-medium mb-6 pb-4 border-b border-white/[0.07]">
               Quotes ({quotes.length})
             </h3>
             {quotes.length === 0 ? (
-              <p className="text-center text-gray-500 py-12 italic">No quotes yet</p>
+              <p className="text-center text-[#6E6E6E] py-12 italic">No quotes yet</p>
             ) : (
               <div className="space-y-3">
                 {quotes.map(quote => (
@@ -597,12 +597,12 @@ export default function ClientDetailPage() {
                     key={quote.id}
                     href={`/ponuda/${quote.id}`}
                     target="_blank"
-                    className="block bg-[#0a0a0a] border border-[#222] rounded-xl p-5 hover:border-[#00FF94] transition-all"
+                    className="block bg-[#080808] border border-white/[0.07] rounded-xl p-5 hover:border-[#00FF94] transition-all"
                   >
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
-                        <div className="font-semibold text-white mb-2">Quote {quote.id}</div>
-                        <div className="flex items-center gap-3 text-sm text-gray-400">
+                        <div className="font-semibold text-[#F2F2F2] mb-2">Quote {quote.id}</div>
+                        <div className="flex items-center gap-3 text-sm text-[#8E8E8E]">
                           <span className="inline-flex items-center gap-1">
                             <DollarSign size={14} className="text-[#00FF94]" />
                             €{quote.pricing.total.toLocaleString()}
@@ -610,7 +610,7 @@ export default function ClientDetailPage() {
                           <span>• {quote.status}</span>
                         </div>
                       </div>
-                      <div className="text-gray-500 text-xs flex items-center gap-1">
+                      <div className="text-[#6E6E6E] text-xs flex items-center gap-1">
                         <Calendar size={12} />
                         {new Date(quote.created_at).toLocaleDateString()}
                       </div>
@@ -623,19 +623,19 @@ export default function ClientDetailPage() {
 
           {/* Notes */}
           {client.notes && (
-            <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-8">
-              <h3 className="text-2xl font-bold mb-6 pb-4 border-b border-[#2A2A2A]">Notes</h3>
-              <p className="text-gray-400 leading-relaxed whitespace-pre-wrap">
+            <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-8">
+              <h3 className="text-2xl font-medium mb-6 pb-4 border-b border-white/[0.07]">Notes</h3>
+              <p className="text-[#8E8E8E] leading-relaxed whitespace-pre-wrap">
                 {client.notes}
               </p>
             </div>
           )}
 
           {/* Portal Access */}
-          <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-8">
-            <div className="flex justify-between items-center mb-6 pb-4 border-b border-[#2A2A2A]">
-              <h3 className="text-2xl font-bold flex items-center gap-3">
-                <Users size={24} className="text-[#00FF94]" />
+          <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-8">
+            <div className="flex justify-between items-center mb-6 pb-4 border-b border-white/[0.07]">
+              <h3 className="text-2xl font-medium flex items-center gap-3">
+                <Users size={24} className="text-[#8E8E8E]" />
                 Portal Access
               </h3>
               <button
@@ -644,7 +644,7 @@ export default function ClientDetailPage() {
                   setPortalUserForm({ name: '', email: client.email || '', role: 'viewer' });
                   setNewUserPassword('');
                 }}
-                className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#00FF94] text-black rounded-lg text-sm font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 transition-all"
+                className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#F2F2F2] text-[#080808] rounded-full text-sm font-medium transition-all"
               >
                 <Plus size={16} />
                 Add User
@@ -658,12 +658,12 @@ export default function ClientDetailPage() {
                   Nova lozinka (spremite je sada - neće se više prikazati):
                 </div>
                 <div className="flex items-center gap-3">
-                  <code className="flex-1 px-4 py-2 bg-[#0a0a0a] rounded-lg text-white font-mono">
+                  <code className="flex-1 px-4 py-2 bg-[#080808] rounded-lg text-[#F2F2F2] font-mono">
                     {newUserPassword}
                   </code>
                   <button
                     onClick={copyPassword}
-                    className="px-4 py-2 bg-[#2A2A2A] text-white rounded-lg hover:bg-[#3A3A3A] transition-colors flex items-center gap-2"
+                    className="px-4 py-2 bg-white/[0.06] text-[#F2F2F2] rounded-lg hover:bg-white/[0.1] transition-colors flex items-center gap-2"
                   >
                     {copiedPassword ? <Check size={16} /> : <Copy size={16} />}
                     {copiedPassword ? 'Copied!' : 'Copy'}
@@ -674,36 +674,36 @@ export default function ClientDetailPage() {
 
             {/* Add User Form */}
             {showAddPortalUser && (
-              <form onSubmit={handleCreatePortalUser} className="mb-6 p-4 bg-[#0a0a0a] rounded-xl border border-[#2A2A2A]">
+              <form onSubmit={handleCreatePortalUser} className="mb-6 p-4 bg-[#080808] rounded-xl border border-white/[0.07]">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                   <div>
-                    <label className="block text-sm font-semibold text-gray-400 mb-2">Ime *</label>
+                    <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">Ime *</label>
                     <input
                       type="text"
                       value={portalUserForm.name}
                       onChange={(e) => setPortalUserForm({ ...portalUserForm, name: e.target.value })}
                       required
                       placeholder="Ivan Horvat"
-                      className="w-full px-4 py-2 bg-[#1a1a1a] border border-[#2A2A2A] rounded-lg text-white focus:border-[#00FF94] focus:outline-none"
+                      className="w-full px-4 py-2 bg-[#0F0F0F] border border-white/[0.07] rounded-lg text-[#F2F2F2] focus:border-white/25 focus:outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold text-gray-400 mb-2">Email *</label>
+                    <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">Email *</label>
                     <input
                       type="email"
                       value={portalUserForm.email}
                       onChange={(e) => setPortalUserForm({ ...portalUserForm, email: e.target.value })}
                       required
                       placeholder="ivan@firma.hr"
-                      className="w-full px-4 py-2 bg-[#1a1a1a] border border-[#2A2A2A] rounded-lg text-white focus:border-[#00FF94] focus:outline-none"
+                      className="w-full px-4 py-2 bg-[#0F0F0F] border border-white/[0.07] rounded-lg text-[#F2F2F2] focus:border-white/25 focus:outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold text-gray-400 mb-2">Uloga</label>
+                    <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">Uloga</label>
                     <select
                       value={portalUserForm.role}
                       onChange={(e) => setPortalUserForm({ ...portalUserForm, role: e.target.value })}
-                      className="w-full px-4 py-2 bg-[#1a1a1a] border border-[#2A2A2A] rounded-lg text-white focus:border-[#00FF94] focus:outline-none"
+                      className="w-full px-4 py-2 bg-[#0F0F0F] border border-white/[0.07] rounded-lg text-[#F2F2F2] focus:border-white/25 focus:outline-none"
                     >
                       <option value="viewer">Viewer</option>
                       <option value="admin">Admin</option>
@@ -714,7 +714,7 @@ export default function ClientDetailPage() {
                   <button
                     type="submit"
                     disabled={creatingPortalUser}
-                    className="px-4 py-2 bg-[#00FF94] text-black rounded-lg font-bold hover:shadow-lg transition-all disabled:opacity-50 flex items-center gap-2"
+                    className="px-4 py-2 bg-[#F2F2F2] text-[#080808] rounded-full font-medium hover:shadow-lg transition-all disabled:opacity-50 flex items-center gap-2"
                   >
                     {creatingPortalUser ? <Loader2 size={16} className="animate-spin" /> : <Plus size={16} />}
                     {creatingPortalUser ? 'Creating...' : 'Create User'}
@@ -722,7 +722,7 @@ export default function ClientDetailPage() {
                   <button
                     type="button"
                     onClick={() => setShowAddPortalUser(false)}
-                    className="px-4 py-2 bg-[#2A2A2A] text-white rounded-lg hover:bg-[#3A3A3A] transition-all"
+                    className="px-4 py-2 bg-white/[0.06] text-[#F2F2F2] rounded-lg hover:bg-white/[0.1] transition-all"
                   >
                     Cancel
                   </button>
@@ -732,7 +732,7 @@ export default function ClientDetailPage() {
 
             {/* Users List */}
             {portalUsers.length === 0 ? (
-              <p className="text-center text-gray-500 py-12 italic">
+              <p className="text-center text-[#6E6E6E] py-12 italic">
                 No portal users yet. Add a user to give them access to the client portal.
               </p>
             ) : (
@@ -740,15 +740,15 @@ export default function ClientDetailPage() {
                 {portalUsers.map((user) => (
                   <div
                     key={user.id}
-                    className="flex items-center justify-between p-4 bg-[#0a0a0a] border border-[#222] rounded-xl"
+                    className="flex items-center justify-between p-4 bg-[#080808] border border-white/[0.07] rounded-xl"
                   >
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-full bg-[#00FF94] flex items-center justify-center text-black font-bold">
+                      <div className="w-10 h-10 rounded-full border border-white/[0.14] flex items-center justify-center text-[#F2F2F2] font-medium">
                         {user.name?.charAt(0)?.toUpperCase() || 'U'}
                       </div>
                       <div>
-                        <div className="font-semibold text-white">{user.name}</div>
-                        <div className="text-sm text-gray-400 flex items-center gap-2">
+                        <div className="font-semibold text-[#F2F2F2]">{user.name}</div>
+                        <div className="text-sm text-[#8E8E8E] flex items-center gap-2">
                           <Mail size={12} />
                           {user.email}
                         </div>
@@ -761,20 +761,20 @@ export default function ClientDetailPage() {
                         {user.role}
                       </span>
                       {user.last_login_at && (
-                        <span className="text-xs text-gray-500">
+                        <span className="text-xs text-[#6E6E6E]">
                           Last login: {new Date(user.last_login_at).toLocaleDateString()}
                         </span>
                       )}
                       <button
                         onClick={() => handleResetPassword(user.id)}
-                        className="p-2 text-gray-400 hover:text-[#00FF94] hover:bg-[#00FF94]/10 rounded-lg transition-colors"
+                        className="p-2 text-[#8E8E8E] hover:text-[#F2F2F2] hover:bg-[#00FF94]/10 rounded-lg transition-colors"
                         title="Reset Password"
                       >
                         <Key size={16} />
                       </button>
                       <button
                         onClick={() => handleDeletePortalUser(user.id)}
-                        className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-colors"
+                        className="p-2 text-[#8E8E8E] hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-colors"
                         title="Delete User"
                       >
                         <Trash2 size={16} />
@@ -786,9 +786,9 @@ export default function ClientDetailPage() {
             )}
 
             {/* Portal Link */}
-            <div className="mt-6 pt-6 border-t border-[#2A2A2A]">
+            <div className="mt-6 pt-6 border-t border-white/[0.07]">
               <div className="flex items-center justify-between">
-                <div className="text-sm text-gray-400">
+                <div className="text-sm text-[#8E8E8E]">
                   Client Portal URL:
                 </div>
                 <a

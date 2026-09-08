@@ -213,7 +213,7 @@ export default function TodosPage() {
       case 'urgent': return <AlertCircle size={14} className="text-red-400" />;
       case 'high': return <ArrowUp size={14} className="text-orange-400" />;
       case 'normal': return <Minus size={14} className="text-blue-400" />;
-      case 'low': return <ArrowDown size={14} className="text-gray-400" />;
+      case 'low': return <ArrowDown size={14} className="text-[#8E8E8E]" />;
       default: return null;
     }
   };
@@ -223,8 +223,8 @@ export default function TodosPage() {
       case 'urgent': return 'text-red-400 bg-red-400/10 border-red-400/20';
       case 'high': return 'text-orange-400 bg-orange-400/10 border-orange-400/20';
       case 'normal': return 'text-blue-400 bg-blue-400/10 border-blue-400/20';
-      case 'low': return 'text-gray-400 bg-gray-400/10 border-gray-400/20';
-      default: return 'text-gray-400 bg-gray-400/10 border-gray-400/20';
+      case 'low': return 'text-[#8E8E8E] bg-gray-400/10 border-white/[0.25]/20';
+      default: return 'text-[#8E8E8E] bg-gray-400/10 border-white/[0.25]/20';
     }
   };
 
@@ -268,10 +268,10 @@ export default function TodosPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
         <div>
-          <h1 className="text-4xl font-black bg-gradient-to-r from-[#00FF94] to-[#00CC76] bg-clip-text text-transparent mb-2">
+          <h1 className="text-4xl font-medium text-[#F2F2F2] mb-2">
             Todos
           </h1>
-          <p className="text-gray-400">
+          <p className="text-[#8E8E8E]">
             {userFilter === 'all' ? 'Svi todosi' : `${userFilter.charAt(0).toUpperCase() + userFilter.slice(1)}'s todos`}
             {' · '}
             {statusFilter === 'completed'
@@ -281,7 +281,7 @@ export default function TodosPage() {
         </div>
         <button
           onClick={() => setShowNewTodo(true)}
-          className="inline-flex items-center gap-2 px-6 py-3 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 hover:-translate-y-0.5 transition-all"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-[#F2F2F2] text-[#080808] rounded-full font-medium hover:-translate-y-0.5 transition-all"
         >
           <Plus size={20} />
           Add Todo
@@ -303,7 +303,7 @@ export default function TodosPage() {
               className={`px-4 py-2 rounded-lg border-2 font-semibold transition-all ${
                 userFilter === btn.value
                   ? 'bg-white text-black border-white'
-                  : 'bg-[#1a1a1a] text-gray-400 border-[#2A2A2A] hover:border-white hover:text-white'
+                  : 'bg-[#0F0F0F] text-[#8E8E8E] border-white/[0.07] hover:border-white hover:text-[#F2F2F2]'
               }`}
             >
               {btn.label}
@@ -311,7 +311,7 @@ export default function TodosPage() {
           ))}
         </div>
 
-        <div className="h-8 w-px bg-[#2A2A2A] hidden sm:block" />
+        <div className="h-8 w-px bg-white/[0.06] hidden sm:block" />
 
         {/* Status Filter */}
         <div className="flex gap-2">
@@ -325,8 +325,8 @@ export default function TodosPage() {
               onClick={() => setStatusFilter(btn.value)}
               className={`px-4 py-2 rounded-lg border-2 font-semibold transition-all ${
                 statusFilter === btn.value
-                  ? 'bg-[#00FF94] text-black border-[#00FF94]'
-                  : 'bg-[#1a1a1a] text-gray-400 border-[#2A2A2A] hover:border-[#00FF94] hover:text-[#00FF94]'
+                  ? 'bg-[#F2F2F2] text-[#080808] border-[#00FF94]'
+                  : 'bg-[#0F0F0F] text-[#8E8E8E] border-white/[0.07] hover:border-[#00FF94] hover:text-[#F2F2F2]'
               }`}
             >
               {btn.label}
@@ -334,15 +334,15 @@ export default function TodosPage() {
           ))}
         </div>
 
-        <div className="h-8 w-px bg-[#2A2A2A] hidden sm:block" />
+        <div className="h-8 w-px bg-white/[0.06] hidden sm:block" />
 
         <div className="flex gap-2">
           <button
             onClick={() => setPriorityFilter('all')}
             className={`inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border-2 font-semibold transition-all ${
               priorityFilter === 'all'
-                ? 'bg-[#2A2A2A] text-white border-[#3A3A3A]'
-                : 'bg-[#1a1a1a] text-gray-500 border-[#2A2A2A] hover:text-white'
+                ? 'bg-white/[0.06] text-[#F2F2F2] border-white/[0.14]'
+                : 'bg-[#0F0F0F] text-[#6E6E6E] border-white/[0.07] hover:text-[#F2F2F2]'
             }`}
           >
             <Filter size={14} />
@@ -355,7 +355,7 @@ export default function TodosPage() {
               className={`inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border-2 font-semibold capitalize transition-all ${
                 priorityFilter === p
                   ? getPriorityColor(p) + ' border-current'
-                  : 'bg-[#1a1a1a] text-gray-500 border-[#2A2A2A] hover:text-white'
+                  : 'bg-[#0F0F0F] text-[#6E6E6E] border-white/[0.07] hover:text-[#F2F2F2]'
               }`}
             >
               {getPriorityIcon(p)}
@@ -367,7 +367,7 @@ export default function TodosPage() {
 
       {/* New Todo Form */}
       {showNewTodo && (
-        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 mb-6">
+        <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6 mb-6">
           <form onSubmit={handleAddTodo}>
             <div className="flex items-start gap-4 mb-4">
               <div className="flex-1">
@@ -376,14 +376,14 @@ export default function TodosPage() {
                   value={newTodo.title}
                   onChange={(e) => setNewTodo({ ...newTodo, title: e.target.value })}
                   placeholder="What needs to be done?"
-                  className="w-full px-4 py-3 bg-[#0f0f0f] border border-[#2A2A2A] rounded-xl text-white placeholder-gray-500 focus:border-[#00FF94] focus:outline-none text-lg"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] placeholder-[#5C5C5C] focus:border-white/25 focus:outline-none text-lg"
                   autoFocus
                 />
               </div>
               <button
                 type="button"
                 onClick={() => setShowNewTodo(false)}
-                className="p-3 text-gray-500 hover:text-white transition-colors"
+                className="p-3 text-[#6E6E6E] hover:text-[#F2F2F2] transition-colors"
               >
                 <X size={20} />
               </button>
@@ -394,24 +394,24 @@ export default function TodosPage() {
               onChange={(e) => setNewTodo({ ...newTodo, description: e.target.value })}
               placeholder="Add description (optional)"
               rows={2}
-              className="w-full px-4 py-3 bg-[#0f0f0f] border border-[#2A2A2A] rounded-xl text-white placeholder-gray-500 focus:border-[#00FF94] focus:outline-none mb-4 resize-none"
+              className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] placeholder-[#5C5C5C] focus:border-white/25 focus:outline-none mb-4 resize-none"
             />
 
             <div className="flex flex-wrap gap-4 items-center">
               <div className="flex items-center gap-2">
-                <Calendar size={16} className="text-gray-500" />
+                <Calendar size={16} className="text-[#6E6E6E]" />
                 <input
                   type="date"
                   value={newTodo.due_date}
                   onChange={(e) => setNewTodo({ ...newTodo, due_date: e.target.value })}
-                  className="px-3 py-2 bg-[#0f0f0f] border border-[#2A2A2A] rounded-lg text-white focus:border-[#00FF94] focus:outline-none"
+                  className="px-3 py-2 bg-[#080808] border border-white/[0.07] rounded-lg text-[#F2F2F2] focus:border-white/25 focus:outline-none"
                 />
               </div>
 
               <select
                 value={newTodo.priority}
                 onChange={(e) => setNewTodo({ ...newTodo, priority: e.target.value })}
-                className="px-3 py-2 bg-[#0f0f0f] border border-[#2A2A2A] rounded-lg text-white focus:border-[#00FF94] focus:outline-none"
+                className="px-3 py-2 bg-[#080808] border border-white/[0.07] rounded-lg text-[#F2F2F2] focus:border-white/25 focus:outline-none"
               >
                 <option value="low">Low Priority</option>
                 <option value="normal">Normal Priority</option>
@@ -422,7 +422,7 @@ export default function TodosPage() {
               <select
                 value={newTodo.assigned_to}
                 onChange={(e) => setNewTodo({ ...newTodo, assigned_to: e.target.value })}
-                className="px-3 py-2 bg-[#0f0f0f] border border-[#2A2A2A] rounded-lg text-white focus:border-[#00FF94] focus:outline-none"
+                className="px-3 py-2 bg-[#080808] border border-white/[0.07] rounded-lg text-[#F2F2F2] focus:border-white/25 focus:outline-none"
               >
                 <option value="bruno">→ Bruno</option>
                 <option value="petar">→ Petar</option>
@@ -432,7 +432,7 @@ export default function TodosPage() {
 
               <button
                 type="submit"
-                className="px-6 py-2.5 bg-[#00FF94] text-black font-bold rounded-xl hover:bg-[#00CC76] transition-colors"
+                className="px-6 py-2.5 bg-[#F2F2F2] text-[#080808] font-bold rounded-xl hover:bg-white transition-colors"
               >
                 Add Todo
               </button>
@@ -447,14 +447,14 @@ export default function TodosPage() {
           <div className="text-2xl text-[#00FF94]">Loading todos...</div>
         </div>
       ) : todos.length === 0 ? (
-        <div className="bg-[#1a1a1a] border-2 border-dashed border-[#2A2A2A] rounded-2xl p-20 text-center">
+        <div className="bg-[#0F0F0F] border-2 border-dashed border-white/[0.07] rounded-2xl p-20 text-center">
           <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-[#00FF94]/10 flex items-center justify-center">
             <CheckCircle size={40} className="text-[#00FF94]" />
           </div>
-          <h2 className="text-2xl font-bold mb-3">
+          <h2 className="text-2xl font-medium mb-3">
             {statusFilter === 'completed' ? 'No completed todos' : 'All caught up!'}
           </h2>
-          <p className="text-gray-400 text-lg mb-8">
+          <p className="text-[#8E8E8E] text-lg mb-8">
             {statusFilter === 'completed'
               ? 'Complete some tasks to see them here.'
               : 'Add a todo to get started.'}
@@ -462,7 +462,7 @@ export default function TodosPage() {
           {statusFilter !== 'completed' && (
             <button
               onClick={() => setShowNewTodo(true)}
-              className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 hover:-translate-y-0.5 transition-all"
+              className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#F2F2F2] text-[#080808] rounded-full font-medium hover:-translate-y-0.5 transition-all"
             >
               <Plus size={20} />
               Add First Todo
@@ -478,7 +478,7 @@ export default function TodosPage() {
             return (
               <div
                 key={todo.id}
-                className={`group bg-[#1a1a1a] border border-[#2A2A2A] rounded-xl p-4 hover:border-[#3A3A3A] transition-all ${
+                className={`group bg-[#0F0F0F] border border-white/[0.07] rounded-xl p-4 hover:border-white/[0.14] transition-all ${
                   todo.status === 'completed' ? 'opacity-60' : ''
                 }`}
               >
@@ -489,7 +489,7 @@ export default function TodosPage() {
                     className={`mt-0.5 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all flex-shrink-0 ${
                       todo.status === 'completed'
                         ? 'bg-[#00FF94] border-[#00FF94]'
-                        : 'border-gray-600 hover:border-[#00FF94] hover:bg-[#00FF94]/10'
+                        : 'border-white/[0.2] hover:border-[#00FF94] hover:bg-[#00FF94]/10'
                     }`}
                   >
                     {todo.status === 'completed' && (
@@ -501,13 +501,13 @@ export default function TodosPage() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex-1 min-w-0">
-                        <h3 className={`font-semibold text-white mb-1 ${
-                          todo.status === 'completed' ? 'line-through text-gray-500' : ''
+                        <h3 className={`font-semibold text-[#F2F2F2] mb-1 ${
+                          todo.status === 'completed' ? 'line-through text-[#6E6E6E]' : ''
                         }`}>
                           {todo.title}
                         </h3>
                         {todo.description && (
-                          <p className="text-sm text-gray-500 line-clamp-2">{todo.description}</p>
+                          <p className="text-sm text-[#6E6E6E] line-clamp-2">{todo.description}</p>
                         )}
                       </div>
 
@@ -522,7 +522,7 @@ export default function TodosPage() {
                     <div className="flex items-center gap-4 mt-3">
                       {dateInfo && (
                         <span className={`inline-flex items-center gap-1.5 text-xs ${
-                          typeof dateInfo === 'object' && dateInfo.isPast ? 'text-red-400' : 'text-gray-500'
+                          typeof dateInfo === 'object' && dateInfo.isPast ? 'text-red-400' : 'text-[#6E6E6E]'
                         }`}>
                           <Clock size={12} />
                           {typeof dateInfo === 'string' ? dateInfo : dateInfo.text}
@@ -532,7 +532,7 @@ export default function TodosPage() {
                       {relatedLink && (
                         <Link
                           href={relatedLink.href}
-                          className="inline-flex items-center gap-1.5 text-xs text-gray-500 hover:text-[#00FF94] transition-colors"
+                          className="inline-flex items-center gap-1.5 text-xs text-[#6E6E6E] hover:text-[#F2F2F2] transition-colors"
                         >
                           <relatedLink.Icon size={12} />
                           <span className="capitalize">{relatedLink.type}</span>
@@ -563,14 +563,14 @@ export default function TodosPage() {
                       <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                         <button
                           onClick={() => openEditModal(todo)}
-                          className="p-2 text-gray-500 hover:text-white hover:bg-[#2A2A2A] rounded-lg transition-colors"
+                          className="p-2 text-[#6E6E6E] hover:text-[#F2F2F2] hover:bg-white/[0.06] rounded-lg transition-colors"
                           title="Edit"
                         >
                           <Edit3 size={14} />
                         </button>
                         <button
                           onClick={() => handleDelete(todo.id)}
-                          className="p-2 text-gray-500 hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-colors"
+                          className="p-2 text-[#6E6E6E] hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-colors"
                           title="Delete"
                         >
                           <Trash2 size={14} />
@@ -588,12 +588,12 @@ export default function TodosPage() {
       {/* Edit Modal */}
       {editingTodo && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 w-full max-w-lg">
+          <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6 w-full max-w-lg">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-bold">Edit Todo</h2>
               <button
                 onClick={() => setEditingTodo(null)}
-                className="p-2 text-gray-500 hover:text-white transition-colors"
+                className="p-2 text-[#6E6E6E] hover:text-[#F2F2F2] transition-colors"
               >
                 <X size={20} />
               </button>
@@ -602,43 +602,43 @@ export default function TodosPage() {
             <form onSubmit={handleEditSave}>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-400 mb-2">Title</label>
+                  <label className="block text-sm font-medium text-[#8E8E8E] mb-2">Title</label>
                   <input
                     type="text"
                     value={editForm.title}
                     onChange={(e) => setEditForm({ ...editForm, title: e.target.value })}
-                    className="w-full px-4 py-3 bg-[#0f0f0f] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
+                    className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-400 mb-2">Description</label>
+                  <label className="block text-sm font-medium text-[#8E8E8E] mb-2">Description</label>
                   <textarea
                     value={editForm.description}
                     onChange={(e) => setEditForm({ ...editForm, description: e.target.value })}
                     rows={3}
-                    className="w-full px-4 py-3 bg-[#0f0f0f] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none resize-none"
+                    className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none resize-none"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-400 mb-2">Due Date</label>
+                    <label className="block text-sm font-medium text-[#8E8E8E] mb-2">Due Date</label>
                     <input
                       type="date"
                       value={editForm.due_date}
                       onChange={(e) => setEditForm({ ...editForm, due_date: e.target.value })}
-                      className="w-full px-4 py-3 bg-[#0f0f0f] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
+                      className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-400 mb-2">Priority</label>
+                    <label className="block text-sm font-medium text-[#8E8E8E] mb-2">Priority</label>
                     <select
                       value={editForm.priority}
                       onChange={(e) => setEditForm({ ...editForm, priority: e.target.value })}
-                      className="w-full px-4 py-3 bg-[#0f0f0f] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
+                      className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none"
                     >
                       <option value="low">Low</option>
                       <option value="normal">Normal</option>
@@ -650,11 +650,11 @@ export default function TodosPage() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-400 mb-2">Status</label>
+                    <label className="block text-sm font-medium text-[#8E8E8E] mb-2">Status</label>
                     <select
                       value={editForm.status}
                       onChange={(e) => setEditForm({ ...editForm, status: e.target.value })}
-                      className="w-full px-4 py-3 bg-[#0f0f0f] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
+                      className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none"
                     >
                       <option value="pending">Pending</option>
                       <option value="in_progress">In Progress</option>
@@ -663,11 +663,11 @@ export default function TodosPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-400 mb-2">Assigned To</label>
+                    <label className="block text-sm font-medium text-[#8E8E8E] mb-2">Assigned To</label>
                     <select
                       value={editForm.assigned_to}
                       onChange={(e) => setEditForm({ ...editForm, assigned_to: e.target.value })}
-                      className="w-full px-4 py-3 bg-[#0f0f0f] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none"
+                      className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none"
                     >
                       <option value="bruno">Bruno</option>
                       <option value="petar">Petar</option>
@@ -680,13 +680,13 @@ export default function TodosPage() {
                 <button
                   type="button"
                   onClick={() => setEditingTodo(null)}
-                  className="flex-1 px-4 py-3 bg-[#2A2A2A] text-white rounded-xl font-semibold hover:bg-[#3A3A3A] transition-colors"
+                  className="flex-1 px-4 py-3 bg-white/[0.06] text-[#F2F2F2] rounded-xl font-semibold hover:bg-white/[0.1] transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 px-4 py-3 bg-[#00FF94] text-black rounded-xl font-bold hover:bg-[#00CC76] transition-colors"
+                  className="flex-1 px-4 py-3 bg-[#F2F2F2] text-[#080808] rounded-full font-medium hover:bg-white transition-colors"
                 >
                   Save Changes
                 </button>

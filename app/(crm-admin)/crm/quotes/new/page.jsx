@@ -503,11 +503,11 @@ export default function QuoteMaker() {
     return (
       <div className="min-h-screen bg-[#0F0F0F] p-8">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl font-black text-white mb-2">Nova Ponuda</h1>
-          <p className="text-gray-400 mb-8">Odaberi vrstu usluge i tip ponude</p>
+          <h1 className="text-3xl font-medium text-[#F2F2F2] mb-2">Nova Ponuda</h1>
+          <p className="text-[#8E8E8E] mb-8">Odaberi vrstu usluge i tip ponude</p>
 
           {/* Service Type Selection */}
-          <section className="bg-[#1A1A1A] p-6 rounded-lg border border-[#2A2A2A] mb-6">
+          <section className="bg-[#0F0F0F] p-6 rounded-lg border border-white/[0.07] mb-6">
             <h2 className="text-xl font-bold text-[#00FF94] mb-4">Vrsta usluge</h2>
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
@@ -519,12 +519,12 @@ export default function QuoteMaker() {
                   className={`p-4 rounded-xl border-2 transition-all text-left ${
                     selectedServiceType === service.id
                       ? 'border-[#00FF94] bg-[#00FF94]/10'
-                      : 'border-[#2A2A2A] hover:border-[#3A3A3A] bg-[#0F0F0F]'
+                      : 'border-white/[0.07] hover:border-white/[0.14] bg-[#0F0F0F]'
                   }`}
                 >
                   <div className="text-3xl mb-2">{service.icon}</div>
-                  <div className="font-bold text-white text-sm">{service.nameHr}</div>
-                  <div className="text-xs text-gray-500">{service.name}</div>
+                  <div className="font-bold text-[#F2F2F2] text-sm">{service.nameHr}</div>
+                  <div className="text-xs text-[#6E6E6E]">{service.name}</div>
                   {selectedServiceType === service.id && (
                     <div className="mt-2">
                       <Check size={16} className="text-[#00FF94]" />
@@ -536,8 +536,8 @@ export default function QuoteMaker() {
 
             {/* Agency Package - Service Selection */}
             {selectedServiceType === 'agency_package' && (
-              <div className="mt-6 pt-6 border-t border-[#2A2A2A]">
-                <h3 className="text-lg font-bold text-white mb-4">Odaberi usluge za paket</h3>
+              <div className="mt-6 pt-6 border-t border-white/[0.07]">
+                <h3 className="text-lg font-bold text-[#F2F2F2] mb-4">Odaberi usluge za paket</h3>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">
                   {selectableServices.map((service) => (
                     <button
@@ -547,12 +547,12 @@ export default function QuoteMaker() {
                       className={`p-3 rounded-lg border transition-all text-left ${
                         selectedAgencyServices.includes(service.id)
                           ? 'border-[#00FF94] bg-[#00FF94]/10'
-                          : 'border-[#2A2A2A] hover:border-[#3A3A3A] bg-[#0F0F0F]'
+                          : 'border-white/[0.07] hover:border-white/[0.14] bg-[#0F0F0F]'
                       }`}
                     >
                       <div className="flex items-center gap-2">
                         <span className="text-xl">{service.icon}</span>
-                        <span className="text-sm font-semibold text-white">{service.nameHr}</span>
+                        <span className="text-sm font-semibold text-[#F2F2F2]">{service.nameHr}</span>
                         {selectedAgencyServices.includes(service.id) && (
                           <Check size={14} className="text-[#00FF94] ml-auto" />
                         )}
@@ -563,15 +563,15 @@ export default function QuoteMaker() {
 
                 {selectedAgencyServices.length > 0 && (
                   <div className="mt-4">
-                    <h4 className="text-sm font-semibold text-gray-400 mb-3">Način prikaza cijena</h4>
+                    <h4 className="text-sm font-semibold text-[#8E8E8E] mb-3">Način prikaza cijena</h4>
                     <div className="flex gap-3">
                       <button
                         type="button"
                         onClick={() => setAgencyPricingMode('combined')}
                         className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
                           agencyPricingMode === 'combined'
-                            ? 'bg-[#00FF94] text-black'
-                            : 'bg-[#2A2A2A] text-gray-400 hover:bg-[#3A3A3A]'
+                            ? 'bg-[#F2F2F2] text-[#080808]'
+                            : 'bg-white/[0.06] text-[#8E8E8E] hover:bg-white/[0.1]'
                         }`}
                       >
                         Jedna ukupna cijena
@@ -581,8 +581,8 @@ export default function QuoteMaker() {
                         onClick={() => setAgencyPricingMode('separate')}
                         className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
                           agencyPricingMode === 'separate'
-                            ? 'bg-[#00FF94] text-black'
-                            : 'bg-[#2A2A2A] text-gray-400 hover:bg-[#3A3A3A]'
+                            ? 'bg-[#F2F2F2] text-[#080808]'
+                            : 'bg-white/[0.06] text-[#8E8E8E] hover:bg-white/[0.1]'
                         }`}
                       >
                         Zasebne stavke po usluzi
@@ -595,7 +595,7 @@ export default function QuoteMaker() {
           </section>
 
           {/* Quote Type Selection */}
-          <section className="bg-[#1A1A1A] p-6 rounded-lg border border-[#2A2A2A] mb-6">
+          <section className="bg-[#0F0F0F] p-6 rounded-lg border border-white/[0.07] mb-6">
             <h2 className="text-xl font-bold text-[#00FF94] mb-4">Tip ponude</h2>
 
             <div className="flex gap-4">
@@ -605,12 +605,12 @@ export default function QuoteMaker() {
                 className={`flex-1 p-4 rounded-xl border-2 transition-all text-left ${
                   quoteType === 'project'
                     ? 'border-[#00FF94] bg-[#00FF94]/10'
-                    : 'border-[#2A2A2A] hover:border-[#3A3A3A] bg-[#0F0F0F]'
+                    : 'border-white/[0.07] hover:border-white/[0.14] bg-[#0F0F0F]'
                 }`}
               >
                 <div className="text-2xl mb-2">📋</div>
-                <div className="font-bold text-white">Projekt</div>
-                <div className="text-xs text-gray-500">Jednokratni projekt s akontacijom</div>
+                <div className="font-bold text-[#F2F2F2]">Projekt</div>
+                <div className="text-xs text-[#6E6E6E]">Jednokratni projekt s akontacijom</div>
               </button>
 
               <button
@@ -619,18 +619,18 @@ export default function QuoteMaker() {
                 className={`flex-1 p-4 rounded-xl border-2 transition-all text-left ${
                   quoteType === 'monthly'
                     ? 'border-[#00FF94] bg-[#00FF94]/10'
-                    : 'border-[#2A2A2A] hover:border-[#3A3A3A] bg-[#0F0F0F]'
+                    : 'border-white/[0.07] hover:border-white/[0.14] bg-[#0F0F0F]'
                 }`}
               >
                 <div className="text-2xl mb-2">🔄</div>
-                <div className="font-bold text-white">Mjesečni paket</div>
-                <div className="text-xs text-gray-500">Recurring mjesečna naplata</div>
+                <div className="font-bold text-[#F2F2F2]">Mjesečni paket</div>
+                <div className="text-xs text-[#6E6E6E]">Recurring mjesečna naplata</div>
               </button>
             </div>
           </section>
 
           {/* Company/Issuer Selection */}
-          <section className="bg-[#1A1A1A] p-6 rounded-lg border border-[#2A2A2A] mb-6">
+          <section className="bg-[#0F0F0F] p-6 rounded-lg border border-white/[0.07] mb-6">
             <h2 className="text-xl font-bold text-[#00FF94] mb-4">Izdavač ponude</h2>
 
             <div className="flex gap-4">
@@ -642,17 +642,17 @@ export default function QuoteMaker() {
                   className={`flex-1 p-4 rounded-xl border-2 transition-all text-left ${
                     selectedCompany === company.id
                       ? 'border-[#00FF94] bg-[#00FF94]/10'
-                      : 'border-[#2A2A2A] hover:border-[#3A3A3A] bg-[#0F0F0F]'
+                      : 'border-white/[0.07] hover:border-white/[0.14] bg-[#0F0F0F]'
                   }`}
                 >
                   <div className="flex items-center justify-between mb-2">
-                    <div className="text-lg font-bold text-white uppercase">{company.id}</div>
+                    <div className="text-lg font-bold text-[#F2F2F2] uppercase">{company.id}</div>
                     {selectedCompany === company.id && (
                       <Check size={16} className="text-[#00FF94]" />
                     )}
                   </div>
-                  <div className="text-xs text-gray-400 truncate">{company.name}</div>
-                  <div className="text-xs text-gray-500">Potpisuje: {company.signatory}</div>
+                  <div className="text-xs text-[#8E8E8E] truncate">{company.name}</div>
+                  <div className="text-xs text-[#6E6E6E]">Potpisuje: {company.signatory}</div>
                 </button>
               ))}
             </div>
@@ -662,7 +662,7 @@ export default function QuoteMaker() {
           <button
             onClick={proceedToDetails}
             disabled={selectedServiceType === 'agency_package' && selectedAgencyServices.length === 0}
-            className="w-full bg-[#00FF94] text-black font-bold py-4 rounded-lg hover:bg-[#00DD7F] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            className="w-full bg-[#F2F2F2] text-[#080808] font-bold py-4 rounded-lg hover:bg-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
             Nastavi
             <ArrowRight size={20} />
@@ -679,7 +679,7 @@ export default function QuoteMaker() {
         {/* Back Button */}
         <button
           onClick={() => setStep(1)}
-          className="inline-flex items-center gap-2 text-gray-400 hover:text-[#00FF94] mb-6 transition-colors"
+          className="inline-flex items-center gap-2 text-[#8E8E8E] hover:text-[#F2F2F2] mb-6 transition-colors"
         >
           <ArrowLeft size={16} />
           Natrag na odabir usluge
@@ -689,9 +689,9 @@ export default function QuoteMaker() {
         <div className="flex items-center gap-3 mb-6">
           <span className="text-2xl">{getServiceType(selectedServiceType).icon}</span>
           <div>
-            <h1 className="text-2xl font-black text-white">{getServiceType(selectedServiceType).nameHr}</h1>
+            <h1 className="text-2xl font-medium text-[#F2F2F2]">{getServiceType(selectedServiceType).nameHr}</h1>
             <span className={`inline-block px-3 py-1 rounded-full text-xs font-bold ${
-              quoteType === 'monthly' ? 'bg-purple-500 text-white' : 'bg-blue-500 text-white'
+              quoteType === 'monthly' ? 'bg-purple-500 text-[#F2F2F2]' : 'bg-blue-500 text-[#F2F2F2]'
             }`}>
               {quoteType === 'monthly' ? 'Mjesečni paket' : 'Projekt'}
             </span>
@@ -703,7 +703,7 @@ export default function QuoteMaker() {
           <div className="lg:col-span-2 space-y-6">
 
             {/* Source Selection */}
-            <section className="bg-[#1A1A1A] p-6 rounded-lg border border-[#2A2A2A]">
+            <section className="bg-[#0F0F0F] p-6 rounded-lg border border-white/[0.07]">
               <h2 className="text-xl font-bold text-[#00FF94] mb-4">Quote For</h2>
 
               <div className="flex gap-2 mb-4">
@@ -712,8 +712,8 @@ export default function QuoteMaker() {
                   onClick={() => handleSourceTypeChange('manual')}
                   className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all ${
                     sourceType === 'manual'
-                      ? 'bg-[#00FF94] text-black'
-                      : 'bg-[#2A2A2A] text-[#8F8F8F] hover:bg-[#3A3A3A]'
+                      ? 'bg-[#F2F2F2] text-[#080808]'
+                      : 'bg-white/[0.06] text-[#8F8F8F] hover:bg-white/[0.1]'
                   }`}
                 >
                   Manual Entry
@@ -723,8 +723,8 @@ export default function QuoteMaker() {
                   onClick={() => handleSourceTypeChange('client')}
                   className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all ${
                     sourceType === 'client'
-                      ? 'bg-[#00FF94] text-black'
-                      : 'bg-[#2A2A2A] text-[#8F8F8F] hover:bg-[#3A3A3A]'
+                      ? 'bg-[#F2F2F2] text-[#080808]'
+                      : 'bg-white/[0.06] text-[#8F8F8F] hover:bg-white/[0.1]'
                   }`}
                 >
                   Client ({clients.length})
@@ -734,8 +734,8 @@ export default function QuoteMaker() {
                   onClick={() => handleSourceTypeChange('lead')}
                   className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all ${
                     sourceType === 'lead'
-                      ? 'bg-[#00FF94] text-black'
-                      : 'bg-[#2A2A2A] text-[#8F8F8F] hover:bg-[#3A3A3A]'
+                      ? 'bg-[#F2F2F2] text-[#080808]'
+                      : 'bg-white/[0.06] text-[#8F8F8F] hover:bg-white/[0.1]'
                   }`}
                 >
                   Lead ({leads.length})
@@ -746,7 +746,7 @@ export default function QuoteMaker() {
                 <select
                   value={formData.clientId}
                   onChange={handleClientSelect}
-                  className="w-full bg-[#0F0F0F] text-white p-3 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
+                  className="w-full bg-[#0F0F0F] text-[#F2F2F2] p-3 rounded border border-white/[0.07] focus:border-white/25 outline-none"
                 >
                   <option value="">-- Select a client --</option>
                   {clients.map(client => (
@@ -761,7 +761,7 @@ export default function QuoteMaker() {
                 <select
                   value={formData.leadId}
                   onChange={handleLeadSelect}
-                  className="w-full bg-[#0F0F0F] text-white p-3 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
+                  className="w-full bg-[#0F0F0F] text-[#F2F2F2] p-3 rounded border border-white/[0.07] focus:border-white/25 outline-none"
                 >
                   <option value="">-- Select a lead --</option>
                   {leads.map(lead => (
@@ -780,13 +780,13 @@ export default function QuoteMaker() {
             </section>
 
             {/* Quote Title */}
-            <section className="bg-[#1A1A1A] p-6 rounded-lg border border-[#2A2A2A]">
+            <section className="bg-[#0F0F0F] p-6 rounded-lg border border-white/[0.07]">
               <h2 className="text-xl font-bold text-[#00FF94] mb-4">Naziv Ponude</h2>
               <input
                 type="text"
                 value={formData.title}
                 onChange={(e) => setFormData({...formData, title: e.target.value})}
-                className="w-full bg-[#0F0F0F] text-white p-3 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
+                className="w-full bg-[#0F0F0F] text-[#F2F2F2] p-3 rounded border border-white/[0.07] focus:border-white/25 outline-none"
                 placeholder="npr. Web stranica + Mobile aplikacija, Redizajn web shopa..."
               />
               <p className="text-[#666] text-xs mt-2">
@@ -795,7 +795,7 @@ export default function QuoteMaker() {
             </section>
 
             {/* Client Info */}
-            <section className="bg-[#1A1A1A] p-6 rounded-lg border border-[#2A2A2A]">
+            <section className="bg-[#0F0F0F] p-6 rounded-lg border border-white/[0.07]">
               <h2 className="text-xl font-bold text-[#00FF94] mb-4">Client Information</h2>
               <div className="space-y-4">
                 <div>
@@ -804,7 +804,7 @@ export default function QuoteMaker() {
                     type="text"
                     value={formData.clientName}
                     onChange={(e) => setFormData({...formData, clientName: e.target.value})}
-                    className={`w-full bg-[#0F0F0F] text-white p-3 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none ${(formData.clientId || formData.leadId) ? 'opacity-60' : ''}`}
+                    className={`w-full bg-[#0F0F0F] text-[#F2F2F2] p-3 rounded border border-white/[0.07] focus:border-white/25 outline-none ${(formData.clientId || formData.leadId) ? 'opacity-60' : ''}`}
                     placeholder="DI plan"
                     disabled={!!(formData.clientId || formData.leadId)}
                   />
@@ -815,7 +815,7 @@ export default function QuoteMaker() {
                     type="email"
                     value={formData.clientEmail}
                     onChange={(e) => setFormData({...formData, clientEmail: e.target.value})}
-                    className={`w-full bg-[#0F0F0F] text-white p-3 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none ${(formData.clientId || formData.leadId) ? 'opacity-60' : ''}`}
+                    className={`w-full bg-[#0F0F0F] text-[#F2F2F2] p-3 rounded border border-white/[0.07] focus:border-white/25 outline-none ${(formData.clientId || formData.leadId) ? 'opacity-60' : ''}`}
                     placeholder="client@company.com"
                     disabled={!!(formData.clientId || formData.leadId)}
                   />
@@ -827,7 +827,7 @@ export default function QuoteMaker() {
                     type="text"
                     value={formData.duration}
                     onChange={(e) => setFormData({...formData, duration: e.target.value})}
-                    className="w-full bg-[#0F0F0F] text-white p-3 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
+                    className="w-full bg-[#0F0F0F] text-[#F2F2F2] p-3 rounded border border-white/[0.07] focus:border-white/25 outline-none"
                     placeholder={quoteType === 'monthly' ? 'Mjesečna usluga' : '8 tjedana'}
                   />
                 </div>
@@ -839,7 +839,7 @@ export default function QuoteMaker() {
                   <button
                     onClick={handleGeneratePaymentLink}
                     disabled={generatingLink || !formData.clientName || !formData.clientEmail || (quoteType === 'monthly' ? formData.monthlyPrice <= 0 : calculateTotal() <= 0)}
-                    className="w-full bg-[#2A2A2A] text-white p-3 rounded border border-[#3A3A3A] hover:bg-[#3A3A3A] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 mb-3"
+                    className="w-full bg-white/[0.06] text-[#F2F2F2] p-3 rounded border border-white/[0.14] hover:bg-white/[0.1] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 mb-3"
                   >
                     {generatingLink ? (
                       <>
@@ -867,7 +867,7 @@ export default function QuoteMaker() {
                         setFormData({...formData, paymentLink: e.target.value});
                         setLinkGenerated(false);
                       }}
-                      className="w-full bg-[#0F0F0F] text-white p-3 pr-12 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none text-sm"
+                      className="w-full bg-[#0F0F0F] text-[#F2F2F2] p-3 pr-12 rounded border border-white/[0.07] focus:border-white/25 outline-none text-sm"
                       placeholder="Click 'Generate' button above or paste link manually"
                     />
 
@@ -877,10 +877,10 @@ export default function QuoteMaker() {
                           navigator.clipboard.writeText(formData.paymentLink);
                           toast.success('Payment link copied to clipboard!');
                         }}
-                        className="absolute right-2 top-1/2 -translate-y-1/2 p-2 hover:bg-[#2A2A2A] rounded transition-all"
+                        className="absolute right-2 top-1/2 -translate-y-1/2 p-2 hover:bg-white/[0.06] rounded transition-all"
                         title="Copy to clipboard"
                       >
-                        <Copy size={16} className="text-gray-400" />
+                        <Copy size={16} className="text-[#8E8E8E]" />
                       </button>
                     )}
                   </div>
@@ -898,18 +898,18 @@ export default function QuoteMaker() {
             </section>
 
             {/* Project Overview */}
-            <section className="bg-[#1A1A1A] p-6 rounded-lg border border-[#2A2A2A]">
+            <section className="bg-[#0F0F0F] p-6 rounded-lg border border-white/[0.07]">
               <h2 className="text-xl font-bold text-[#00FF94] mb-4">Project Overview *</h2>
               <textarea
                 value={formData.projectOverview}
                 onChange={(e) => setFormData({...formData, projectOverview: e.target.value})}
-                className="w-full bg-[#0F0F0F] text-white p-3 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none h-32"
+                className="w-full bg-[#0F0F0F] text-[#F2F2F2] p-3 rounded border border-white/[0.07] focus:border-white/25 outline-none h-32"
                 placeholder="Opišite projekt i potrebe klijenta..."
               />
             </section>
 
             {/* Objectives */}
-            <section className="bg-[#1A1A1A] p-6 rounded-lg border border-[#2A2A2A]">
+            <section className="bg-[#0F0F0F] p-6 rounded-lg border border-white/[0.07]">
               <h2 className="text-xl font-bold text-[#00FF94] mb-4">Project Objectives</h2>
               <div className="space-y-3">
                 {formData.objectives.map((obj, index) => (
@@ -922,7 +922,7 @@ export default function QuoteMaker() {
                       newObjectives[index] = e.target.value;
                       setFormData({...formData, objectives: newObjectives});
                     }}
-                    className="w-full bg-[#0F0F0F] text-white p-3 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
+                    className="w-full bg-[#0F0F0F] text-[#F2F2F2] p-3 rounded border border-white/[0.07] focus:border-white/25 outline-none"
                     placeholder={`Objective ${index + 1}`}
                   />
                 ))}
@@ -930,7 +930,7 @@ export default function QuoteMaker() {
             </section>
 
             {/* Scope of Work - Dynamic */}
-            <section className="bg-[#1A1A1A] p-6 rounded-lg border border-[#2A2A2A]">
+            <section className="bg-[#0F0F0F] p-6 rounded-lg border border-white/[0.07]">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-4">
                   <h2 className="text-xl font-bold text-[#00FF94]">{quoteType === 'monthly' ? 'Što je uključeno' : 'Opseg rada'}</h2>
@@ -938,7 +938,7 @@ export default function QuoteMaker() {
                     type="button"
                     onClick={() => setFormData({...formData, scope: formData.scope.length > 0 ? [] : [{ number: '1', title: '', items: [''] }]})}
                     className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                      formData.scope.length > 0 ? 'bg-[#00FF94]' : 'bg-[#2A2A2A]'
+                      formData.scope.length > 0 ? 'bg-[#00FF94]' : 'bg-white/[0.06]'
                     }`}
                   >
                     <span
@@ -953,7 +953,7 @@ export default function QuoteMaker() {
                   <button
                     type="button"
                     onClick={addScopeSection}
-                    className="flex items-center gap-2 bg-[#00FF94] text-black px-3 py-2 rounded text-sm font-semibold hover:bg-[#00DD7F] transition-colors"
+                    className="flex items-center gap-2 bg-[#F2F2F2] text-[#080808] px-3 py-2 rounded text-sm font-semibold hover:bg-white transition-colors"
                   >
                     <Plus size={16} />
                     Dodaj sekciju
@@ -964,16 +964,16 @@ export default function QuoteMaker() {
               {formData.scope.length > 0 ? (
                 <div className="space-y-6">
                   {formData.scope.map((section, sectionIndex) => (
-                    <div key={sectionIndex} className="bg-[#0F0F0F] p-4 rounded-lg border border-[#2A2A2A]">
+                    <div key={sectionIndex} className="bg-[#0F0F0F] p-4 rounded-lg border border-white/[0.07]">
                       <div className="flex gap-3 items-start mb-4">
-                        <div className="w-10 h-10 bg-[#00FF94] rounded-lg flex items-center justify-center text-black font-bold flex-shrink-0">
+                        <div className="w-10 h-10 border border-white/[0.14] rounded-lg flex items-center justify-center text-[#F2F2F2] font-medium flex-shrink-0">
                           {section.number}
                         </div>
                         <input
                           type="text"
                           value={section.title}
                           onChange={(e) => updateScopeSection(sectionIndex, 'title', e.target.value)}
-                          className="flex-1 bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none font-semibold"
+                          className="flex-1 bg-[#0F0F0F] text-[#F2F2F2] p-2 rounded border border-white/[0.07] focus:border-white/25 outline-none font-semibold"
                           placeholder="Naziv sekcije"
                         />
                         <button
@@ -994,7 +994,7 @@ export default function QuoteMaker() {
                               type="text"
                               value={item}
                               onChange={(e) => updateScopeItem(sectionIndex, itemIndex, e.target.value)}
-                              className="flex-1 bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none text-sm"
+                              className="flex-1 bg-[#0F0F0F] text-[#F2F2F2] p-2 rounded border border-white/[0.07] focus:border-white/25 outline-none text-sm"
                               placeholder="Stavka"
                             />
                             <button
@@ -1024,14 +1024,14 @@ export default function QuoteMaker() {
             </section>
 
             {/* Pricing - Line Items */}
-            <section className="bg-[#1A1A1A] p-6 rounded-lg border border-[#2A2A2A]">
+            <section className="bg-[#0F0F0F] p-6 rounded-lg border border-white/[0.07]">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-bold text-[#00FF94]">{quoteType === 'monthly' ? 'Mjesečna cijena' : 'Services / Line Items'}</h2>
                 {quoteType !== 'monthly' && (
                   <button
                     type="button"
                     onClick={addItem}
-                    className="flex items-center gap-2 bg-[#00FF94] text-black px-3 py-2 rounded text-sm font-semibold hover:bg-[#00DD7F] transition-colors"
+                    className="flex items-center gap-2 bg-[#F2F2F2] text-[#080808] px-3 py-2 rounded text-sm font-semibold hover:bg-white transition-colors"
                   >
                     <Plus size={16} />
                     Add Item
@@ -1046,7 +1046,7 @@ export default function QuoteMaker() {
                     type="number"
                     value={formData.monthlyPrice || ''}
                     onChange={(e) => setFormData({...formData, monthlyPrice: Number(e.target.value)})}
-                    className="w-full bg-[#0F0F0F] text-white p-3 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none text-2xl font-bold"
+                    className="w-full bg-[#0F0F0F] text-[#F2F2F2] p-3 rounded border border-white/[0.07] focus:border-white/25 outline-none text-2xl font-medium"
                     placeholder="0"
                   />
                   <p className="text-[#666] text-xs mt-2">
@@ -1057,14 +1057,14 @@ export default function QuoteMaker() {
                 <>
                   <div className="space-y-4">
                     {formData.items.map((item, index) => (
-                      <div key={index} className="bg-[#0F0F0F] p-4 rounded-lg border border-[#2A2A2A]">
+                      <div key={index} className="bg-[#0F0F0F] p-4 rounded-lg border border-white/[0.07]">
                         <div className="flex gap-3 items-start mb-3">
                           <div className="flex-1">
                             <input
                               type="text"
                               value={item.name}
                               onChange={(e) => updateItem(index, 'name', e.target.value)}
-                              className="w-full bg-[#1A1A1A] text-white p-3 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
+                              className="w-full bg-[#0F0F0F] text-[#F2F2F2] p-3 rounded border border-white/[0.07] focus:border-white/25 outline-none"
                               placeholder="Service name (e.g., Website Development)"
                             />
                           </div>
@@ -1073,7 +1073,7 @@ export default function QuoteMaker() {
                               type="number"
                               value={item.price || ''}
                               onChange={(e) => updateItem(index, 'price', e.target.value)}
-                              className="w-full bg-[#1A1A1A] text-white p-3 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
+                              className="w-full bg-[#0F0F0F] text-[#F2F2F2] p-3 rounded border border-white/[0.07] focus:border-white/25 outline-none"
                               placeholder="Price"
                             />
                           </div>
@@ -1089,7 +1089,7 @@ export default function QuoteMaker() {
                         <textarea
                           value={item.description || ''}
                           onChange={(e) => updateItem(index, 'description', e.target.value)}
-                          className="w-full bg-[#1A1A1A] text-white p-3 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none text-sm resize-none"
+                          className="w-full bg-[#0F0F0F] text-[#F2F2F2] p-3 rounded border border-white/[0.07] focus:border-white/25 outline-none text-sm resize-none"
                           placeholder="Description (optional)"
                           rows={2}
                         />
@@ -1097,14 +1097,14 @@ export default function QuoteMaker() {
                     ))}
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4 mt-6 pt-4 border-t border-[#2A2A2A]">
+                  <div className="grid grid-cols-2 gap-4 mt-6 pt-4 border-t border-white/[0.07]">
                     <div>
                       <label className="block text-[#8F8F8F] text-sm mb-2">Discount (%)</label>
                       <input
                         type="number"
                         value={formData.discountRate * 100}
                         onChange={(e) => setFormData({...formData, discountRate: Number(e.target.value) / 100})}
-                        className="w-full bg-[#0F0F0F] text-white p-3 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
+                        className="w-full bg-[#0F0F0F] text-[#F2F2F2] p-3 rounded border border-white/[0.07] focus:border-white/25 outline-none"
                         placeholder="20"
                       />
                     </div>
@@ -1114,7 +1114,7 @@ export default function QuoteMaker() {
                         type="number"
                         value={formData.depositRate * 100}
                         onChange={(e) => setFormData({...formData, depositRate: Math.min(100, Math.max(0, Number(e.target.value))) / 100})}
-                        className="w-full bg-[#0F0F0F] text-white p-3 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
+                        className="w-full bg-[#0F0F0F] text-[#F2F2F2] p-3 rounded border border-white/[0.07] focus:border-white/25 outline-none"
                         placeholder="50"
                         min="0"
                         max="100"
@@ -1127,7 +1127,7 @@ export default function QuoteMaker() {
 
             {/* Maintenance & Support - Only for project quotes */}
             {quoteType !== 'monthly' && (
-              <section className="bg-[#1A1A1A] p-6 rounded-lg border border-[#2A2A2A]">
+              <section className="bg-[#0F0F0F] p-6 rounded-lg border border-white/[0.07]">
                 <div className="flex items-center justify-between mb-4">
                   <div>
                     <h2 className="text-xl font-bold text-[#00FF94]">Maintenance & Support</h2>
@@ -1137,7 +1137,7 @@ export default function QuoteMaker() {
                     type="button"
                     onClick={() => setFormData({...formData, maintenanceEnabled: !formData.maintenanceEnabled})}
                     className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                      formData.maintenanceEnabled ? 'bg-[#00FF94]' : 'bg-[#2A2A2A]'
+                      formData.maintenanceEnabled ? 'bg-[#00FF94]' : 'bg-white/[0.06]'
                     }`}
                   >
                     <span
@@ -1149,14 +1149,14 @@ export default function QuoteMaker() {
                 </div>
 
                 {formData.maintenanceEnabled && (
-                  <div className="space-y-4 mt-4 pt-4 border-t border-[#2A2A2A]">
+                  <div className="space-y-4 mt-4 pt-4 border-t border-white/[0.07]">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div className="md:col-span-2">
                         <label className="block text-[#8F8F8F] text-sm mb-2">Description</label>
                         <textarea
                           value={formData.maintenanceDescription}
                           onChange={(e) => setFormData({...formData, maintenanceDescription: e.target.value})}
-                          className="w-full bg-[#0F0F0F] text-white p-3 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none h-20 text-sm"
+                          className="w-full bg-[#0F0F0F] text-[#F2F2F2] p-3 rounded border border-white/[0.07] focus:border-white/25 outline-none h-20 text-sm"
                           placeholder="What's included..."
                         />
                       </div>
@@ -1166,7 +1166,7 @@ export default function QuoteMaker() {
                           type="number"
                           value={formData.maintenancePrice}
                           onChange={(e) => setFormData({...formData, maintenancePrice: Number(e.target.value)})}
-                          className="w-full bg-[#0F0F0F] text-white p-3 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none"
+                          className="w-full bg-[#0F0F0F] text-[#F2F2F2] p-3 rounded border border-white/[0.07] focus:border-white/25 outline-none"
                           placeholder="150"
                           min="0"
                         />
@@ -1179,7 +1179,7 @@ export default function QuoteMaker() {
 
             {/* Timeline - Only for project quotes */}
             {quoteType !== 'monthly' && (
-              <section className="bg-[#1A1A1A] p-6 rounded-lg border border-[#2A2A2A]">
+              <section className="bg-[#0F0F0F] p-6 rounded-lg border border-white/[0.07]">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-4">
                     <h2 className="text-xl font-bold text-[#00FF94]">Vremenski Plan</h2>
@@ -1187,7 +1187,7 @@ export default function QuoteMaker() {
                       type="button"
                       onClick={() => setFormData({...formData, timeline: formData.timeline.length > 0 ? [] : [{ week: '', phase: '', duration: '' }]})}
                       className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                        formData.timeline.length > 0 ? 'bg-[#00FF94]' : 'bg-[#2A2A2A]'
+                        formData.timeline.length > 0 ? 'bg-[#00FF94]' : 'bg-white/[0.06]'
                       }`}
                     >
                       <span
@@ -1202,7 +1202,7 @@ export default function QuoteMaker() {
                     <button
                       type="button"
                       onClick={addTimelinePhase}
-                      className="flex items-center gap-2 bg-[#00FF94] text-black px-3 py-2 rounded text-sm font-semibold hover:bg-[#00DD7F] transition-colors"
+                      className="flex items-center gap-2 bg-[#F2F2F2] text-[#080808] px-3 py-2 rounded text-sm font-semibold hover:bg-white transition-colors"
                     >
                       <Plus size={16} />
                       Dodaj fazu
@@ -1213,9 +1213,9 @@ export default function QuoteMaker() {
                 {formData.timeline.length > 0 ? (
                   <div className="space-y-3">
                     {formData.timeline.map((phase, index) => (
-                      <div key={index} className="bg-[#0F0F0F] p-4 rounded-lg border border-[#2A2A2A]">
+                      <div key={index} className="bg-[#0F0F0F] p-4 rounded-lg border border-white/[0.07]">
                         <div className="flex gap-3 items-start">
-                          <div className="w-10 h-10 bg-[#00FF94] rounded-lg flex items-center justify-center text-black font-bold flex-shrink-0">
+                          <div className="w-10 h-10 border border-white/[0.14] rounded-lg flex items-center justify-center text-[#F2F2F2] font-medium flex-shrink-0">
                             {index + 1}
                           </div>
                           <div className="flex-1 grid grid-cols-3 gap-3">
@@ -1223,21 +1223,21 @@ export default function QuoteMaker() {
                               type="text"
                               value={phase.week}
                               onChange={(e) => updateTimelinePhase(index, 'week', e.target.value)}
-                              className="bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none text-sm"
+                              className="bg-[#0F0F0F] text-[#F2F2F2] p-2 rounded border border-white/[0.07] focus:border-white/25 outline-none text-sm"
                               placeholder="Tjedan 1-2"
                             />
                             <input
                               type="text"
                               value={phase.phase}
                               onChange={(e) => updateTimelinePhase(index, 'phase', e.target.value)}
-                              className="bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none text-sm"
+                              className="bg-[#0F0F0F] text-[#F2F2F2] p-2 rounded border border-white/[0.07] focus:border-white/25 outline-none text-sm"
                               placeholder="Naziv faze"
                             />
                             <input
                               type="text"
                               value={phase.duration}
                               onChange={(e) => updateTimelinePhase(index, 'duration', e.target.value)}
-                              className="bg-[#1A1A1A] text-white p-2 rounded border border-[#2A2A2A] focus:border-[#00FF94] outline-none text-sm"
+                              className="bg-[#0F0F0F] text-[#F2F2F2] p-2 rounded border border-white/[0.07] focus:border-white/25 outline-none text-sm"
                               placeholder="Trajanje"
                             />
                           </div>
@@ -1263,22 +1263,22 @@ export default function QuoteMaker() {
 
           {/* Sidebar - Summary */}
           <div>
-            <div className="bg-[#1A1A1A] p-6 rounded-lg border border-[#2A2A2A] sticky top-8">
+            <div className="bg-[#0F0F0F] p-6 rounded-lg border border-white/[0.07] sticky top-8">
               <h2 className="text-xl font-bold text-[#00FF94] mb-4">Quote Summary</h2>
 
               <div className="space-y-4 text-sm">
                 {quoteType === 'monthly' ? (
                   /* Monthly Quote Summary */
                   <>
-                    <div className="border-t border-[#2A2A2A] pt-4">
+                    <div className="border-t border-white/[0.07] pt-4">
                       <div className="flex justify-between items-center">
-                        <span className="text-white font-bold text-lg">Mjesečno</span>
+                        <span className="text-[#F2F2F2] font-bold text-lg">Mjesečno</span>
                         <span className="text-[#00FF94] font-bold text-2xl">€{(formData.monthlyPrice || 0).toLocaleString()}/mj</span>
                       </div>
                     </div>
 
-                    <div className="text-xs text-[#8F8F8F] pt-2 border-t border-[#2A2A2A] mt-2">
-                      <div className="font-semibold text-white mb-1">Način plaćanja:</div>
+                    <div className="text-xs text-[#8F8F8F] pt-2 border-t border-white/[0.07] mt-2">
+                      <div className="font-semibold text-[#F2F2F2] mb-1">Način plaćanja:</div>
                       <div className="bg-purple-500/10 border border-purple-500/20 rounded p-2 mb-1">
                         <div className="flex justify-between items-center">
                           <span className="text-purple-400 font-semibold">Prvi mjesec:</span>
@@ -1295,7 +1295,7 @@ export default function QuoteMaker() {
                     {formData.items.filter(item => item.name.trim() !== '').map((item, index) => (
                       <div key={index} className="flex justify-between">
                         <span className="text-[#8F8F8F] truncate pr-2">{item.name || 'Unnamed'}</span>
-                        <span className="text-white">€{(item.price || 0).toLocaleString()}</span>
+                        <span className="text-[#F2F2F2]">€{(item.price || 0).toLocaleString()}</span>
                       </div>
                     ))}
 
@@ -1303,10 +1303,10 @@ export default function QuoteMaker() {
                       <div className="text-[#666] text-xs">No items added yet</div>
                     )}
 
-                    <div className="border-t border-[#2A2A2A] pt-2 mt-2">
+                    <div className="border-t border-white/[0.07] pt-2 mt-2">
                       <div className="flex justify-between text-xs">
                         <span className="text-[#8F8F8F]">Subtotal</span>
-                        <span className="text-white">€{calculateSubtotal().toLocaleString()}</span>
+                        <span className="text-[#F2F2F2]">€{calculateSubtotal().toLocaleString()}</span>
                       </div>
                       {formData.discountRate > 0 && (
                         <div className="flex justify-between text-xs mt-1">
@@ -1316,15 +1316,15 @@ export default function QuoteMaker() {
                       )}
                     </div>
 
-                    <div className="border-t border-[#2A2A2A] pt-4 mt-4">
+                    <div className="border-t border-white/[0.07] pt-4 mt-4">
                       <div className="flex justify-between items-center">
-                        <span className="text-white font-bold text-lg">Total</span>
+                        <span className="text-[#F2F2F2] font-bold text-lg">Total</span>
                         <span className="text-[#00FF94] font-bold text-2xl">€{calculateTotal().toLocaleString()}</span>
                       </div>
                     </div>
 
-                    <div className="text-xs text-[#8F8F8F] pt-2 border-t border-[#2A2A2A] mt-2">
-                      <div className="font-semibold text-white mb-1">Payment Structure:</div>
+                    <div className="text-xs text-[#8F8F8F] pt-2 border-t border-white/[0.07] mt-2">
+                      <div className="font-semibold text-[#F2F2F2] mb-1">Payment Structure:</div>
                       <div className="bg-[#00FF94]/10 border border-[#00FF94]/20 rounded p-2 mb-1">
                         <div className="flex justify-between items-center">
                           <span className="text-[#00FF94] font-semibold">{(formData.depositRate * 100).toFixed(0)}% Deposit:</span>
@@ -1340,8 +1340,8 @@ export default function QuoteMaker() {
                     </div>
 
                     {formData.maintenanceEnabled && formData.maintenancePrice > 0 && (
-                      <div className="text-xs pt-3 mt-3 border-t border-[#2A2A2A]">
-                        <div className="font-semibold text-white mb-2">Maintenance (Optional):</div>
+                      <div className="text-xs pt-3 mt-3 border-t border-white/[0.07]">
+                        <div className="font-semibold text-[#F2F2F2] mb-2">Maintenance (Optional):</div>
                         <div className="bg-blue-500/10 border border-blue-500/20 rounded p-2">
                           <div className="flex justify-between items-center">
                             <span className="text-blue-400">Monthly:</span>
@@ -1357,7 +1357,7 @@ export default function QuoteMaker() {
               <button
                 onClick={handleCreateQuote}
                 disabled={!formData.clientName || !formData.projectOverview || saving || (quoteType === 'monthly' && formData.monthlyPrice <= 0)}
-                className="w-full bg-[#00FF94] text-black font-bold py-4 rounded mt-6 hover:bg-[#00DD7F] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-[#F2F2F2] text-[#080808] font-bold py-4 rounded mt-6 hover:bg-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {saving ? 'Creating Quote...' : 'Create Quote'}
               </button>

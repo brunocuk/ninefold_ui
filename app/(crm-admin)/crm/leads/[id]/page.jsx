@@ -186,7 +186,7 @@ export default function LeadDetailPage() {
   if (!lead) {
     return (
       <div className="text-center py-20">
-        <h2 className="text-2xl font-bold mb-4">Lead not found</h2>
+        <h2 className="text-2xl font-medium mb-4">Lead not found</h2>
         <Link href="/crm/leads" className="text-[#00FF94] hover:underline">
           ← Back to Leads
         </Link>
@@ -197,7 +197,7 @@ export default function LeadDetailPage() {
   const statusColors = {
     new: 'bg-blue-500',
     contacted: 'bg-purple-500',
-    qualified: 'bg-[#00FF94] text-black',
+    qualified: 'bg-[#F2F2F2] text-[#080808]',
     'proposal-sent': 'bg-amber-500',
     won: 'bg-green-500',
     lost: 'bg-red-500'
@@ -208,7 +208,7 @@ export default function LeadDetailPage() {
       {/* Breadcrumb */}
       <Link 
         href="/crm/leads" 
-        className="inline-flex items-center gap-2 text-gray-400 hover:text-[#00FF94] mb-6 transition-colors"
+        className="inline-flex items-center gap-2 text-[#8E8E8E] hover:text-[#F2F2F2] mb-6 transition-colors"
       >
         <ArrowLeft size={16} />
         Back to Leads
@@ -217,8 +217,8 @@ export default function LeadDetailPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-8">
         <div className="flex-1">
-          <h1 className="text-4xl font-black text-white mb-3">{lead.name}</h1>
-          <div className="flex flex-wrap gap-3 text-gray-400">
+          <h1 className="text-4xl font-medium text-[#F2F2F2] mb-3">{lead.name}</h1>
+          <div className="flex flex-wrap gap-3 text-[#8E8E8E]">
             {lead.email && (
               <span className="inline-flex items-center gap-1.5">
                 <Mail size={16} className="text-[#00FF94]" />
@@ -239,7 +239,7 @@ export default function LeadDetailPage() {
             )}
           </div>
         </div>
-        <span className={`px-4 py-2 rounded-full text-sm font-bold ${statusColors[lead.status] || 'bg-gray-600'} text-white`}>
+        <span className={`px-4 py-2 rounded-full text-sm font-bold ${statusColors[lead.status] || 'bg-gray-600'} text-[#F2F2F2]`}>
           {lead.status}
         </span>
       </div>
@@ -250,7 +250,7 @@ export default function LeadDetailPage() {
           <>
             <button
               onClick={() => setEditing(true)}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 hover:-translate-y-0.5 transition-all"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#F2F2F2] text-[#080808] rounded-full font-medium hover:-translate-y-0.5 transition-all"
             >
               <Edit size={18} />
               Edit
@@ -258,7 +258,7 @@ export default function LeadDetailPage() {
             {lead.status !== 'won' && lead.status !== 'lost' && (
               <button
                 onClick={handleConvertToClient}
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#2A2A2A] text-white rounded-xl font-bold hover:bg-[#3A3A3A] transition-all"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/[0.06] text-[#F2F2F2] rounded-xl font-bold hover:bg-white/[0.1] transition-all"
               >
                 <Building2 size={18} />
                 Convert to Client
@@ -268,7 +268,7 @@ export default function LeadDetailPage() {
               <button
                 onClick={handleGenerateQuoteFromSelections}
                 disabled={generatingQuote}
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-purple-500 text-white rounded-xl font-bold hover:bg-purple-600 hover:shadow-lg hover:shadow-purple-500/30 transition-all disabled:opacity-50"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-purple-500 text-[#F2F2F2] rounded-xl font-bold hover:bg-purple-600 hover:shadow-lg hover:shadow-purple-500/30 transition-all disabled:opacity-50"
               >
                 <Sparkles size={18} />
                 {generatingQuote ? 'Kreiram...' : 'Generiraj ponudu iz odabira'}
@@ -276,7 +276,7 @@ export default function LeadDetailPage() {
             )}
             <button
               onClick={handleDelete}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-red-500 text-white rounded-xl font-bold hover:bg-red-600 transition-all"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-red-500 text-[#F2F2F2] rounded-xl font-bold hover:bg-red-600 transition-all"
             >
               <Trash2 size={18} />
               Delete
@@ -288,14 +288,14 @@ export default function LeadDetailPage() {
       {/* Content */}
       {editing ? (
         <form onSubmit={handleUpdate}>
-          <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-8">
-            <h3 className="text-2xl font-bold mb-6 pb-4 border-b border-[#2A2A2A]">
+          <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-8">
+            <h3 className="text-2xl font-medium mb-6 pb-4 border-b border-white/[0.07]">
               Edit Lead
             </h3>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                   Name *
                 </label>
                 <input
@@ -303,12 +303,12 @@ export default function LeadDetailPage() {
                   value={formData.name || ''}
                   onChange={(e) => setFormData({...formData, name: e.target.value})}
                   required
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                   Email *
                 </label>
                 <input
@@ -316,42 +316,42 @@ export default function LeadDetailPage() {
                   value={formData.email || ''}
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
                   required
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                   Phone
                 </label>
                 <input
                   type="tel"
                   value={formData.phone || ''}
                   onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                   Company
                 </label>
                 <input
                   type="text"
                   value={formData.company || ''}
                   onChange={(e) => setFormData({...formData, company: e.target.value})}
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                   Status
                 </label>
                 <select
                   value={formData.status || 'new'}
                   onChange={(e) => setFormData({...formData, status: e.target.value})}
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 >
                   <option value="new">New</option>
                   <option value="contacted">Contacted</option>
@@ -363,13 +363,13 @@ export default function LeadDetailPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                   Source
                 </label>
                 <select
                   value={formData.source || ''}
                   onChange={(e) => setFormData({...formData, source: e.target.value})}
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 >
                   <option value="website">Website</option>
                   <option value="referral">Referral</option>
@@ -379,13 +379,13 @@ export default function LeadDetailPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                   Budget Range
                 </label>
                 <select
                   value={formData.budget_range || ''}
                   onChange={(e) => setFormData({...formData, budget_range: e.target.value})}
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 >
                   <option value="">Select...</option>
                   <option value="under-5k">Under €5,000</option>
@@ -396,13 +396,13 @@ export default function LeadDetailPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-400 mb-2">
+                <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                   Project Type
                 </label>
                 <select
                   value={formData.project_type || ''}
                   onChange={(e) => setFormData({...formData, project_type: e.target.value})}
-                  className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors"
                 >
                   <option value="">Select...</option>
                   <option value="website">Website</option>
@@ -414,22 +414,22 @@ export default function LeadDetailPage() {
             </div>
 
             <div className="mb-6">
-              <label className="block text-sm font-semibold text-gray-400 mb-2">
+              <label className="block text-sm font-semibold text-[#8E8E8E] mb-2">
                 Description
               </label>
               <textarea
                 value={formData.description || ''}
                 onChange={(e) => setFormData({...formData, description: e.target.value})}
                 rows={4}
-                className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#2A2A2A] rounded-xl text-white focus:border-[#00FF94] focus:outline-none transition-colors resize-none"
+                className="w-full px-4 py-3 bg-[#080808] border border-white/[0.07] rounded-xl text-[#F2F2F2] focus:border-white/25 focus:outline-none transition-colors resize-none"
               />
             </div>
 
-            <div className="flex gap-3 pt-6 border-t border-[#2A2A2A]">
+            <div className="flex gap-3 pt-6 border-t border-white/[0.07]">
               <button
                 type="submit"
                 disabled={saving}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-[#F2F2F2] text-[#080808] rounded-full font-medium hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Save size={18} />
                 {saving ? 'Saving...' : 'Save Changes'}
@@ -440,7 +440,7 @@ export default function LeadDetailPage() {
                   setEditing(false);
                   setFormData(lead);
                 }}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-[#2A2A2A] text-white rounded-xl font-bold hover:bg-[#3A3A3A] transition-all"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-white/[0.06] text-[#F2F2F2] rounded-xl font-bold hover:bg-white/[0.1] transition-all"
               >
                 <X size={18} />
                 Cancel
@@ -451,29 +451,29 @@ export default function LeadDetailPage() {
       ) : (
         <div className="space-y-6">
           {/* Lead Information */}
-          <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-8">
-            <h3 className="text-2xl font-bold mb-6 pb-4 border-b border-[#2A2A2A]">
+          <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-8">
+            <h3 className="text-2xl font-medium mb-6 pb-4 border-b border-white/[0.07]">
               Lead Information
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              <div className="bg-[#0a0a0a] rounded-xl p-5">
-                <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">Source</div>
+              <div className="bg-[#080808] rounded-xl p-5">
+                <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-2">Source</div>
                 <div className="text-lg font-bold text-[#00FF94]">{lead.source || 'N/A'}</div>
               </div>
-              <div className="bg-[#0a0a0a] rounded-xl p-5">
-                <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">Budget Range</div>
+              <div className="bg-[#080808] rounded-xl p-5">
+                <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-2">Budget Range</div>
                 <div className="text-lg font-bold text-[#00FF94]">{lead.budget_range || 'N/A'}</div>
               </div>
-              <div className="bg-[#0a0a0a] rounded-xl p-5">
-                <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">Project Type</div>
+              <div className="bg-[#080808] rounded-xl p-5">
+                <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-2">Project Type</div>
                 <div className="text-lg font-bold text-[#00FF94]">{lead.project_type || 'N/A'}</div>
               </div>
-              <div className="bg-[#0a0a0a] rounded-xl p-5">
-                <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">Timeline</div>
+              <div className="bg-[#080808] rounded-xl p-5">
+                <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-2">Timeline</div>
                 <div className="text-lg font-bold text-[#00FF94]">{lead.timeline || 'N/A'}</div>
               </div>
-              <div className="bg-[#0a0a0a] rounded-xl p-5">
-                <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">Created</div>
+              <div className="bg-[#080808] rounded-xl p-5">
+                <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-2">Created</div>
                 <div className="text-lg font-bold text-[#00FF94]">
                   {new Date(lead.created_at).toLocaleDateString()}
                 </div>
@@ -483,11 +483,11 @@ export default function LeadDetailPage() {
 
           {/* Project Description */}
           {lead.description && (
-            <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-8">
-              <h3 className="text-2xl font-bold mb-6 pb-4 border-b border-[#2A2A2A]">
+            <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-8">
+              <h3 className="text-2xl font-medium mb-6 pb-4 border-b border-white/[0.07]">
                 Project Description
               </h3>
-              <p className="text-gray-400 leading-relaxed text-lg whitespace-pre-wrap">
+              <p className="text-[#8E8E8E] leading-relaxed text-lg whitespace-pre-wrap">
                 {lead.description}
               </p>
             </div>
@@ -495,8 +495,8 @@ export default function LeadDetailPage() {
 
           {/* Service Selections from Questionnaire */}
           {lead.service_selections && (
-            <div className="bg-[#1a1a1a] border border-purple-500/30 rounded-2xl p-8">
-              <h3 className="text-2xl font-bold mb-6 pb-4 border-b border-[#2A2A2A] flex items-center gap-3">
+            <div className="bg-[#0F0F0F] border border-purple-500/30 rounded-2xl p-8">
+              <h3 className="text-2xl font-medium mb-6 pb-4 border-b border-white/[0.07] flex items-center gap-3">
                 <Sparkles size={24} className="text-purple-400" />
                 Odabiri iz upitnika
               </h3>
@@ -528,17 +528,17 @@ function ServiceSelectionsDisplay({ selections }) {
       {/* One-time items */}
       {quoteResult.lineItems.oneTime.length > 0 && (
         <div>
-          <h4 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Jednokratno</h4>
+          <h4 className="text-sm font-semibold text-[#8E8E8E] uppercase tracking-wider mb-3">Jednokratno</h4>
           <div className="space-y-2">
             {quoteResult.lineItems.oneTime.map((item, index) => (
-              <div key={index} className="flex justify-between items-center bg-[#0a0a0a] rounded-lg p-3">
-                <span className="text-gray-300">{item.name}</span>
+              <div key={index} className="flex justify-between items-center bg-[#080808] rounded-lg p-3">
+                <span className="text-[#C9C9C9]">{item.name}</span>
                 <span className="text-[#00FF94] font-bold">{formatCurrency(item.price)}</span>
               </div>
             ))}
           </div>
-          <div className="flex justify-between items-center mt-3 pt-3 border-t border-[#2A2A2A]">
-            <span className="text-white font-semibold">Ukupno jednokratno</span>
+          <div className="flex justify-between items-center mt-3 pt-3 border-t border-white/[0.07]">
+            <span className="text-[#F2F2F2] font-semibold">Ukupno jednokratno</span>
             <span className="text-[#00FF94] font-bold text-lg">{formatCurrency(quoteResult.summary?.oneTime?.total || 0)}</span>
           </div>
         </div>
@@ -547,17 +547,17 @@ function ServiceSelectionsDisplay({ selections }) {
       {/* Monthly items */}
       {quoteResult.lineItems.monthly.length > 0 && (
         <div className="mt-6">
-          <h4 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Mjesečno</h4>
+          <h4 className="text-sm font-semibold text-[#8E8E8E] uppercase tracking-wider mb-3">Mjesečno</h4>
           <div className="space-y-2">
             {quoteResult.lineItems.monthly.map((item, index) => (
-              <div key={index} className="flex justify-between items-center bg-[#0a0a0a] rounded-lg p-3">
-                <span className="text-gray-300">{item.name}</span>
+              <div key={index} className="flex justify-between items-center bg-[#080808] rounded-lg p-3">
+                <span className="text-[#C9C9C9]">{item.name}</span>
                 <span className="text-purple-400 font-bold">{formatCurrency(item.monthlyPrice)}/mj</span>
               </div>
             ))}
           </div>
-          <div className="flex justify-between items-center mt-3 pt-3 border-t border-[#2A2A2A]">
-            <span className="text-white font-semibold">Ukupno mjesečno</span>
+          <div className="flex justify-between items-center mt-3 pt-3 border-t border-white/[0.07]">
+            <span className="text-[#F2F2F2] font-semibold">Ukupno mjesečno</span>
             <span className="text-purple-400 font-bold text-lg">{formatCurrency(quoteResult.summary?.monthly?.total || 0)}/mj</span>
           </div>
         </div>

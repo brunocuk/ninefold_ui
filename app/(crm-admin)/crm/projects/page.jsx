@@ -94,7 +94,7 @@ export default function ProjectsPage() {
     design: { bg: 'bg-purple-500', text: 'Design', icon: Palette },
     development: { bg: 'bg-amber-500', text: 'Development', icon: Code },
     testing: { bg: 'bg-cyan-500', text: 'Testing', icon: TestTube },
-    deployed: { bg: 'bg-[#00FF94] text-black', text: 'Deployed', icon: Rocket },
+    deployed: { bg: 'bg-[#F2F2F2] text-[#080808]', text: 'Deployed', icon: Rocket },
     completed: { bg: 'bg-green-500', text: 'Completed', icon: CheckCircle }
   };
 
@@ -103,7 +103,7 @@ export default function ProjectsPage() {
     const Icon = config.icon;
     
     return (
-      <span className={`inline-flex items-center gap-1.5 ${config.bg} text-white px-3 py-1.5 rounded-full text-xs font-bold`}>
+      <span className={`inline-flex items-center gap-1.5 ${config.bg} text-[#F2F2F2] px-3 py-1.5 rounded-full text-xs font-bold`}>
         <Icon size={12} />
         {config.text}
       </span>
@@ -131,14 +131,14 @@ export default function ProjectsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
         <div>
-          <h1 className="text-4xl font-black bg-gradient-to-r from-[#00FF94] to-[#00CC76] bg-clip-text text-transparent mb-2">
+          <h1 className="text-4xl font-medium text-[#F2F2F2] mb-2">
             Projects
           </h1>
-          <p className="text-gray-400">Track active work and deliverables</p>
+          <p className="text-[#8E8E8E]">Track active work and deliverables</p>
         </div>
         <Link
           href="/crm/projects/new"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 hover:-translate-y-0.5 transition-all"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-[#F2F2F2] text-[#080808] rounded-full font-medium hover:-translate-y-0.5 transition-all"
         >
           <Plus size={20} />
           New Project
@@ -147,44 +147,44 @@ export default function ProjectsPage() {
 
       {/* Statistics */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-xl p-5 hover:border-[#00FF94] transition-colors">
+        <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-xl p-5 hover:border-[#00FF94] transition-colors">
           <div className="flex items-center gap-3 mb-3">
             <div className="w-10 h-10 rounded-lg bg-amber-500/10 flex items-center justify-center">
               <DollarSign size={20} className="text-amber-500" />
             </div>
-            <span className="text-xs text-gray-500 uppercase tracking-wider">Total Remaining</span>
+            <span className="text-xs text-[#6E6E6E] uppercase tracking-wider">Total Remaining</span>
           </div>
-          <div className="text-2xl font-black text-white">{formatCurrency(stats.totalRemaining)}</div>
+          <div className="text-2xl font-medium text-[#F2F2F2]">{formatCurrency(stats.totalRemaining)}</div>
         </div>
 
-        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-xl p-5 hover:border-[#00FF94] transition-colors">
+        <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-xl p-5 hover:border-[#00FF94] transition-colors">
           <div className="flex items-center gap-3 mb-3">
             <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center">
               <TrendingUp size={20} className="text-blue-500" />
             </div>
-            <span className="text-xs text-gray-500 uppercase tracking-wider">Active Projects</span>
+            <span className="text-xs text-[#6E6E6E] uppercase tracking-wider">Active Projects</span>
           </div>
-          <div className="text-2xl font-black text-white">{stats.activeProjects}</div>
+          <div className="text-2xl font-medium text-[#F2F2F2]">{stats.activeProjects}</div>
         </div>
 
-        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-xl p-5 hover:border-[#00FF94] transition-colors">
+        <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-xl p-5 hover:border-[#00FF94] transition-colors">
           <div className="flex items-center gap-3 mb-3">
             <div className="w-10 h-10 rounded-lg bg-[#00FF94]/10 flex items-center justify-center">
-              <DollarSign size={20} className="text-[#00FF94]" />
+              <DollarSign size={20} className="text-[#8E8E8E]" />
             </div>
-            <span className="text-xs text-gray-500 uppercase tracking-wider">Total Value</span>
+            <span className="text-xs text-[#6E6E6E] uppercase tracking-wider">Total Value</span>
           </div>
-          <div className="text-2xl font-black text-[#00FF94]">{formatCurrency(stats.totalValue)}</div>
+          <div className="text-2xl font-medium text-[#F2F2F2]">{formatCurrency(stats.totalValue)}</div>
         </div>
 
-        <div className="bg-[#1a1a1a] border border-[#2A2A2A] rounded-xl p-5 hover:border-[#00FF94] transition-colors">
+        <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-xl p-5 hover:border-[#00FF94] transition-colors">
           <div className="flex items-center gap-3 mb-3">
             <div className="w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center">
               <BadgeCheck size={20} className="text-green-500" />
             </div>
-            <span className="text-xs text-gray-500 uppercase tracking-wider">Fully Paid</span>
+            <span className="text-xs text-[#6E6E6E] uppercase tracking-wider">Fully Paid</span>
           </div>
-          <div className="text-2xl font-black text-white">{stats.fullyPaid}</div>
+          <div className="text-2xl font-medium text-[#F2F2F2]">{stats.fullyPaid}</div>
         </div>
       </div>
 
@@ -198,8 +198,8 @@ export default function ProjectsPage() {
               onClick={() => setFilter(btn.value)}
               className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border-2 font-semibold transition-all ${
                 filter === btn.value
-                  ? 'bg-[#00FF94] text-black border-[#00FF94]'
-                  : 'bg-[#1a1a1a] text-gray-400 border-[#2A2A2A] hover:border-[#00FF94] hover:text-[#00FF94]'
+                  ? 'bg-[#F2F2F2] text-[#080808] border-[#00FF94]'
+                  : 'bg-[#0F0F0F] text-[#8E8E8E] border-white/[0.07] hover:border-[#00FF94] hover:text-[#F2F2F2]'
               }`}
             >
               {Icon && <Icon size={16} />}
@@ -216,12 +216,12 @@ export default function ProjectsPage() {
           <div className="text-2xl text-[#00FF94]">Loading projects...</div>
         </div>
       ) : projects.length === 0 ? (
-        <div className="bg-[#1a1a1a] border-2 border-dashed border-[#2A2A2A] rounded-2xl p-20 text-center">
+        <div className="bg-[#0F0F0F] border-2 border-dashed border-white/[0.07] rounded-2xl p-20 text-center">
           <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-[#00FF94]/10 flex items-center justify-center">
             <FolderKanban size={40} className="text-[#00FF94]" />
           </div>
-          <h2 className="text-2xl font-bold mb-3">No projects yet</h2>
-          <p className="text-gray-400 text-lg mb-8">
+          <h2 className="text-2xl font-medium mb-3">No projects yet</h2>
+          <p className="text-[#8E8E8E] text-lg mb-8">
             {filter === 'all'
               ? 'Start tracking your first project.'
               : `No projects in "${filter}" status.`}
@@ -229,7 +229,7 @@ export default function ProjectsPage() {
           {filter === 'all' && (
             <Link
               href="/crm/projects/new"
-              className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#00FF94] text-black rounded-xl font-bold hover:shadow-lg hover:shadow-[#00FF94]/30 hover:-translate-y-0.5 transition-all"
+              className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#F2F2F2] text-[#080808] rounded-full font-medium hover:-translate-y-0.5 transition-all"
             >
               <Plus size={20} />
               Create First Project
@@ -244,7 +244,7 @@ export default function ProjectsPage() {
             <Link
               key={project.id}
               href={`/crm/projects/${project.id}`}
-              className={`block group bg-[#1a1a1a] border border-[#2A2A2A] rounded-2xl p-6 hover:border-[#00FF94] hover:shadow-xl hover:shadow-[#00FF94]/10 hover:translate-x-1 transition-all duration-300 relative ${finished ? 'opacity-60 grayscale-[30%]' : ''}`}
+              className={`block group bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6 hover:border-[#00FF94] hover:shadow-xl hover:shadow-[#00FF94]/10 hover:translate-x-1 transition-all duration-300 relative ${finished ? 'opacity-60 grayscale-[30%]' : ''}`}
             >
               {/* Finished Badge */}
               {finished && (
@@ -256,14 +256,14 @@ export default function ProjectsPage() {
               {/* Header */}
               <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-5">
                 <div className="flex-1">
-                  <h3 className="text-xl font-bold text-white mb-2">{project.name}</h3>
+                  <h3 className="text-xl font-bold text-[#F2F2F2] mb-2">{project.name}</h3>
                   {project.clients && (
                     <div className="flex items-center gap-2 text-[#00FF94] font-semibold mb-3">
                       <Building2 size={16} />
                       {project.clients.company || project.clients.name}
                     </div>
                   )}
-                  <div className="flex flex-wrap gap-3 text-sm text-gray-400">
+                  <div className="flex flex-wrap gap-3 text-sm text-[#8E8E8E]">
                     {project.project_type && (
                       <span className="inline-flex items-center gap-1.5">
                         <Package size={14} className="text-[#00FF94]" />
@@ -283,29 +283,29 @@ export default function ProjectsPage() {
 
               {/* Details */}
               <div className="grid grid-cols-3 gap-4 mb-5">
-                <div className="bg-[#0a0a0a] rounded-lg p-4">
-                  <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">
+                <div className="bg-[#080808] rounded-lg p-4">
+                  <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-2">
                     Total Value
                   </div>
-                  <div className="text-lg font-black text-[#00FF94] flex items-center gap-1">
+                  <div className="text-lg font-medium text-[#F2F2F2] flex items-center gap-1">
                     <DollarSign size={16} />
                     €{project.total_value.toLocaleString()}
                   </div>
                 </div>
-                <div className="bg-[#0a0a0a] rounded-lg p-4">
-                  <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">
+                <div className="bg-[#080808] rounded-lg p-4">
+                  <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-2">
                     Paid
                   </div>
-                  <div className="text-lg font-black text-[#00FF94] flex items-center gap-1">
+                  <div className="text-lg font-medium text-[#F2F2F2] flex items-center gap-1">
                     <DollarSign size={16} />
                     €{(project.paid_amount || 0).toLocaleString()}
                   </div>
                 </div>
-                <div className="bg-[#0a0a0a] rounded-lg p-4">
-                  <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">
+                <div className="bg-[#080808] rounded-lg p-4">
+                  <div className="text-xs text-[#6E6E6E] uppercase tracking-wider mb-2">
                     Remaining
                   </div>
-                  <div className="text-lg font-black text-[#00FF94] flex items-center gap-1">
+                  <div className="text-lg font-medium text-[#F2F2F2] flex items-center gap-1">
                     <DollarSign size={16} />
                     €{(project.total_value - (project.paid_amount || 0)).toLocaleString()}
                   </div>
@@ -314,7 +314,7 @@ export default function ProjectsPage() {
 
               {/* Progress Bar */}
               <div className="mb-4">
-                <div className="bg-[#0a0a0a] rounded-lg h-2.5 overflow-hidden">
+                <div className="bg-[#080808] rounded-lg h-2.5 overflow-hidden">
                   <div 
                     className="h-full transition-all duration-300 rounded-lg"
                     style={{
@@ -323,14 +323,14 @@ export default function ProjectsPage() {
                     }}
                   />
                 </div>
-                <div className="text-xs text-gray-500 text-right mt-2">
+                <div className="text-xs text-[#6E6E6E] text-right mt-2">
                   {project.progress}% complete
                 </div>
               </div>
 
               {/* Description */}
               {project.description && (
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-[#8E8E8E] text-sm leading-relaxed">
                   {project.description.length > 120
                     ? project.description.substring(0, 120) + '...'
                     : project.description}

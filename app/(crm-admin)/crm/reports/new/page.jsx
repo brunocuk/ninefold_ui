@@ -225,13 +225,13 @@ export default function NewReportPage() {
         }
 
         .back-link:hover {
-          color: #00FF94;
+          color: #F2F2F2;
         }
 
         h1 {
           font-size: 2rem;
           font-weight: 900;
-          background: linear-gradient(135deg, #00FF94 0%, #00CC76 100%);
+          background: #F2F2F2;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
@@ -251,7 +251,7 @@ export default function NewReportPage() {
         }
 
         .form-card {
-          background: #1a1a1a;
+          background: #0F0F0F;
           border: 1px solid #333;
           border-radius: 12px;
           padding: 32px;
@@ -301,7 +301,7 @@ export default function NewReportPage() {
         .form-textarea {
           width: 100%;
           padding: 12px 16px;
-          background: #0a0a0a;
+          background: #080808;
           border: 1px solid #333;
           border-radius: 8px;
           color: #fff;
@@ -313,7 +313,7 @@ export default function NewReportPage() {
         .form-select:focus,
         .form-textarea:focus {
           outline: none;
-          border-color: #00FF94;
+          border-color: rgba(255,255,255,0.3);
         }
 
         .form-textarea {
@@ -379,7 +379,7 @@ export default function NewReportPage() {
           width: 100%;
           padding: 12px 16px;
           padding-right: 40px;
-          background: #0a0a0a;
+          background: #080808;
           border: 1px solid #333;
           border-radius: 8px;
           color: #fff;
@@ -389,7 +389,7 @@ export default function NewReportPage() {
 
         .score-input:focus {
           outline: none;
-          border-color: #00FF94;
+          border-color: rgba(255,255,255,0.3);
         }
 
         .score-suffix {
@@ -409,7 +409,7 @@ export default function NewReportPage() {
 
         /* Preview Card */
         .preview-card {
-          background: #1a1a1a;
+          background: #0F0F0F;
           border: 1px solid #333;
           border-radius: 12px;
           padding: 24px;
@@ -435,7 +435,7 @@ export default function NewReportPage() {
 
         .preview-contract {
           padding: 16px;
-          background: #0a0a0a;
+          background: #080808;
           border-radius: 8px;
           margin-bottom: 20px;
         }
@@ -463,7 +463,7 @@ export default function NewReportPage() {
         }
 
         .lighthouse-score {
-          background: #0a0a0a;
+          background: #080808;
           border-radius: 8px;
           padding: 12px;
           text-align: center;
@@ -494,7 +494,7 @@ export default function NewReportPage() {
         }
 
         .analytics-stat {
-          background: #0a0a0a;
+          background: #080808;
           border-radius: 8px;
           padding: 12px;
           text-align: center;
@@ -547,7 +547,7 @@ export default function NewReportPage() {
         }
 
         .btn-primary {
-          background: #00FF94;
+          background: #F2F2F2;
           color: #000;
         }
 
