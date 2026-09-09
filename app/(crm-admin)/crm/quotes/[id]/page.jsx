@@ -359,15 +359,15 @@ export default function QuoteDetailPage() {
 
   const getStatusBadge = (status) => {
     const colors = {
-      draft: 'bg-gray-600',
-      sent: 'bg-blue-500',
-      viewed: 'bg-purple-500',
+      draft: 'bg-gray-600 text-[#F2F2F2]',
+      sent: 'bg-blue-500 text-[#F2F2F2]',
+      viewed: 'bg-purple-500 text-[#F2F2F2]',
       accepted: 'bg-[#F2F2F2] text-[#080808]',
-      rejected: 'bg-red-500'
+      rejected: 'bg-red-500 text-[#F2F2F2]'
     };
 
     return (
-      <span className={`${colors[status] || 'bg-gray-600'} text-[#F2F2F2] px-4 py-3 rounded-full text-sm font-bold`}>
+      <span className={`${colors[status] || 'bg-gray-600 text-[#F2F2F2]'} px-4 py-3 rounded-full text-sm font-bold`}>
         {status}
       </span>
     );

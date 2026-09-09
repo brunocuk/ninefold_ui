@@ -3,7 +3,7 @@
 
 'use client';
 
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useRef } from 'react';
 import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
 
@@ -61,6 +61,9 @@ export default function RecurringRevenuePage() {
   const [filter, setFilter] = useState('all');
   const [typeFilter, setTypeFilter] = useState('all');
   const [sortBy, setSortBy] = useState('overdue');
+  const [editingAmountId, setEditingAmountId] = useState(null);
+  const [amountDraft, setAmountDraft] = useState('');
+  const amountEditCancelled = useRef(false);
 
   useEffect(() => {
     loadContracts();
@@ -315,6 +318,47 @@ export default function RecurringRevenuePage() {
     } catch (error) {
       console.error('Error updating paid periods:', error);
     }
+  };
+
+  // Inline editing of contract amount
+  const startEditAmount = (e, contract) => {
+    e.preventDefault();
+    e.stopPropagation();
+    amountEditCancelled.current = false;
+    setEditingAmountId(contract.id);
+    setAmountDraft(String(contract.monthly_amount ?? ''));
+  };
+
+  const cancelEditAmount = () => {
+    setEditingAmountId(null);
+    setAmountDraft('');
+  };
+
+  const saveAmount = async (contractId) => {
+    const contract = allContracts.find(c => c.id === contractId);
+    const value = parseFloat(String(amountDraft).replace(',', '.'));
+
+    if (!contract || isNaN(value) || value < 0 || value === contract.monthly_amount) {
+      cancelEditAmount();
+      return;
+    }
+
+    try {
+      const { error } = await supabase
+        .from('recurring_contracts')
+        .update({ monthly_amount: value })
+        .eq('id', contractId);
+
+      if (error) throw error;
+
+      setAllContracts(prev => prev.map(c =>
+        c.id === contractId ? { ...c, monthly_amount: value } : c
+      ));
+    } catch (error) {
+      console.error('Error updating amount:', error);
+    }
+
+    cancelEditAmount();
   };
 
   const filterCounts = {
@@ -938,6 +982,47 @@ export default function RecurringRevenuePage() {
           margin-top: 2px;
         }
 
+        .amount-value.editable {
+          cursor: text;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          border-radius: 8px;
+        }
+
+        .amount-value .edit-icon {
+          color: #555;
+          opacity: 0;
+          transition: opacity 0.15s;
+          flex-shrink: 0;
+        }
+
+        .contract-card:hover .amount-value .edit-icon {
+          opacity: 1;
+        }
+
+        .amount-value.editable:hover {
+          color: white;
+        }
+
+        .amount-value.editable:hover .edit-icon {
+          color: #8E8E8E;
+        }
+
+        .amount-input {
+          width: 120px;
+          background: #0F0F0F;
+          border: 1px solid rgba(255, 255, 255, 0.25);
+          border-radius: 8px;
+          color: #F2F2F2;
+          font-size: 1.2rem;
+          font-weight: 700;
+          font-family: inherit;
+          text-align: right;
+          padding: 6px 10px;
+          outline: none;
+        }
+
         .card-bottom {
           display: flex;
           align-items: center;
@@ -1379,8 +1464,50 @@ export default function RecurringRevenuePage() {
                         <div className="contract-client">{clientName}</div>
                       </div>
                       <div className="card-amount">
-                        <div className="amount-value">{formatCurrency(getMRRForContract(contract))}</div>
-                        <div className="amount-cycle">/month</div>
+                        {editingAmountId === contract.id ? (
+                          <input
+                            type="text"
+                            inputMode="decimal"
+                            className="amount-input"
+                            value={amountDraft}
+                            autoFocus
+                            onFocus={(e) => e.target.select()}
+                            onChange={(e) => setAmountDraft(e.target.value)}
+                            onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter') e.currentTarget.blur();
+                              if (e.key === 'Escape') {
+                                amountEditCancelled.current = true;
+                                e.currentTarget.blur();
+                              }
+                            }}
+                            onBlur={() => {
+                              if (amountEditCancelled.current) {
+                                amountEditCancelled.current = false;
+                                cancelEditAmount();
+                              } else {
+                                saveAmount(contract.id);
+                              }
+                            }}
+                          />
+                        ) : (
+                          <div
+                            className="amount-value editable"
+                            title="Click to edit amount"
+                            onClick={(e) => startEditAmount(e, contract)}
+                          >
+                            {formatCurrency(getMRRForContract(contract))}
+                            <svg className="edit-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+                            </svg>
+                          </div>
+                        )}
+                        <div className="amount-cycle">
+                          {editingAmountId === contract.id
+                            ? (contract.billing_cycle === 'yearly' ? '/year' : '/month')
+                            : '/month'
+                          }
+                        </div>
                       </div>
                     </div>
 

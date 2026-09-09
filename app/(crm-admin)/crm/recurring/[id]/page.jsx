@@ -70,6 +70,8 @@ export default function ContractDetailPage() {
   const [client, setClient] = useState(null);
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
+  const [editingAmount, setEditingAmount] = useState(false);
+  const [amountDraft, setAmountDraft] = useState('');
 
   useEffect(() => {
     loadContract();
@@ -148,6 +150,44 @@ export default function ContractDetailPage() {
     } catch (error) {
       console.error('Error updating status:', error);
       toast.error('Error updating status');
+    } finally {
+      setUpdating(false);
+    }
+  };
+
+  const startEditAmount = () => {
+    setAmountDraft(String(contract?.monthly_amount ?? ''));
+    setEditingAmount(true);
+  };
+
+  const saveAmount = async () => {
+    const value = parseFloat(String(amountDraft).replace(',', '.'));
+
+    if (isNaN(value) || value < 0) {
+      toast.error('Enter a valid amount');
+      return;
+    }
+
+    if (value === contract.monthly_amount) {
+      setEditingAmount(false);
+      return;
+    }
+
+    setUpdating(true);
+    try {
+      const { error } = await supabase
+        .from('recurring_contracts')
+        .update({ monthly_amount: value })
+        .eq('id', params.id);
+
+      if (error) throw error;
+
+      setContract({ ...contract, monthly_amount: value });
+      setEditingAmount(false);
+      toast.success('Amount updated successfully!');
+    } catch (error) {
+      console.error('Error updating amount:', error);
+      toast.error('Error updating amount');
     } finally {
       setUpdating(false);
     }
@@ -460,6 +500,75 @@ export default function ContractDetailPage() {
           color: #00FF94;
           font-size: 1.3rem;
           font-weight: 700;
+        }
+
+        .editable-amount {
+          cursor: text;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .editable-amount .edit-icon {
+          color: #555;
+          transition: color 0.15s;
+        }
+
+        .editable-amount:hover .edit-icon {
+          color: #8E8E8E;
+        }
+
+        .amount-edit-row {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .amount-edit-input {
+          width: 110px;
+          background: #080808;
+          border: 1px solid rgba(255, 255, 255, 0.25);
+          border-radius: 8px;
+          color: #F2F2F2;
+          font-size: 1.1rem;
+          font-weight: 700;
+          font-family: inherit;
+          text-align: right;
+          padding: 8px 10px;
+          outline: none;
+        }
+
+        .amount-edit-cycle {
+          color: #666;
+          font-size: 0.9rem;
+        }
+
+        .amount-edit-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 32px;
+          height: 32px;
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 8px;
+          color: #8E8E8E;
+          cursor: pointer;
+          transition: all 0.15s;
+        }
+
+        .amount-edit-btn:hover {
+          background: rgba(255, 255, 255, 0.1);
+          color: #F2F2F2;
+        }
+
+        .amount-edit-btn.save {
+          color: #00FF94;
+        }
+
+        .amount-edit-btn:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
         }
 
         .notes-box {
@@ -890,10 +999,60 @@ export default function ContractDetailPage() {
               </div>
               <div className="info-item">
                 <div className="info-label">Amount</div>
-                <div className="info-value highlight">
-                  {formatCurrency(contract.monthly_amount)}
-                  {contract.billing_cycle === 'yearly' ? '/year' : '/month'}
-                </div>
+                {editingAmount ? (
+                  <div className="amount-edit-row">
+                    <input
+                      type="text"
+                      inputMode="decimal"
+                      className="amount-edit-input"
+                      value={amountDraft}
+                      autoFocus
+                      onFocus={(e) => e.target.select()}
+                      onChange={(e) => setAmountDraft(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') saveAmount();
+                        if (e.key === 'Escape') setEditingAmount(false);
+                      }}
+                      disabled={updating}
+                    />
+                    <span className="amount-edit-cycle">
+                      {contract.billing_cycle === 'yearly' ? '/year' : '/month'}
+                    </span>
+                    <button
+                      className="amount-edit-btn save"
+                      onClick={saveAmount}
+                      disabled={updating}
+                      title="Save"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                    </button>
+                    <button
+                      className="amount-edit-btn"
+                      onClick={() => setEditingAmount(false)}
+                      disabled={updating}
+                      title="Cancel"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                      </svg>
+                    </button>
+                  </div>
+                ) : (
+                  <div
+                    className="info-value highlight editable-amount"
+                    title="Click to edit amount"
+                    onClick={startEditAmount}
+                  >
+                    {formatCurrency(contract.monthly_amount)}
+                    {contract.billing_cycle === 'yearly' ? '/year' : '/month'}
+                    <svg className="edit-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+                    </svg>
+                  </div>
+                )}
               </div>
               <div className="info-item">
                 <div className="info-label">Billing Cycle</div>

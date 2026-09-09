@@ -89,7 +89,7 @@ export default function QuotesPage() {
     draft: { bg: 'bg-gray-600', text: 'Draft', icon: FileEdit },
     sent: { bg: 'bg-blue-500', text: 'Sent', icon: Send },
     viewed: { bg: 'bg-purple-500', text: 'Viewed', icon: Eye },
-    accepted: { bg: 'bg-[#F2F2F2] text-[#080808]', text: 'Accepted', icon: CheckCircle },
+    accepted: { bg: 'bg-[#F2F2F2]', textColor: 'text-[#080808]', text: 'Accepted', icon: CheckCircle },
     rejected: { bg: 'bg-red-500', text: 'Rejected', icon: XCircle }
   };
 
@@ -98,7 +98,7 @@ export default function QuotesPage() {
     const Icon = config.icon;
 
     return (
-      <span className={`inline-flex items-center gap-1.5 ${config.bg} text-[#F2F2F2] px-3 py-1.5 rounded-full text-xs font-bold`}>
+      <span className={`inline-flex items-center gap-1.5 ${config.bg} ${config.textColor || 'text-[#F2F2F2]'} px-3 py-1.5 rounded-full text-xs font-bold`}>
         <Icon size={12} />
         {config.text}
       </span>

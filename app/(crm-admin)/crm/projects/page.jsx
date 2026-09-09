@@ -94,7 +94,7 @@ export default function ProjectsPage() {
     design: { bg: 'bg-purple-500', text: 'Design', icon: Palette },
     development: { bg: 'bg-amber-500', text: 'Development', icon: Code },
     testing: { bg: 'bg-cyan-500', text: 'Testing', icon: TestTube },
-    deployed: { bg: 'bg-[#F2F2F2] text-[#080808]', text: 'Deployed', icon: Rocket },
+    deployed: { bg: 'bg-[#F2F2F2]', textColor: 'text-[#080808]', text: 'Deployed', icon: Rocket },
     completed: { bg: 'bg-green-500', text: 'Completed', icon: CheckCircle }
   };
 
@@ -103,7 +103,7 @@ export default function ProjectsPage() {
     const Icon = config.icon;
     
     return (
-      <span className={`inline-flex items-center gap-1.5 ${config.bg} text-[#F2F2F2] px-3 py-1.5 rounded-full text-xs font-bold`}>
+      <span className={`inline-flex items-center gap-1.5 ${config.bg} ${config.textColor || 'text-[#F2F2F2]'} px-3 py-1.5 rounded-full text-xs font-bold`}>
         <Icon size={12} />
         {config.text}
       </span>

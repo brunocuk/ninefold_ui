@@ -141,12 +141,12 @@ export default function ProjectDetailPage() {
   const paymentProgress = ((project.paid_amount || 0) / project.total_value) * 100;
 
   const statusColors = {
-    planning: 'bg-blue-500',
-    design: 'bg-purple-500',
-    development: 'bg-amber-500',
-    testing: 'bg-cyan-500',
+    planning: 'bg-blue-500 text-[#F2F2F2]',
+    design: 'bg-purple-500 text-[#F2F2F2]',
+    development: 'bg-amber-500 text-[#F2F2F2]',
+    testing: 'bg-cyan-500 text-[#F2F2F2]',
     deployed: 'bg-[#F2F2F2] text-[#080808]',
-    completed: 'bg-green-500'
+    completed: 'bg-green-500 text-[#F2F2F2]'
   };
 
   return (
@@ -174,7 +174,7 @@ export default function ProjectDetailPage() {
             </Link>
           )}
         </div>
-        <span className={`${statusColors[project.status] || 'bg-blue-500'} text-[#F2F2F2] px-4 py-2 rounded-full text-sm font-bold`}>
+        <span className={`${statusColors[project.status] || 'bg-blue-500 text-[#F2F2F2]'} px-4 py-2 rounded-full text-sm font-bold`}>
           {project.status}
         </span>
       </div>
