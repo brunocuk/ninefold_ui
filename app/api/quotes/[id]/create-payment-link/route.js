@@ -9,7 +9,7 @@ const supabase = createClient(
 
 export async function POST(request, { params }) {
   try {
-    const quoteId = params.id;
+    const { id: quoteId } = await params;
 
     // Fetch quote details
     const { data: quote, error: fetchError } = await supabase
@@ -49,8 +49,8 @@ export async function POST(request, { params }) {
       body: JSON.stringify({
         amount: Math.round(depositAmount * 100), // deposit in cents
         currency: 'EUR',
-        merchant_order_id: quote.quote_number,
-        description: `${depositPercent}% Deposit - ${quote.quote_number}`,
+        merchant_order_id: quote.quote_number || quote.reference || quote.id,
+        description: `${depositPercent}% Deposit - ${quote.quote_number || quote.reference || quote.id}`,
         customer_email: quote.client_email,
         customer: {
           name: quote.client_name,
