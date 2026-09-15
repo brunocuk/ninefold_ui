@@ -83,9 +83,9 @@ export async function POST(request) {
       const oneTimeTotal = quoteResult.summary?.oneTime?.total || 0;
 
       await resend.emails.send({
-        from: 'NineFold <hello@ninefold.co>',
+        from: 'Ninefold <hello@ninefold.eu>',
         to: contactInfo.email.trim(),
-        subject: 'Zaprimili smo vaš upit | NineFold',
+        subject: 'Zaprimili smo vaš upit · Ninefold',
         react: QuestionnaireConfirmationEmail({
           clientName: contactInfo.name.trim().split(' ')[0],
           selectedServices: selectedServices,

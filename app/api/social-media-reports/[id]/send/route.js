@@ -74,9 +74,9 @@ export async function POST(request, { params }) {
 
     // Send email using Resend
     const { data, error } = await resend.emails.send({
-      from: 'Bruno at NineFold <bruno@ninefold.eu>',
+      from: 'Bruno iz Ninefolda <bruno@ninefold.eu>',
       to: recipientEmail,
-      subject: `Izvještaj društvenih mreža - ${periodDisplay} | ${report.reference}`,
+      subject: `Izvještaj društvenih mreža · ${periodDisplay} · ${report.reference}`,
       react: SocialMediaReportEmail({
         clientName,
         reportReference: report.reference,

@@ -1,362 +1,364 @@
-// emails/payment-confirmation-email.jsx
-// Payment Confirmation Email Template for NineFold
+// emails/PaymentConfirmationEmail.jsx
+// Mono payment confirmation email - Croatian version
 
 import {
-    Body,
-    Container,
-    Head,
-    Heading,
-    Html,
-    Link,
-    Preview,
-    Section,
-    Text,
-    Hr,
-    Row,
-    Column,
-  } from '@react-email/components';
-  
-  export const PaymentConfirmationEmail = ({
-    clientName = 'Valued Client',
-    quoteNumber = 'QUOTE-2025-001',
-    amount = '€5,000.00',
-    paymentDate = 'December 11, 2025',
-    quoteUrl = 'https://ninefold.eu/quote/xxx',
-    projectDescription = 'Website Development',
-  }) => {
-    return (
-      <Html>
-        <Head />
-        <Preview>Payment Received - Thank You! 🎉</Preview>
-        <Body style={main}>
-          <Container style={container}>
-            {/* Header with NineFold Logo */}
-            <Section style={header}>
-              <Text style={logo}>NineFold</Text>
+  Body,
+  Container,
+  Head,
+  Heading,
+  Html,
+  Link,
+  Preview,
+  Section,
+  Text,
+  Hr,
+  Row,
+  Column,
+} from '@react-email/components';
+
+const MONO_FONT = '"SF Mono", Menlo, Consolas, "Courier New", monospace';
+
+export const PaymentConfirmationEmail = ({
+  clientName = 'Cijenjeni klijente',
+  quoteNumber = 'NF-20260101-001',
+  amount = '2.450 €',
+  paymentDate = '15. rujna 2026.',
+  quoteUrl = 'https://www.ninefold.eu/quote/xxx',
+  projectDescription = 'Izrada web stranice',
+}) => {
+  return (
+    <Html>
+      <Head />
+      <Preview>Uplata zaprimljena · {quoteNumber} · Ninefold</Preview>
+      <Body style={main}>
+        <Container style={container}>
+          {/* Header */}
+          <Section style={header}>
+            <table width="100%" cellPadding="0" cellSpacing="0" style={{ borderCollapse: 'collapse' }}>
+              <tr>
+                <td>
+                  <Heading style={logo}>Ninefold</Heading>
+                </td>
+                <td style={{ textAlign: 'right', verticalAlign: 'middle' }}>
+                  <Text style={eyebrow}>
+                    <span style={greenDot}>●</span>&nbsp;&nbsp;UPLATA ZAPRIMLJENA
+                  </Text>
+                </td>
+              </tr>
+            </table>
+          </Section>
+
+          {/* Main Content */}
+          <Section style={content}>
+            <Heading style={h1}>Uplata je sjela, krećemo</Heading>
+
+            <Text style={paragraph}>Bok {clientName},</Text>
+
+            <Text style={paragraph}>
+              uspješno smo zaprimili vašu uplatu. Hvala na povjerenju, projekt
+              time službeno kreće.
+            </Text>
+
+            {/* Payment Details Card */}
+            <Section style={detailsCard}>
+              <Row>
+                <Column>
+                  <Text style={label}>BROJ PONUDE</Text>
+                  <Text style={value}>{quoteNumber}</Text>
+                </Column>
+                <Column align="right">
+                  <Text style={label}>UPLAĆENI IZNOS</Text>
+                  <Text style={valueAmount}>{amount}</Text>
+                </Column>
+              </Row>
+
+              <Hr style={divider} />
+
+              <Row>
+                <Column>
+                  <Text style={label}>DATUM UPLATE</Text>
+                  <Text style={value}>{paymentDate}</Text>
+                </Column>
+                <Column align="right">
+                  <Text style={label}>PROJEKT</Text>
+                  <Text style={value}>{projectDescription}</Text>
+                </Column>
+              </Row>
             </Section>
-  
-            {/* Success Badge */}
-            <Section style={successBadge}>
-              <Text style={checkmark}>✓</Text>
-              <Heading style={h1}>Payment Received!</Heading>
-            </Section>
-  
-            {/* Main Content */}
-            <Section style={content}>
-              <Text style={paragraph}>
-                Dear {clientName},
-              </Text>
-              
-              <Text style={paragraph}>
-                Great news! We've successfully received your payment. Thank you for your trust in NineFold.
-              </Text>
-  
-              {/* Payment Details Card */}
-              <Section style={detailsCard}>
-                <Row>
-                  <Column>
-                    <Text style={label}>Quote Number</Text>
-                    <Text style={value}>{quoteNumber}</Text>
-                  </Column>
-                  <Column align="right">
-                    <Text style={label}>Amount Paid</Text>
-                    <Text style={valueAmount}>{amount}</Text>
-                  </Column>
-                </Row>
-                
-                <Hr style={divider} />
-                
-                <Row>
-                  <Column>
-                    <Text style={label}>Payment Date</Text>
-                    <Text style={value}>{paymentDate}</Text>
-                  </Column>
-                  <Column align="right">
-                    <Text style={label}>Project</Text>
-                    <Text style={value}>{projectDescription}</Text>
-                  </Column>
-                </Row>
-              </Section>
-  
-              {/* Next Steps */}
-              <Section style={nextStepsSection}>
-                <Heading as="h2" style={h2}>
-                  What's Next?
-                </Heading>
-                <Text style={paragraph}>
-                  Our team is excited to get started on your project. Here's what happens next:
-                </Text>
-                <table style={list}>
-                  <tr>
-                    <td style={bullet}>1.</td>
-                    <td style={listItem}>
-                      <Text style={listText}>
-                        <strong>Kickoff Meeting:</strong> We'll schedule a project kickoff call within the next 2 business days
-                      </Text>
+
+            {/* Next steps */}
+            <Section style={nextStepsSection}>
+              <Text style={sectionLabel}>SLJEDEĆI KORACI</Text>
+              <table width="100%" cellPadding="0" cellSpacing="0" style={{ borderCollapse: 'collapse' }}>
+                {[
+                  'Javljamo se u roku 2 radna dana za kickoff poziv',
+                  'Potvrđujemo rokove i ključne milestoneove',
+                  'Tijekom projekta dobivate redovite statuse napretka',
+                ].map((step, i) => (
+                  <tr key={i}>
+                    <td style={stepNumberCell}>
+                      <Text style={stepNumber}>{i + 1}</Text>
+                    </td>
+                    <td style={stepTextCell}>
+                      <Text style={stepText}>{step}</Text>
                     </td>
                   </tr>
-                  <tr>
-                    <td style={bullet}>2.</td>
-                    <td style={listItem}>
-                      <Text style={listText}>
-                        <strong>Timeline Confirmation:</strong> We'll confirm the project timeline and key milestones
-                      </Text>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style={bullet}>3.</td>
-                    <td style={listItem}>
-                      <Text style={listText}>
-                        <strong>Regular Updates:</strong> You'll receive weekly progress updates throughout the project
-                      </Text>
-                    </td>
-                  </tr>
-                </table>
-              </Section>
-  
-              {/* CTA Button */}
-              <Section style={buttonContainer}>
-                <Link href={quoteUrl} style={button}>
-                  View Your Quote
-                </Link>
-              </Section>
-  
-              {/* Contact Info */}
-              <Section style={contactSection}>
-                <Text style={contactHeading}>
-                  Have questions? We're here to help!
-                </Text>
-                <Text style={contactText}>
-                  Email: <Link href="mailto:bruno@ninefold.eu" style={link}>bruno@ninefold.eu</Link>
-                </Text>
-                <Text style={contactText}>
-                  Website: <Link href="https://ninefold.eu" style={link}>ninefold.eu</Link>
-                </Text>
-              </Section>
-  
-              {/* Thank You */}
-              <Hr style={thanksHr} />
-              <Text style={thanksText}>
-                Thank you for choosing NineFold. We're committed to delivering exceptional results and look forward to bringing your vision to life.
+                ))}
+              </table>
+            </Section>
+
+            {/* CTA Button */}
+            <Section style={buttonContainer}>
+              <Link href={quoteUrl} style={button}>
+                Pregledaj ponudu
+              </Link>
+            </Section>
+
+            {/* Contact */}
+            <Section style={infoBox}>
+              <Text style={infoText}>
+                Imate pitanja? Samo odgovorite na ovaj mail ili nam pišite na{' '}
+                <Link href="mailto:hello@ninefold.eu" style={inlineLink}>hello@ninefold.eu</Link>.
               </Text>
             </Section>
-  
-            {/* Footer */}
-            <Section style={footer}>
-              <Text style={footerText}>
-                © {new Date().getFullYear()} NineFold. All rights reserved.
-              </Text>
-              <Text style={footerText}>
-                High-performance web development agency • Zagreb, Croatia
-              </Text>
-            </Section>
-          </Container>
-        </Body>
-      </Html>
-    );
-  };
-  
-  export default PaymentConfirmationEmail;
-  
-  // Styles
-  const main = {
-    backgroundColor: '#f6f6f6',
-    fontFamily: '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif',
-  };
-  
-  const container = {
-    backgroundColor: '#ffffff',
-    margin: '0 auto',
-    padding: '0',
-    marginBottom: '64px',
-    maxWidth: '600px',
-  };
-  
-  const header = {
-    padding: '32px 40px',
-    backgroundColor: '#0F0F0F',
-  };
-  
-  const logo = {
-    color: '#00FF94',
-    fontSize: '28px',
-    fontWeight: '900',
-    margin: '0',
-    letterSpacing: '-0.5px',
-  };
-  
-  const successBadge = {
-    padding: '40px 40px 32px',
-    textAlign: 'center',
-    backgroundColor: '#F0FDF4',
-  };
-  
-  const checkmark = {
-    fontSize: '48px',
-    margin: '0 0 16px',
-    lineHeight: '1',
-    color: '#00FF94',
-  };
-  
-  const h1 = {
-    color: '#0F0F0F',
-    fontSize: '32px',
-    fontWeight: '900',
-    margin: '0',
-    lineHeight: '1.2',
-  };
-  
-  const h2 = {
-    color: '#0F0F0F',
-    fontSize: '24px',
-    fontWeight: '700',
-    margin: '0 0 16px',
-  };
-  
-  const content = {
-    padding: '0 40px 40px',
-  };
-  
-  const paragraph = {
-    color: '#4B5563',
-    fontSize: '16px',
-    lineHeight: '26px',
-    margin: '0 0 16px',
-  };
-  
-  const detailsCard = {
-    backgroundColor: '#F9FAFB',
-    borderRadius: '12px',
-    padding: '24px',
-    margin: '32px 0',
-    border: '1px solid #E5E7EB',
-  };
-  
-  const label = {
-    color: '#6B7280',
-    fontSize: '12px',
-    fontWeight: '600',
-    textTransform: 'uppercase',
-    letterSpacing: '0.5px',
-    margin: '0 0 4px',
-  };
-  
-  const value = {
-    color: '#0F0F0F',
-    fontSize: '16px',
-    fontWeight: '600',
-    margin: '0',
-  };
-  
-  const valueAmount = {
-    color: '#00FF94',
-    fontSize: '24px',
-    fontWeight: '900',
-    margin: '0',
-  };
-  
-  const divider = {
-    borderColor: '#E5E7EB',
-    margin: '16px 0',
-  };
-  
-  const nextStepsSection = {
-    margin: '32px 0',
-  };
-  
-  const list = {
-    width: '100%',
-    margin: '16px 0',
-  };
-  
-  const bullet = {
-    color: '#00FF94',
-    fontSize: '20px',
-    fontWeight: '900',
-    paddingRight: '12px',
-    verticalAlign: 'top',
-    paddingTop: '4px',
-  };
-  
-  const listItem = {
-    paddingBottom: '12px',
-  };
-  
-  const listText = {
-    color: '#4B5563',
-    fontSize: '16px',
-    lineHeight: '26px',
-    margin: '0',
-  };
-  
-  const buttonContainer = {
-    textAlign: 'center',
-    margin: '32px 0',
-  };
-  
-  const button = {
-    backgroundColor: '#00FF94',
-    borderRadius: '8px',
-    color: '#0F0F0F',
-    fontSize: '16px',
-    fontWeight: '700',
-    textDecoration: 'none',
-    textAlign: 'center',
-    display: 'inline-block',
-    padding: '14px 32px',
-  };
-  
-  const contactSection = {
-    backgroundColor: '#F9FAFB',
-    borderRadius: '12px',
-    padding: '24px',
-    margin: '32px 0',
-    textAlign: 'center',
-  };
-  
-  const contactHeading = {
-    color: '#0F0F0F',
-    fontSize: '16px',
-    fontWeight: '700',
-    margin: '0 0 12px',
-  };
-  
-  const contactText = {
-    color: '#4B5563',
-    fontSize: '14px',
-    margin: '8px 0',
-  };
-  
-  const link = {
-    color: '#00FF94',
-    textDecoration: 'none',
-    fontWeight: '600',
-  };
-  
-  const thanksHr = {
-    borderColor: '#E5E7EB',
-    margin: '32px 0 24px',
-  };
-  
-  const thanksText = {
-    color: '#6B7280',
-    fontSize: '15px',
-    lineHeight: '24px',
-    fontStyle: 'italic',
-    textAlign: 'center',
-    margin: '0',
-  };
-  
-  const footer = {
-    padding: '32px 40px',
-    backgroundColor: '#F9FAFB',
-    borderTop: '1px solid #E5E7EB',
-  };
-  
-  const footerText = {
-    color: '#9CA3AF',
-    fontSize: '12px',
-    lineHeight: '20px',
-    textAlign: 'center',
-    margin: '4px 0',
-  };
+          </Section>
+
+          {/* Footer */}
+          <Section style={footer}>
+            <Heading style={footerLogo}>Ninefold</Heading>
+            <Text style={footerMeta}>ZAGREB · HRVATSKA</Text>
+            <Text style={footerLinks}>
+              <Link href="https://www.ninefold.eu" style={footerLink}>ninefold.eu</Link>
+              <span style={footerDot}>·</span>
+              <Link href="mailto:hello@ninefold.eu" style={footerLink}>hello@ninefold.eu</Link>
+            </Text>
+            <Text style={copyright}>© {new Date().getFullYear()} Ninefold. Sva prava pridržana.</Text>
+          </Section>
+        </Container>
+      </Body>
+    </Html>
+  );
+};
+
+export default PaymentConfirmationEmail;
+
+// Styles · Mono language: #080808 base, #0F0F0F panels, hairline borders,
+// text never pure white, green #00FF94 only as signal (dot + paid amount)
+const main = {
+  backgroundColor: '#080808',
+  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+  padding: '40px 0',
+};
+
+const container = {
+  backgroundColor: '#0F0F0F',
+  margin: '0 auto',
+  maxWidth: '600px',
+  borderRadius: '16px',
+  border: '1px solid #242424',
+  overflow: 'hidden',
+};
+
+const header = {
+  padding: '28px 40px',
+  borderBottom: '1px solid #1F1F1F',
+};
+
+const logo = {
+  color: '#F2F2F2',
+  fontSize: '22px',
+  fontWeight: '500',
+  margin: '0',
+  padding: '0',
+  letterSpacing: '-0.5px',
+};
+
+const eyebrow = {
+  color: '#8E8E8E',
+  fontFamily: MONO_FONT,
+  fontSize: '11px',
+  letterSpacing: '2px',
+  margin: '0',
+};
+
+const greenDot = {
+  color: '#00FF94',
+  fontSize: '8px',
+  verticalAlign: 'middle',
+};
+
+const content = {
+  padding: '40px 40px 32px',
+};
+
+const h1 = {
+  color: '#F2F2F2',
+  fontSize: '24px',
+  fontWeight: '500',
+  margin: '0 0 24px',
+  lineHeight: '1.3',
+};
+
+const paragraph = {
+  color: '#C9C9C9',
+  fontSize: '15px',
+  lineHeight: '1.7',
+  margin: '0 0 14px',
+};
+
+const detailsCard = {
+  backgroundColor: '#080808',
+  border: '1px solid #242424',
+  borderRadius: '12px',
+  padding: '24px 28px',
+  margin: '28px 0 32px',
+};
+
+const label = {
+  color: '#8E8E8E',
+  fontFamily: MONO_FONT,
+  fontSize: '10px',
+  letterSpacing: '1.5px',
+  margin: '0 0 6px',
+};
+
+const value = {
+  color: '#F2F2F2',
+  fontSize: '16px',
+  fontWeight: '500',
+  margin: '0',
+};
+
+const valueAmount = {
+  color: '#00FF94',
+  fontSize: '20px',
+  fontWeight: '600',
+  margin: '0',
+};
+
+const divider = {
+  borderColor: '#1F1F1F',
+  margin: '18px 0',
+};
+
+const nextStepsSection = {
+  margin: '0 0 32px',
+};
+
+const sectionLabel = {
+  color: '#8E8E8E',
+  fontFamily: MONO_FONT,
+  fontSize: '10px',
+  letterSpacing: '1.5px',
+  margin: '0 0 16px',
+};
+
+const stepNumberCell = {
+  width: '36px',
+  padding: '8px 0',
+  verticalAlign: 'middle',
+};
+
+const stepNumber = {
+  border: '1px solid #3A3A3A',
+  color: '#C9C9C9',
+  fontSize: '11px',
+  fontWeight: '500',
+  width: '24px',
+  height: '24px',
+  borderRadius: '50%',
+  display: 'inline-block',
+  textAlign: 'center',
+  lineHeight: '22px',
+  margin: '0',
+};
+
+const stepTextCell = {
+  padding: '8px 0',
+  verticalAlign: 'middle',
+};
+
+const stepText = {
+  color: '#C9C9C9',
+  fontSize: '14px',
+  margin: '0',
+};
+
+const buttonContainer = {
+  textAlign: 'center',
+  margin: '0 0 32px',
+};
+
+const button = {
+  backgroundColor: '#F2F2F2',
+  borderRadius: '999px',
+  color: '#080808',
+  fontSize: '15px',
+  fontWeight: '600',
+  textDecoration: 'none',
+  textAlign: 'center',
+  display: 'inline-block',
+  padding: '16px 44px',
+};
+
+const infoBox = {
+  border: '1px solid #242424',
+  borderRadius: '12px',
+  padding: '16px 20px',
+};
+
+const infoText = {
+  color: '#8E8E8E',
+  fontSize: '13px',
+  lineHeight: '1.6',
+  margin: '0',
+};
+
+const inlineLink = {
+  color: '#C9C9C9',
+  textDecoration: 'none',
+};
+
+const footer = {
+  borderTop: '1px solid #1F1F1F',
+  padding: '32px 40px',
+  textAlign: 'center',
+};
+
+const footerLogo = {
+  color: '#F2F2F2',
+  fontSize: '18px',
+  fontWeight: '500',
+  margin: '0 0 6px',
+  letterSpacing: '-0.5px',
+};
+
+const footerMeta = {
+  color: '#5C5C5C',
+  fontFamily: MONO_FONT,
+  fontSize: '10px',
+  letterSpacing: '1.5px',
+  margin: '0 0 18px',
+};
+
+const footerLinks = {
+  margin: '0 0 14px',
+  fontSize: '13px',
+};
+
+const footerLink = {
+  color: '#C9C9C9',
+  fontSize: '13px',
+  textDecoration: 'none',
+};
+
+const footerDot = {
+  color: '#5C5C5C',
+  margin: '0 10px',
+};
+
+const copyright = {
+  color: '#5C5C5C',
+  fontSize: '11px',
+  margin: '0',
+};

@@ -1,9 +1,8 @@
 // emails/QuestionnaireConfirmationEmail.jsx
-// Email sent to clients after submitting the questionnaire
+// Mono confirmation email sent to clients after submitting the questionnaire
 
 import {
   Body,
-  Button,
   Container,
   Head,
   Heading,
@@ -15,6 +14,8 @@ import {
   Hr,
 } from '@react-email/components';
 
+const MONO_FONT = '"SF Mono", Menlo, Consolas, "Courier New", monospace';
+
 export default function QuestionnaireConfirmationEmail({
   clientName = 'Cijenjeni klijente',
   selectedServices = [],
@@ -24,51 +25,45 @@ export default function QuestionnaireConfirmationEmail({
   return (
     <Html>
       <Head />
-      <Preview>Zaprimili smo vaš upit | NineFold</Preview>
+      <Preview>Zaprimili smo vaš upit · Ninefold</Preview>
       <Body style={main}>
         <Container style={container}>
-          {/* Header with gradient accent */}
+          {/* Header */}
           <Section style={header}>
-            <Section style={accentBar} />
-            <Section style={logoSection}>
-              <table width="100%" cellPadding="0" cellSpacing="0" style={{ borderCollapse: 'collapse' }}>
-                <tr>
-                  <td>
-                    <Heading style={logo}>NineFold</Heading>
-                  </td>
-                  <td style={{ textAlign: 'right' }}>
-                    <Text style={headerBadge}>POTVRDA</Text>
-                  </td>
-                </tr>
-              </table>
-            </Section>
+            <table width="100%" cellPadding="0" cellSpacing="0" style={{ borderCollapse: 'collapse' }}>
+              <tr>
+                <td>
+                  <Heading style={logo}>Ninefold</Heading>
+                </td>
+                <td style={{ textAlign: 'right', verticalAlign: 'middle' }}>
+                  <Text style={eyebrow}>
+                    <span style={greenDot}>●</span>&nbsp;&nbsp;UPIT ZAPRIMLJEN
+                  </Text>
+                </td>
+              </tr>
+            </table>
           </Section>
 
           {/* Main Content */}
           <Section style={content}>
-            {/* Success Icon */}
-            <Section style={successIconSection}>
-              <Text style={successIcon}>✓</Text>
-            </Section>
-
-            {/* Greeting */}
             <Heading style={mainHeading}>Hvala, {clientName}!</Heading>
 
             <Text style={introText}>
-              Zaprimili smo vaš upit i već radimo na vašoj personaliziranoj ponudi.
-              Očekujte naš odgovor unutar 24 sata.
+              Zaprimili smo vaš upit i već radimo na vašoj personaliziranoj
+              ponudi. Očekujte naš odgovor unutar 24 sata.
             </Text>
 
             {/* Selected Services Card */}
             {selectedServices.length > 0 && (
               <Section style={servicesCard}>
-                <Text style={cardTitle}>Vaš odabir usluga</Text>
-                <Hr style={cardDivider} />
+                <Text style={cardLabel}>VAŠ ODABIR USLUGA</Text>
                 {selectedServices.map((service, index) => (
                   <table key={index} width="100%" cellPadding="0" cellSpacing="0" style={{ borderCollapse: 'collapse' }}>
                     <tr>
-                      <td style={serviceRow}>
-                        <Text style={serviceIcon}>→</Text>
+                      <td style={serviceDotCell}>
+                        <Text style={serviceDot}>●</Text>
+                      </td>
+                      <td style={serviceNameCell}>
                         <Text style={serviceName}>{service}</Text>
                       </td>
                     </tr>
@@ -82,98 +77,75 @@ export default function QuestionnaireConfirmationEmail({
                     <table width="100%" cellPadding="0" cellSpacing="0" style={{ borderCollapse: 'collapse' }}>
                       {estimatedOneTime && (
                         <tr>
-                          <td style={priceRow}>
+                          <td>
                             <Text style={priceLabel}>Jednokratno (procjena)</Text>
+                          </td>
+                          <td style={{ textAlign: 'right' }}>
                             <Text style={priceValue}>{estimatedOneTime}</Text>
                           </td>
                         </tr>
                       )}
                       {estimatedMonthly && (
                         <tr>
-                          <td style={priceRow}>
+                          <td>
                             <Text style={priceLabel}>Mjesečno (procjena)</Text>
-                            <Text style={priceValueGreen}>{estimatedMonthly}</Text>
+                          </td>
+                          <td style={{ textAlign: 'right' }}>
+                            <Text style={priceValueMonthly}>{estimatedMonthly}</Text>
                           </td>
                         </tr>
                       )}
                     </table>
                     <Text style={priceDisclaimer}>
-                      * Konačna cijena bit će potvrđena u službenoj ponudi
+                      Konačna cijena bit će potvrđena u službenoj ponudi.
                     </Text>
                   </>
                 )}
               </Section>
             )}
 
-            {/* What's Next Section */}
+            {/* Next steps */}
             <Section style={nextStepsSection}>
-              <Heading style={h3}>Što dalje?</Heading>
+              <Text style={sectionLabel}>SLJEDEĆI KORACI</Text>
               <table width="100%" cellPadding="0" cellSpacing="0" style={{ borderCollapse: 'collapse' }}>
-                <tr>
-                  <td style={stepItem}>
-                    <Text style={stepNumber}>1</Text>
-                    <Text style={stepText}>Naš tim pregledava vaš upit</Text>
-                  </td>
-                </tr>
-                <tr>
-                  <td style={stepItem}>
-                    <Text style={stepNumber}>2</Text>
-                    <Text style={stepText}>Pripremamo detaljnu ponudu</Text>
-                  </td>
-                </tr>
-                <tr>
-                  <td style={stepItem}>
-                    <Text style={stepNumber}>3</Text>
-                    <Text style={stepText}>Kontaktirat ćemo vas unutar 24h</Text>
-                  </td>
-                </tr>
+                {[
+                  'Pregledavamo vaš upit',
+                  'Pripremamo detaljnu ponudu',
+                  'Javljamo vam se unutar 24 sata',
+                ].map((step, i) => (
+                  <tr key={i}>
+                    <td style={stepNumberCell}>
+                      <Text style={stepNumber}>{i + 1}</Text>
+                    </td>
+                    <td style={stepTextCell}>
+                      <Text style={stepText}>{step}</Text>
+                    </td>
+                  </tr>
+                ))}
               </table>
             </Section>
 
-            {/* Contact Info */}
-            <Section style={contactBox}>
-              <Text style={contactTitle}>Imate pitanja?</Text>
-              <Text style={contactText}>
-                Slobodno nas kontaktirajte bilo kada:
+            {/* Contact */}
+            <Section style={infoBox}>
+              <Text style={infoText}>
+                Imate pitanja? Pišite nam na{' '}
+                <Link href="mailto:hello@ninefold.eu" style={inlineLink}>hello@ninefold.eu</Link>
+                {' '}ili na WhatsApp{' '}
+                <Link href="https://wa.me/385915469266" style={inlineLink}>+385 91 546 9266</Link>.
               </Text>
-              <table width="100%" cellPadding="0" cellSpacing="0" style={{ borderCollapse: 'collapse' }}>
-                <tr>
-                  <td style={contactRow}>
-                    <Text style={contactIcon}>📧</Text>
-                    <Link href="mailto:hello@ninefold.co" style={contactLink}>hello@ninefold.co</Link>
-                  </td>
-                </tr>
-                <tr>
-                  <td style={contactRow}>
-                    <Text style={contactIcon}>📱</Text>
-                    <Link href="https://instagram.com/ninefold.hr" style={contactLink}>@ninefold.hr</Link>
-                  </td>
-                </tr>
-              </table>
             </Section>
           </Section>
 
           {/* Footer */}
           <Section style={footer}>
-            <Section style={footerContent}>
-              <Heading style={footerLogo}>NineFold</Heading>
-              <Text style={footerTagline}>Slow websites lose customers.</Text>
-
-              <Hr style={footerDivider} />
-
-              <table width="100%" cellPadding="0" cellSpacing="0" style={{ borderCollapse: 'collapse' }}>
-                <tr>
-                  <td style={{ textAlign: 'center' }}>
-                    <Link href="https://ninefold.co" style={footerLink}>ninefold.co</Link>
-                    <Text style={footerDot}>•</Text>
-                    <Link href="mailto:hello@ninefold.co" style={footerLink}>hello@ninefold.co</Link>
-                  </td>
-                </tr>
-              </table>
-
-              <Text style={footerAddress}>Zagreb, Hrvatska</Text>
-              <Text style={copyright}>© {new Date().getFullYear()} NineFold. Sva prava pridržana.</Text>
-            </Section>
+            <Heading style={footerLogo}>Ninefold</Heading>
+            <Text style={footerMeta}>ZAGREB · HRVATSKA</Text>
+            <Text style={footerLinks}>
+              <Link href="https://www.ninefold.eu" style={footerLink}>ninefold.eu</Link>
+              <span style={footerDot}>·</span>
+              <Link href="mailto:hello@ninefold.eu" style={footerLink}>hello@ninefold.eu</Link>
+            </Text>
+            <Text style={copyright}>© {new Date().getFullYear()} Ninefold. Sva prava pridržana.</Text>
           </Section>
         </Container>
       </Body>
@@ -181,310 +153,243 @@ export default function QuestionnaireConfirmationEmail({
   );
 }
 
-// Styles
+// Styles · Mono language: #080808 base, #0F0F0F panels, hairline borders,
+// green #00FF94 only as signal, monthly amounts muted purple like the quote page
 const main = {
-  backgroundColor: '#f0f0f0',
+  backgroundColor: '#080808',
   fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
   padding: '40px 0',
 };
 
 const container = {
-  backgroundColor: '#ffffff',
+  backgroundColor: '#0F0F0F',
   margin: '0 auto',
   maxWidth: '600px',
   borderRadius: '16px',
+  border: '1px solid #242424',
   overflow: 'hidden',
-  boxShadow: '0 4px 24px rgba(0, 0, 0, 0.08)',
 };
 
 const header = {
-  backgroundColor: '#0A0A0A',
-};
-
-const accentBar = {
-  height: '4px',
-  background: 'linear-gradient(90deg, #00FF94 0%, #00CC75 50%, #00FF94 100%)',
-};
-
-const logoSection = {
-  padding: '32px 40px',
+  padding: '28px 40px',
+  borderBottom: '1px solid #1F1F1F',
 };
 
 const logo = {
-  color: '#00FF94',
-  fontSize: '28px',
-  fontWeight: '800',
+  color: '#F2F2F2',
+  fontSize: '22px',
+  fontWeight: '500',
   margin: '0',
   padding: '0',
   letterSpacing: '-0.5px',
 };
 
-const headerBadge = {
-  color: '#00FF94',
-  fontSize: '12px',
-  fontWeight: '700',
+const eyebrow = {
+  color: '#8E8E8E',
+  fontFamily: MONO_FONT,
+  fontSize: '11px',
   letterSpacing: '2px',
   margin: '0',
-  padding: '8px 16px',
-  border: '1px solid #00FF94',
-  borderRadius: '4px',
-  display: 'inline-block',
+};
+
+const greenDot = {
+  color: '#00FF94',
+  fontSize: '8px',
+  verticalAlign: 'middle',
 };
 
 const content = {
-  padding: '48px 40px',
-};
-
-const successIconSection = {
-  textAlign: 'center',
-  marginBottom: '24px',
-};
-
-const successIcon = {
-  backgroundColor: '#00FF94',
-  color: '#0A0A0A',
-  fontSize: '32px',
-  fontWeight: '700',
-  width: '64px',
-  height: '64px',
-  borderRadius: '50%',
-  display: 'inline-block',
-  lineHeight: '64px',
-  textAlign: 'center',
-  margin: '0',
+  padding: '40px 40px 32px',
 };
 
 const mainHeading = {
-  color: '#1a1a1a',
-  fontSize: '28px',
-  fontWeight: '700',
-  marginBottom: '16px',
-  marginTop: '0',
-  textAlign: 'center',
+  color: '#F2F2F2',
+  fontSize: '24px',
+  fontWeight: '500',
+  margin: '0 0 14px',
+  lineHeight: '1.3',
 };
 
 const introText = {
-  color: '#4a4a4a',
-  fontSize: '16px',
+  color: '#C9C9C9',
+  fontSize: '15px',
   lineHeight: '1.7',
-  marginBottom: '32px',
-  textAlign: 'center',
+  margin: '0 0 32px',
 };
 
 const servicesCard = {
-  backgroundColor: '#fafafa',
-  border: '1px solid #e8e8e8',
+  backgroundColor: '#080808',
+  border: '1px solid #242424',
   borderRadius: '12px',
-  padding: '28px',
+  padding: '24px 28px',
   marginBottom: '32px',
 };
 
-const cardTitle = {
-  color: '#1a1a1a',
-  fontSize: '16px',
-  fontWeight: '700',
-  margin: '0 0 16px 0',
+const cardLabel = {
+  color: '#8E8E8E',
+  fontFamily: MONO_FONT,
+  fontSize: '10px',
+  letterSpacing: '1.5px',
+  margin: '0 0 14px',
 };
 
 const cardDivider = {
-  borderColor: '#e8e8e8',
+  borderColor: '#1F1F1F',
   margin: '16px 0',
 };
 
-const serviceRow = {
-  padding: '8px 0',
-  display: 'flex',
-  alignItems: 'center',
+const serviceDotCell = {
+  width: '20px',
+  padding: '6px 0',
+  verticalAlign: 'middle',
 };
 
-const serviceIcon = {
+const serviceDot = {
   color: '#00FF94',
-  fontSize: '16px',
-  fontWeight: '700',
-  marginRight: '12px',
-  marginTop: '0',
-  marginBottom: '0',
-  display: 'inline-block',
-  width: '20px',
+  fontSize: '7px',
+  margin: '0',
+};
+
+const serviceNameCell = {
+  padding: '6px 0',
+  verticalAlign: 'middle',
 };
 
 const serviceName = {
-  color: '#1a1a1a',
-  fontSize: '15px',
+  color: '#F2F2F2',
+  fontSize: '14px',
   margin: '0',
-  display: 'inline-block',
-};
-
-const priceRow = {
-  padding: '8px 0',
-  display: 'flex',
-  justifyContent: 'space-between',
 };
 
 const priceLabel = {
-  color: '#666',
-  fontSize: '14px',
-  margin: '0',
-  display: 'inline-block',
+  color: '#8E8E8E',
+  fontSize: '13px',
+  margin: '6px 0',
 };
 
 const priceValue = {
-  color: '#1a1a1a',
+  color: '#F2F2F2',
   fontSize: '14px',
   fontWeight: '600',
-  margin: '0',
-  display: 'inline-block',
-  float: 'right',
+  margin: '6px 0',
 };
 
-const priceValueGreen = {
-  color: '#00CC75',
+const priceValueMonthly = {
+  color: '#C084FC',
   fontSize: '14px',
-  fontWeight: '700',
-  margin: '0',
-  display: 'inline-block',
-  float: 'right',
+  fontWeight: '600',
+  margin: '6px 0',
 };
 
 const priceDisclaimer = {
-  color: '#888',
+  color: '#5C5C5C',
   fontSize: '12px',
-  margin: '12px 0 0 0',
-  fontStyle: 'italic',
+  margin: '12px 0 0',
 };
 
 const nextStepsSection = {
-  marginTop: '40px',
-  paddingTop: '32px',
-  borderTop: '1px solid #e8e8e8',
+  paddingTop: '28px',
+  borderTop: '1px solid #1F1F1F',
+  marginBottom: '32px',
 };
 
-const h3 = {
-  color: '#1a1a1a',
-  fontSize: '18px',
-  fontWeight: '700',
-  marginBottom: '20px',
-  marginTop: '0',
+const sectionLabel = {
+  color: '#8E8E8E',
+  fontFamily: MONO_FONT,
+  fontSize: '10px',
+  letterSpacing: '1.5px',
+  margin: '0 0 16px',
 };
 
-const stepItem = {
-  padding: '10px 0',
-  display: 'flex',
-  alignItems: 'center',
+const stepNumberCell = {
+  width: '36px',
+  padding: '8px 0',
+  verticalAlign: 'middle',
 };
 
 const stepNumber = {
-  backgroundColor: '#0A0A0A',
-  color: '#00FF94',
-  fontSize: '12px',
-  fontWeight: '700',
+  border: '1px solid #3A3A3A',
+  color: '#C9C9C9',
+  fontSize: '11px',
+  fontWeight: '500',
   width: '24px',
   height: '24px',
   borderRadius: '50%',
   display: 'inline-block',
   textAlign: 'center',
-  lineHeight: '24px',
-  marginRight: '14px',
-  marginTop: '0',
-  marginBottom: '0',
+  lineHeight: '22px',
+  margin: '0',
+};
+
+const stepTextCell = {
+  padding: '8px 0',
+  verticalAlign: 'middle',
 };
 
 const stepText = {
-  color: '#4a4a4a',
-  fontSize: '15px',
+  color: '#C9C9C9',
+  fontSize: '14px',
   margin: '0',
-  display: 'inline-block',
 };
 
-const contactBox = {
-  backgroundColor: '#f0f9f5',
-  borderLeft: '4px solid #00FF94',
-  borderRadius: '0 8px 8px 0',
-  padding: '20px 24px',
-  marginTop: '32px',
+const infoBox = {
+  border: '1px solid #242424',
+  borderRadius: '12px',
+  padding: '16px 20px',
 };
 
-const contactTitle = {
-  color: '#1a1a1a',
-  fontSize: '16px',
-  fontWeight: '700',
-  margin: '0 0 8px 0',
+const infoText = {
+  color: '#8E8E8E',
+  fontSize: '13px',
+  lineHeight: '1.6',
+  margin: '0',
 };
 
-const contactText = {
-  color: '#4a4a4a',
-  fontSize: '14px',
-  margin: '0 0 16px 0',
-};
-
-const contactRow = {
-  padding: '6px 0',
-};
-
-const contactIcon = {
-  fontSize: '14px',
-  marginRight: '10px',
-  marginTop: '0',
-  marginBottom: '0',
-  display: 'inline-block',
-};
-
-const contactLink = {
-  color: '#00CC75',
-  fontSize: '14px',
-  fontWeight: '600',
+const inlineLink = {
+  color: '#C9C9C9',
   textDecoration: 'none',
 };
 
 const footer = {
-  backgroundColor: '#0A0A0A',
-  padding: '40px',
-};
-
-const footerContent = {
+  borderTop: '1px solid #1F1F1F',
+  padding: '32px 40px',
   textAlign: 'center',
 };
 
 const footerLogo = {
-  color: '#00FF94',
-  fontSize: '24px',
-  fontWeight: '800',
-  margin: '0 0 8px 0',
+  color: '#F2F2F2',
+  fontSize: '18px',
+  fontWeight: '500',
+  margin: '0 0 6px',
   letterSpacing: '-0.5px',
 };
 
-const footerTagline = {
-  color: '#888',
-  fontSize: '14px',
-  margin: '0 0 24px 0',
-  fontStyle: 'italic',
+const footerMeta = {
+  color: '#5C5C5C',
+  fontFamily: MONO_FONT,
+  fontSize: '10px',
+  letterSpacing: '1.5px',
+  margin: '0 0 18px',
 };
 
-const footerDivider = {
-  borderColor: '#333',
-  margin: '24px 0',
+const footerLinks = {
+  margin: '0 0 14px',
+  fontSize: '13px',
 };
 
 const footerLink = {
-  color: '#ffffff',
-  fontSize: '14px',
+  color: '#C9C9C9',
+  fontSize: '13px',
   textDecoration: 'none',
 };
 
 const footerDot = {
-  color: '#555',
-  margin: '0 12px',
-  display: 'inline',
-};
-
-const footerAddress = {
-  color: '#666',
-  fontSize: '13px',
-  margin: '16px 0 8px 0',
+  color: '#5C5C5C',
+  margin: '0 10px',
 };
 
 const copyright = {
-  color: '#555',
-  fontSize: '12px',
+  color: '#5C5C5C',
+  fontSize: '11px',
   margin: '0',
 };

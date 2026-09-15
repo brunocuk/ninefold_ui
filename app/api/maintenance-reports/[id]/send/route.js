@@ -68,9 +68,9 @@ export async function POST(request, { params }) {
 
     // Send email using Resend
     const { data, error } = await resend.emails.send({
-      from: 'Bruno at NineFold <bruno@ninefold.eu>',
+      from: 'Bruno iz Ninefolda <bruno@ninefold.eu>',
       to: recipientEmail,
-      subject: `Mjesečni izvještaj održavanja - ${periodDisplay} | ${report.reference}`,
+      subject: `Mjesečni izvještaj održavanja · ${periodDisplay} · ${report.reference}`,
       react: MaintenanceReportEmail({
         clientName,
         reportReference: report.reference,
