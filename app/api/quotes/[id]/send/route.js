@@ -44,14 +44,14 @@ export async function POST(request, { params }) {
 
     // Send email using Resend
     const { data, error } = await resend.emails.send({
-      from: 'Bruno at NineFold <bruno@ninefold.eu>',
+      from: 'Bruno iz Ninefolda <bruno@ninefold.eu>',
       to: recipientEmail,
-      subject: `Ponuda za Vaš projekt - ${quote.reference}`,
+      subject: `Ponuda za vaš projekt · ${quote.reference}`,
       react: QuoteEmail({
         clientName: recipientName || quote.client_name,
         quoteNumber: quote.reference,
         quoteUrl: quoteUrl,
-        projectOverview: quote.project_overview,
+        projectOverview: quote.title || quote.project_overview,
         validUntil: '30 dana',
       }),
     });

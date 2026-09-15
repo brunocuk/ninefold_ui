@@ -1,5 +1,5 @@
 // emails/QuoteEmail.jsx
-// Premium email template for sending quotes to clients - Croatian version
+// Mono email template for sending quotes to clients - Croatian version
 
 import {
   Body,
@@ -15,149 +15,104 @@ import {
   Hr,
 } from '@react-email/components';
 
+const MONO_FONT = '"SF Mono", Menlo, Consolas, "Courier New", monospace';
+
 export default function QuoteEmail({
   clientName = 'Cijenjeni klijente',
   quoteNumber = 'NF-20241211-001',
-  quoteUrl = 'https://ninefold.eu/quote/123',
+  quoteUrl = 'https://www.ninefold.eu/quote/123',
   projectOverview = 'Izrada web stranice',
   validUntil = '30 dana',
 }) {
   return (
     <Html>
       <Head />
-      <Preview>Ponuda za Vaš projekt - {quoteNumber} | NineFold</Preview>
+      <Preview>Ponuda {quoteNumber} · Ninefold</Preview>
       <Body style={main}>
         <Container style={container}>
-          {/* Header with gradient accent */}
+          {/* Header */}
           <Section style={header}>
-            <Section style={accentBar} />
-            <Section style={logoSection}>
-              <table width="100%" cellPadding="0" cellSpacing="0" style={{ borderCollapse: 'collapse' }}>
-                <tr>
-                  <td>
-                    <Heading style={logo}>NineFold</Heading>
-                  </td>
-                  <td style={{ textAlign: 'right' }}>
-                    <Text style={headerBadge}>PONUDA</Text>
-                  </td>
-                </tr>
-              </table>
-            </Section>
+            <table width="100%" cellPadding="0" cellSpacing="0" style={{ borderCollapse: 'collapse' }}>
+              <tr>
+                <td>
+                  <Heading style={logo}>Ninefold</Heading>
+                </td>
+                <td style={{ textAlign: 'right', verticalAlign: 'middle' }}>
+                  <Text style={eyebrow}>
+                    <span style={greenDot}>●</span>&nbsp;&nbsp;PONUDA
+                  </Text>
+                </td>
+              </tr>
+            </table>
           </Section>
 
           {/* Main Content */}
           <Section style={content}>
-            {/* Greeting */}
-            <Text style={greeting}>Poštovani/a {clientName},</Text>
+            <Text style={greeting}>Bok {clientName},</Text>
 
             <Text style={introText}>
-              Zahvaljujemo Vam na ukazanom povjerenju. S zadovoljstvom Vam dostavljamo
-              ponudu za Vaš projekt. Detalje možete pregledati klikom na gumb ispod.
+              hvala na povjerenju. Ponuda za vaš projekt je spremna, sve detalje
+              možete pregledati na linku ispod.
             </Text>
 
             {/* Quote Card */}
             <Section style={quoteCard}>
-              {/* Quote Number Row */}
-              <table width="100%" cellPadding="0" cellSpacing="0" style={{ borderCollapse: 'collapse' }}>
-                <tr>
-                  <td style={cardRow}>
-                    <Text style={cardIcon}>📋</Text>
-                    <div>
-                      <Text style={cardLabel}>Broj ponude</Text>
-                      <Text style={cardValue}>{quoteNumber}</Text>
-                    </div>
-                  </td>
-                </tr>
-              </table>
+              <Text style={cardLabel}>BROJ PONUDE</Text>
+              <Text style={cardValue}>{quoteNumber}</Text>
 
               <Hr style={cardDivider} />
 
-              {/* Project Row */}
-              <table width="100%" cellPadding="0" cellSpacing="0" style={{ borderCollapse: 'collapse' }}>
-                <tr>
-                  <td style={cardRow}>
-                    <Text style={cardIcon}>🎯</Text>
-                    <div>
-                      <Text style={cardLabel}>Projekt</Text>
-                      <Text style={cardValue}>{projectOverview}</Text>
-                    </div>
-                  </td>
-                </tr>
-              </table>
+              <Text style={cardLabel}>PROJEKT</Text>
+              <Text style={cardValue}>{projectOverview}</Text>
             </Section>
 
             {/* CTA Button */}
             <Section style={buttonSection}>
               <Button style={primaryButton} href={quoteUrl}>
-                Pregledaj ponudu →
+                Pregledaj ponudu
               </Button>
             </Section>
 
-            {/* Info Box */}
+            {/* Validity note */}
             <Section style={infoBox}>
-              <table width="100%" cellPadding="0" cellSpacing="0" style={{ borderCollapse: 'collapse' }}>
-                <tr>
-                  <td style={{ width: '24px', verticalAlign: 'top', paddingRight: '12px' }}>
-                    <Text style={infoIcon}>ℹ️</Text>
-                  </td>
-                  <td>
-                    <Text style={infoText}>
-                      Ova ponuda vrijedi <strong>{validUntil}</strong> od datuma slanja.
-                      Za sva pitanja slobodno odgovorite na ovaj email ili nas kontaktirajte
-                      putem telefona.
-                    </Text>
-                  </td>
-                </tr>
-              </table>
+              <Text style={infoText}>
+                Ponuda vrijedi <strong style={infoStrong}>{validUntil}</strong> od
+                datuma slanja. Za pitanja ili izmjene samo odgovorite na ovaj mail.
+              </Text>
             </Section>
 
-            {/* What's Next Section */}
+            {/* Next steps */}
             <Section style={nextStepsSection}>
-              <Heading style={h3}>Sljedeći koraci</Heading>
+              <Text style={sectionLabel}>SLJEDEĆI KORACI</Text>
               <table width="100%" cellPadding="0" cellSpacing="0" style={{ borderCollapse: 'collapse' }}>
-                <tr>
-                  <td style={stepItem}>
-                    <Text style={stepNumber}>1</Text>
-                    <Text style={stepText}>Pregledajte detalje ponude</Text>
-                  </td>
-                </tr>
-                <tr>
-                  <td style={stepItem}>
-                    <Text style={stepNumber}>2</Text>
-                    <Text style={stepText}>Kontaktirajte nas za eventualne izmjene</Text>
-                  </td>
-                </tr>
-                <tr>
-                  <td style={stepItem}>
-                    <Text style={stepNumber}>3</Text>
-                    <Text style={stepText}>Prihvatite ponudu i uplatite akontaciju</Text>
-                  </td>
-                </tr>
+                {[
+                  'Pregledajte detalje ponude',
+                  'Javite nam se za eventualne izmjene',
+                  'Prihvatite ponudu i uplatite avans',
+                ].map((step, i) => (
+                  <tr key={i}>
+                    <td style={stepNumberCell}>
+                      <Text style={stepNumber}>{i + 1}</Text>
+                    </td>
+                    <td style={stepTextCell}>
+                      <Text style={stepText}>{step}</Text>
+                    </td>
+                  </tr>
+                ))}
               </table>
             </Section>
           </Section>
 
           {/* Footer */}
           <Section style={footer}>
-            <Section style={footerContent}>
-              <Heading style={footerLogo}>NineFold</Heading>
-              <Text style={footerTagline}>Slow websites lose customers.</Text>
-
-              <Hr style={footerDivider} />
-
-              <table width="100%" cellPadding="0" cellSpacing="0" style={{ borderCollapse: 'collapse' }}>
-                <tr>
-                  <td style={{ textAlign: 'center' }}>
-                    <Link href="https://ninefold.eu" style={footerLink}>ninefold.eu</Link>
-                    <Text style={footerDot}>•</Text>
-                    <Link href="mailto:hello@ninefold.eu" style={footerLink}>hello@ninefold.eu</Link>
-                  </td>
-                </tr>
-              </table>
-
-              <Text style={footerAddress}>Zagreb, Hrvatska</Text>
-              <Text style={copyright}>© {new Date().getFullYear()} NineFold. Sva prava pridržana.</Text>
-            </Section>
+            <Heading style={footerLogo}>Ninefold</Heading>
+            <Text style={footerMeta}>ZAGREB · HRVATSKA</Text>
+            <Text style={footerLinks}>
+              <Link href="https://www.ninefold.eu" style={footerLink}>ninefold.eu</Link>
+              <span style={footerDot}>·</span>
+              <Link href="mailto:hello@ninefold.eu" style={footerLink}>hello@ninefold.eu</Link>
+            </Text>
+            <Text style={copyright}>© {new Date().getFullYear()} Ninefold. Sva prava pridržana.</Text>
           </Section>
         </Container>
       </Body>
@@ -165,109 +120,89 @@ export default function QuoteEmail({
   );
 }
 
-// Styles
+// Styles · Mono language: #080808 base, #0F0F0F panels, hairline borders,
+// text never pure white, green #00FF94 only as signal
 const main = {
-  backgroundColor: '#f0f0f0',
+  backgroundColor: '#080808',
   fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
   padding: '40px 0',
 };
 
 const container = {
-  backgroundColor: '#ffffff',
+  backgroundColor: '#0F0F0F',
   margin: '0 auto',
   maxWidth: '600px',
   borderRadius: '16px',
+  border: '1px solid #242424',
   overflow: 'hidden',
-  boxShadow: '0 4px 24px rgba(0, 0, 0, 0.08)',
 };
 
 const header = {
-  backgroundColor: '#0A0A0A',
-};
-
-const accentBar = {
-  height: '4px',
-  background: 'linear-gradient(90deg, #00FF94 0%, #00CC75 50%, #00FF94 100%)',
-};
-
-const logoSection = {
-  padding: '32px 40px',
+  padding: '28px 40px',
+  borderBottom: '1px solid #1F1F1F',
 };
 
 const logo = {
-  color: '#00FF94',
-  fontSize: '28px',
-  fontWeight: '800',
+  color: '#F2F2F2',
+  fontSize: '22px',
+  fontWeight: '500',
   margin: '0',
   padding: '0',
   letterSpacing: '-0.5px',
 };
 
-const headerBadge = {
-  color: '#00FF94',
-  fontSize: '12px',
-  fontWeight: '700',
+const eyebrow = {
+  color: '#8E8E8E',
+  fontFamily: MONO_FONT,
+  fontSize: '11px',
   letterSpacing: '2px',
   margin: '0',
-  padding: '8px 16px',
-  border: '1px solid #00FF94',
-  borderRadius: '4px',
-  display: 'inline-block',
+};
+
+const greenDot = {
+  color: '#00FF94',
+  fontSize: '8px',
+  verticalAlign: 'middle',
 };
 
 const content = {
-  padding: '48px 40px',
+  padding: '40px 40px 32px',
 };
 
 const greeting = {
-  color: '#1a1a1a',
-  fontSize: '20px',
-  fontWeight: '600',
-  marginBottom: '16px',
+  color: '#F2F2F2',
+  fontSize: '18px',
+  fontWeight: '500',
+  marginBottom: '12px',
   marginTop: '0',
 };
 
 const introText = {
-  color: '#4a4a4a',
-  fontSize: '16px',
+  color: '#C9C9C9',
+  fontSize: '15px',
   lineHeight: '1.7',
   marginBottom: '32px',
+  marginTop: '0',
 };
 
 const quoteCard = {
-  backgroundColor: '#fafafa',
-  border: '1px solid #e8e8e8',
+  backgroundColor: '#080808',
+  border: '1px solid #242424',
   borderRadius: '12px',
-  padding: '28px',
+  padding: '24px 28px',
   marginBottom: '32px',
 };
 
-const cardRow = {
-  display: 'flex',
-  alignItems: 'flex-start',
-  padding: '8px 0',
-};
-
-const cardIcon = {
-  fontSize: '20px',
-  marginRight: '16px',
-  marginTop: '0',
-  marginBottom: '0',
-  display: 'inline-block',
-  width: '28px',
-};
-
 const cardLabel = {
-  color: '#888',
-  fontSize: '12px',
-  fontWeight: '600',
-  textTransform: 'uppercase',
-  letterSpacing: '0.5px',
-  margin: '0 0 4px 0',
+  color: '#8E8E8E',
+  fontFamily: MONO_FONT,
+  fontSize: '10px',
+  letterSpacing: '1.5px',
+  margin: '0 0 6px 0',
 };
 
 const cardValue = {
-  color: '#1a1a1a',
+  color: '#F2F2F2',
   fontSize: '16px',
   fontWeight: '500',
   margin: '0',
@@ -275,8 +210,8 @@ const cardValue = {
 };
 
 const cardDivider = {
-  borderColor: '#e8e8e8',
-  margin: '16px 0',
+  borderColor: '#1F1F1F',
+  margin: '18px 0',
 };
 
 const buttonSection = {
@@ -285,130 +220,120 @@ const buttonSection = {
 };
 
 const primaryButton = {
-  backgroundColor: '#00FF94',
-  borderRadius: '10px',
-  color: '#0A0A0A',
-  fontSize: '16px',
-  fontWeight: '700',
+  backgroundColor: '#F2F2F2',
+  borderRadius: '999px',
+  color: '#080808',
+  fontSize: '15px',
+  fontWeight: '600',
   textDecoration: 'none',
   textAlign: 'center',
   display: 'inline-block',
-  padding: '18px 48px',
-  boxShadow: '0 4px 14px rgba(0, 255, 148, 0.3)',
+  padding: '16px 44px',
 };
 
 const infoBox = {
-  backgroundColor: '#f0f9f5',
-  borderLeft: '4px solid #00FF94',
-  borderRadius: '0 8px 8px 0',
+  border: '1px solid #242424',
+  borderRadius: '12px',
   padding: '16px 20px',
-  marginBottom: '32px',
-};
-
-const infoIcon = {
-  fontSize: '16px',
-  margin: '0',
+  marginBottom: '36px',
 };
 
 const infoText = {
-  color: '#4a4a4a',
-  fontSize: '14px',
+  color: '#8E8E8E',
+  fontSize: '13px',
   lineHeight: '1.6',
   margin: '0',
 };
 
+const infoStrong = {
+  color: '#C9C9C9',
+  fontWeight: '600',
+};
+
 const nextStepsSection = {
-  marginTop: '40px',
-  paddingTop: '32px',
-  borderTop: '1px solid #e8e8e8',
+  paddingTop: '28px',
+  borderTop: '1px solid #1F1F1F',
 };
 
-const h3 = {
-  color: '#1a1a1a',
-  fontSize: '18px',
-  fontWeight: '700',
-  marginBottom: '20px',
-  marginTop: '0',
+const sectionLabel = {
+  color: '#8E8E8E',
+  fontFamily: MONO_FONT,
+  fontSize: '10px',
+  letterSpacing: '1.5px',
+  margin: '0 0 16px 0',
 };
 
-const stepItem = {
-  padding: '10px 0',
-  display: 'flex',
-  alignItems: 'center',
+const stepNumberCell = {
+  width: '36px',
+  padding: '8px 0',
+  verticalAlign: 'middle',
 };
 
 const stepNumber = {
-  backgroundColor: '#0A0A0A',
-  color: '#00FF94',
-  fontSize: '12px',
-  fontWeight: '700',
+  border: '1px solid #3A3A3A',
+  color: '#C9C9C9',
+  fontSize: '11px',
+  fontWeight: '500',
   width: '24px',
   height: '24px',
   borderRadius: '50%',
   display: 'inline-block',
   textAlign: 'center',
-  lineHeight: '24px',
-  marginRight: '14px',
-  marginTop: '0',
-  marginBottom: '0',
+  lineHeight: '22px',
+  margin: '0',
+};
+
+const stepTextCell = {
+  padding: '8px 0',
+  verticalAlign: 'middle',
 };
 
 const stepText = {
-  color: '#4a4a4a',
-  fontSize: '15px',
+  color: '#C9C9C9',
+  fontSize: '14px',
   margin: '0',
-  display: 'inline-block',
 };
 
 const footer = {
-  backgroundColor: '#0A0A0A',
-  padding: '40px',
-};
-
-const footerContent = {
+  borderTop: '1px solid #1F1F1F',
+  padding: '32px 40px',
   textAlign: 'center',
 };
 
 const footerLogo = {
-  color: '#00FF94',
-  fontSize: '24px',
-  fontWeight: '800',
-  margin: '0 0 8px 0',
+  color: '#F2F2F2',
+  fontSize: '18px',
+  fontWeight: '500',
+  margin: '0 0 6px 0',
   letterSpacing: '-0.5px',
 };
 
-const footerTagline = {
-  color: '#888',
-  fontSize: '14px',
-  margin: '0 0 24px 0',
-  fontStyle: 'italic',
+const footerMeta = {
+  color: '#5C5C5C',
+  fontFamily: MONO_FONT,
+  fontSize: '10px',
+  letterSpacing: '1.5px',
+  margin: '0 0 18px 0',
 };
 
-const footerDivider = {
-  borderColor: '#333',
-  margin: '24px 0',
+const footerLinks = {
+  margin: '0 0 14px 0',
+  fontSize: '13px',
 };
 
 const footerLink = {
-  color: '#ffffff',
-  fontSize: '14px',
+  color: '#C9C9C9',
+  fontSize: '13px',
   textDecoration: 'none',
 };
 
 const footerDot = {
-  color: '#555',
-  margin: '0 12px',
-  display: 'inline',
-};
-
-const footerAddress = {
-  color: '#666',
-  fontSize: '13px',
-  margin: '16px 0 8px 0',
+  color: '#5C5C5C',
+  margin: '0 10px',
 };
 
 const copyright = {
-  color: '#555',
-  fontSize: '12px',
+  color: '#5C5C5C',
+  fontSize: '11px',
   margin: '0',
 };
