@@ -1,634 +1,638 @@
 // app/(crm-admin)/crm/analytics/page.jsx
-// Analytics Dashboard - Business metrics and insights
+// Analitika: novac, prodajni lijevak, akcijske liste i trend naplate
 
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
-  PointElement,
-  LineElement,
   BarElement,
-  ArcElement,
-  Title,
   Tooltip,
   Legend,
 } from 'chart.js';
-import { Line, Doughnut, Bar } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
+import { FileText, UserX, Eye, EyeOff, ChevronRight } from 'lucide-react';
 
-// Register Chart.js components
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  ArcElement,
-  Title,
-  Tooltip,
-  Legend
-);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
+
+const MONO = { fontFamily: 'ui-monospace, Menlo, monospace' };
+
+const RANGE_OPTIONS = [
+  { value: 'this_month', label: 'Ovaj mjesec' },
+  { value: 'this_quarter', label: 'Kvartal' },
+  { value: 'this_year', label: 'Godina' },
+  { value: 'all_time', label: 'Sve' },
+];
+
+// Lijevak: redoslijed statusa leada. "lost" se prikazuje odvojeno.
+const LEAD_STAGE_INDEX = { new: 0, contacted: 1, qualified: 2, 'proposal-sent': 3, won: 4 };
+const LEAD_STAGES = [
+  { key: 'new', label: 'Novi leadovi' },
+  { key: 'contacted', label: 'Kontaktirani' },
+  { key: 'qualified', label: 'Kvalificirani' },
+  { key: 'proposal-sent', label: 'Poslana ponuda' },
+  { key: 'won', label: 'Dobiveni' },
+];
+
+const SOURCE_LABELS = {
+  website: 'Web stranica',
+  referral: 'Preporuka',
+  linkedin: 'LinkedIn',
+  'cold-outreach': 'Hladni kontakt',
+  unknown: 'Nepoznato',
+};
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+function getRangeStart(range) {
+  const now = new Date();
+  switch (range) {
+    case 'this_month':
+      return new Date(now.getFullYear(), now.getMonth(), 1);
+    case 'this_quarter':
+      return new Date(now.getFullYear(), Math.floor(now.getMonth() / 3) * 3, 1);
+    case 'this_year':
+      return new Date(now.getFullYear(), 0, 1);
+    default:
+      return null;
+  }
+}
+
+// Datum odluke o ponudi: uplata je najpouzdanija, inace zadnja izmjena
+function quoteDecidedAt(quote) {
+  return new Date(quote.payment_received_at || quote.updated_at || quote.created_at);
+}
+
+function quoteWasOpened(quote) {
+  return (quote.view_count || 0) > 0 || ['viewed', 'accepted', 'rejected'].includes(quote.status);
+}
+
+// Prvi kontakt s leadom: prvi zapis iz contact_log ako postoji, inace last_contacted_at
+function leadFirstContactAt(lead) {
+  const log = Array.isArray(lead.contact_log) ? lead.contact_log : [];
+  for (const entry of log) {
+    const raw = entry?.date || entry?.at || entry?.created_at || entry?.timestamp;
+    if (raw) {
+      const d = new Date(raw);
+      if (!isNaN(d)) return d;
+    }
+  }
+  return lead.last_contacted_at ? new Date(lead.last_contacted_at) : null;
+}
+
+function formatCurrency(amount) {
+  return new Intl.NumberFormat('hr-HR', {
+    style: 'currency',
+    currency: 'EUR',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(amount || 0);
+}
+
+function formatDays(days) {
+  if (days == null) return '·';
+  const rounded = Math.round(days * 10) / 10;
+  return `${rounded} ${rounded === 1 ? 'dan' : 'dana'}`;
+}
 
 export default function AnalyticsPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const [dateRange, setDateRange] = useState(searchParams.get('range') || 'this_year');
-  const [metrics, setMetrics] = useState({
-    totalRevenue: 0,
-    mrr: 0,
-    arr: 0,
-    pipelineValue: 0,
-    conversionRate: 0,
-    avgQuoteValue: 0,
-    newLeads: 0,
-    activeProjects: 0,
-    quotesSent: 0,
-    quotesAccepted: 0,
-  });
-  const [revenueByMonth, setRevenueByMonth] = useState([]);
-  const [quotesByStatus, setQuotesByStatus] = useState({});
-  const [leadsBySource, setLeadsBySource] = useState({});
+  const [dateRange, setDateRange] = useState(searchParams.get('range') || 'this_month');
+  const [data, setData] = useState(null);
 
-  // Date range options
-  const dateRangeOptions = [
-    { value: 'this_month', label: 'This Month' },
-    { value: 'this_quarter', label: 'This Quarter' },
-    { value: 'this_year', label: 'This Year' },
-    { value: 'all_time', label: 'All Time' },
-  ];
-
-  // Get date range boundaries
-  const getDateRange = (range) => {
-    const now = new Date();
-    let start = null;
-
-    switch (range) {
-      case 'this_month':
-        start = new Date(now.getFullYear(), now.getMonth(), 1);
-        break;
-      case 'this_quarter':
-        const quarter = Math.floor(now.getMonth() / 3);
-        start = new Date(now.getFullYear(), quarter * 3, 1);
-        break;
-      case 'this_year':
-        start = new Date(now.getFullYear(), 0, 1);
-        break;
-      case 'all_time':
-      default:
-        start = null;
-        break;
-    }
-
-    return { start, end: now };
-  };
-
-  const handleDateRangeChange = (range) => {
+  const handleRangeChange = (range) => {
     setDateRange(range);
     router.push(`/crm/analytics?range=${range}`, { scroll: false });
   };
 
-  useEffect(() => {
-    loadAnalytics();
-  }, [dateRange]);
-
-  const loadAnalytics = async () => {
+  const loadAnalytics = useCallback(async () => {
     try {
-      // Get all data
-      const [projectsData, quotesData, leadsData, contractsData] = await Promise.all([
-        supabase.from('projects').select('*'),
-        supabase.from('quotes').select('*'),
-        supabase.from('leads').select('*'),
-        supabase.from('recurring_contracts').select('*'),
+      const [quotesRes, leadsRes, invoicesRes, contractsRes] = await Promise.all([
+        supabase.from('quotes').select('id, client_name, title, status, pricing, quote_type, view_count, last_viewed_at, last_sent_at, payment_received, payment_received_at, created_at, updated_at'),
+        supabase.from('leads').select('id, name, company, status, source, created_at, last_contacted_at, contact_log'),
+        supabase.from('invoices').select('id, amount, status, issue_date, due_date'),
+        supabase.from('recurring_contracts').select('id, status, monthly_amount, billing_cycle, paid_periods'),
       ]);
-
-      const projects = projectsData.data || [];
-      const quotes = quotesData.data || [];
-      const leads = leadsData.data || [];
-      const contracts = contractsData.data || [];
-
-      // Calculate metrics
-      calculateMetrics(projects, quotes, leads, contracts);
-      calculateRevenueByMonth(projects);
-      calculateQuotesByStatus(quotes);
-      calculateLeadsBySource(leads);
-
+      setData({
+        quotes: quotesRes.data || [],
+        leads: leadsRes.data || [],
+        invoices: invoicesRes.data || [],
+        contracts: contractsRes.data || [],
+      });
     } catch (error) {
       console.error('Error loading analytics:', error);
+      setData({ quotes: [], leads: [], invoices: [], contracts: [] });
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const calculateMetrics = (projects, quotes, leads, contracts) => {
-    const { start: rangeStart } = getDateRange(dateRange);
+  useEffect(() => {
+    loadAnalytics();
+  }, [loadAnalytics]);
 
-    // Filter helper
-    const isInRange = (dateStr) => {
-      if (!rangeStart) return true; // all_time
-      return new Date(dateStr) >= rangeStart;
-    };
-
-    // Total revenue from projects in range
-    const totalRevenue = projects
-      .filter(p => isInRange(p.created_at))
-      .reduce((sum, p) => sum + (p.total_value || p.budget || 0), 0);
-
-    // MRR and ARR from recurring contracts (always current, not filtered)
-    const mrr = contracts
-      .filter(c => c.status === 'active')
-      .reduce((sum, c) => {
-        if (c.billing_cycle === 'yearly') {
-          return sum + (c.monthly_amount / 12);
-        }
-        return sum + c.monthly_amount;
-      }, 0);
-    const arr = mrr * 12;
-
-    // Pipeline value (all active quotes, not filtered by date)
-    const pipelineValue = quotes
-      .filter(q => ['draft', 'sent', 'viewed'].includes(q.status))
-      .reduce((sum, q) => sum + (q.pricing?.total || 0), 0);
-
-    // Conversion rate (filtered by range)
-    const quotesInRange = quotes.filter(q => isInRange(q.created_at));
-    const sentQuotes = quotesInRange.filter(q => ['sent', 'viewed', 'accepted'].includes(q.status)).length;
-    const acceptedQuotes = quotesInRange.filter(q => q.status === 'accepted').length;
-    const conversionRate = sentQuotes > 0 ? (acceptedQuotes / sentQuotes) * 100 : 0;
-
-    // Average quote value (all quotes)
-    const avgQuoteValue = quotes.length > 0
-      ? quotes.reduce((sum, q) => sum + (q.pricing?.total || 0), 0) / quotes.length
-      : 0;
-
-    // New leads in range
-    const newLeads = leads.filter(l => isInRange(l.created_at)).length;
-
-    // Active projects (current state, not filtered)
-    const activeProjects = projects.filter(p =>
-      p.status === 'in_progress'
-    ).length;
-
-    // Quotes sent in range
-    const quotesSent = quotes.filter(q =>
-      q.last_sent_at && isInRange(q.last_sent_at)
-    ).length;
-
-    // Quotes accepted in range
-    const quotesAccepted = quotes.filter(q =>
-      q.status === 'accepted' && isInRange(q.updated_at)
-    ).length;
-
-    setMetrics({
-      totalRevenue,
-      mrr,
-      arr,
-      pipelineValue,
-      conversionRate,
-      avgQuoteValue,
-      newLeads,
-      activeProjects,
-      quotesSent,
-      quotesAccepted,
-    });
-  };
-
-  const calculateRevenueByMonth = (projects) => {
-    const revenueMap = {};
-
-    // Use created_at and total_value for all projects
-    projects.forEach(p => {
-      if (p.created_at) {
-        const date = new Date(p.created_at);
-        const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-        revenueMap[monthKey] = (revenueMap[monthKey] || 0) + (p.total_value || p.budget || 0);
-      }
-    });
-
-    // Get last 12 months for better trend visibility
-    const months = [];
-    const now = new Date();
-    for (let i = 11; i >= 0; i--) {
-      const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
-      const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-      months.push({
-        month: date.toLocaleDateString('en-US', { month: 'short' }),
-        revenue: revenueMap[monthKey] || 0,
-      });
-    }
-
-    setRevenueByMonth(months);
-  };
-
-  const calculateQuotesByStatus = (quotes) => {
-    const statusCount = {
-      draft: 0,
-      sent: 0,
-      viewed: 0,
-      accepted: 0,
-      rejected: 0,
-    };
-
-    quotes.forEach(q => {
-      if (statusCount.hasOwnProperty(q.status)) {
-        statusCount[q.status]++;
-      }
-    });
-
-    setQuotesByStatus(statusCount);
-  };
-
-  const calculateLeadsBySource = (leads) => {
-    const sourceCount = {};
-    
-    leads.forEach(l => {
-      const source = l.source || 'unknown';
-      sourceCount[source] = (sourceCount[source] || 0) + 1;
-    });
-
-    setLeadsBySource(sourceCount);
-  };
-
-  const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('hr-HR', {
-      style: 'currency',
-      currency: 'EUR',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(amount);
-  };
-
-  // Chart data
-  const revenueChartData = {
-    labels: revenueByMonth.map(m => m.month),
-    datasets: [
-      {
-        label: 'Revenue',
-        data: revenueByMonth.map(m => m.revenue),
-        borderColor: '#00FF94',
-        backgroundColor: 'rgba(0, 255, 148, 0.1)',
-        tension: 0.4,
-        fill: true,
-      },
-    ],
-  };
-
-  const quoteStatusChartData = {
-    labels: ['Draft', 'Sent', 'Viewed', 'Accepted', 'Rejected'],
-    datasets: [
-      {
-        data: [
-          quotesByStatus.draft || 0,
-          quotesByStatus.sent || 0,
-          quotesByStatus.viewed || 0,
-          quotesByStatus.accepted || 0,
-          quotesByStatus.rejected || 0,
-        ],
-        backgroundColor: [
-          '#666',
-          '#3b82f6',
-          '#8b5cf6',
-          '#00FF94',
-          '#ef4444',
-        ],
-      },
-    ],
-  };
-
-  const leadSourceChartData = {
-    labels: Object.keys(leadsBySource),
-    datasets: [
-      {
-        data: Object.values(leadsBySource),
-        backgroundColor: [
-          '#00FF94',
-          '#3b82f6',
-          '#8b5cf6',
-          '#f59e0b',
-          '#ef4444',
-        ],
-      },
-    ],
-  };
-
-  const chartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        labels: {
-          color: '#C4C4C4',
-        },
-      },
-    },
-    scales: {
-      y: {
-        ticks: { color: '#8F8F8F' },
-        grid: { color: 'rgba(255,255,255,0.07)' },
-      },
-      x: {
-        ticks: { color: '#8F8F8F' },
-        grid: { color: 'rgba(255,255,255,0.07)' },
-      },
-    },
-  };
-
-  const doughnutOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        position: 'right',
-        labels: {
-          color: '#C4C4C4',
-        },
-      },
-    },
-  };
-
-  if (loading) {
+  if (loading || !data) {
     return (
-      <div style={{textAlign: 'center', padding: '100px 0'}}>
-        <div style={{fontSize: '1.5rem', color: '#00FF94'}}>Loading analytics...</div>
+      <div className="text-center py-32">
+        <div className="text-xs uppercase tracking-[0.14em] text-[#8E8E8E]" style={MONO}>
+          Učitavanje analitike...
+        </div>
       </div>
     );
   }
 
+  const { quotes, leads, invoices, contracts } = data;
+  const now = new Date();
+  const rangeStart = getRangeStart(dateRange);
+  const inRange = (date) => {
+    if (!date) return false;
+    if (!rangeStart) return true;
+    return new Date(date) >= rangeStart;
+  };
+
+  // ---------- 1. NOVAC ----------
+
+  // Ugovoreno: jednokratne ponude prihvacene u periodu (mjesecne iskljucene, one su MRR)
+  const wonQuotes = quotes.filter(
+    (q) => q.status === 'accepted' && q.quote_type !== 'monthly' && inRange(quoteDecidedAt(q))
+  );
+  const bookedTotal = wonQuotes.reduce((sum, q) => sum + (q.pricing?.total || 0), 0);
+  const avgDealValue = wonQuotes.length ? bookedTotal / wonQuotes.length : null;
+
+  // Naplaceno fakturama u periodu (po datumu izdavanja, status placeno)
+  const paidInvoices = invoices.filter((i) => i.status === 'paid' && inRange(i.issue_date));
+  const paidInvoicesTotal = paidInvoices.reduce((sum, i) => sum + Number(i.amount || 0), 0);
+
+  // Avansi preko Revoluta u periodu
+  const deposits = quotes.filter((q) => q.payment_received && inRange(q.payment_received_at));
+  const depositsTotal = deposits.reduce((sum, q) => {
+    const depositRate = q.pricing?.depositRate ?? 0.5;
+    return sum + (q.pricing?.total || 0) * depositRate;
+  }, 0);
+
+  // Otvoreno za naplatu: trenutno stanje, ne ovisi o periodu
+  const openInvoices = invoices.filter((i) => i.status === 'unpaid' || i.status === 'overdue');
+  const openTotal = openInvoices.reduce((sum, i) => sum + Number(i.amount || 0), 0);
+  const overdueInvoices = invoices.filter(
+    (i) => i.status === 'overdue' || (i.status === 'unpaid' && i.due_date && new Date(i.due_date) < now)
+  );
+  const overdueTotal = overdueInvoices.reduce((sum, i) => sum + Number(i.amount || 0), 0);
+
+  // MRR iz aktivnih ugovora (godisnji: monthly_amount drzi godisnji iznos)
+  const activeContracts = contracts.filter((c) => c.status === 'active');
+  const mrr = activeContracts.reduce(
+    (sum, c) => sum + (c.billing_cycle === 'yearly' ? (c.monthly_amount || 0) / 12 : c.monthly_amount || 0),
+    0
+  );
+
+  // ---------- 2. LIJEVAK ----------
+
+  const leadsInRange = leads.filter((l) => inRange(l.created_at));
+  const lostLeads = leadsInRange.filter((l) => l.status === 'lost');
+  const funnelStages = LEAD_STAGES.map((stage, idx) => {
+    const count = leadsInRange.filter((l) => {
+      if (l.status === 'lost') return idx <= 1 && (idx === 0 || leadFirstContactAt(l));
+      return (LEAD_STAGE_INDEX[l.status] ?? 0) >= idx;
+    }).length;
+    return { ...stage, count };
+  });
+  const funnelBase = funnelStages[0].count;
+
+  // Lijevak ponuda u periodu (po datumu kreiranja)
+  const quotesInRange = quotes.filter((q) => inRange(q.created_at));
+  const sentQuotes = quotesInRange.filter(
+    (q) => q.last_sent_at || ['sent', 'viewed', 'accepted', 'rejected'].includes(q.status)
+  );
+  const openedQuotes = sentQuotes.filter(quoteWasOpened);
+  const acceptedInRange = quotesInRange.filter((q) => q.status === 'accepted');
+
+  // Win rate: samo odlucene ponude, one koje cekaju ne ulaze u racun
+  const decidedInRange = quotes.filter(
+    (q) => ['accepted', 'rejected'].includes(q.status) && inRange(quoteDecidedAt(q))
+  );
+  const decidedAccepted = decidedInRange.filter((q) => q.status === 'accepted').length;
+  const winRate = decidedInRange.length ? (decidedAccepted / decidedInRange.length) * 100 : null;
+
+  // Izvori leadova: koliko ih dode i koliko ih zavrsi kao posao
+  const sourceMap = {};
+  leadsInRange.forEach((l) => {
+    const key = l.source || 'unknown';
+    if (!sourceMap[key]) sourceMap[key] = { total: 0, won: 0 };
+    sourceMap[key].total += 1;
+    if (l.status === 'won') sourceMap[key].won += 1;
+  });
+  const sources = Object.entries(sourceMap)
+    .map(([key, v]) => ({ key, label: SOURCE_LABELS[key] || key, ...v }))
+    .sort((a, b) => b.won - a.won || b.total - a.total);
+
+  // ---------- 3. ZA AKCIJU ----------
+
+  const staleQuotes = quotes
+    .filter((q) => ['sent', 'viewed'].includes(q.status) && q.last_sent_at)
+    .map((q) => ({ ...q, daysWaiting: Math.floor((now - new Date(q.last_sent_at)) / DAY_MS) }))
+    .filter((q) => q.daysWaiting >= 5)
+    .sort((a, b) => b.daysWaiting - a.daysWaiting)
+    .slice(0, 8);
+
+  const staleLeads = leads
+    .filter((l) => ['new', 'contacted', 'qualified', 'proposal-sent'].includes(l.status))
+    .map((l) => {
+      const lastTouch = l.last_contacted_at ? new Date(l.last_contacted_at) : new Date(l.created_at);
+      return { ...l, daysSilent: Math.floor((now - lastTouch) / DAY_MS), neverContacted: !l.last_contacted_at };
+    })
+    .filter((l) => l.daysSilent >= 7)
+    .sort((a, b) => b.daysSilent - a.daysSilent)
+    .slice(0, 8);
+
+  // ---------- 4. TREND ----------
+
+  const months = [];
+  for (let i = 11; i >= 0; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    months.push({
+      key: `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`,
+      year: String(d.getFullYear()),
+      label: d.toLocaleDateString('hr-HR', { month: 'short' }).replace('.', ''),
+      invoiced: 0,
+      depositsAmt: 0,
+      recurring: 0,
+    });
+  }
+  const monthByKey = Object.fromEntries(months.map((m) => [m.key, m]));
+
+  invoices.forEach((i) => {
+    if (i.status !== 'paid' || !i.issue_date) return;
+    const m = monthByKey[i.issue_date.slice(0, 7)];
+    if (m) m.invoiced += Number(i.amount || 0);
+  });
+
+  quotes.forEach((q) => {
+    if (!q.payment_received || !q.payment_received_at) return;
+    const m = monthByKey[q.payment_received_at.slice(0, 7)];
+    if (m) m.depositsAmt += (q.pricing?.total || 0) * (q.pricing?.depositRate ?? 0.5);
+  });
+
+  contracts.forEach((c) => {
+    const periods = Array.isArray(c.paid_periods) ? c.paid_periods : [];
+    periods.forEach((p) => {
+      if (typeof p !== 'string') return;
+      if (p.length === 7) {
+        const m = monthByKey[p];
+        if (m) m.recurring += c.monthly_amount || 0;
+      } else if (p.length === 4) {
+        // Godisnja uplata: rasporedi na 12 mjeseci te godine
+        months.forEach((m) => {
+          if (m.year === p) m.recurring += (c.monthly_amount || 0) / 12;
+        });
+      }
+    });
+  });
+
+  const trendChartData = {
+    labels: months.map((m) => m.label),
+    datasets: [
+      { label: 'Fakture', data: months.map((m) => Math.round(m.invoiced)), backgroundColor: '#F2F2F2', stack: 'cash', borderRadius: 3 },
+      { label: 'Avansi', data: months.map((m) => Math.round(m.depositsAmt)), backgroundColor: '#6E6E6E', stack: 'cash', borderRadius: 3 },
+      { label: 'Recurring', data: months.map((m) => Math.round(m.recurring)), backgroundColor: '#00FF94', stack: 'cash', borderRadius: 3 },
+    ],
+  };
+
+  const trendOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'top',
+        align: 'end',
+        labels: { color: '#8E8E8E', boxWidth: 10, boxHeight: 10, font: { size: 11 } },
+      },
+      tooltip: {
+        callbacks: { label: (ctx) => ` ${ctx.dataset.label}: ${formatCurrency(ctx.raw)}` },
+      },
+    },
+    scales: {
+      x: { stacked: true, ticks: { color: '#8E8E8E', font: { size: 11 } }, grid: { display: false } },
+      y: { stacked: true, ticks: { color: '#6E6E6E', font: { size: 11 } }, grid: { color: 'rgba(255,255,255,0.05)' } },
+    },
+  };
+
+  // Brzina: prosjecno vrijeme od slanja ponude do odluke i od leada do prvog kontakta
+  const decisionDurations = decidedInRange
+    .filter((q) => q.last_sent_at)
+    .map((q) => (quoteDecidedAt(q) - new Date(q.last_sent_at)) / DAY_MS)
+    .filter((d) => d >= 0);
+  const avgDecisionDays = decisionDurations.length
+    ? decisionDurations.reduce((a, b) => a + b, 0) / decisionDurations.length
+    : null;
+
+  const contactDurations = leadsInRange
+    .map((l) => {
+      const first = leadFirstContactAt(l);
+      return first ? (first - new Date(l.created_at)) / DAY_MS : null;
+    })
+    .filter((d) => d != null && d >= 0);
+  const avgContactDays = contactDurations.length
+    ? contactDurations.reduce((a, b) => a + b, 0) / contactDurations.length
+    : null;
+
+  const rangeLabel = RANGE_OPTIONS.find((o) => o.value === dateRange)?.label || '';
+
+  const SectionTitle = ({ children }) => (
+    <h2 className="flex items-center gap-2.5 text-[11px] uppercase tracking-[0.14em] text-[#8E8E8E] mb-5" style={MONO}>
+      {children}
+    </h2>
+  );
+
+  const MetricCard = ({ label, value, sub, subClass }) => (
+    <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6">
+      <div className="text-[11px] uppercase tracking-[0.14em] text-[#8E8E8E] mb-3" style={MONO}>{label}</div>
+      <div className="text-3xl font-medium text-[#F2F2F2] leading-none">{value}</div>
+      {sub && <div className={`text-sm mt-2.5 ${subClass || 'text-[#6E6E6E]'}`}>{sub}</div>}
+    </div>
+  );
+
   return (
-    <>
-      <style jsx>{`
-        .analytics-page {
-          animation: fadeIn 0.5s ease-out;
-        }
-
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-
-        h1 {
-          font-size: 2.5rem;
-          font-weight: 900;
-          background: #F2F2F2;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          margin-bottom: 10px;
-        }
-
-        .subtitle {
-          color: #888;
-          margin-bottom: 0;
-        }
-
-        .header-row {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
-          gap: 20px;
-          margin-bottom: 40px;
-          flex-wrap: wrap;
-        }
-
-        .date-range-picker {
-          display: flex;
-          gap: 8px;
-          flex-wrap: wrap;
-        }
-
-        .range-btn {
-          padding: 10px 18px;
-          border: 1px solid transparent;
-          background: #0F0F0F;
-          color: #888;
-          border-radius: 10px;
-          cursor: pointer;
-          transition: all 0.2s;
-          font-weight: 600;
-          font-size: 0.9rem;
-        }
-
-        .range-btn:hover {
-          color: white;
-          background: #222;
-          border-color: #333;
-        }
-
-        .range-btn.active {
-          background: rgba(0, 255, 148, 0.15);
-          color: #00FF94;
-          border-color: rgba(0, 255, 148, 0.3);
-        }
-
-        /* Metrics Grid */
-        .metrics-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-          gap: 20px;
-          margin-bottom: 40px;
-        }
-
-        .metric-card {
-          background: #0F0F0F;
-          border: 1px solid rgba(255,255,255,0.07);
-          border-radius: 12px;
-          padding: 24px;
-          transition: all 0.3s;
-        }
-
-        .metric-card:hover {
-          border-color: rgba(255,255,255,0.16);
-          transform: translateY(-4px);
-        }
-
-        .metric-card.filtered {
-          position: relative;
-        }
-
-        .metric-card.filtered::after {
-          content: '';
-          position: absolute;
-          top: 8px;
-          right: 8px;
-          width: 6px;
-          height: 6px;
-          background: #F2F2F2;
-          border-radius: 50%;
-        }
-
-        .metric-label {
-          font-size: 0.85rem;
-          color: #8F8F8F;
-          margin-bottom: 12px;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-        }
-
-        .metric-value {
-          font-size: 2.5rem;
-          font-weight: 900;
-          color: #F2F2F2;
-          line-height: 1;
-        }
-
-        .metric-sub {
-          font-size: 0.9rem;
-          color: #666;
-          margin-top: 8px;
-        }
-
-        /* Charts */
-        .charts-grid {
-          display: grid;
-          gap: 30px;
-          margin-bottom: 40px;
-        }
-
-        .chart-card {
-          background: #0F0F0F;
-          border: 1px solid rgba(255,255,255,0.07);
-          border-radius: 12px;
-          padding: 30px;
-        }
-
-        .chart-title {
-          font-size: 1.3rem;
-          font-weight: 700;
-          color: white;
-          margin-bottom: 20px;
-        }
-
-        .chart-container {
-          height: 300px;
-        }
-
-        .charts-row {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 30px;
-        }
-
-        @media (max-width: 1024px) {
-          .charts-row {
-            grid-template-columns: 1fr;
-          }
-        }
-      `}</style>
-
-      <div className="analytics-page">
-        <div className="header-row">
-          <div>
-            <h1>Analytics Dashboard</h1>
-            <p className="subtitle">Track your business performance and growth</p>
+    <div className="animate-fadeIn">
+      {/* Header */}
+      <div className="flex items-start justify-between gap-5 flex-wrap mb-10">
+        <div>
+          <div className="flex items-center gap-2.5 mb-4">
+            <span className="w-[5px] h-[5px] rounded-full bg-[#00FF94]" />
+            <span className="text-[11px] uppercase tracking-[0.14em] text-[#8E8E8E]" style={MONO}>
+              Analitika · {rangeLabel}
+            </span>
           </div>
-          <div className="date-range-picker">
-            {dateRangeOptions.map((option) => (
-              <button
-                key={option.value}
-                onClick={() => handleDateRangeChange(option.value)}
-                className={`range-btn ${dateRange === option.value ? 'active' : ''}`}
-              >
-                {option.label}
-              </button>
-            ))}
-          </div>
+          <h1 className="text-4xl font-medium mb-2 text-[#F2F2F2]">Analitika</h1>
+          <p className="text-[#8E8E8E]">Novac, lijevak i što napraviti danas.</p>
         </div>
-
-        {/* Key Metrics */}
-        <div className="metrics-grid">
-          <div className="metric-card filtered">
-            <div className="metric-label">Revenue</div>
-            <div className="metric-value">{formatCurrency(metrics.totalRevenue)}</div>
-            <div className="metric-sub">From projects</div>
-          </div>
-
-          <div className="metric-card">
-            <div className="metric-label">MRR</div>
-            <div className="metric-value">{formatCurrency(metrics.mrr)}</div>
-            <div className="metric-sub">Monthly recurring</div>
-          </div>
-
-          <div className="metric-card">
-            <div className="metric-label">ARR</div>
-            <div className="metric-value">{formatCurrency(metrics.arr)}</div>
-            <div className="metric-sub">Annual recurring</div>
-          </div>
-
-          <div className="metric-card">
-            <div className="metric-label">Pipeline Value</div>
-            <div className="metric-value">{formatCurrency(metrics.pipelineValue)}</div>
-            <div className="metric-sub">Active quotes</div>
-          </div>
-
-          <div className="metric-card filtered">
-            <div className="metric-label">Conversion Rate</div>
-            <div className="metric-value">{metrics.conversionRate.toFixed(1)}%</div>
-            <div className="metric-sub">Quote acceptance</div>
-          </div>
-
-          <div className="metric-card">
-            <div className="metric-label">Avg Quote Value</div>
-            <div className="metric-value">{formatCurrency(metrics.avgQuoteValue)}</div>
-            <div className="metric-sub">All quotes</div>
-          </div>
-
-          <div className="metric-card filtered">
-            <div className="metric-label">New Leads</div>
-            <div className="metric-value">{metrics.newLeads}</div>
-            <div className="metric-sub">In period</div>
-          </div>
-
-          <div className="metric-card">
-            <div className="metric-label">Active Projects</div>
-            <div className="metric-value">{metrics.activeProjects}</div>
-            <div className="metric-sub">In progress</div>
-          </div>
-
-          <div className="metric-card filtered">
-            <div className="metric-label">Quotes Sent</div>
-            <div className="metric-value">{metrics.quotesSent}</div>
-            <div className="metric-sub">In period</div>
-          </div>
-
-          <div className="metric-card filtered">
-            <div className="metric-label">Quotes Won</div>
-            <div className="metric-value">{metrics.quotesAccepted}</div>
-            <div className="metric-sub">In period</div>
-          </div>
+        <div className="flex gap-2 flex-wrap">
+          {RANGE_OPTIONS.map((option) => (
+            <button
+              key={option.value}
+              onClick={() => handleRangeChange(option.value)}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors border ${
+                dateRange === option.value
+                  ? 'bg-white/[0.08] border-white/[0.16] text-[#F2F2F2]'
+                  : 'bg-transparent border-white/[0.07] text-[#8E8E8E] hover:text-[#F2F2F2] hover:border-white/[0.16]'
+              }`}
+            >
+              {option.label}
+            </button>
+          ))}
         </div>
+      </div>
 
-        {/* Charts */}
-        <div className="charts-grid">
-          {/* Revenue Trend */}
-          <div className="chart-card">
-            <div className="chart-title">Revenue Trend (Last 12 Months)</div>
-            <div className="chart-container">
-              <Line data={revenueChartData} options={chartOptions} />
+      {/* 1. Novac */}
+      <div className="mb-10">
+        <SectionTitle>Novac</SectionTitle>
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+          <MetricCard
+            label="Ugovoreno"
+            value={formatCurrency(bookedTotal)}
+            sub={`${wonQuotes.length} ${wonQuotes.length === 1 ? 'prihvaćena ponuda' : 'prihvaćenih ponuda'} u periodu`}
+          />
+          <MetricCard
+            label="Naplaćeno fakturama"
+            value={formatCurrency(paidInvoicesTotal)}
+            sub={`${paidInvoices.length} ${paidInvoices.length === 1 ? 'plaćena faktura' : 'plaćenih faktura'} u periodu`}
+          />
+          <MetricCard
+            label="Avansi · Revolut"
+            value={formatCurrency(depositsTotal)}
+            sub={`${deposits.length} ${deposits.length === 1 ? 'uplata' : 'uplata'} u periodu`}
+          />
+          <MetricCard
+            label="Otvoreno za naplatu"
+            value={formatCurrency(openTotal)}
+            sub={overdueTotal > 0 ? `${formatCurrency(overdueTotal)} u kašnjenju` : 'ništa u kašnjenju'}
+            subClass={overdueTotal > 0 ? 'text-red-400' : 'text-[#6E6E6E]'}
+          />
+          <MetricCard
+            label="MRR"
+            value={formatCurrency(mrr)}
+            sub={`${activeContracts.length} aktivnih ugovora · ARR ${formatCurrency(mrr * 12)}`}
+          />
+          <MetricCard
+            label="Prosjek po poslu"
+            value={avgDealValue != null ? formatCurrency(avgDealValue) : '·'}
+            sub="prihvaćene jednokratne ponude"
+          />
+        </div>
+      </div>
+
+      {/* 2. Lijevak */}
+      <div className="mb-10">
+        <SectionTitle>Prodajni lijevak</SectionTitle>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+          {/* Leadovi */}
+          <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6">
+            <div className="text-[11px] uppercase tracking-[0.14em] text-[#8E8E8E] mb-5" style={MONO}>
+              Leadovi u periodu
             </div>
+            {funnelBase === 0 ? (
+              <p className="text-[#6E6E6E] text-sm">Nema leadova u odabranom periodu.</p>
+            ) : (
+              <div className="space-y-4">
+                {funnelStages.map((stage, idx) => {
+                  const pct = funnelBase ? (stage.count / funnelBase) * 100 : 0;
+                  const isLast = idx === funnelStages.length - 1;
+                  return (
+                    <div key={stage.key}>
+                      <div className="flex items-baseline justify-between mb-1.5">
+                        <span className="text-sm text-[#C9C9C9]">{stage.label}</span>
+                        <span className="text-sm text-[#F2F2F2] font-medium">
+                          {stage.count}
+                          <span className="text-[#6E6E6E] font-normal ml-2">{Math.round(pct)}%</span>
+                        </span>
+                      </div>
+                      <div className="h-[3px] bg-white/[0.05] rounded-full overflow-hidden">
+                        <div
+                          className={`h-full rounded-full ${isLast ? 'bg-[#00FF94]' : 'bg-white/40'}`}
+                          style={{ width: `${Math.max(pct, stage.count > 0 ? 2 : 0)}%` }}
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
+                {lostLeads.length > 0 && (
+                  <div className="pt-2 text-sm text-[#6E6E6E]">
+                    Izgubljeno: <span className="text-red-400">{lostLeads.length}</span>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
-          {/* Quote Status & Lead Sources */}
-          <div className="charts-row">
-            <div className="chart-card">
-              <div className="chart-title">Quotes by Status</div>
-              <div className="chart-container">
-                <Doughnut data={quoteStatusChartData} options={doughnutOptions} />
+          {/* Ponude */}
+          <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6 flex flex-col">
+            <div className="text-[11px] uppercase tracking-[0.14em] text-[#8E8E8E] mb-5" style={MONO}>
+              Ponude u periodu
+            </div>
+            <div className="grid grid-cols-3 gap-4 mb-6">
+              <div>
+                <div className="text-2xl font-medium text-[#F2F2F2]">{sentQuotes.length}</div>
+                <div className="text-xs text-[#6E6E6E] mt-1">poslano</div>
+              </div>
+              <div>
+                <div className="text-2xl font-medium text-[#F2F2F2]">{openedQuotes.length}</div>
+                <div className="text-xs text-[#6E6E6E] mt-1">otvoreno</div>
+              </div>
+              <div>
+                <div className="text-2xl font-medium text-[#00FF94]">{acceptedInRange.length}</div>
+                <div className="text-xs text-[#6E6E6E] mt-1">prihvaćeno</div>
               </div>
             </div>
-
-            <div className="chart-card">
-              <div className="chart-title">Lead Sources</div>
-              <div className="chart-container">
-                <Doughnut data={leadSourceChartData} options={doughnutOptions} />
+            <div className="border-t border-white/[0.07] pt-5 mb-6">
+              <div className="flex items-baseline justify-between">
+                <span className="text-sm text-[#C9C9C9]">Win rate</span>
+                <span className="text-2xl font-medium text-[#F2F2F2]">
+                  {winRate != null ? `${winRate.toFixed(0)}%` : '·'}
+                </span>
               </div>
+              <p className="text-xs text-[#6E6E6E] mt-1">
+                samo odlučene ponude · one koje čekaju ne ulaze u račun
+              </p>
+            </div>
+            {/* Izvori */}
+            <div className="mt-auto">
+              <div className="text-[11px] uppercase tracking-[0.14em] text-[#8E8E8E] mb-3" style={MONO}>
+                Izvori
+              </div>
+              {sources.length === 0 ? (
+                <p className="text-[#6E6E6E] text-sm">Nema podataka o izvorima.</p>
+              ) : (
+                <div className="space-y-2">
+                  {sources.map((s) => (
+                    <div key={s.key} className="flex items-baseline justify-between text-sm">
+                      <span className="text-[#C9C9C9]">{s.label}</span>
+                      <span className="text-[#8E8E8E]">
+                        {s.total} {s.total === 1 ? 'lead' : 'leadova'}
+                        {s.won > 0 && <span className="text-[#00FF94] ml-2">{s.won} dobiveno</span>}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
       </div>
-    </>
+
+      {/* 3. Za akciju */}
+      <div className="mb-10">
+        <SectionTitle>Za akciju danas</SectionTitle>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+          {/* Ponude bez odgovora */}
+          <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6">
+            <div className="flex items-center gap-2.5 mb-5">
+              <FileText size={14} className="text-[#8E8E8E]" />
+              <span className="text-[11px] uppercase tracking-[0.14em] text-[#8E8E8E]" style={MONO}>
+                Ponude bez odgovora · 5+ dana
+              </span>
+            </div>
+            {staleQuotes.length === 0 ? (
+              <p className="text-[#6E6E6E] text-sm">Sve poslane ponude su svježe. Nema follow-upa za danas.</p>
+            ) : (
+              <div className="space-y-1">
+                {staleQuotes.map((q) => (
+                  <Link
+                    key={q.id}
+                    href={`/crm/quotes/${q.id}`}
+                    className="flex items-center justify-between gap-3 -mx-3 px-3 py-2.5 rounded-xl hover:bg-white/[0.04] transition-colors group"
+                  >
+                    <div className="min-w-0">
+                      <div className="text-sm text-[#F2F2F2] truncate">{q.client_name || q.title}</div>
+                      <div className="flex items-center gap-2 text-xs text-[#6E6E6E] mt-0.5">
+                        <span>{formatCurrency(q.pricing?.total)}</span>
+                        <span>·</span>
+                        {quoteWasOpened(q) ? (
+                          <span className="flex items-center gap-1">
+                            <Eye size={11} /> otvorena {q.view_count || 1}x
+                          </span>
+                        ) : (
+                          <span className="flex items-center gap-1 text-amber-400/80">
+                            <EyeOff size={11} /> nije otvorena
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <span className="text-xs text-[#8E8E8E]" style={MONO}>{q.daysWaiting}d</span>
+                      <ChevronRight size={14} className="text-[#5C5C5C] group-hover:text-[#F2F2F2] transition-colors" />
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Leadovi bez kontakta */}
+          <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6">
+            <div className="flex items-center gap-2.5 mb-5">
+              <UserX size={14} className="text-[#8E8E8E]" />
+              <span className="text-[11px] uppercase tracking-[0.14em] text-[#8E8E8E]" style={MONO}>
+                Leadovi bez kontakta · 7+ dana
+              </span>
+            </div>
+            {staleLeads.length === 0 ? (
+              <p className="text-[#6E6E6E] text-sm">Svi aktivni leadovi su nedavno kontaktirani.</p>
+            ) : (
+              <div className="space-y-1">
+                {staleLeads.map((l) => (
+                  <Link
+                    key={l.id}
+                    href={`/crm/leads/${l.id}`}
+                    className="flex items-center justify-between gap-3 -mx-3 px-3 py-2.5 rounded-xl hover:bg-white/[0.04] transition-colors group"
+                  >
+                    <div className="min-w-0">
+                      <div className="text-sm text-[#F2F2F2] truncate">
+                        {l.name}{l.company ? ` · ${l.company}` : ''}
+                      </div>
+                      <div className="text-xs text-[#6E6E6E] mt-0.5">
+                        {SOURCE_LABELS[l.source] || l.source || 'nepoznat izvor'}
+                        {l.neverContacted && <span className="text-amber-400/80 ml-2">nikad kontaktiran</span>}
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <span className="text-xs text-[#8E8E8E]" style={MONO}>{l.daysSilent}d</span>
+                      <ChevronRight size={14} className="text-[#5C5C5C] group-hover:text-[#F2F2F2] transition-colors" />
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* 4. Trend */}
+      <div className="mb-10">
+        <SectionTitle>Trend naplate · zadnjih 12 mjeseci</SectionTitle>
+        <div className="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-6">
+          <div className="h-[300px]">
+            <Bar data={trendChartData} options={trendOptions} />
+          </div>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mt-5">
+          <MetricCard
+            label="Ponuda do odluke"
+            value={formatDays(avgDecisionDays)}
+            sub="prosjek od slanja do prihvaćanja ili odbijanja"
+          />
+          <MetricCard
+            label="Lead do prvog kontakta"
+            value={formatDays(avgContactDays)}
+            sub="prosjek za leadove iz odabranog perioda"
+          />
+        </div>
+      </div>
+    </div>
   );
 }
