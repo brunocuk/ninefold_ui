@@ -145,13 +145,22 @@ export default function QuotesPage() {
           </h1>
           <p className="text-[#8E8E8E]">Manage proposals and track conversions</p>
         </div>
-        <Link
-          href="/crm/quotes/new"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-[#F2F2F2] text-[#080808] rounded-full font-medium hover:bg-white transition-all"
-        >
-          <Plus size={20} />
-          Create Quote
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link
+            href="/crm/quotes/maintenance/new"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-white/[0.06] border border-white/[0.07] text-[#F2F2F2] rounded-full font-medium hover:bg-white/[0.1] transition-all"
+          >
+            <Plus size={20} />
+            Održavanje
+          </Link>
+          <Link
+            href="/crm/quotes/new"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-[#F2F2F2] text-[#080808] rounded-full font-medium hover:bg-white transition-all"
+          >
+            <Plus size={20} />
+            Create Quote
+          </Link>
+        </div>
       </div>
 
       {/* Filters */}

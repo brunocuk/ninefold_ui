@@ -15,6 +15,9 @@ export default function QuotePreviewClient() {
   const [quoteData, setQuoteData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [downloadingPdf, setDownloadingPdf] = useState(false);
+  const [selectedTier, setSelectedTier] = useState(null);
+  const [payingTier, setPayingTier] = useState(false);
+  const [tierError, setTierError] = useState(null);
 
   useEffect(() => {
     loadQuote();
@@ -90,10 +93,17 @@ export default function QuotePreviewClient() {
           monthlyPrice: data.monthly_price || data.pricing?.monthlyPrice || 0,
           // Rich data from quote builder
           serviceSelections: data.service_selections || null,
-          lineItems: data.quote_data?.lineItems || null
+          lineItems: data.quote_data?.lineItems || null,
+          // Maintenance tier picker (recurring quotes with selectable packages)
+          tierConfig: data.quote_data?.maintenance?.tiers?.length > 0 ? data.quote_data.maintenance : null
         };
 
         setQuoteData(formattedData);
+
+        if (formattedData.tierConfig) {
+          const tc = formattedData.tierConfig;
+          setSelectedTier(tc.selectedTier || tc.recommendedTier || tc.tiers[0]?.id || null);
+        }
       }
     } catch (error) {
       console.error('Error loading quote:', error);
@@ -125,6 +135,32 @@ export default function QuotePreviewClient() {
     } finally {
       setDownloadingPdf(false);
     }
+  };
+
+  const acceptTierAndPay = async () => {
+    if (!selectedTier || payingTier) return;
+    setPayingTier(true);
+    setTierError(null);
+    try {
+      const response = await fetch(`/api/quotes/${params.id}/select-tier`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tierId: selectedTier }),
+      });
+      const data = await response.json();
+      if (!response.ok || !data.checkout_url) {
+        throw new Error(data.error || 'Greška pri pokretanju plaćanja');
+      }
+      window.location.href = data.checkout_url;
+    } catch (error) {
+      console.error('Error starting payment:', error);
+      setTierError('Nešto je pošlo po krivu. Pokušajte ponovo ili nam se javite na hello@ninefold.eu');
+      setPayingTier(false);
+    }
+  };
+
+  const scrollToTiers = () => {
+    document.getElementById('tier-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   if (loading) {
@@ -176,7 +212,11 @@ export default function QuotePreviewClient() {
   }
 
   const isMonthly = quoteData.quoteType === 'monthly';
+  const isTiered = isMonthly && !!quoteData.tierConfig;
   const serviceInfo = getServiceType(quoteData.serviceType);
+  const activeTier = isTiered
+    ? quoteData.tierConfig.tiers.find(t => t.id === selectedTier) || quoteData.tierConfig.tiers[0]
+    : null;
 
   return (
     <>
@@ -1024,7 +1064,275 @@ export default function QuotePreviewClient() {
           display: inline;
         }
 
+        /* Maintenance tier picker - full-width horizontal cards */
+        .tier-band {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 10px 40px 30px;
+        }
+
+        .tier-intro {
+          color: #8E8E8E;
+          font-size: 15px;
+          line-height: 1.6;
+          margin-bottom: 28px;
+          max-width: 620px;
+        }
+
+        .tier-grid {
+          display: flex;
+          flex-direction: column;
+          gap: 14px;
+        }
+
+        .tier-card {
+          position: relative;
+          display: grid;
+          grid-template-columns: 230px 1fr auto;
+          gap: 36px;
+          align-items: center;
+          background: #0F0F0F;
+          border: 1px solid rgba(255, 255, 255, 0.07);
+          border-radius: 18px;
+          padding: 26px 32px;
+          cursor: pointer;
+          text-align: left;
+          font-family: inherit;
+          color: #F2F2F2;
+          transition: border-color 0.15s ease, background 0.15s ease;
+        }
+
+        .tier-card:hover {
+          border-color: rgba(255, 255, 255, 0.18);
+        }
+
+        .tier-card.selected {
+          border-color: rgba(0, 255, 148, 0.4);
+          background: #101210;
+        }
+
+        .tier-reco {
+          position: absolute;
+          top: -11px;
+          left: 30px;
+          font-family: 'Menlo', 'SF Mono', monospace;
+          font-size: 10px;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          padding: 4px 10px;
+          border-radius: 999px;
+          background: #141414;
+          border: 1px solid rgba(255, 255, 255, 0.14);
+          color: #C9C9C9;
+        }
+
+        .tier-name {
+          font-family: 'Menlo', 'SF Mono', monospace;
+          font-size: 11px;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: #8E8E8E;
+          margin-bottom: 10px;
+        }
+
+        .tier-price {
+          font-size: 30px;
+          font-weight: 600;
+          letter-spacing: -0.02em;
+          color: #F2F2F2;
+        }
+
+        .tier-price span {
+          font-size: 14px;
+          font-weight: 400;
+          color: #8E8E8E;
+          letter-spacing: 0;
+        }
+
+        .tier-hours {
+          display: inline-flex;
+          align-items: center;
+          gap: 7px;
+          margin-top: 12px;
+          padding: 6px 12px;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 999px;
+          font-size: 12px;
+          color: #C9C9C9;
+          white-space: nowrap;
+        }
+
+        .tier-hours::before {
+          content: '';
+          width: 5px;
+          height: 5px;
+          border-radius: 50%;
+          background: #00FF94;
+          flex-shrink: 0;
+        }
+
+        .tier-mid {
+          border-left: 1px solid rgba(255, 255, 255, 0.07);
+          padding-left: 36px;
+          align-self: stretch;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+
+        .tier-tagline {
+          font-size: 13px;
+          line-height: 1.55;
+          color: #8E8E8E;
+          margin-bottom: 12px;
+        }
+
+        .tier-features {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          columns: 2;
+          column-gap: 40px;
+        }
+
+        .tier-features li {
+          position: relative;
+          padding-left: 18px;
+          font-size: 13px;
+          line-height: 1.5;
+          color: #C9C9C9;
+          margin-bottom: 8px;
+          break-inside: avoid;
+        }
+
+        .tier-features li::before {
+          content: '·';
+          position: absolute;
+          left: 2px;
+          color: #8E8E8E;
+        }
+
+        .tier-select-row {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 10px;
+          font-size: 13px;
+          color: #8E8E8E;
+          min-width: 86px;
+        }
+
+        .tier-radio {
+          width: 18px;
+          height: 18px;
+          border-radius: 50%;
+          border: 1px solid rgba(255, 255, 255, 0.25);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          transition: border-color 0.15s ease;
+        }
+
+        .tier-card.selected .tier-radio {
+          border-color: #00FF94;
+        }
+
+        .tier-card.selected .tier-radio::after {
+          content: '';
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: #00FF94;
+        }
+
+        .tier-card.selected .tier-select-row {
+          color: #F2F2F2;
+        }
+
+        .tier-note {
+          margin-top: 20px;
+          padding: 18px 20px;
+          background: #0F0F0F;
+          border: 1px solid rgba(255, 255, 255, 0.07);
+          border-radius: 14px;
+          font-size: 13px;
+          line-height: 1.6;
+          color: #8E8E8E;
+        }
+
+        .tier-note strong {
+          color: #C9C9C9;
+          font-weight: 500;
+        }
+
+        .sidebar-tier-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 12px;
+          padding: 12px 0;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+          font-size: 13px;
+          color: #8E8E8E;
+        }
+
+        .sidebar-tier-row:last-of-type {
+          border-bottom: none;
+        }
+
+        .sidebar-tier-value {
+          color: #F2F2F2;
+          font-weight: 500;
+          text-align: right;
+        }
+
+        .btn-tier {
+          width: 100%;
+          justify-content: center;
+          margin-top: 18px;
+        }
+
+        .btn-tier:disabled {
+          opacity: 0.6;
+          cursor: wait;
+          transform: none;
+        }
+
+        .tier-error {
+          margin-top: 12px;
+          font-size: 12px;
+          line-height: 1.5;
+          color: #F87171;
+        }
+
         @media (max-width: 1024px) {
+          .tier-band {
+            padding: 10px 24px 20px;
+          }
+
+          .tier-card {
+            grid-template-columns: 1fr;
+            gap: 20px;
+            padding: 24px;
+          }
+
+          .tier-mid {
+            border-left: none;
+            padding-left: 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.07);
+            padding-top: 18px;
+          }
+
+          .tier-features {
+            columns: 1;
+          }
+
+          .tier-select-row {
+            flex-direction: row;
+            justify-content: flex-start;
+          }
+
           .content-wrapper {
             grid-template-columns: 1fr;
             gap: 40px;
@@ -1105,7 +1413,15 @@ export default function QuotePreviewClient() {
                   )}
                 </button>
               )}
-              {quoteData.paymentLink && (
+              {isTiered ? (
+                !isPdfMode && (
+                  <button onClick={scrollToTiers} className="btn btn-monthly">
+                    <span className="mobile-hide">Odaberi svoj paket</span>
+                    <span className="mobile-show">Odaberi paket</span>
+                    <span> →</span>
+                  </button>
+                )
+              ) : quoteData.paymentLink && (
                 <a href={quoteData.paymentLink} className={`btn ${isMonthly ? 'btn-monthly' : 'btn-primary'}`}>
                   <span className="mobile-hide">
                     {isMonthly ? 'Prihvati ponudu i plati prvi mjesec' : 'Prihvati ponudu i plati akontaciju'}
@@ -1153,6 +1469,55 @@ export default function QuotePreviewClient() {
             </div>
           </div>
         </section>
+
+        {/* Maintenance Tier Picker - full width band */}
+        {isTiered && (
+          <section className="tier-band" id="tier-section">
+            <h2 className="section-title">Odaberite Svoj Paket</h2>
+            <p className="tier-intro">
+              Sva tri paketa uključuju istu osnovu: redovite nadogradnje uz backup, nadzor stranice i mjesečni izvještaj.
+              Razlika je u broju sati rada na izmjenama koje su uključene svaki mjesec. Kliknite na paket koji vam odgovara.
+            </p>
+            <div className="tier-grid">
+              {quoteData.tierConfig.tiers.map((tier) => (
+                <button
+                  key={tier.id}
+                  type="button"
+                  className={`tier-card ${selectedTier === tier.id ? 'selected' : ''}`}
+                  onClick={() => setSelectedTier(tier.id)}
+                >
+                  {quoteData.tierConfig.recommendedTier === tier.id && (
+                    <span className="tier-reco">Preporučeno</span>
+                  )}
+                  <div className="tier-left">
+                    <div className="tier-name">{tier.name}</div>
+                    <div className="tier-price">€{tier.price?.toLocaleString()}<span>/mj</span></div>
+                    <div className="tier-hours">{tier.hoursLabel || `${tier.hours} sati rada mjesečno`}</div>
+                  </div>
+                  <div className="tier-mid">
+                    {tier.tagline && <div className="tier-tagline">{tier.tagline}</div>}
+                    <ul className="tier-features">
+                      {(tier.features || []).map((feature, i) => (
+                        <li key={i}>{feature}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="tier-select-row">
+                    <span className="tier-radio"></span>
+                    <span>{selectedTier === tier.id ? 'Odabrano' : 'Odaberi'}</span>
+                  </div>
+                </button>
+              ))}
+            </div>
+            {quoteData.tierConfig.hourlyRate > 0 && (
+              <div className="tier-note">
+                <strong>Trebate više od uključenih sati?</strong> Veće izmjene i nove funkcionalnosti radimo po satnici
+                od €{quoteData.tierConfig.hourlyRate}/h, uvijek uz procjenu opsega i vaše odobrenje prije početka rada.
+                Paket možete promijeniti ili otkazati u bilo kojem trenutku s 30 dana najave.
+              </div>
+            )}
+          </section>
+        )}
 
         {/* Main Content */}
         <div className="content-wrapper">
@@ -1258,12 +1623,12 @@ export default function QuotePreviewClient() {
             {/* Scope */}
             {quoteData.scope && quoteData.scope.length > 0 && (
               <section className="section">
-                <h2 className="section-title">{isMonthly ? 'Što je Uključeno' : 'Opseg Rada'}</h2>
+                <h2 className="section-title">{isTiered ? 'Detalji Suradnje' : isMonthly ? 'Što je Uključeno' : 'Opseg Rada'}</h2>
                 <div className="scope-grid">
                   {quoteData.scope.map((section, index) => (
                     <div key={index} className={`scope-card ${isMonthly ? 'scope-card-monthly' : ''}`}>
                       <div className="scope-header">
-                        <div className={`scope-number ${isMonthly ? 'scope-number-monthly' : ''}`}>{section.number}</div>
+                        <div className={`scope-number ${isMonthly ? 'scope-number-monthly' : ''}`}>{section.number || index + 1}</div>
                         <h3 className="scope-title">{section.title}</h3>
                       </div>
                       <ul className={`scope-list ${isMonthly ? 'scope-list-monthly' : ''}`}>
@@ -1301,14 +1666,49 @@ export default function QuotePreviewClient() {
           <aside className="sidebar">
             <div className={`pricing-card ${isMonthly ? 'pricing-card-monthly' : ''}`}>
               <div className="pricing-header">
-                <div className="pricing-label">{isMonthly ? 'Mjesečna Cijena' : 'Ukupna Investicija'}</div>
+                <div className="pricing-label">{isTiered ? 'Odabrani Paket' : isMonthly ? 'Mjesečna Cijena' : 'Ukupna Investicija'}</div>
                 <div className={`pricing-amount ${isMonthly ? 'pricing-amount-monthly' : ''}`}>
-                  €{isMonthly ? quoteData.monthlyPrice?.toLocaleString() : quoteData.pricing?.total?.toLocaleString()}
+                  €{isTiered ? activeTier?.price?.toLocaleString() : isMonthly ? quoteData.monthlyPrice?.toLocaleString() : quoteData.pricing?.total?.toLocaleString()}
                   {isMonthly && <span className="pricing-period">/mj</span>}
                 </div>
               </div>
 
-              {isMonthly ? (
+              {isTiered ? (
+                /* Maintenance Tier Quote */
+                <>
+                  <div className="sidebar-tier-row">
+                    <span>Paket</span>
+                    <span className="sidebar-tier-value">{activeTier?.name}</span>
+                  </div>
+                  <div className="sidebar-tier-row">
+                    <span>Uključeni rad</span>
+                    <span className="sidebar-tier-value">{activeTier?.hoursLabel || `${activeTier?.hours} sati/mj`}</span>
+                  </div>
+                  <div className="sidebar-tier-row">
+                    <span>Prvi mjesec</span>
+                    <span className="sidebar-tier-value">€{activeTier?.price?.toLocaleString()}</span>
+                  </div>
+
+                  {!isPdfMode && (
+                    <button
+                      onClick={acceptTierAndPay}
+                      disabled={payingTier || !selectedTier}
+                      className="btn btn-monthly btn-tier"
+                    >
+                      {payingTier ? 'Priprema plaćanja...' : `Prihvati ${activeTier?.name || ''} i plati prvi mjesec →`}
+                    </button>
+                  )}
+                  {tierError && <div className="tier-error">{tierError}</div>}
+
+                  <div className="billing-info">
+                    <div className="billing-info-title">Način naplate</div>
+                    <div className="billing-info-text">
+                      Prvi mjesec plaća se unaprijed za početak suradnje. Nakon toga naplata ide mjesečno.
+                      Paket možete promijeniti ili otkazati u bilo kojem trenutku s 30 dana najave.
+                    </div>
+                  </div>
+                </>
+              ) : isMonthly ? (
                 /* Monthly Quote Pricing */
                 <>
                   {/* Monthly Items Breakdown */}
