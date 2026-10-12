@@ -51,6 +51,21 @@ export default function NewContractPage() {
     setLoading(true);
 
     try {
+      // next_billing_date is NOT NULL in the DB but unused by the app
+      // (billing is derived from paid_periods), so just seed a sane value
+      const start = new Date(formData.start_date + 'T00:00:00');
+      let nextBilling;
+      if (formData.billing_cycle === 'monthly') {
+        nextBilling = new Date(start.getFullYear(), start.getMonth(), parseInt(formData.billing_day));
+        if (nextBilling < start) {
+          nextBilling = new Date(start.getFullYear(), start.getMonth() + 1, parseInt(formData.billing_day));
+        }
+      } else {
+        nextBilling = new Date(start.getFullYear() + 1, start.getMonth(), start.getDate());
+      }
+      const toLocalDate = (d) =>
+        `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+
       // Contract data - paid_periods starts empty, next billing will be derived
       const contractData = {
         client_id: formData.client_id,
@@ -63,6 +78,7 @@ export default function NewContractPage() {
         payment_method: formData.payment_method || null,
         status: 'active',
         start_date: formData.start_date,
+        next_billing_date: toLocalDate(nextBilling),
         paid_periods: [], // Start with no paid periods
         notes: formData.notes || null
       };
