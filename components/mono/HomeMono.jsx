@@ -24,15 +24,15 @@ import { SERVICES } from '@/components/mono/serviceData'
 // narrow: true = uspravna (mobilna) slika.
 const SLIDER = [
   { src: '/images/slider/brendia-academy-card.webp', alt: 'Brendia Pro Academy · platforma i aplikacija' },
-  { src: '/images/slider/theofficecompany-admin.webp', alt: 'The Office Company · admin' },
+  { src: '/images/slider/theofficecompany-card.webp', alt: 'The Office Company · premium radni prostori' },
   { src: '/images/slider/tejla-card.webp', alt: 'Tejla · osobna asistentica' },
-  { src: '/images/slider/matermag-cms.webp', alt: 'MaterMag · custom CMS' },
+  { src: '/images/slider/matermag-card.webp', alt: 'MaterMag · magazin za moderne roditelje' },
   { src: '/images/slider/er1-card.webp', alt: 'ER1 · aplikacija za R1 račune' },
-  { src: '/images/slider/lagym-admin-dashboard.webp', alt: 'LA Gym · dashboard' },
+  { src: '/images/slider/adriaticpadel-card.webp', alt: 'Adriatic Padel Klub · web i rezervacije' },
   { src: '/images/slider/coerver-card.webp', alt: 'Coerver Coaching Croatia · web' },
   { src: '/images/slider/elitprojekt-card.webp', alt: 'Elit Projekt · web' },
   { src: '/images/slider/brendia-app-card.webp', alt: 'Brendia Pro App · iOS i Android' },
-  { src: '/images/slider/studioone-web.webp', alt: 'Studio One by Nina · web' },
+  { src: '/images/slider/studioone-card.webp', alt: 'Studio One by Nina · premium frizerski salon' },
 ]
 
 const CASES = [
