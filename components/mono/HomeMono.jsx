@@ -30,7 +30,7 @@ const SLIDER = [
   { src: '/images/slider/er1-card.webp', alt: 'ER1 · aplikacija za R1 račune' },
   { src: '/images/slider/lagym-admin-dashboard.webp', alt: 'LA Gym · dashboard' },
   { src: '/images/slider/coerver-card.webp', alt: 'Coerver Coaching Croatia · web' },
-  { src: '/images/slider/elitprojekt-web.webp', alt: 'Elit Projekt · web' },
+  { src: '/images/slider/elitprojekt-card.webp', alt: 'Elit Projekt · web' },
   { src: '/images/slider/brendia-app-card.webp', alt: 'Brendia Pro App · iOS i Android' },
   { src: '/images/slider/studioone-web.webp', alt: 'Studio One by Nina · web' },
 ]
